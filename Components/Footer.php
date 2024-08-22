@@ -4,6 +4,12 @@
 <head>
    <style>
       /* CSS styles for the footer */
+      body {
+         display: flex;
+         flex-direction: column;
+         min-height: 100vh;
+         margin: 0;
+         }
       .footer {
          /* position: absolute; */
          left: 0;
@@ -14,6 +20,8 @@
          color: #ffffff;
          /* text-align: center; */
          display: flex;
+         margin-top: auto;
+         margin-bottom: 0;
       }
 
       .footer-main {

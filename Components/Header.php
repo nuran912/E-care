@@ -11,7 +11,7 @@
             }
             .navdiv{ display: flex; align-items: center; justify-content:space-between;
             }
-            li{ list-style: none; display: inline-block; margin-right: 25px;
+            .navdiv li{ margin-right: 25px; display: inline-block;
             }
             li a{ color: black; font-size: 18px; font-weight: bold; text-decoration: none;
             }

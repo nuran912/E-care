@@ -77,8 +77,8 @@
 <body>
    <div class="footer">
       <div class="footer-main">
-         <?php include './assets/icons/Logo_white.svg'; ?> <br>
-         <?php include './assets/icons/UNION_HOSPITAL_white.svg'; ?> <br><br>
+         <?php include '../assets/icons/Logo_white.svg'; ?> <br>
+         <?php include '../assets/icons/UNION_HOSPITAL_white.svg'; ?> <br><br>
 
 
          <p>Welcome to E-care, your trusted partner in digital healthcare
@@ -96,16 +96,16 @@
             <div class="footer-icons">
                
                <a href="https://www.facebook.com/unionhospital/" target="_blank">
-                  <?php include './assets/icons/Facebook.svg'; ?>
+                  <?php include '../assets/icons/Facebook.svg'; ?>
                </a>
                <a href="https://www.instagram.com/unionhospital/" target="_blank">
-                  <?php include './assets/icons/Instagram.svg'; ?>
+                  <?php include '../assets/icons/Instagram.svg'; ?>
                </a>
                <a href="https://twitter.com/unionhospital" target="_blank">
-                  <?php include './assets/icons/TwitterX.svg'; ?>
+                  <?php include '../assets/icons/TwitterX.svg'; ?>
                </a>
                <a href="https://www.linkedin.com/company/unionhospital/" target="_blank">
-                  <?php include './assets/icons/LinkedIn.svg'; ?>
+                  <?php include '../assets/icons/LinkedIn.svg'; ?>
                </a>
             </div>
          </div>
@@ -130,10 +130,10 @@
 
       </div>
       <div class="footer-ximage">
-         <div class="footer-x" id="footer-x1"><?php include './assets/icons/Xbox_Cross.svg'; ?></div>
-         <div class="footer-x" id="footer-x2"><?php include './assets/icons/Xbox_Cross.svg'; ?></div>
-         <div class="footer-x" id="footer-x3"><?php include './assets/icons/Xbox_Cross.svg'; ?></div>
-         <div class="footer-x" id="footer-x4"><?php include './assets/icons/Xbox_Cross.svg'; ?></div>
+         <div class="footer-x" id="footer-x1"><?php include '../assets/icons/Xbox_Cross.svg'; ?></div>
+         <div class="footer-x" id="footer-x2"><?php include '../assets/icons/Xbox_Cross.svg'; ?></div>
+         <div class="footer-x" id="footer-x3"><?php include '../assets/icons/Xbox_Cross.svg'; ?></div>
+         <div class="footer-x" id="footer-x4"><?php include '../assets/icons/Xbox_Cross.svg'; ?></div>
       
 
       </div>

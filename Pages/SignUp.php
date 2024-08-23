@@ -122,89 +122,93 @@
     </head>
     <body>
         <?php include '../Components/Header.php'; ?>
-        <h1>Welcome to E-Care by Union Hospital</h1>
 
-        <div class="container">
-            <p class="signUptext">Please fill the following form fields.</p><br/>
+        <div class="main-context">
+            
+            <h1>Welcome to E-Care by Union Hospital</h1>
 
-            <form action="SignUp.php" method="POST">
+            <div class="container">
+                <p class="signUptext">Please fill the following form fields.</p><br/>
 
-                <div class="form-row">
+                <form action="SignUp.php" method="POST">
 
-                    <div class="form-group">
-                        <label for="">Title</label>
-                        <select name="title" class="title">
-                            <option value="Mr">Mr</option>
-                            <option value="Ms">Ms</option>
-                            <option value="Mrs">Mrs</option>
-                        </select>
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="">Title</label>
+                            <select name="title" class="title">
+                                <option value="Mr">Mr</option>
+                                <option value="Ms">Ms</option>
+                                <option value="Mrs">Mrs</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">First Name <span style="color: red;">*</span></label>
+                            <input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName)?>">
+                            <div class="error"><?php echo $errors['firstName']; ?></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Last Name <span style="color: red;">*</span></label>
+                            <input type="text" name="lastName" value="<?php echo htmlspecialchars($lastName)?>">
+                            <div class="error"><?php echo $errors['lastName']; ?></div>
+                        </div>
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="">First Name <span style="color: red;">*</span></label>
-                        <input type="text" name="firstName" value="<?php echo htmlspecialchars($firstName)?>">
-                        <div class="error"><?php echo $errors['firstName']; ?></div>
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="">Email <span style="color: red;">*</span></label>
+                            <input type="text" name="email" value="<?php echo htmlspecialchars($email)?>">
+                            <div class="error"><?php echo $errors['email']; ?></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Phone number <span style="color: red;">*</span></label>
+                            <input type="tel" name="phoneNumber" value="<?php echo htmlspecialchars($phoneNumber)?>">
+                            <div class="error"><?php echo $errors['phoneNumber']; ?></div>
+                        </div>
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="">Last Name <span style="color: red;">*</span></label>
-                        <input type="text" name="lastName" value="<?php echo htmlspecialchars($lastName)?>">
-                        <div class="error"><?php echo $errors['lastName']; ?></div>
+                    <div class="form-row">
+
+                        <div class="form-group">
+                            <label for="">NIC Number/Passport <span style="color: red;">*</span></label>
+                            <input type="text" name="NIC_Passport" value="<?php echo htmlspecialchars($NIC_Passport)?>">
+                            <div class="error"><?php echo $errors['NIC_Passport']; ?></div>
+                        </div>
+
                     </div>
 
-                </div>
+                    <div class="form-row">
 
-                <div class="form-row">
+                        <div class="form-group">
+                            <label for="">Password <span style="color: red;">*</span></label>
+                            <input type="password" name="password" value="<?php echo htmlspecialchars($password)?>">
+                            <div class="error"><?php echo $errors['password']; ?></div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="">Email <span style="color: red;">*</span></label>
-                        <input type="text" name="email" value="<?php echo htmlspecialchars($email)?>">
-                        <div class="error"><?php echo $errors['email']; ?></div>
+                        <div class="form-group">
+                            <label for="">Confirm Password <span style="color: red;">*</span></label>
+                            <input type="password" name="confirmPassword" value="<?php echo htmlspecialchars($confirmPassword)?>">
+                            <div class="error"><?php echo $errors['confirmPassword']; ?></div>
+                        </div>
+
                     </div>
 
-                    <div class="form-group">
-                        <label for="">Phone number <span style="color: red;">*</span></label>
-                        <input type="tel" name="phoneNumber" value="<?php echo htmlspecialchars($phoneNumber)?>">
-                        <div class="error"><?php echo $errors['phoneNumber']; ?></div>
+                    <div class="form-row">
+                        <input type="checkbox" name="terms" class="terms">
+                        <label for="" class="termsagreement">I agree to the <a href="#" class="termsConditions">terms and conditions</a></label>
+                        <div class="error"><?php echo $errors['terms'];?></div>
                     </div>
 
-                </div>
+                    <input type="submit" name="signUp" value="Sign Up" class="signUpBtn">
 
-                <div class="form-row">
-
-                    <div class="form-group">
-                        <label for="">NIC Number/Passport <span style="color: red;">*</span></label>
-                        <input type="text" name="NIC_Passport" value="<?php echo htmlspecialchars($NIC_Passport)?>">
-                        <div class="error"><?php echo $errors['NIC_Passport']; ?></div>
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-
-                    <div class="form-group">
-                        <label for="">Password <span style="color: red;">*</span></label>
-                        <input type="password" name="password" value="<?php echo htmlspecialchars($password)?>">
-                        <div class="error"><?php echo $errors['password']; ?></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="">Confirm Password <span style="color: red;">*</span></label>
-                        <input type="password" name="confirmPassword" value="<?php echo htmlspecialchars($confirmPassword)?>">
-                        <div class="error"><?php echo $errors['confirmPassword']; ?></div>
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-                    <input type="checkbox" name="terms" class="terms">
-                    <label for="" class="termsagreement">I agree to the <a href="#" class="termsConditions">terms and conditions</a></label>
-                    <div class="error"><?php echo $errors['terms'];?></div>
-                </div>
-
-                <input type="submit" name="signUp" value="Sign Up" class="signUpBtn">
-
-            </form>
+                </form>
+            </div>
         </div>
 
         <?php include '../Components/Footer.php'; ?>

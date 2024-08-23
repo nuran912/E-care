@@ -1,0 +1,110 @@
+/* for the whole page */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+/* for the whole sign in form */
+.container {    
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-left: 300px;
+    margin-right: 300px;
+    margin-bottom: 100px;
+    border-radius: 10px;
+    border: 2px solid #0E2F56;
+}
+
+/* for the h2 tag */
+h1 {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    color: #0E2F56;
+}
+
+/* for the h3 tag */
+h3 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* for the p tag */
+.signIntext {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* for the labels */
+label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+/* for email and password textboxes */
+.email , .password {
+    padding: 5px;
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    font-size: 14px;
+    background-color: #f8f8f8;
+}
+
+/* for email and password labels and textboxes */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 20px;
+}
+
+/* for keep me signed in checkbox */
+.signedIncheckbox {
+    margin-left: 30px;
+}
+
+/* for keep me signed in statement */
+.signedInstatement {
+    margin-left: 6px;
+    margin-top: 7px;
+}
+
+/* focus on textboxes mouse point clicks on them */
+input:focus {
+    outline: none;
+    border-color: #174ea6;
+}
+
+/* for the sign in button */
+.signInBtn {
+    width: 200px;
+    padding: 10px;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+}
+
+.noAccount {
+    margin-left: 55px;
+}
+
+a {
+    text-decoration: none;
+    color: blue;
+}
+
+.error {
+    margin-top: 0px;
+    color: red;
+    font-size: 14px;
+}

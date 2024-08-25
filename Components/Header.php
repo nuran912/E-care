@@ -4,12 +4,11 @@
         <link rel="stylesheet" href="/Style/Header.css">
         <style type="text/css">
             body{ margin: 0;
-            }
-            nav{ 
+                font-family:Arial, Helvetica, sans-serif;
             }
             .navbar{ background: rgb(88, 223, 250); font-family: sans-serif; padding: 5px 10px; 
             }
-            .navdiv{ display: flex; align-items: center; justify-content:space-between;
+            .navdiv{ display: flex; align-items: center; justify-content:center;
             }
             .navdiv li{ margin-right: 25px; display: inline-block;
             }
@@ -19,6 +18,8 @@
             }
             button a{color: white; font-weight: bold; font-size: 18px; text-decoration: none;
             }
+            .logo-div{ flex-grow: 1; display: inline-flex; justify-content: start;
+            }
         </style>
     </head>
 
@@ -27,8 +28,8 @@
             <div class="navdiv">
                 <div class="logo-div">
                     <a href="../Pages/Home.php" class="logo">
-                        <?php include '../assets/icons/Logo_white.svg'; ?><br>
-                        <?php include '../assets/icons/UNION_HOSPITAL_white.svg'; ?></a>
+                         <?php include '../assets/icons/ECare_logo.svg'; ?>
+                    </a>
                 </div>
                 <ul>
                     <li><a href="#">Home</a></li>

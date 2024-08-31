@@ -22,13 +22,7 @@
     <li>A service charge of LKR 285 will be applied separately and is non-refundable.</li>
     <li>Cancellations made within 48 hours of the scheduled appointment time will not be eligible for a refund.</li>
 </ul>
-<p>To request a refund, you must check the box below and submit your refund request. If you do not check the box and apply for a refund, you will not be eligible to receive a refund.</p>
 
-<form action="refund_process.php" method="post">
-    <input type="checkbox" id="refundRequest" name="refundRequest" required>
-    <label for="refundRequest">I agree to the Cancellation Policy and wish to apply for a refund.</label><br>
-    <input type="submit" value="Apply for Refund">
-</form>
 
             
             <h3>3. Appointment Rescheduling</h3>

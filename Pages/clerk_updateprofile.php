@@ -9,7 +9,7 @@
 </head>
 
 <body>
-<?php include './Components/Header.php'; ?>
+
   <div class="clerk">
     <div class="clerkprofilecard">
       <img src="../assets/profilepic.png" alt="Profile Picture" />

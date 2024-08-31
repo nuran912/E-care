@@ -16,12 +16,20 @@
             <p>Appointments can be scheduled through our online platform. Please ensure that all information provided is accurate to avoid any issues.</p>
             
             <h3>2. Cancellation Policy</h3>
-            <p>If you need to cancel your appointment, you must do so at least 48 hours prior to the scheduled appointment time. In case of cancellation:</p>
-            <ul>
-                <li>The total charge for the appointment will be refunded.</li>
-                <li>A service charge of LKR 285 will be deducted from the refund amount.</li>
-                <li>Cancellations made within 48 hours of the scheduled appointment time will not be eligible for a refund.</li>
-            </ul>
+<p>If you need to cancel your appointment, you must do so at least 48 hours prior to the scheduled appointment time. In case of cancellation:</p>
+<ul>
+    <li>The total charge for the appointment will be refunded, excluding the service charge.</li>
+    <li>A service charge of LKR 285 will be applied separately and is non-refundable.</li>
+    <li>Cancellations made within 48 hours of the scheduled appointment time will not be eligible for a refund.</li>
+</ul>
+<p>To request a refund, you must check the box below and submit your refund request. If you do not check the box and apply for a refund, you will not be eligible to receive a refund.</p>
+
+<form action="refund_process.php" method="post">
+    <input type="checkbox" id="refundRequest" name="refundRequest" required>
+    <label for="refundRequest">I agree to the Cancellation Policy and wish to apply for a refund.</label><br>
+    <input type="submit" value="Apply for Refund">
+</form>
+
             
             <h3>3. Appointment Rescheduling</h3>
             <p>Rescheduling can be done through the appointment management section of our platform. Please ensure to reschedule at least 48 hours before your original appointment time to avoid any penalties.</p>

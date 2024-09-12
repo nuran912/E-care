@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css?family=Inter");
+body {
+  font-family: Inter, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-container {
+  border: 1px solid #0e2f56;
+  border-radius: 5px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+form {
+  margin-bottom: 20px;
+}
+.form1 {
+  width: 70%;
+  margin-left: 20px;
+}
+
+label {
+  display: inline-block;
+  width: 150px;
+  margin-bottom: 10px;
+}
+
+.row {
+  display: flex;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+.terms {
+  width: 100%;
+  text-decoration: none;
+}
+.condition {
+  font-size: 11px;
+  width: 100%;
+}
+.servicechargepolicy {
+  color: red;
+  font-size: 11px;
+}
+.check {
+  display: flex;
+}
+
+.title {
+  width: 30%;
+  margin-top: 10px;
+  margin-left: 20px;
+  #title {
+    background-color: #e7e8f5;
+  }
+}
+.name {
+  width: 59%;
+  margin-top: 10px;
+  margin-left: -150px;
+}
+input {
+  background-color: #e7e8f5;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+  width: calc(100% - 160px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.btn-primary {
+  display: block;
+  width: 65%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 50px;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.details-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.payment-details,
+.appointment-details {
+  width: 45%;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #0e2f56;
+  border-radius: 5px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+.hospitalimage {
+  display: block;
+  margin: 0 auto; /* Centers the image */
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}

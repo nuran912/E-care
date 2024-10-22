@@ -1,4 +1,3 @@
-<?php include '../Components/Header.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +8,11 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 
+=======
+<?php include '../Components/Header.php'; ?>
+>>>>>>> 57085cf2acbbc8a642169a773d320750a5060477
   <div class="clerk">
     <div class="clerkprofilecard">
       <img src="../assets/profilepic.png" alt="Profile Picture" />

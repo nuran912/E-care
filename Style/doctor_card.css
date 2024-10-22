@@ -1,0 +1,63 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.doctor-card {
+  background-color: #0d2b52;
+  color: white;
+  border-radius: 10px;
+  width: 279px;
+height: 353px;
+
+  text-align: center;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-img img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.doctor-gender,
+.doctor-name {
+  margin: 10px 0;
+}
+
+.profile-btn,
+.channel-btn {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.profile-btn {
+  background-color: #85d7ff;
+  color: #0d2b52;
+}
+
+.channel-btn {
+  background-color: #8df2ff;
+  color: #0d2b52;
+}
+
+.profile-btn:hover {
+  background-color: #66c0e8;
+}
+
+.channel-btn:hover {
+  background-color: #75dee8;
+}

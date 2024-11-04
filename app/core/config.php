@@ -19,3 +19,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
 
    define('ROOT', 'https://example.com');
 }
+
+
+// show errors if true
+define('DEBUG', true);

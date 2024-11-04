@@ -1,7 +1,7 @@
 <?php
 
 class Home extends Controller{
-   public function index() {
+   public function index($a = '', $b = '', $c = '') {
 
       // $model = new Model;
       
@@ -33,13 +33,26 @@ class Home extends Controller{
       // ];
       // $result = $model->update(7, $arr, 'user_id');
 
-      $user = new User;
-      $result = $user->where(['user_id' => 1]);
-      show($result);
+      // $user = new User;
+      // $result = $user->where(['user_id' => 1]);
+      // show($result);
 
       // echo "Home Controller";
 
+      // show("From index method");
+      // show($a);
+      // show($b);
+      // show($c);
+
       $this->view('home');
    }
+
+   // public function edit($a = '', $b = '', $c = '') {
+   //    show("From edit method");
+   //    show($a);
+   //    show($b);
+   //    show($c);
+   //    $this->view('home');
+   // }
 }
 

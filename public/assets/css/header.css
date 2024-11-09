@@ -1,12 +1,13 @@
 /* Header */
 .navbar {
    background: rgb(88, 223, 250);
-   font-family:'Lucida Sans';
-   padding: 5px 10px;
+   font-family: 'Lucida Sans';
+   padding: 10px 20px;
    display: flex;
    justify-content: space-between;
    align-items: center;
    flex-wrap: wrap;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navdiv {
@@ -32,52 +33,58 @@
 }
 
 .navbar-headings li a:hover {
-   transition: 0.5s;
+   transition: 0.3s;
    background-color: #0d62cb;
    border-radius: 10px;
    color: white;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-headings li a {
    color: black;
-   font-size: 15px;
+   font-size: 16px;
    font-weight: bold;
    text-decoration: none;
    border: #0d62cb 1px solid;
-   padding: 8px;
+   padding: 10px 15px;
    border-radius: 10px;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.signin-btn, .reg-btn {
+   border-radius: 7px;
+   display: inline-flex;
+   justify-content: center;
+   padding: 10px 20px;
+   font-size: 15px;
+   font-weight: bold;
+   transition: background-color 0.3s, color 0.3s;
 }
 
 .signin-btn {
    background-color: #0E2F56;
-   border-radius: 7px;
-   display: inline-flex;
    border: #0E2F56 2px solid;
-   justify-content: center;
-   padding: 10px;
 }
 
 .reg-btn {
    background-color: white;
-   border-radius: 7px;
    border: #0E2F56 2px solid;
-   display: inline-flex;
-   justify-content: center;
-   padding: 10px;
 }
 
-.signin-btn a{
+.signin-btn a {
    color: white;
-   font-size: 15px;
-   font-weight: bold;
    text-decoration: none;
 }
 
-.reg-btn a{
-   color: #0d62cb;
-   font-size: 15px;
-   font-weight: bold;
+.reg-btn a {
+   color: #0E2F56;
    text-decoration: none;
+}
+
+.signin-btn:hover, .reg-btn:hover {
+   background-color: #0d62cb;
+   color: white;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .logo-div {
@@ -87,5 +94,5 @@
 
 .buttons-div {
    display: flex;
-   gap: 10px;
+   gap: 15px;
 }

@@ -10,10 +10,15 @@
     
 <!-- Header has added using Home controller -->
 
-    <section>
-        <h2>Welcome to E-care</h2>
-        <p>Your health, our priority.</p>
-    </section>
+    <div class="welcome">
+        <div class="welcome-content">
+            <h2>Welcome to</h2>
+            <img src="<?php echo ROOT?>/assets/img/home-img/e-care.svg" alt="doctor"><br>
+            <img src="<?php echo ROOT?>/assets/img/home-img/union-hospital.svg" alt="e-care">
+            <p>“ Your Health, Simplified. Anytime, Anywhere with E-care. ”</p>
+        </div>
+        <img src="<?php echo ROOT?>/assets/img/home-img/hospital.svg" alt="hospital">
+    </div>
 
     <section>
         <h2>Why Choose Us</h2>

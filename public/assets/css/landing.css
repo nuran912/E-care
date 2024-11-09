@@ -26,5 +26,30 @@ section {
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.welcome {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 10px;
+   height: 500px;
+   background-color: white;
+}
+
+.welcome .welcome-content {
+   flex: 1;
+   text-align: center;
+}
+
+.welcome .welcome-content img {
+   max-width: 1000px; /* Increase the size of the E-care logo */
+   height: auto;
+   margin-bottom: 20px;
+}
+
+.welcome img {
+   max-width: auto;
+   height: auto;
+}
+
 
 

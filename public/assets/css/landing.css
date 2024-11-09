@@ -26,6 +26,8 @@ section {
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* welcome section */
+
 .welcome {
    display: flex;
    justify-content: center;
@@ -50,6 +52,122 @@ section {
    max-width: auto;
    height: auto;
 }
+
+/* why choose us section */
+
+.choose {
+    background-color: #93DEFF;
+    padding: 2em;
+    text-align: center;
+}
+
+.choose h1 {
+    text-align: center;
+    font-weight: bold;
+    color: #0E2F56;
+}
+
+.choose-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+}
+
+.choose .card {
+    background-color: #0E2F56;
+    color: white;
+    display: flex;
+    width: 40%;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.choose .card img {
+    flex: 1;
+    max-width: 100px;
+    height: auto;
+}
+
+.choose .card div {
+    flex: 2;
+    padding-left: 1em;
+}
+
+/* Our Services section */
+
+.service {
+    background-color: #5FBDB0;
+    padding: 2em;
+    text-align: center;
+}
+
+.service h1 {
+    color: white;
+}
+
+.service-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3em;
+}
+
+.service .card {
+    background-color: white;
+    color: #0E2F56;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+
+.service .card img {
+    flex: 1;
+    max-width: 150px;
+    height: 150px;
+    margin-right: 1em;
+}
+
+.service .card h2 {
+    flex: 2;
+    margin: 0;
+}
+
+.service .card div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.service .card .header {
+      display: flex;
+    flex-direction:row;
+    margin-bottom: 20px;
+}
+
+.service .card button {
+    background-color: #0E2F56;
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    margin: 0.5em;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+   width: 100%;
+}
+
+.service .card button a {
+    color: white;
+    text-decoration: none;
+}
+
 
 
 

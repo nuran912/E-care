@@ -1,6 +1,6 @@
 /* Header */
 .navbar {
-   background: rgb(88, 223, 250);
+   background: #93DEFF;
    font-family: 'Lucida Sans';
    padding: 10px 20px;
    display: flex;
@@ -8,6 +8,7 @@
    align-items: center;
    flex-wrap: wrap;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .navdiv {
@@ -67,7 +68,7 @@
 }
 
 .reg-btn {
-   background-color: white;
+   background-color: #5FBDB0;
    border: #0E2F56 2px solid;
 }
 

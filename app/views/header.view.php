@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/header.css">
 <!-- Header -->
 <nav class="navbar">
    <div class="navdiv">

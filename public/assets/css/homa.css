@@ -168,6 +168,96 @@ section {
     text-decoration: none;
 }
 
+/* Channel section */
 
+.channel {
+    background-color: white;
+    padding: 6em;
+    text-align: center;
+    justify-content: center;
+}
+
+.channel h1, .channel h3 {
+    color: #0E2F56;
+}
+
+.channel button {
+    background-color: #0d62cb;
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    margin: 0.5em;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Insurance section */
+.insurance {
+    background-color: #93DEFF;
+    padding: 2em;
+    text-align: center;
+    text-decoration: none;
+}
+
+.insurance h1 {
+    color: #0E2F56;
+    margin-bottom: 1em;
+    
+}
+
+.insurance .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3em;
+    text-decoration: none;
+}
+
+.insurance .card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    width: auto;
+    min-width: 250px;
+    height: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    text-decoration: none;
+}
+
+.insurance .card .insurance-img {
+    height: 170px;
+    width: auto;
+    border: 3px solid black;
+    /* padding: 5px; */
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
+    padding: 10px;
+    border-radius: 10px;
+    
+}
+
+
+.insurance .card h3 {
+    text-decoration: none;
+    color: #0E2F56;
+    margin-bottom: 0.5em;
+}
+
+.insurance .card p {
+    color: #333;
+    margin: 0.5em 0;
+}
+
+.insurance .card a {
+    color: #0d62cb;
+    text-decoration: none;
+}
+
+.insurance .card a:hover {
+    text-decoration: underline;
+}
 
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - E-care</title>
-    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/landing.css">
+    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/homa.css">
 </head>
 
 <body>
@@ -92,20 +92,32 @@
         </div>
     </div>
 
-    <section>
-        <h2>Your well-being starts here</h2>
+    <div class="channel">
+        <h1>Your Well-being Starts Here</h1>
+        <h3>Schedule Your Appointment Today!</h3>
         <button>Channel Now</button>
-    </section>
+    </div>
 
-    <section>
-        <h2>Our Insurance Partners</h2>
-        <div class="cards">
-            <div class="card">Partner 1</div>
-            <div class="card">Partner 2</div>
-            <div class="card">Partner 3</div>
-            <div class="card">Partner 4</div>
-        </div>
-    </section>
+    <div class="insurance">
+        <h1>Our Insurance Partners</h1>
+        <?php if (isset($insurance_companies) && is_array($insurance_companies)): ?>
+            <div class="cards">
+                <?php foreach ($insurance_companies as $company): ?>
+                    <!-- <a href="<?php echo htmlspecialchars($company['website_link']); ?>" target="_blank"> -->
+
+                        <div class="card">
+                            <div class="insurance-img" ><img src="<?php echo ($company['logo']); ?>"></div>
+                            <h3><?php echo htmlspecialchars($company['company_name']); ?></h3>
+                            
+                        </div>
+                    </a>
+
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p>No insurance companies found.</p>
+        <?php endif; ?>
+    </div>
 
     <section>
         <h2>Recent Articles</h2>
@@ -116,9 +128,10 @@
         </div>
     </section>
 
-    <!-- Footer has added using the Home controller -->
+</html>
+<!-- Footer has added using the Home controller -->
 
-    <!-- <script src="<?php echo ROOT ?>/assets/js/home.js"></script> -->
+<!-- <script src="<?php echo ROOT ?>/assets/js/home.js"></script> -->
 </body>
 
 </html>

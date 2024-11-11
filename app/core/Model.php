@@ -6,14 +6,13 @@ Trait Model {
    // protected $table = 'users';
    protected $limit = 10;
    protected $offset = 0;
-   protected $order_column = 'user_id';
+   // protected $order_column = 'company_name';
    protected $order_type = 'asc';
 
    public function findAll(){
-      
       $query  = "SELECT * FROM $this->table ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
-
-      return $this->query($query);
+      $result = $this->query($query);
+      return json_decode(json_encode($result), true); // Convert object to array
    }
 
    public function where($data, $data_not = []){

@@ -119,14 +119,24 @@
         <?php endif; ?>
     </div>
 
-    <section>
-        <h2>Recent Articles</h2>
-        <div class="cards">
-            <div class="card">Article 1</div>
-            <div class="card">Article 2</div>
-            <div class="card">Article 3</div>
-        </div>
-    </section>
+    <div class="articles">
+        <h1>Recent Articles</h1>
+        
+        <?php if (isset($articles) && is_array($articles)): ?>
+            <div class="cards">
+                <?php foreach ($articles as $article): ?>
+                    <div class="card">
+                        <div class="article-img"><img src="<?php echo htmlspecialchars($article['image_url']); ?>" ></div>
+                        <p><?php echo htmlspecialchars($article['publish_date']) ?></p>
+                        <h3><?php echo htmlspecialchars($article['title']); ?></h3>
+                        <a href="#">Read more</a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p>No Articles found.</p>
+        <?php endif; ?>
+    </div>
 
 </html>
 <!-- Footer has added using the Home controller -->

@@ -4,7 +4,7 @@ Trait Model {
    use Database;
 
    // protected $table = 'users';
-   protected $limit = 10;
+   public $limit = 10;
    protected $offset = 0;
    // protected $order_column = 'company_name';
    protected $order_type = 'asc';
@@ -94,5 +94,9 @@ Trait Model {
       $this->query($query, $data);
       return false;
    } 
+
+   public function setLimit($limit) {
+      $this->limit = $limit;
+   }
 
 }

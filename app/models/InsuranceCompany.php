@@ -11,7 +11,7 @@ class InsuranceCompany {
       'website_link',
       'number',
       'email',
-      'log0',
+      'logo',
       'created_at',
       'updated_at'
    ];

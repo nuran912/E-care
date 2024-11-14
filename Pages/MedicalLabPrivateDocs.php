@@ -5,7 +5,7 @@
 <html>
     <head>
         <title>Medical records/Lab reports/Private files</title>
-        <link rel="stylesheet" href="../Style/MedicalLabPrivate.css">
+        <link rel="stylesheet" href="../Style/MedicalLabPrivateDocs.css">
     </head>
 
     <?php include '../Components/Header.php'; ?>

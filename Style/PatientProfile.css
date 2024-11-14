@@ -1,0 +1,110 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.main-context {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    gap: 30px;
+}
+
+.profile-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1b3b5f;
+    color: #ffffff;
+    padding: 30px;
+    width: 250px;
+    height: 400px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.main-context h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.main-context img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.main-coontext div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #1b3b5f;
+    color: #ffffff;
+    padding: 30px;
+    width: 250px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex: 1;
+    width: 100%;
+}
+
+.form h2 {
+    font-size: 22px;
+    color: #333333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.personal-details, .password {
+    margin-bottom: 20px;
+}
+
+.personal-details label, .password label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+    color: #333333;
+    vertical-align: middle;
+}
+
+.personal-details input, .password input {
+    width: calc(100% - 160px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+input[disabled] {
+    color: #888888;
+}
+
+.update {
+    background-color: #28a745;
+}
+
+.reset {
+    background-color: #6c757d;
+}
+
+.update:hover {
+    background-color: #218838;
+}
+
+.reset:hover {
+    background-color: #5a6268;
+}

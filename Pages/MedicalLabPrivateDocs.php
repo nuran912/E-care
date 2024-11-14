@@ -29,21 +29,21 @@
                             <span class="label">Diagnosis Card</span>
                             <span class="ref-no">Ref no: DC000001</span>
                             <span class="doctor">Dr. A Jonathan</span>
-                            <button class="view-button">View</button>
+                            <button class="medical-view-button">View</button>
                         </div>
 
                         <div class="record">
                             <span class="label">Diagnosis Card</span>
                             <span class="ref-no">Ref no: DC000001</span>
                             <span class="doctor">Dr. A Jonathan</span>
-                            <button class="view-button">View</button>
+                            <button class="medical-view-button">View</button>
                         </div>
 
                         <div class="record">
                             <span class="label">Diagnosis Card</span>
                             <span class="ref-no">Ref no: DC000001</span>
                             <span class="doctor">Dr. A Jonathan</span>
-                            <button class="view-button">View</button>
+                            <button class="medical-view-button">View</button>
                         </div>
                     </div>
 
@@ -88,26 +88,14 @@
                         <div class="record-date">04 / 08 /2024</div>
                         <div class="record">
                             <span class="label">Private file 1</span>
-                            <button class="view-button">View</button>
-                            <button class="delete-button">Delete</button>
+                            <button class="private-view-button">View</button>
+                            <button class="private-delete-button">Delete</button>
                         </div>
 
                         <div class="record">
                             <span class="label">Private file 1</span>
-                            <button class="view-button">View</button>
-                            <button class="delete-button">Delete</button>
-                        </div>
-
-                        <div class="record">
-                            <span class="label">Private file 1</span>
-                            <button class="view-button">View</button>
-                            <button class="delete-button">Delete</button>
-                        </div>
-
-                        <div class="record">
-                            <span class="label">Private file 1</span>
-                            <button class="view-button">View</button>
-                            <button class="delete-button">Delete</button>
+                            <button class="private-view-button">View</button>
+                            <button class="private-delete-button">Delete</button>
                         </div>
                     </div>
                 </div>

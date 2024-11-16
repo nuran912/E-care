@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Medical records/Lab reports/Private files</title>
+        <title>Pending Appointments/Past Appointments</title>
         <link rel="stylesheet" href="../Style/PendingPastAppointments.css">
     </head>
 

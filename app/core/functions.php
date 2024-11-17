@@ -10,9 +10,10 @@ function esc($string) {
    return htmlspecialchars($string);
 }
 
-// function redirect($url) {
-//    header("Location: " . $url);
-// }
+function redirect($path) {
+   header("Location: " . ROOT . "/$path");
+   die;
+}
 
 // function back() {
 //    header("Location: " . $_SERVER['HTTP_REFERER']);

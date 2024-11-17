@@ -8,6 +8,7 @@ Trait Model {
    protected $offset = 0;
    // protected $order_column = 'company_name';
    protected $order_type = 'asc';
+   public $errors = [];
 
    public function findAll(){
       $query  = "SELECT * FROM $this->table ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";

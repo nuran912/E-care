@@ -8,15 +8,15 @@
          </a>
       </div>
       <ul class="navbar-headings">
-         <li><a href="#">Home</a></li>
+         <li><a href="<?= ROOT ?>/Home">Home</a></li>
          <li><a href="#">Services</a></li>
          <li><a href="../Pages/Appointment.php">Appointment</a></li>
          <li><a href="#">About</a></li>
          <li><a href="#">Contact Us</a></li>
       </ul>
       <div class="buttons-div">
-         <button class="signin-btn"><a href="../Pages/SignIn.php">Sign In</a></button>
-         <button class="reg-btn"><a href="../Pages/SignIn.php">Register</a></button>
+         <button class="signin-btn"><a href="<?php echo ROOT ?>/Signin">Sign In</a></button>
+         <button class="reg-btn"><a href="<?php echo ROOT ?>/Signup">Register</a></button>
       </div>
    </div>
 </nav>

@@ -10,7 +10,7 @@ if (!isset($errors)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Care Sign Up</title>
-    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/signup.css">
+    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/sign-up.css">
 </head>
 
 <body>
@@ -20,7 +20,9 @@ if (!isset($errors)) {
         <h1>Welcome to E-Care by Union Hospital</h1>
 
         <div class="container">
-            <p class="signUptext">Please fill the following form fields.</p><br />
+            <center><h3>Register an Account</h3>
+            <p class="signUptext">Please fill the following form fields.</p></center>
+            <br />
 
             <form method="POST">
 
@@ -79,6 +81,7 @@ if (!isset($errors)) {
                     </div>
 
                 </div>
+                <br>
 
                 <div class="form-row">
 
@@ -104,7 +107,7 @@ if (!isset($errors)) {
                     <input type="checkbox" name="terms" class="terms">
                     <label for="" class="termsagreement">I agree to the <a href="#" class="termsConditions">terms and conditions</a></label>
                     <?php if (!empty($errors['terms'])) : ?>
-                        <div class="error"><?php echo $errors['terms']; ?></div>
+                        <div class="error" style="margin-left: 20px;"><br><?php echo $errors['terms']; ?></div>
                     <?php endif; ?>
                 </div>
 

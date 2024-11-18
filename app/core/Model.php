@@ -6,7 +6,7 @@ Trait Model {
    // protected $table = 'users';
    public $limit = 10;
    protected $offset = 0;
-   // protected $order_column = 'company_name';
+   // public $order_column = 'user_id';
    protected $order_type = 'asc';
    public $errors = [];
 
@@ -47,9 +47,8 @@ Trait Model {
          $query .= "$key != :$key && ";
       }
       $query = rtrim($query, " && ");
-      $query .= "ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
+      $query .= " ORDER BY $this->order_column $this->order_type LIMIT 1";
 
-      // echo $query;
       $data = array_merge($data, $data_not);
       $result = $this->query($query, $data);
       if($result){
@@ -99,5 +98,7 @@ Trait Model {
    public function setLimit($limit) {
       $this->limit = $limit;
    }
+
+
 
 }

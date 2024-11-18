@@ -54,10 +54,10 @@ label {
 
 /* for all the textboxes */
 input {
-   padding: 5px;
+   padding: 8px;
    border: 1px solid #CED4DA;
-   border-radius: 5px;
-   font-size: 14px;
+   border-radius: 10px;
+   font-size: 15px;
    background-color: #f8f8f8;
 }
 
@@ -87,13 +87,13 @@ input[type="text"][name="email"] {
 }
 
 /* for NIC Number/Passport */
-input[type="text"][name="NIC_Passport"] {
-   width: 300px;
+input[type="text"][name="NIC"] {
+   width: 340px;
 }
 
 /* for password & confirmPassword */
 input[type="password"][name="password"],input[type="password"][name="confirmPassword"]{
-   width: 200px;
+   width: 300px;
 }
 
 /* for the terms and conditions checkbox */
@@ -146,5 +146,9 @@ input:focus,select:focus {
 .signin p {
    text-align: center;
    margin-top: 20px;
-   font-size: 14px;
+}
+
+.signin a {
+   text-decoration: none;
+   color: blue;
 }

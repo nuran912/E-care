@@ -19,6 +19,8 @@ class User {
       'updated_at'
    ];
 
+   public $order_column = 'user_id';
+
    public function validate($data) {
       $this->errors = [];
 

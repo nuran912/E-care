@@ -1,7 +1,10 @@
 /* for the whole page */
 .main-context {
    font-family: 'Lucida Sans';
-   
+   justify-content: center;
+   align-items: center;
+
+   height: 100vh; /* Added */
 }
 
 /* for the whole sign in form */
@@ -9,11 +12,11 @@
    justify-content: center;
    align-items: center;
    padding: 20px;
-   margin-left: 300px;
-   margin-right: 300px;
-   margin-bottom: 100px;
+   
+   margin: auto; /* Modified */
    border-radius: 10px;
    border: 2px solid #0E2F56;
+   width: 400px;
 }
 
 /* for the h2 tag */
@@ -45,10 +48,10 @@ label {
 
 /* for email and password textboxes */
 .email , .password {
-   padding: 5px;
+   padding: 10px;
    border: 1px solid #CED4DA;
-   border-radius: 5px;
-   font-size: 14px;
+   border-radius: 10px;
+   font-size: 17px;
    background-color: #f8f8f8;
 }
 
@@ -93,8 +96,13 @@ input:focus {
    display: block;
 }
 
+.signInBtn:hover {
+   background-color: #218838;
+}
+
 .noAccount {
-   margin-left: 55px;
+   margin: auto; 
+   text-align: center; 
 }
 
 a {
@@ -103,7 +111,20 @@ a {
 }
 
 .error {
-   margin-top: 0px;
+   position:relative;
+   background-color: white;
    color: red;
+   border: 3px red solid;
+   padding: 20px 20px;
+   border-radius: 10px;
    font-size: 14px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   width: 200px;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   margin: auto;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   /* z-index: 1000; */
 }

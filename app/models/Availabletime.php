@@ -1,4 +1,4 @@
-use Model;
+
 
 <?php
 class Availabletime

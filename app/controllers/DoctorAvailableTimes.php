@@ -10,11 +10,13 @@ class DoctorAvailableTimes extends Controller
     {   
         
         
-    $availableTimes = new Availabletime();
+    
        
 
 
         $this->view('header');
+
+        $availableTimes = new Availabletime();
         
         $doctorModel = new Doctor();
         $hospitals = new Hospital();
@@ -50,9 +52,10 @@ class DoctorAvailableTimes extends Controller
 
         // Get hospital information
         $hospital_name = '';
+        $Total_fee = 0;
         if (is_array($availableTimesResults) || is_object($availableTimesResults)) {
             foreach ($availableTimesResults as $at) {
-                $hospital = $this->findObjectById($hospitals->getAll(), 'id', $at->hospital_id);
+                $hospital = findObjectById($hospitals->getAll(), 'id', $at->hospital_id);
                 $hospital_fee = $hospital ? $hospital->hospital_fee : 0;
                 $Doctor_fee = is_object($doctor) ? $doctor->Doctor_fee : 0;
                 // Calculate total fee only if there are available appointments
@@ -66,10 +69,10 @@ class DoctorAvailableTimes extends Controller
             'doctor_name' => $doctor_name,
             'doctor_specialization' => $doctor_specialization,
             'availableTimesResults' => $availableTimesResults,
+            'Total_fee' => $Total_fee,
             'noAppointmentsMessage' => $noAppointmentsMessage,
             'hospitals' => $hospitals,
             'hospital_name' => $hospital_name,
-            'Total_fee' => $Total_fee,
             'doctorId' => $doctorId
 
         ];
@@ -77,14 +80,5 @@ class DoctorAvailableTimes extends Controller
         $this->view('footer');
     }
 
-    private function findObjectById($array, $key, $value)
-    {
-        foreach ($array as $element) {
-            // If the element is an object, use -> to access the propertie
-            if (isset($element->$key) && $element->$key == $value) {
-                return $element;
-            }
-        }
-        return null;
-    }
+    
 }

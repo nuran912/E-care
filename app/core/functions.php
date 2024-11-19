@@ -19,13 +19,13 @@ function esc($string) {
 // }
 
 
-function findObjectById($array,  $property, $value)
-{
-    foreach ($array as $element) {
-        if ($value == $element[$property]) {
-            return $element;
+function findObjectById($array, $key, $value)
+    {
+        foreach ($array as $element) {
+            // If the element is an object, use -> to access the propertie
+            if (isset($element->$key) && $element->$key == $value) {
+                return $element;
+            }
         }
+        return null;
     }
-    return false;
-}
-

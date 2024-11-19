@@ -1,0 +1,100 @@
+/* Header */
+.navbar {
+   background: #93DEFF;
+   font-family: 'Lucida Sans';
+   padding: 10px 20px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   flex-wrap: wrap;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+   box-sizing: border-box;
+}
+
+.navdiv {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-grow: 1;
+}
+
+.navdiv li {
+   margin-inline: 10px;
+   display: inline-block;
+}
+
+.navbar-headings {
+   display: flex;
+   justify-content: center;
+   flex-grow: 1;
+   gap: 20px;
+   list-style: none;
+   padding: 0;
+   margin: 0;
+}
+
+.navbar-headings li a:hover {
+   transition: 0.3s;
+   background-color: #0d62cb;
+   border-radius: 10px;
+   color: white;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-headings li a {
+   color: black;
+   font-size: 16px;
+   font-weight: bold;
+   text-decoration: none;
+   border: #0d62cb 1px solid;
+   padding: 10px 15px;
+   border-radius: 10px;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.signin-btn, .reg-btn {
+   border-radius: 7px;
+   display: inline-flex;
+   justify-content: center;
+   padding: 10px 20px;
+   font-size: 15px;
+   font-weight: bold;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.signin-btn {
+   background-color: #0E2F56;
+   border: #0E2F56 2px solid;
+}
+
+.reg-btn {
+   background-color: #5FBDB0;
+   border: #0E2F56 2px solid;
+}
+
+.signin-btn a {
+   color: white;
+   text-decoration: none;
+}
+
+.reg-btn a {
+   color: #0E2F56;
+   text-decoration: none;
+}
+
+.signin-btn:hover, .reg-btn:hover {
+   background-color: #0d62cb;
+   color: white;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo-div {
+   display: flex;
+   justify-content: flex-start;
+}
+
+.buttons-div {
+   display: flex;
+   gap: 15px;
+}

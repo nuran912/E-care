@@ -11,12 +11,13 @@ class Home extends Controller {
         $article = new Article;
         $article->setLimit(3);
         $articles = $article->findAll();
-        // show($articles);
         
-        // Pass the data to the view
+        $username = empty($_SESSION['USER']) ? 'Guest' : $_SESSION['USER']->name;
+
         $data = [
             'insurance_companies' => $insurance_companies,
-            'articles' => $articles
+            'articles' => $articles,
+            'username' => $username
         ];
         $this->view('home', $data);
         $this->view('footer');

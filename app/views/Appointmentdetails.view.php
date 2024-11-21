@@ -146,8 +146,8 @@
         <input type="hidden" name="session_date" value="<?= $appointmentDetails['session_date'] ?>">
         <input type="hidden" name="session_time" value="<?= $appointmentDetails['session_time'] ?>">
         <input type="hidden" name="appointment_number" value="<?= $appointmentDetails['appointment_number'] ?>">
-        <input type="hidden"name="doctor_id" value="<?= $appointmentDetails['doctor_id'] ?>">
-        <input type ="hidden" name="totalFee"  id="totalFeeInput" value="">
+        <input type="hidden" name="doctor_id" value="<?= $appointmentDetails['doctor_id'] ?>">
+        <input type="hidden" name="totalFee" id="totalFeeInput" value="">
 
     </form>
     <script>

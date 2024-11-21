@@ -1,0 +1,89 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Lucida Sans';
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-header img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+}
+
+.profile-header h2 {
+    margin: 0;
+    color: #0E2F56;
+}
+
+.profile-section {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 2px solid #0E2F56;
+    border-radius: 10px;
+}
+
+.profile-section h3 {
+    margin-top: 0;
+    color: #0E2F56;
+}
+
+.profile-section .form-group {
+    margin-bottom: 20px;
+}
+
+.profile-section .form-group label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.profile-section .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #CED4DA;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #f8f8f8;
+}
+
+.profile-section .form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profile-section .form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.profile-section .form-actions .btn-update {
+    background-color: #28a745;
+    color: white;
+}
+
+.profile-section .form-actions .btn-update:hover {
+    background-color: #218838;
+}
+
+.profile-section .form-actions .btn-reset {
+    background-color: blue;
+    color: white;
+}
+
+.profile-section .form-actions .btn-reset:hover {
+    background-color: #174ea6;
+}

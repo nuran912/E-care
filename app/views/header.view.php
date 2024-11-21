@@ -28,7 +28,6 @@
                   <p><a href="<?php echo ROOT ?>/Admin/dashboard">Dashboard</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/user">User</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/doctor">Doctor</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/patient">Patient</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/clerk">Clerk</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/articles">Articles</a></p>

@@ -72,7 +72,7 @@
             <div class="card-list">
                 <?php foreach ($doctorResults as $doc) : ?>
                     <div class="card">
-                        <img src="../assets/profilepic.png" alt="Doctor's Profile Picture">
+                        <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
                         <h3>Dr. <?php echo $doc->name ?></h3>
                         <p><?php echo is_array($doc->specialization) ? implode(", ", $doc->specialization) : $doc->specialization; ?></p>
                         <?php

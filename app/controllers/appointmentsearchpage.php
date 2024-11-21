@@ -1,5 +1,5 @@
 <?php
-class appointmentsearchpage extends Controller
+class Appointmentsearchpage extends Controller
 {
     public function index($a = '', $b = '', $c = '')
     {

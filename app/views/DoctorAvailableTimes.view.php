@@ -11,7 +11,7 @@
         <!-- Doctor Card -->
         <div class="doctor-card">
             <div class="profile-image">
-                <img src="../assets/profilepic.png" alt="Doctor profile">
+                <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
             </div>
             <div class="doctor-name">Dr. <?php echo $doctor_name; ?></div>
             <div class="specialization"><?php echo isset($doctor_specialization) ? $doctor_specialization : 'Specialization not available'; ?></div>
@@ -34,7 +34,7 @@
                             <div class="slots-info"><?= $at->filled_slots ?> of <?= $at->total_slots ?> slots available</div>
                             <div class="time"><?= date('H:i', strtotime($at->start_time)) ?> - <?= date('H:i', strtotime($at->start_time . ' + ' . $at->duration . ' hours')) ?></div>
                             <div class="hospital"> Rs.<?php echo $Total_fee ?> + service charge</div>
-                            <a href="<?php echo ROOT; ?>/PaymentDetailsPage?availableTimeId=<?= $at->id ?>">
+                            <a href="<?php echo ROOT; ?>/Appointmentdetails?availableTimeId=<?= $at->id ?>">
                                 <button class="schedule-btn">Schedule Appointment</button>
                             </a>
                         </div>

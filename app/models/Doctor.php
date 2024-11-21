@@ -58,10 +58,9 @@ class Doctor
     }
 
     public function getDoctorById($doctorId)
-{
-    $query = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
-    $result = $this->query($query, ['id' => $doctorId]);
-    return $result ? $result[0] : null;
-}
-
+    {
+        $query = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
+        $result = $this->query($query, ['id' => $doctorId]);
+        return $result ? $result[0] : null;
+    }
 }

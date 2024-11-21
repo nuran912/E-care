@@ -4,20 +4,20 @@
 
 class DoctorAvailableTimes extends Controller
 {
-   
-   
+
+
     public function index($a = '', $b = '', $c = '')
-    {   
-        
-        
-    
-       
+    {
+
+
+
+
 
 
         $this->view('header');
 
         $availableTimes = new Availabletime();
-        
+
         $doctorModel = new Doctor();
         $hospitals = new Hospital();
 
@@ -74,11 +74,10 @@ class DoctorAvailableTimes extends Controller
             'hospitals' => $hospitals,
             'hospital_name' => $hospital_name,
             'doctorId' => $doctorId
-
         ];
+
+    
         $this->view('DoctorAvailableTimes', $data);
         $this->view('footer');
     }
-
-    
 }

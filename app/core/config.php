@@ -23,4 +23,3 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
 
 // show errors if true
 define('DEBUG', true);
-

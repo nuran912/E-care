@@ -14,7 +14,7 @@
 
     <div class="welcome">
         <div class="welcome-content">
-            <h2>Welcome to</h2>
+            <h2>Welcome <?= $username; ?></h2>
             <img src="<?php echo ROOT ?>/assets/img/home-img/e-care.svg" alt="doctor"><br>
             <img src="<?php echo ROOT ?>/assets/img/home-img/union-hospital.svg" alt="e-care">
             <p>“ Your Health, Simplified. Anytime, Anywhere with E-care. ”</p>

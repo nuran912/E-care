@@ -1,24 +1,19 @@
 <?php
 
-function show($stuff)
-{
-    echo "<pre>";
-    print_r($stuff);
-    echo "</pre>";
+function show($stuff) {
+   echo "<pre>";
+   print_r($stuff);
+   echo "</pre>";
 }
 
-function esc($string)
-{
-    return htmlspecialchars($string);
+function esc($string) {
+   return htmlspecialchars($string);
 }
 
-// function redirect($url) {
-//    header("Location: " . $url);
-// }
-
-// function back() {
-//    header("Location: " . $_SERVER['HTTP_REFERER']);
-// }
+function redirect($path) {
+   header("Location: " . ROOT . "/$path");
+   die;
+}
 
 function findObjectById($array, $key, $value)
 {
@@ -29,5 +24,10 @@ function findObjectById($array, $key, $value)
             return $element;
         }
     }
-    return null;
+  return null;
 }
+
+// function back() {
+//    header("Location: " . $_SERVER['HTTP_REFERER']);
+// }
+

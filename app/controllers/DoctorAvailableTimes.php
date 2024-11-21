@@ -76,7 +76,7 @@ class DoctorAvailableTimes extends Controller
             'doctorId' => $doctorId
         ];
 
-    
+
         $this->view('DoctorAvailableTimes', $data);
         $this->view('footer');
     }

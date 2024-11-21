@@ -18,7 +18,6 @@
       </ul>
     </div>
     <div class="form-container">
-
       <div class="patientprofileform">
         <h4>Personal Details</h4>
         <form method="POST" action="action_url_here">
@@ -27,17 +26,10 @@
             <label for="firstname">First name :</label>
             <input type="text" id="firstname" name="name" placeholder="Enter first name" >
           </div>
-
-          <div class="form-group">
-            <label for="lastname">Last name:</label>
-            <input type="text" id="lastname" name="specialization" placeholder="Enter last name" >
-          </div>
-
           <div class="form-group">
             <label for="email">Email :</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" >
           </div>
-            
           <div class="form-group">
             <label for="phone">Phone Number :</label>
             <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" >

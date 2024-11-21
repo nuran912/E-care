@@ -1,14 +1,16 @@
-@import url("https://fonts.googleapis.com/css?family=Inter");
+
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Lucida Sans';
   font-size: 16px;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #eef2f7;
+  background-color: #f5f5f5;
+  
 }
-.patient{
+
+.patient {
   display: flex;
   flex-direction: row;
 }
@@ -18,45 +20,45 @@ body {
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #ffffff;
+  background-color:white;
   border-radius: 10px;
+  
+  
+  transition: transform 0.3s ease-in-out;
+}
 
+.form-container:hover {
+  transform: translateY(-5px);
 }
 
 .patientprofilecard {
-  width: 20%;
-  height: 416px;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
   background-color: #0e2f56;
   color: white;
   text-align: center;
   padding: 20px;
   border-radius: 10px;
-  margin-top: 50px;
-  margin-left: 50px;
-  
+  margin: 50px auto;
 }
 
-.form-group{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 15px;
-}
-label{
-  padding-right: 10px;
-  flex: 0 0 150px;
-  text-align: left;
-  white-space: nowrap;
+@media (min-width: 768px) {
+  .patientprofilecard {
+    width: 40%;
+    height: 416px;
+    margin: 50px;
+  }
 }
 
-input {
-  flex: 1; /* Allow input fields to take up the remaining space */
-  padding: 10px;
-  margin-left: 0; /* Remove extra margin */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
+@media (min-width: 1024px) {
+  .patientprofilecard {
+    width: 20%;
+    height: 416px;
+    margin: 50px;
+  }
 }
+
 .patientprofilecard img {
   width: 150px;
   height: 150px;
@@ -64,13 +66,12 @@ input {
   margin-bottom: 15px;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.patient-details {
+  text-align: center;
 }
-li{
-    padding-bottom: 5px;
+
+.patient-details div {
+  margin-bottom: 10px;
 }
 
 .patient-name {
@@ -79,12 +80,39 @@ li{
   margin-top: 10px;
 }
 
-.specialization,
-.degree-type {
+.email {
   font-size: 16px;
-  margin-top: 5px;
+  font-weight: normal;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+label {
+  padding-right: 10px;
+  flex: 0 0 150px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  margin-left: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+input:focus {
+  border-color: #0e2f56;
+  box-shadow: 0 0 5px rgba(14, 47, 86, 0.5);
+}
 
 .patientprofileform h4 {
   margin-bottom: 20px;
@@ -119,6 +147,7 @@ li{
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .update-button {
@@ -127,7 +156,8 @@ li{
 }
 
 .update-button:hover {
-  background-color:#14AE5C;
+  background-color: #14AE5C;
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
 .reset-button {
@@ -137,4 +167,5 @@ li{
 
 .reset-button:hover {
   background-color: #c82333;
+  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }

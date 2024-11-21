@@ -77,12 +77,11 @@ body {
   background-color: #f8fafc;
 }
 select:invalid {
-  color: gray; 
+  color: gray;
 }
 
-
 option {
-  color: black; 
+  color: black;
 }
 .form-group input:focus,
 .form-group select:focus {
@@ -127,7 +126,11 @@ option {
 
 .optional-message {
   font-size: 14px;
-  color:rgb(235, 162, 162); /* Set the color to light red with maximum transparency */
+  color: rgb(
+    235,
+    162,
+    162
+  ); /* Set the color to light red with maximum transparency */
   margin-top: 5px;
 }
 /* Checkbox Section Styles */

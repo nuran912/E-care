@@ -32,7 +32,9 @@ Trait Model {
 
       // echo $query;
       $data = array_merge($data, $data_not);
-      return $this->query($query, $data);
+      $result = $this->query($query, $data);
+      return json_decode(json_encode($result), true);
+       // Convert object to array
    }
 
    public function first($data, $data_not = []){

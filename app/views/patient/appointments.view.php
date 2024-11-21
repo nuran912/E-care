@@ -38,8 +38,9 @@
                     <!-- Past Appointments Section -->
                     <div class="content">
                        
-
-                        <div class="appointment-date">18 / 08 / 2024</div>
+                    <?php if (isset($Pastappointments) && is_array($Pastappointments)): ?>
+                        <?php foreach ($Pastappointments as $card): ?>
+                        <div class="appointment-date"><?php echo ($card['session_date']); ?></div>
                         <div class="appointment">
                             <span class="doctor">Dr. A W Fernando</span>
                             <span class="ref-no">Ref no: 004</span>
@@ -47,6 +48,10 @@
                             <span class="specialization">Neurologist</span>
                             <button class="past-view-button">View</button>
                         </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>No Past Appointments found.</p>
+                    <?php endif; ?>
                     </div>
                 </div>
             </div>

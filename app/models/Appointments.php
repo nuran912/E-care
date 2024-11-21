@@ -22,4 +22,6 @@ class Appointments
         'total_fee'
     ];
 
+    public $order_column = 'id';
+
 }

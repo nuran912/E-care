@@ -138,19 +138,19 @@
                             <td>Doctor Strange</td>
                         </tr>
                         <tr>
-                            <td>L001</td>
-                            <td>Lab</td>
-                            <td>Doctor Strange</td>
+                            <td>R002</td>
+                            <td>Record</td>
+                            <td>Peter Parker</td>
                         </tr>
                         <tr>
-                            <td>L001</td>
-                            <td>Lab</td>
-                            <td>Doctor Strange</td>
+                            <td>A003</td>
+                            <td>Appointment</td>
+                            <td>Octo Octevia</td>
                         </tr>
                         <tr>
-                            <td>L001</td>
-                            <td>Lab</td>
-                            <td>Doctor Strange</td>
+                            <td>L004</td>
+                            <td>Report</td>
+                            <td>Green Goblin</td>
                         </tr>
                         <!-- Repeat rows as needed -->
                     </tbody>
@@ -171,16 +171,16 @@
                             <td>allianz@email.com</td>
                         </tr>
                         <tr>
-                            <td>Allianz Lanka</td>
-                            <td>allianz@email.com</td>
+                            <td>Softlogic Life</td>
+                            <td>softlogic@email.com</td>
                         </tr>
                         <tr>
-                            <td>Allianz Lanka</td>
-                            <td>allianz@email.com</td>
+                            <td>Ceylinco Life</td>
+                            <td>ceylinco@email.com</td>
                         </tr>
                         <tr>
-                            <td>Allianz Lanka</td>
-                            <td>allianz@email.com</td>
+                            <td>AIA Sri Lanka</td>
+                            <td>aia@email.com</td>
                         </tr>
                         <!-- Repeat rows as needed -->
                     </tbody>

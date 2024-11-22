@@ -24,22 +24,32 @@ class Admin extends Controller
    }
 
    public function user($a = '', $b = '', $c = '') {
+      $this->view('header');
       $this->view('admin/user');
+      $this->view('footer');
    }
 
    public function doctor($a = '', $b = '', $c = '') {
+      $this->view('header');
       $this->view('admin/doctor');
+      $this->view('footer');
    }
 
    public function clerk($a = '', $b = '', $c = '') {
+      $this->view('header');
       $this->view('admin/clerk');
+      $this->view('footer');
    }
 
    public function insurance($a = '', $b = '', $c = '') {
+      $this->view('header');
       $this->view('admin/insurance');
+      $this->view('footer');
    }
 
    public function articles($a = '', $b = '', $c = '') {
+      $this->view('header');
       $this->view('admin/articles');
+      $this->view('footer');
    }
 }

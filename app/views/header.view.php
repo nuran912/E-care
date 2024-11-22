@@ -11,7 +11,7 @@
       <ul class="navbar-headings">
          <li><a href="<?= ROOT ?>/Home">Home</a></li>
          <li><a href="#">Services</a></li>
-         <li><a href="../Pages/Appointment.php">Appointment</a></li>
+         <li><a href="<?= ROOT;?>/appointmentsearchpage">Appointment</a></li>
          <li><a href="#">About</a></li>
          <li><a href="#">Contact Us</a></li>
       </ul>

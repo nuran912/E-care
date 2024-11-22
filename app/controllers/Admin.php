@@ -11,7 +11,9 @@ class Admin extends Controller
 
    public function dashboard($a = '', $b = '', $c = '')
    {
+      $this->view('header');
       $this->view('admin/dashboard');
+      $this->view('footer');
    }
 
    public function profile($a = '', $b = '', $c = '')

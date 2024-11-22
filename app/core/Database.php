@@ -14,11 +14,13 @@ trait Database
    {
       $con = $this->connect();
       $stmt = $con->prepare($query);
+
       if (empty($data)) {
          $check = $stmt->execute();
       } else {
          $check = $stmt->execute($data);
       }
+
       if ($check) {
          $result = $stmt->fetchAll(PDO::FETCH_OBJ);
          if (is_array($result) && count($result)) {

@@ -15,15 +15,18 @@ class Signin extends Controller
 
             $row = $user->first($arr);
 
-            if($row) {
-                if($row->password === $_POST['password']){
+            if ($row) {
+                // if($row->password === $_POST['password']){
+                //     $_SESSION['USER'] = $row;
+                //     redirect('home');
+                // }
+                if (password_verify($_POST['password'], $row->password)) {
                     $_SESSION['USER'] = $row;
                     redirect('home');
                 }
             }
             $user->errors['email'] = "Wrong Email or Password";
             $data['errors'] = $user->errors;
-
         }
 
         $this->view('signin', $data);

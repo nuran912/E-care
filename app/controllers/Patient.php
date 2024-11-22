@@ -1,5 +1,7 @@
 <?php
-
+if ($_SESSION['USER']->role != 'patient') {
+    header('location: ' . ROOT . '/Home');
+}
 class Patient extends Controller
 {
     public function index($a = '', $b = '', $c = '')
@@ -10,20 +12,32 @@ class Patient extends Controller
 
     public function profile()
     {
+
+        $data['errors'] = [];
+        $data['success'] = [];
+        $user = new User;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($user->validateUpdate($_POST)) {
+                $user->update($_SESSION['USER']->user_id, $_POST, 'user_id');
+                $_SESSION['USER'] = $user->first(['user_id' => $_SESSION['USER']->user_id]);
+            }
+            $data['errors'] = $user->errors;
+            if (empty($data['errors']))
+                $data['success'] = 'Profile updated successfully';
+        }
         $this->view('header');
-
-        $Retriveappointments = new Appointments();
-
-
-
-
-
-
-        $this->view('patient/profile');
-
-
+        $this->view('patient/profile', $data);
         $this->view('footer');
     }
+
+
+
+
+
+
+
+
+
 
     public function appointments()
     {

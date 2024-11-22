@@ -1,6 +1,7 @@
 <?php
 
-class User {
+class User
+{
    use Model;
 
    protected $table = 'users';
@@ -21,7 +22,8 @@ class User {
 
    public $order_column = 'user_id';
 
-   public function validate($data) {
+   public function validate($data)
+   {
       $this->errors = [];
 
       //check email (validity)
@@ -38,7 +40,7 @@ class User {
       if (empty($data['password'])) {
          $this->errors['password'] = "Password is required";
       } else {
-         $password = $data['password']; 
+         $password = $data['password'];
          // if (strlen($password) < 8) {
          //    $this->errors['password'] = "Password must be at least 8 characters long";
          // } elseif (!preg_match('/[A-Z]/', $password)) {
@@ -63,26 +65,112 @@ class User {
 
       if (empty($data['NIC'])) {
          $this->errors['NIC'] = "NIC number is required";
-     } else {
+      } else {
          $NIC = $data['NIC'];
          if (!preg_match('/^\d{9}[vVxX]$|^\d{12}$/', $NIC)) {
-             $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits";
+            $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits";
          }
-     }     
+      }
 
-      if(empty($data['terms'])) {
+      if (empty($data['terms'])) {
          $this->errors['terms'] = "You must agree to the terms and conditions";
       }
 
-      if($data['password'] !== $data['confirmPassword']) {
+      if ($data['password'] !== $data['confirmPassword']) {
          $this->errors['confirmPassword'] = "Passwords do not match";
       }
 
 
-      if(empty($this->errors)) {
+      if (empty($this->errors)) {
          return true;
       }
       return false;
-      
+   }
+
+   public function update($id, $data, $id_column = 'id')
+   {
+      $password = trim($data['password']);
+      $newPassword = trim($data['newPassword']);
+      $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id]);
+      $currentPasswordHash = $currentPassword[0]->password;
+      if (!empty($newPassword)) {
+         if (!password_verify($password, $currentPasswordHash)) {
+            $this->errors['password'] = "Current password is incorrect";
+            return;
+         }
+         $data['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+      } else {
+         $data['password'] = $currentPasswordHash;
+      }
+      $data = array_intersect_key($data, array_flip($this->allowedColumns));
+
+      $keys = array_keys($data);
+      $query = "UPDATE $this->table SET ";
+      foreach ($keys as $key) {
+         $query .= "$key = :$key, ";
+      }
+      $query = rtrim($query, ", ");
+      $query .= " WHERE $id_column = :$id_column";
+      $data[$id_column] = $id;
+
+      // echo $query;
+      $this->query($query, $data);
+      return false;
+   }
+
+   public function validateUpdate($data)
+   {
+      $this->errors = [];
+
+
+      $email = $data['email'];
+      if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+         $this->errors['email'] = 'Email must be a valid email address';
+      }
+
+
+      //check password(vaidity)
+
+      $password = $data['password'];
+      // if (strlen($password) < 8) {
+      //    $this->errors['password'] = "Password must be at least 8 characters long";
+      // } elseif (!preg_match('/[A-Z]/', $password)) {
+      //    $this->errors['password'] = "Password must contain at least one uppercase letter";
+      // } elseif (!preg_match('/[a-z]/', $password)) {
+      //    $this->errors['password'] = "Password must contain at least one lowercase letter";
+      // } elseif (!preg_match('/\d/', $password)) {
+      //    $this->errors['password'] = "Password must contain at least one numeric digit";
+      // } elseif (!preg_match('/[\W_]/', $password)) {
+      //    $this->errors['password'] = "Password must contain at least one special character (e.g., !@#$%^&*)";
+      // }
+
+
+      if (isset($data['phone_number'])) {
+         $phone_number = $data['phone_number'];
+         if (!preg_match('/^\d{10}$/', $phone_number)) {
+            $this->errors['phone_number'] = "Phone number must be 10 digits long";
+         }
+      }
+
+      if (isset($data['NIC'])) {
+         $NIC = $data['NIC'];
+         if (!preg_match('/^\d{9}[vVxX]$|^\d{12}$/', $NIC)) {
+            $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits";
+         }
+      }
+
+
+      if (array_key_exists('confirmPassword', $data)) {
+         if ($data['password'] !== $data['confirmPassword']) {
+            $this->errors['confirmPassword'] = "Passwords do not match";
+         }
+      }
+
+
+
+      if (empty($this->errors)) {
+         return true;
+      }
+      return false;
    }
 }

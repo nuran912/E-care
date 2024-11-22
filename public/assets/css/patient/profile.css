@@ -169,3 +169,14 @@ input:focus {
   background-color: #c82333;
   box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
 }
+.criteria{
+  font-size: 14px;
+  color: rgb(236, 151, 151);
+  margin-bottom: 5px;
+}
+.error{
+  color: rgb(236, 151, 151);
+  font-size: 14px;
+  margin-left: 3px;
+ 
+}

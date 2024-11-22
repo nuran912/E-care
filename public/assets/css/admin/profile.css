@@ -1,15 +1,21 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lucida Sans', sans-serif;
+}
+
 .profile-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    font-family: 'Lucida Sans';
+    padding: 40px 20px;
+    background-color: #f4f4f9;
 }
 
 .profile-header {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .profile-header img {
@@ -17,25 +23,40 @@
     width: 100px;
     height: 100px;
     margin-right: 20px;
+    border: #0d62cb 3px solid;
 }
 
 .profile-header h2 {
     margin: 0;
     color: #0E2F56;
+    font-size: 24px;
+}
+
+.profile-header h5 {
+    color: #ffffff;
+    background-color: #0E2F56;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: fit-content;
+    margin-top: 5px;
 }
 
 .profile-section {
     width: 100%;
     max-width: 600px;
     margin-bottom: 20px;
-    padding: 20px;
+    padding: 30px;
     border: 2px solid #0E2F56;
     border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .profile-section h3 {
     margin-top: 0;
     color: #0E2F56;
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 .profile-section .form-group {
@@ -51,9 +72,9 @@
 
 .profile-section .form-group input {
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     border: 1px solid #CED4DA;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 15px;
     background-color: #f8f8f8;
 }
@@ -61,13 +82,16 @@
 .profile-section .form-actions {
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .profile-section .form-actions button {
+    flex: 1;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .profile-section .form-actions .btn-update {

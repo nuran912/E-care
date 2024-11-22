@@ -180,3 +180,10 @@ input:focus {
   margin-left: 3px;
  
 }
+#titleform{
+  font-size: 20px;
+  font-weight:300;
+  margin-bottom: 20px;
+  margin-left: 60px;
+  color: rgb(122, 116, 116);
+}

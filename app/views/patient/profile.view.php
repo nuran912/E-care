@@ -24,7 +24,7 @@
     <?php endif; ?>
     <div class="form-container">
       <div class="patientprofileform">
-        <h4>Personal Details</h4>
+        <h4><span id="titleform">Hello! <?php echo $_SESSION['USER']->name; ?> This is Your Current Personal Details</span></h4>
         <form method="POST">
           <div class="form-group">
             <label for="firstname">Full Name :</label>

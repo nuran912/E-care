@@ -9,7 +9,7 @@
 
 <body>
     <div class="searchform">
-        <h2>Make Your Appointment</h2>
+        <h2>Book Your Appointment</h2>
         <form id="search-form" action="" method="GET">
             <div class="form-group">
                 <label for="doctor-name">Doctor Name:</label>
@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label for="hospital">Hospital:</label>
                 <select id="hospital" name="hospital" <?php echo (empty($dateQuery) ? "" :  "value=\"$hospitalQuery\"") ?>>
-                    <option value="">Select Hospital</option>
+                    <option value="" disabled selected>--Select Hospital--</option>
                     <?php foreach ($hospitals as $hospital): ?>
                         <option value="<?php echo $hospital['id']; ?>" <?php echo $hospitalQuery == $hospital['id'] ? 'selected' : ''; ?>>
                             <?php echo $hospital['name']; ?>
@@ -33,7 +33,7 @@
                 <label for="specialization">Specialization:</label>
                 <select id="specialization" name="specialization" <?php echo (empty($specializationQuery) ? "" :  "value=\"$specializationQuery\"") ?>>
 
-                    <option value="">--Select Specialization--</option>
+                    <option value="" disabled selected>--Select Specialization--</option>
 
                     <?php foreach ($specializations as $specialization): ?>
 

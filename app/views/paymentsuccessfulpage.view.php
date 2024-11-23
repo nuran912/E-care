@@ -11,12 +11,12 @@
 <body>
     <div class="center-container">
         <div class="image">
-            <img src="<?= ROOT;?>/assets/img/paymentPage-img/payment_succeccful_icon.svg" alt="payment successful image">
+            <img src="<?= ROOT;?>/assets/img/paymentPage-img/successful.Gif" alt="payment successful image">
         </div>
         
         <h2>Payment Successful</h2>
         <h2>Your appointment has been successfully scheduled</h2>
-        <h3>Receipt has been sent to your email</h3>
+        <!-- <h3>Receipt has been sent to your email</h3> -->
 
         <a href="index.php" class="home-link">Go Back To The Home Page</a>
     </div>

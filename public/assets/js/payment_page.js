@@ -26,9 +26,6 @@ serviceChargeInput.addEventListener("input", () => {
   }
 });
 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
   const radioButtons = document.getElementsByName("idType");
   const idNumberInput = document.getElementById("idNumber");
@@ -48,5 +45,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-

@@ -162,25 +162,25 @@
          <form>
             <div class="form-row">
                <input type="file" id="edit-doctor-image" name="doctor-image" accept="image/*" hidden>
-               <img src="" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
+               <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="full-name" placeholder=" " required>
+                        <input type="text" name="full-name" placeholder=" " value="Mohamed Athhar" required>
                         <label>Full Name</label>
                      </div>
                      <div class="form-group">
-                        <input type="email" name="email" placeholder=" " required>
+                        <input type="email" name="email" placeholder=" " value="athhar@gamil.com" required>
                         <label>Email</label>
                      </div>
                   </div>
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " required>
+                        <input type="text" name="nic" placeholder=" " value="200210544893" required>
                         <label>NIC</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone" placeholder=" " required>
+                        <input type="text" name="phone" placeholder=" " value="0755428964" required>
                         <label>Phone Number</label>
                      </div>
                   </div>
@@ -188,19 +188,20 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <input type="text" name="specialization" placeholder=" " required>
+                  <input type="text" name="specialization" placeholder=" " value="General" required>
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="doctor-number" placeholder=" " style="width: 300px;" required>
+                  <input type="text" name="doctor-number" placeholder=" " value="D001" style="width: 300px;" required>
                   <label>Doctor Number</label>
                   
                </div>
-               <lable><input type="checkbox" name="active">Active</lable>
+               <lable><input type="checkbox" name="active" checked="true">Active</lable>
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <textarea name="qualifications" rows="4" placeholder=" "></textarea>
+                  <textarea name="qualifications" rows="4" >MBBS, MD (General Medicine) - 2010 
+                  </textarea>
                   <label>Qualifications</label>
                </div>
                   

@@ -150,7 +150,7 @@
             </div>
             
             <div class="form-row">
-               <button type="button" class="btn-create">Update</button>
+               <button type="button" class="btn-create">Create</button>
                <button type="button" class="btn-cancel">Cancel</button>
             </div>
          </form>
@@ -205,7 +205,7 @@
                <lable><input type="checkbox" name="active" checked>Active</lable>
             </div>
             <div class="form-row">
-               <button type="button" class="btn-create">Create</button>
+               <button type="button" class="btn-create">Update</button>
                <button type="button" class="btn-cancel">Cancel</button>
             </div>
          </form>

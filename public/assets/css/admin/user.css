@@ -379,6 +379,19 @@ table .user-img{
       /* object-fit: cover; */
 }
 
+.insurance-img-preview {
+   width: 120px;
+   height: 100px;
+   border-radius: 10px;
+   object-fit:contain;
+   cursor: pointer;
+   border: #666 1px solid;
+}
+
+.insurance-img-preview:hover {
+   border: #007bff 1px solid;
+}
+
 @media (max-width: 768px) {
    .stats-grid {
        grid-template-columns: 1fr;

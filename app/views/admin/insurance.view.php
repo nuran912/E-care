@@ -61,7 +61,7 @@
                      <td>aia.health@yahoo.lk</td>
                      <td><a href="">AIA</a></td>
                      <td>0766584235</td>
-                     <td><button class="btn-active">Active</button></td>
+                     <td><button class="btn-disable">Disable</button></td>
                      <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                   </tr>
                   <tr>
@@ -96,51 +96,36 @@
          <form>
             <div class="form-row">
                <input type="file" id="doctor-image" name="doctor-image" accept="image/*" hidden>
-               <img src="" alt="Image Preview" class="image-preview" id="image-preview" onclick="document.getElementById('doctor-image').click();">
+               <img src="" alt="Image Preview" class="insurance-img-preview" id="image-preview" onclick="document.getElementById('doctor-image').click();" >
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
                         <input type="text" name="full-name" placeholder=" " required>
-                        <label>Full Name</label>
+                        <label>Company Name</label>
                      </div>
                      <div class="form-group">
                         <input type="email" name="email" placeholder=" " required>
-                        <label>Email</label>
+                        <label>Claim Email</label>
                      </div>
                   </div>
                   <div class="form-row">
                      <div class="form-group">
                         <input type="text" name="nic" placeholder=" " required>
-                        <label>NIC</label>
+                        <label>Web Link</label>
                      </div>
                      <div class="form-group">
                         <input type="text" name="phone" placeholder=" " required>
-                        <label>Phone Number</label>
+                        <label>Contact Number</label>
+                        
                      </div>
+                     <lable><input type="checkbox" name="active" >Active</lable>
                   </div>
                </div>
             </div>
-            <div class="form-row">
-               <div class="form-group">
-                  <!-- <input type="text" name="role" placeholder=" " required> -->
-                  <select name="role" id="role">
-                     <option value="lab">Lab clerk</option>
-                     <option value="record">Record clek</option>
-                     <option value="reception">Reception clerk</option>
-                  </select>
-                  <label>Role</label>
-               </div>
-               <div class="form-group">
-                  <input type="text" name="doctor-number" placeholder=" " style="width: 300px;" required>
-                  <label>Employee Number</label>
-
-               </div>
-               
-               <lable><input type="checkbox" name="active" checked>Active</lable>
-            </div>
+            
             
             <div class="form-row">
-               <button type="button" class="btn-create">Update</button>
+               <button type="button" class="btn-create">Create</button>
                <button type="button" class="btn-cancel">Cancel</button>
             </div>
          </form>
@@ -152,50 +137,36 @@
       <div class="popup-edit">
          <h2>Edit Insurance Partners</h2>
          <form>
-            <div class="form-row">
-               <input type="file" id="edit-doctor-image" name="doctor-image" accept="image/*" hidden>
-               <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
+         <div class="form-row">
+               <input type="file" id="doctor-image" name="doctor-image" accept="image/*" hidden>
+               <img src="<?php echo ROOT ?>/assets/img/home-img/insurance/allianz.svg" alt="Image Preview" class="insurance-img-preview" id="image-preview" onclick="document.getElementById('doctor-image').click();" >
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="full-name" placeholder=" " value="Doctor Strange" required>
-                        <label>Full Name</label>
+                        <input type="text" name="full-name" placeholder=" " value="Allianze Lanka" required>
+                        <label>Company Name</label>
                      </div>
                      <div class="form-group">
-                        <input type="email" name="email" placeholder=" " value="athhar@gmail.com" required>
-                        <label>Email</label>
+                        <input type="email" name="email" placeholder=" " value="allianz.health@gmail.com" required>
+                        <label>Claim Email</label>
                      </div>
                   </div>
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " value="200212345678" required>
-                        <label>NIC</label>
+                        <input type="url" name="url" placeholder=" " value="https://www.allianz.lk/products/general-insurance-products/medical-insurance.html" required>
+                        <label>Web Link</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone" placeholder=" " value="0761234567" required>
-                        <label>Phone Number</label>
+                        <input type="text" name="phone" placeholder=" " value="0754362591" required>
+                        <label>Contact Number</label>
+                        
                      </div>
+                     <lable><input type="checkbox" name="active" checked>Active</lable>
                   </div>
                </div>
             </div>
             <div class="form-row">
-               <div class="form-group">
-               <select name="role" id="role">
-                     <option value="lab" selected>Lab clerk</option>
-                     <option value="record">Record clek</option>
-                     <option value="reception">Reception clerk</option>
-                  </select>
-                  <label>Role</label>
-               </div>
-               <div class="form-group">
-                  <input type="text" name="doctor-number" placeholder=" " value="L001" style="width: 300px;" required>
-                  <label>Employee Number</label>
-
-               </div>
-               <lable><input type="checkbox" name="active" checked>Active</lable>
-            </div>
-            <div class="form-row">
-               <button type="button" class="btn-create">Create</button>
+               <button type="button" class="btn-create">Update</button>
                <button type="button" class="btn-cancel">Cancel</button>
             </div>
          </form>

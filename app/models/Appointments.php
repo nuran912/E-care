@@ -1,4 +1,3 @@
-
 <?php
 class Appointments
 {
@@ -13,15 +12,10 @@ class Appointments
         'phone_number',
         'id_type',
         'nic_passport',
-        'patient_address',
-        'hospital_name',
         'session_date',
         'session_time',
         'appointment_number',
-        'doctor_id',
-        'total_fee'
     ];
 
     public $order_column = 'id';
-
 }

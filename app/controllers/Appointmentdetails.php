@@ -51,16 +51,12 @@ class Appointmentdetails extends Controller
                 }
             }
             if (!$appointmentDetails) {
-                echo "Appointment ID not found.";
-                exit;
-            }
-        } else {
-            echo "Invalid or missing appointment ID.";
-            exit;
+                      echo "Appointment ID not found.............";
+                      exit;
+              }
         }
 
         $service_charge = 285;
-
 
         $doctor_fee = (float) $appointmentDetails['doctor_fee'] ?? 0;
         $formatted_doctor_fee = number_format($doctor_fee, 2);
@@ -72,10 +68,6 @@ class Appointmentdetails extends Controller
 
         $totalWithoutServiceCharge = $doctor_fee + $hospital_fee;
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
-
-
-
-
 
         $this->view('Appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,

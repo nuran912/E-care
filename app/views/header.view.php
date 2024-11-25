@@ -51,7 +51,7 @@
                <card>
                   <h4>Patient Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Patient/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Patient/appointment">Manage Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Patient/appointments">Manage Appointments</a></p>
                   <p><a href="<?php echo ROOT ?>/Patient/documents">Medical Documents</a></p>
                   <p><a href="<?php echo ROOT ?>/Patient/insuranceclaims">Insurance Claims</a></p>
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>

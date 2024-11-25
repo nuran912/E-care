@@ -20,10 +20,6 @@ class Signin extends Controller
                 //     $_SESSION['USER'] = $row;
                 //     redirect('home');
                 // }
-                if (password_verify($_POST['password'], $row->password)) {
-                    $_SESSION['USER'] = $row;
-                    redirect('home');
-                }
             }
             $user->errors['email'] = "Wrong Email or Password";
             $data['errors'] = $user->errors;

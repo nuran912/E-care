@@ -22,7 +22,6 @@
     <?php if (!empty($data['success'])) : ?>
       <div class="error" style="color: green;"><?php echo $data['success']; ?></div>
     <?php endif; ?>
-    <div class="form-container">
       <div class="patientprofileform">
         <h4><span id="titleform">Hello! <?php echo $_SESSION['USER']->name; ?> This is Your Current Personal Details</span></h4>
         <form method="POST">

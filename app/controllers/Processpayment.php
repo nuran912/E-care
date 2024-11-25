@@ -39,7 +39,6 @@ class Processpayment extends Controller
             ];
         }
 
-        $createappointment->insert($data);
         $this->view('processpayment', $data);
     }
 }

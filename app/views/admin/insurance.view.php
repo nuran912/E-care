@@ -38,8 +38,8 @@
                   <tr>
                      <th>Logo</th>
                      <th>Name</th>
-                     <th>Claim-Email</th>
-                     <th>Conatct Email</th>
+                     <th>Claim Email</th>
+                     <th>Web Link</th>
                      <th>Phone</th>
                      <th>Status</th>
                      <th>Edit</th>
@@ -47,48 +47,40 @@
                </thead>
                <tbody>
                   <tr>
-                     <td>L001</td>
-                     <td>Lab</td>
-                     <td>Doctor Strange</td>
-                     <td>athhar@gmail.com</td>
+                     <td><img class="insurance-img" src="<?php echo ROOT ?>/assets/img/home-img/insurance/allianz.svg"></td>
+                     <td>Allianz Lanka</td>
+                     <td>allianz.health@gmail.com</td>
+                     <td><a href="#">Allianz</a></td>
                      <td>0761234567</td>
-                     <td>200212345678</td>
                      <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
                      <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                   </tr>
                   <tr>
-                     <td>R002</td>
-                     <td>Record</td>
-                     <td>Peter Parker</td>
-                     <td>nuran@gmail.com</td>
-                     <td>0761985642</td>
-                     <td>200254268791</td>
-                     <td><button class="btn-disable">Disable</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
+                     <td><img class="insurance-img" src="<?php echo ROOT ?>/assets/img/home-img/insurance/aia.svg"></td>
+                     <td>AIA Sri Lanka</td>
+                     <td>aia.health@yahoo.lk</td>
+                     <td><a href="">AIA</a></td>
+                     <td>0766584235</td>
+                     <td><button class="btn-active">Active</button></td>
                      <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                   </tr>
                   <tr>
-                     <td>B003</td>
-                     <td>Reception</td>
-                     <td>Octo Octevia</td>
-                     <td>manusha@gmail.com</td>
-                     <td>0763259465</td>
-                     <td>200265894154</td>
+                     <td><img class="insurance-img" src="<?php echo ROOT ?>/assets/img/home-img/insurance/ceylinco.svg"></td>
+                     <td>Ceylinco Life</td>
+                     <td>ceylinco.health@gmail.com</td>
+                     <td><a href="#">Ceylico</a></td>
+                     <td>0767913254</td>
                      <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></td>
+                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                   </tr>
                   <tr>
-                     <td>L004</td>
-                     <td>Report</td>
-                     <td>Green Goblin</td>
-                     <td>okadini@gmail.com</td>
-                     <td>0761234567</td>
-                     <td>200212345678</td>
+                     <td><img class="insurance-img" src="<?php echo ROOT ?>/assets/img/home-img/insurance/softlogic.svg"></td>
+                     <td>Softlogic Life</td>
+                     <td>softlogic.life@gmail.com</td>
+                     <td><a href="#">SoftLogic</a></td>
+                     <td>0763561284</td>
                      <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></td>
+                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                   </tr>
 
                </tbody>

@@ -37,7 +37,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
+                            <td><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
                             <td>Mohamed Athhar</td>
                             <td>athhar@gmail.com</td>
                             <td>0761234567</td>
@@ -46,7 +46,7 @@
                             <td><button class="btn-reset">Reset</button></td>
                         </tr>
                         <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
+                            <td><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
                             <td>Nuran Alwis</td>
                             <td>nuran@gmail.com</td>
                             <td>0761985642</td>
@@ -55,7 +55,7 @@
                             <td><button class="btn-reset">Reset</button></td>
                         </tr>
                         <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
+                            <td><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
                             <td>Manusha Ranaweera</td>
                             <td>manusha@gmail.com</td>
                             <td>0763259465</td>
@@ -64,7 +64,7 @@
                             <td><button class="btn-reset">Reset</button></td>
                         </tr>
                         <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
+                            <td><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
                             <td>Okadini KDI</td>
                             <td>okadini@gmail.com</td>
                             <td>0761234567</td>

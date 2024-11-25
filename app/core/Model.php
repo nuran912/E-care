@@ -18,6 +18,15 @@ trait Model
       return json_decode(json_encode($result), true); // Convert object to array
    }
 
+   public function getAll()
+   {
+      $query  = "SELECT * FROM $this->table ORDER BY $this->order_column $this->order_type";
+      $result = $this->query($query);
+      return json_decode(json_encode($result), true); // Convert object to array
+   }
+
+
+
    public function where($data, $data_not = [])
    {
       $keys = array_keys($data);

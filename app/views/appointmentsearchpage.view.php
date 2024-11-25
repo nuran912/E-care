@@ -70,37 +70,37 @@
         <div class="results">
             <h2><?php echo empty($doctorResults) ? "No" : count($doctorResults) ?> Doctor(s) found!</h2>
             <div class="card-list">
-            
+
                 <?php if (isset($doctorResults) && is_array($doctorResults)): ?>
-                <?php foreach ($doctorResults as $doc) : ?>
-                    <div class="card">
-                        <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
-                        <h3>Dr. <?php echo $doc->name ?></h3>
-                        <p><?php echo is_array($doc->specialization) ? implode(", ", $doc->specialization) : $doc->specialization; ?></p>
-                        <?php
-                        $queryArray = array(
-                            'doctor_id' => $doc->id,
-                        );
-                        if ($hospitalQuery) {
-                            $queryArray['hospital_id'] = $hospitalQuery;
-                        }
-                        if ($dateQuery) {
-                            $queryArray['date'] = $dateQuery;
-                        }
-                        ?>
+                    <?php foreach ($doctorResults as $doc) : ?>
+                        <div class="card">
+                            <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+                            <h3>Dr. <?php echo $doc->name ?></h3>
+                            <p><?php echo is_array($doc->specialization) ? implode(", ", $doc->specialization) : $doc->specialization; ?></p>
+                            <?php
+                            $queryArray = array(
+                                'doctor_id' => $doc->id,
+                            );
+                            if ($hospitalQuery) {
+                                $queryArray['hospital_id'] = $hospitalQuery;
+                            }
+                            if ($dateQuery) {
+                                $queryArray['date'] = $dateQuery;
+                            }
+                            ?>
 
 
-                        <a href="<?php echo ROOT;  ?>/DoctorAvailableTimes?<?php echo http_build_query($queryArray); ?>">
-                            <button>Channel Now</button>
-                        </a>
-                        <a href="<?php echo ROOT; ?>/DoctorProfile?id=<?= $doc->id ?>">
-                            <button>View Profile</button>
-                        </a>
-                    </div>
-                <?php endforeach; ?>
-            <?php else : ?>
-                <div class="no-results">No results matched.</div>
-            <?php endif; ?>
+                            <a href="<?php echo ROOT;  ?>/DoctorAvailableTimes?<?php echo http_build_query($queryArray); ?>">
+                                <button>Channel Now</button>
+                            </a>
+                            <a href="<?php echo ROOT; ?>/DoctorProfile?id=<?= $doc->id ?>">
+                                <button>View Profile</button>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="no-results">No results matched.</div>
+                <?php endif; ?>
 
             </div>
         </div>

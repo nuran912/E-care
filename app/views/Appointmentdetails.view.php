@@ -14,7 +14,7 @@
             <h2>Enter Patient's Details...</h2>
             <div id="patientForm">
                 <div class="form-row">
-                <div class="form-group title-group">
+                    <div class="form-group title-group">
                         <label for="title">Title</label>
                         <span id="idError" class="error-message"></span>
                         <select id="title" name="title" required>
@@ -72,7 +72,7 @@
 
                 <div class="checkbox-section">
                     <div class="checkbox-group">
-                        <input type="checkbox" id="serviceCharge">
+                        <input name="serviceCharge" type="checkbox" id="serviceCharge">
                         <label for="serviceCharge">Add service charge</label>
                     </div>
 
@@ -147,7 +147,8 @@
         <input type="hidden" name="session_time" value="<?= $appointmentDetails['session_time'] ?>">
         <input type="hidden" name="appointment_number" value="<?= $appointmentDetails['appointment_number'] ?>">
         <input type="hidden" name="doctor_id" value="<?= $appointmentDetails['doctor_id'] ?>">
-        <input type="hidden" name="totalFee" id="totalFeeInput" value="">
+        <input type="hidden" name="doctor_fee" value="<?= $doctor_fee ?>">
+        <input type="hidden" name="hospital_fee" value="<?= $hospital_fee ?>">
 
     </form>
     <script>

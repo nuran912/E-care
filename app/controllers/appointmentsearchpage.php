@@ -9,6 +9,7 @@ class Appointmentsearchpage extends Controller
         $hospital = new Hospital();
         $specializations = $doctor->getSpecializations();
         $hospitals = $hospital->findAll();
+        
 
         $nameQuery = "";
         $hospitalQuery = "";
@@ -45,8 +46,12 @@ class Appointmentsearchpage extends Controller
             'dateQuery' => $dateQuery,
             'error' => $error,
         ];
-
+        
+       
+        //currently empty queries are  $hospitalQuery        
         $this->view('appointmentsearchpage', $data);
+
+       
         $this->view('footer');
     }
 }

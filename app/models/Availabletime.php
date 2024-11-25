@@ -37,5 +37,37 @@ class Availabletime
         }
         return $this->query($query, $params);
     }
+    public function getAppointmentDetails($doctorId, $date = null, $hospitalId = null)
+    {
+
+        $query = "SELECT 
+        at.id AS appointment_id,
+        d.id AS doctor_id,
+        d.name AS doctor_name,
+        d.specialization,
+        d.Doctor_fee,
+        h.id AS hospital_id,
+        h.name AS hospital_name,
+        h.hospital_fee,
+        at.date AS appointment_date,
+        at.start_time,
+        at.duration,
+        at.total_slots,
+        at.filled_slots
+    FROM 
+        availabletimes at
+    JOIN 
+        doctors d ON at.doctor_id = d.id
+    JOIN 
+        hospitals h ON at.hospital_id = h.id
+    WHERE 
+        d.id = :doctor_id 
+        AND (:date IS NULL OR at.date = :date)
+        AND (:hospital_id IS NULL OR h.id = :hospital_id);";
+
+        $params = ['doctor_id' => $doctorId, 'date' => $date, 'hospital_id' => $hospitalId];
+        return $this->query($query, $params);
+    }
 }
 ?>
+

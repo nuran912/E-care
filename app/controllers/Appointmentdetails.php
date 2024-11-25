@@ -6,18 +6,23 @@ class Appointmentdetails extends Controller
     {
         $this->view('header');
 
-        $availableTimes = (new Availabletime())->findAll();
-        $doctors = (new Doctor())->findAll();
+        $availableTimes = (new Availabletime())->getAll();
+        $doctors = (new Doctor())->getAll();
         $hospitals = (new Hospital())->getAll();
 
         $availableTimeId = isset($_GET['availableTimeId']) ? (int)$_GET['availableTimeId'] : null;
         $appointmentDetails = null;
 
         if ($availableTimeId) {
+
+
             foreach ($availableTimes as $appointment) {
-                if ($appointment['id'] === $availableTimeId) {
+                if ($appointment['id'] == $availableTimeId) {
+
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
                     $hospitalDetails = findObjectById($hospitals, 'id', $appointment['hospital_id']);
+
+
 
                     if ($doctorDetails && $hospitalDetails) {
                         $appointmentDetails = [
@@ -41,7 +46,7 @@ class Appointmentdetails extends Controller
                             $sessionStartTime->add(new DateInterval("PT{$patientAppointmentOffsetMinutes}M"));
                             $appointmentDetails['patient_appointment_time'] = $sessionStartTime->format('h:i A');
                         } else {
-                            $appointmentDetails['patient_appointment_time'] = '0:00 AM';
+                            $appointmentDetails['patient_appointment_time'] = '12:00 AM';
                         }
                     } else {
                         echo "Invalid doctor or hospital ID in appointment data.";
@@ -50,11 +55,16 @@ class Appointmentdetails extends Controller
                     break;
                 }
             }
+
             if (!$appointmentDetails) {
-                      echo "Appointment ID not found.............";
-                      exit;
-              }
+                echo "Appointment ID not found.";
+                exit;
+            }
+        } else {
+            echo "Appointment ID not provided.";
+            exit;
         }
+
 
         $service_charge = 285;
 
@@ -74,6 +84,8 @@ class Appointmentdetails extends Controller
             'formatted_doctor_fee' => $formatted_doctor_fee,
             'formatted_hospital_fee' => $formatted_hospital_fee,
             'formatted_service_charge' => $formatted_service_charge,
+            'hospital_fee' => $hospital_fee,
+            'doctor_fee' => $doctor_fee,
             'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,
         ]);
         $this->view('footer');

@@ -1,3 +1,13 @@
+<?php
+
+$appointments = $data['appointments'];
+$doctor_name = $data['doctor_name'];
+$doctor_specialization = $data['doctor_specialization'];
+$doctorId = $data['doctorId'];
+
+// var_dump($appointments, $doctor_name, $doctor_specialization);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,15 +36,15 @@
                 <div class="no-appointments-message"><?php echo $noAppointmentsMessage; ?></div>
             <?php else: ?>
                 <!-- Display available appointments -->
-                <?php foreach ($availableTimesResults as $at): ?>
+                <?php foreach ($appointments as $at): ?>
 
                     <div class="time-slot-card">
-                        <div class="date"><?= date('l, d F Y', strtotime($at->date)); ?><span class="location"><?php echo $hospital_name ?></span></div>
+                        <div class="date"><?= date('l, d F Y', strtotime($at->appointment_date)); ?><span class="location"><?php echo $at->hospital_name ?></span></div>
                         <div class="slot-details">
                             <div class="slots-info"><?= $at->filled_slots ?> of <?= $at->total_slots ?> slots available</div>
                             <div class="time"><?= date('H:i', strtotime($at->start_time)) ?> - <?= date('H:i', strtotime($at->start_time . ' + ' . $at->duration . ' hours')) ?></div>
-                            <div class="hospital"> Rs.<?php echo $Total_fee ?> + service charge</div>
-                            <a href="<?php echo ROOT; ?>/Appointmentdetails?availableTimeId=<?= $at->id ?>">
+                            <div class="hospital"> Rs.<?php echo $at->hospital_fee + $at->Doctor_fee ?> + service charge</div>
+                            <a href="<?php echo ROOT; ?>/Appointmentdetails?availableTimeId=<?= $at->appointment_id ?>">
                                 <button class="schedule-btn">Schedule Appointment</button>
                             </a>
                         </div>

@@ -23,9 +23,13 @@ class Appointmentdetailsverification extends Controller
             $sessionTime = $_POST['session_time'] ?? '';
             $appointmentNumber = $_POST['appointment_number'] ?? '';
             $doctorid = $_POST['doctor_id'] ?? '';
-          
-              
-           
+            $doctorFee = $_POST['doctor_fee'] ?? '';
+            $hospitalFee = $_POST['hospital_fee'] ?? '';
+            $serviceCharge = isset($_POST['serviceCharge']) && $_POST['serviceCharge'] === "on" ? 285 : 0;
+
+            $totalFee = $hospitalFee + $doctorFee + $serviceCharge;
+
+
             $data = [
                 'title' => $title,
                 'patientName' => $patient_Name,
@@ -39,13 +43,13 @@ class Appointmentdetailsverification extends Controller
                 'session_time' => $sessionTime,
                 'appointment_number' => $appointmentNumber,
                 'doctor_id' => $doctorid,
-                
+                'total_fee' => $totalFee,
             ];
 
 
             $_SESSION['appointment'] = $data;
 
-          
+
             $this->view('appointmentdetailsverification', $data);
         } else {
             echo "Invalid request method.";

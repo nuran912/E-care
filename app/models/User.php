@@ -89,18 +89,29 @@ class User
 
    public function update($id, $data, $id_column = 'id')
    {
-      $password = trim($data['password']);
-      $newPassword = trim($data['newPassword']);
-      $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id]);
-      $currentPasswordHash = $currentPassword[0]->password;
+      $password = $data['password'];
+      $newPassword = $data['newPassword'];
+      // $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id]);
+      $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id])[0]->password;
+      
+      // if (!empty($newPassword)) {
+      //    if (!password_verify($password, $currentPassword)) {
+      //       $this->errors['password'] = "Current password is incorrect";
+      //       return;
+      //    }
+      //    $data['password'] = ($newPassword);
+      // } else {
+      //    $data['password'] = $currentPassword;
+      // }
+
       if (!empty($newPassword)) {
-         if (!password_verify($password, $currentPasswordHash)) {
+         if ($password !== $currentPassword) {
             $this->errors['password'] = "Current password is incorrect";
             return;
          }
-         $data['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+         $data['password'] = $newPassword;
       } else {
-         $data['password'] = $currentPasswordHash;
+         $data['password'] = $currentPassword;
       }
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 

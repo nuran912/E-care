@@ -19,11 +19,17 @@
 
       </div>
     </div>
-    <?php if (!empty($data['success'])) : ?>
-      <div class="error" style="color: green;"><?php echo $data['success']; ?></div>
-    <?php endif; ?>
+
+
+   
+
+    <div class="form-container">
+
       <div class="patientprofileform">
-        <h4><span id="titleform">Hello! <?php echo $_SESSION['USER']->name; ?> This is Your Current Personal Details</span></h4>
+      <?php if (!empty($data['success'])) : ?>
+      <div class="success" ><?php echo $data['success']; ?></div>
+    <?php endif; ?>
+        <h4><span id="titleform">Hello! This is Your Current Personal Details</span></h4>
         <form method="POST">
           <div class="form-group">
             <label for="firstname">Full Name :</label>
@@ -51,13 +57,13 @@
               <div class="error"><?php echo $errors['NIC']; ?></div>
             <?php endif; ?>
           </div>
-            <div class="form-group">
+          <div class="form-group">
             <label for="password">Current Password :</label>
             <input type="password" id="password" name="password" placeholder="Enter your current password" value="">
             <?php if (!empty($errors['password'])) : ?>
               <div class="error"><?php echo $errors['password']; ?></div>
             <?php endif; ?>
-            </div>
+          </div>
           <div class="form-group">
             <label for="new-password">New Password :</label>
             <input type="password" id="new-password" name="newPassword" placeholder="Enter your new password" value="">

@@ -15,7 +15,7 @@
         <div class="container">
             <div class="profile-card">
                 <div class="profile-image">
-                    <img src="../assets/profilepic.png" alt="">
+                    <img src="<?=ROOT;?>/assets/img/profilepic-img/profilepic.svg" alt="doctor profile">
                 </div>
                 <div class="profile-info">
                     <h6><?= $gender?></h6>
@@ -23,9 +23,9 @@
                     <h5 class="specialization"><?= is_array($specialization) ? join(", ", $specialization) : $specialization ?></h5>
                     
                 </div>
-                <a href="<?php echo ROOT; ?>/DoctorAvailableTimes?id=<?= $doctorId ?>">
+                <!-- <a href="<?php echo ROOT; ?>/DoctorAvailableTimes?id=<?= $doctorId ?>">
                 <button class="channel-now-btn">Channel Now</button>
-            </a>
+            </a> -->
             </div>
 
             <div class="details-card">

@@ -22,8 +22,8 @@ class Hospital
         $params = ['id' => $hospitalId];
         return $this->query($query, $params, true);
     }
-public function getAll()
-{
+    public function getAll()
+    {
         $query = "SELECT * FROM $this->table";
         return $this->query($query);
     }

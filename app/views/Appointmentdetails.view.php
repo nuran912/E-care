@@ -14,7 +14,7 @@
             <h2>Enter Patient's Details...</h2>
             <div id="patientForm">
                 <div class="form-row">
-                    <div class="form-group title-group">
+                <div class="form-group title-group">
                         <label for="title">Title</label>
                         <span id="idError" class="error-message"></span>
                         <select id="title" name="title" required>

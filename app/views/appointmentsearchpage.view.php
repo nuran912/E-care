@@ -70,6 +70,8 @@
         <div class="results">
             <h2><?php echo empty($doctorResults) ? "No" : count($doctorResults) ?> Doctor(s) found!</h2>
             <div class="card-list">
+            
+                <?php if (isset($doctorResults) && is_array($doctorResults)): ?>
                 <?php foreach ($doctorResults as $doc) : ?>
                     <div class="card">
                         <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
@@ -96,6 +98,10 @@
                         </a>
                     </div>
                 <?php endforeach; ?>
+            <?php else : ?>
+                <div class="no-results">No results matched.</div>
+            <?php endif; ?>
+
             </div>
         </div>
     <?php endif; ?>

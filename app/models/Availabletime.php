@@ -22,21 +22,20 @@ class Availabletime
     public $order_column = 'date';
 
 
-    public function getByDoctorId($doctorId,$date=null,$hospitalId=null)
+    public function getByDoctorId($doctorId, $date = null, $hospitalId = null)
     {
         $query = "SELECT * FROM $this->table WHERE doctor_id = :doctor_id";
         $params = ['doctor_id' => $doctorId];
 
-        if($date){
+        if ($date) {
             $query .= " AND date = :date";
             $params['date'] = $date;
         }
-        if($hospitalId){
+        if ($hospitalId) {
             $query .= " AND hospital_id = :hospital_id";
             $params['hospital_id'] = $hospitalId;
         }
         return $this->query($query, $params);
     }
-    
 }
 ?>

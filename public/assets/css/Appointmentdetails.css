@@ -126,11 +126,7 @@ option {
 
 .optional-message {
   font-size: 14px;
-  color: rgb(
-    235,
-    162,
-    162
-  ); /* Set the color to light red with maximum transparency */
+  color: rgb(235,162,162 ); /* Set the color to light red with maximum transparency */
   margin-top: 5px;
 }
 /* Checkbox Section Styles */
@@ -273,8 +269,8 @@ option {
 }
 
 .warning-text {
-  color: #e74c3c; /* Red color */
-  font-weight: bold;
+  color:   rgb(235,162,162 ); /* Red color */
+  font-weight: bold ;
 }
 
 /*js file css validation*/

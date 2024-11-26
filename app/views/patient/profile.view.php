@@ -29,7 +29,7 @@
       <?php if (!empty($data['success'])) : ?>
       <div class="success" ><?php echo $data['success']; ?></div>
     <?php endif; ?>
-        <h4><span id="titleform">Hello! This is Your Current Personal Details</span></h4>
+        <h4><span id="titleform"> This is Your Current Personal Details</span></h4>
         <form method="POST">
           <div class="form-group">
             <label for="firstname">Full Name :</label>
@@ -51,7 +51,7 @@
           </div>
           <div class="form-group">
             <label for="nic">NIC/Passport :</label>
-            <input type="text" id="nic" name="nic" placeholder="Enter your NIC number" pattern="^[0-9]{9}[vVxX]$|^[0-9]{12}$" title="Please enter a valid NIC or Passport number"
+            <input type="text" id="nic" name="nic" placeholder="Enter your NIC number" pattern="^(?:[0-9]{9}[vVxX]|[0-9]{12})$"  title="Please enter a valid NIC or Passport number"
               value="<?php echo $_SESSION['USER']->NIC; ?>">
             <?php if (!empty($errors['NIC'])) : ?>
               <div class="error"><?php echo $errors['NIC']; ?></div>

@@ -48,11 +48,11 @@
                     <label>ID Type</label>
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="nic" name="idType" pattern="[0-9]{10}" required value="nic" checked>
+                            <input type="radio" id="nic" name="idType"  required value="nic" checked>
                             <label for="nic">NIC</label>
                         </div>
                         <div class="radio-item">
-                            <input type="radio" id="passport" name="idType" pattern="[NP][0-9]{7}" required value="passport">
+                            <input type="radio" id="passport" name="idType"  required value="passport">
                             <label for="passport">Passport</label>
                         </div>
                     </div>
@@ -60,9 +60,10 @@
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
-                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required>
+                    <input type="text" id="idNumber" placeholder="Enter Nic number"   name="NicOrPassport" required>
                     <span id="idError" class="error-message"></span>
                 </div>
+                
 
                 <div class="form-group">
                     <label>Address <small class="optional-message">(optional)</small></label>
@@ -108,7 +109,7 @@
                     <p><strong>Session date:</strong> <?= $appointmentDetails['session_date'] ?? 'Not Available' ?></p>
                     <p><strong>Session time:</strong> <?= $appointmentDetails['session_time'] ?? 'Not Available' ?></p>
                     <p><strong>Appointment no:</strong> <?= $appointmentDetails['appointment_number'] ?? 'Not Available' ?></p>
-                    <p class="warning">Your appointment session time is <?= $appointmentDetails['patient_appointment_time'] ?? 'Not Available' ?>. This time is depending on the time spend with patient ahead of you</p>
+                    <p class="warning">Your appointment session time <span style="color:  rgb(235,162,162 );"><?= $appointmentDetails['patient_appointment_time'] ?? 'Not Available' ?></span>. This time is depending on the time spend with patient ahead of you</p>
                 </div>
             </div>
 

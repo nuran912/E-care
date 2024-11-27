@@ -9,15 +9,18 @@
 <body>
     <div class="profile-container">
         <div class="profile-header">
-            <img src="/path/to/profile-image.jpg" alt="Profile Image">
-            <h2>Admin Name</h2>
+            <img src="<?php echo ROOT ?>/assets/img/user.svg" alt="Profile Image">
+            <div>
+                <h2>Admin Jane</h2>
+                <h5>ADMIN</h5>
+            </div>
         </div>
         <div class="profile-section">
             <h3>Personal Details</h3>
-            <form>
+            <form method="POST">
                 <div class="form-group">
                     <label for="full-name">Full Name</label>
-                    <input type="text" id="full-name" name="full-name" value="Admin Name">
+                    <input type="text" id="full-name" name="full-name" value="Admin Jane">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -39,7 +42,7 @@
         </div>
         <div class="profile-section">
             <h3>Change Password</h3>
-            <form>
+            <form method="POST">
                 <div class="form-group">
                     <label for="current-password">Current Password</label>
                     <input type="password" id="current-password" name="current-password">

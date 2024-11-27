@@ -1,10 +1,10 @@
-<!-- doctorprofile.php -->
+
 <?php
-class DoctorProfile extends Controller
-{
-    public function index($a = '', $b = '', $c = '')
-    {
+
+class DoctorProfile extends Controller {
+    public function index($a = '', $b = '', $c = '') {
         $this->view('header');
+<<<<<<< HEAD:app/controllers/DoctorProfilecard.php
         $doctorModel = new Doctor();
 
         $id = $_GET["id"];
@@ -38,6 +38,9 @@ class DoctorProfile extends Controller
         ];
 
         $this->view('doctorProfilecard', $data);
+=======
+        $this->view('doctorProfile');
+>>>>>>> a4c0796abf574093a111e8f9522e48a34019663a:app/controllers/DoctorProfile.php
         $this->view('footer');
     }
 }

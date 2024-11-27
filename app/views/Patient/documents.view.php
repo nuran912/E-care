@@ -76,8 +76,8 @@
                         <div class="upload-container">
                             <div class="upload-document">
                                 <form method="POST" enctype="multipart/form-data">
-                                    <input type="hidden" name="user_id" value="1">
-                                    <input type="hidden" name="uploaded_by" value="1">
+                                    <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
+                                    <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                     <input type="hidden" name="document_type" value="private">
                                     <input type="file" id="real-file" name="real-file" hidden="hidden" accept=".pdf,.png,.jpg,.jpeg">
                                     <button type="button" id="custom-button">Choose a Document</button>
@@ -109,7 +109,7 @@
                                             </div>
                                         </div>
 
-                                        <form method="POST">
+                                        <form method="POST" onsubmit="return confirmDelete();">
                                             <input type="hidden" name="document_id" value="<?php echo htmlspecialchars($document['document_id']) ?>">
                                             <input type="hidden" name="document_name" value="<?php echo htmlspecialchars($document['document_name']) ?>">
                                             <button type="submit" name="delete" class="private-delete-button">Delete</button>
@@ -128,6 +128,13 @@
                     </div>
       
             </div>
+
+            <script>
+                //delete confirmation box
+                function confirmDelete() {
+                    return confirm("Are you sure you want to delete this file?");
+                }
+            </script>
 
             <script src="<?= ROOT; ?>/assets/js/Patient/Documents.js"></script>
         </main>

@@ -1,3 +1,4 @@
+
 <?php
 
 class DoctorProfile extends Controller {
@@ -7,4 +8,3 @@ class DoctorProfile extends Controller {
         $this->view('footer');
     }
 }
-

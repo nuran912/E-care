@@ -8,7 +8,7 @@ trait Model
    public $limit = 10;
    protected $offset = 0;
    // public $order_column = 'user_id';
-   protected $order_type = 'asc';
+   // protected $order_type = 'asc';
    public $errors = [];
 
    public function findAll()

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr Pending Appt</title>
+    <title>Doctor Pending Appointments</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@
             justify-content: space-around;
             align-items: center;
             margin: 7.5%;
-            padding: 5%;
+            padding: 5.5%;
             background-color: #ffffff;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
@@ -26,7 +26,7 @@
             flex-direction: row;
             justify-content: center;
             border-bottom: 2px solid #d1c9c9;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             width: 100%;
         }
         .tab{
@@ -37,13 +37,14 @@
         }
         .tab.active{
             color: #003366;
-            border-bottom: 3px solid #003366;
+            border-bottom: 3px solid #0E2F56;
             font-weight: bold;
         }
         .tab a{
             text-decoration: none;
             color: #003366;
         }
+        
         .appointments{
             width: 100%;
             display: flex;
@@ -57,6 +58,7 @@
             display: flex;
             flex-direction: row;
             justify-content: space-around;
+            align-items: center;
             border: 2px solid #ada8a8;
             border-radius: 6px;
             padding: 25px  5px;
@@ -69,45 +71,44 @@
             background-color: #ebe0e0;
             font-weight: bold;
         }
-        .buttons{
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            justify-content: center;
-        }
         .view{
             background: rgb(88, 223, 250);
             border: none;
             border-radius: 4px;
             font-weight: bold;
             font-size: medium;
+            padding: 5px;
+            align-self: center;
         }
-        .cancel{
-            background: rgb(250, 65, 65);
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size:medium
+        .set {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
     </style>
 </head>
 <body>
     <div class="container">
         <div class="tabs">
-            <div class="tab active">Pending Appointments</div>
-            <div class="tab"><a href="./doctorPastAppt">Past Appointments</a></div>
+            <div class="tab"><a href="./clerkUploadDoc">Upload Document</a></div>
+            <div class="tab active">Work Log</div>
         </div>
         <div class="appointments">
             <div class="date"> &nbsp&nbsp88 / 88 / 8888</div>
             <div class="apptInfo">
-                <div class="item">Patient Name</div>
-                <div class="item">reference Number</div>
-                <div class="item">Time</div>
-                <div class="buttons">
-                    <button class="view">View</button>
-                    <button class="cancel">Cancel</button>
+                <div class="set">
+                    <h4>Patient ID</h4>
+                    <div class="item">Patient ID</div>
                 </div>
+                <div class="set">
+                    <h4>Reference Number</h4>
+                    <div class="item">Reference Number</div>
+                </div>
+                <div class="set">
+                    <h4>Category</h4>
+                    <div class="item">Category</div>
+                </div>
+                <button class="view">View</button>
             </div>
         </div>
     </div>

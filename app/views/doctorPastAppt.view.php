@@ -13,7 +13,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            align-items: flex-start;
+            align-items: center;
             margin: 7.5%;
             padding: 5%;
             background-color: #ffffff;
@@ -37,7 +37,12 @@
         }
         .tab.active{
             color: #003366;
-            border-bottom: 3px solid #003366;
+            border-bottom: 3px solid #0E2F56;
+            font-weight: bold;
+        }
+        .tab a{
+            text-decoration: none;
+            color: #003366;
         }
         .appointments{
             width: 100%;
@@ -77,12 +82,13 @@
             font-weight: bold;
             font-size: medium;
         }
+        
     </style>
 </head>
 <body>
     <div class="container">
         <div class="tabs">
-            <div class="tab">Pending Appointments</div>
+            <div class="tab"><a href="./doctorPendingAppt">Pending Appointments</a></div>
             <div class="tab active">Past Appointments</div>
         </div>
         <div class="appointments">

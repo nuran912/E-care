@@ -45,25 +45,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   const nicPattern = "([0-9]{12}|[0-9]{9}[vV])";
   const passportPattern = "[NP][0-9]{7}";
-  const idNumberInput = document.getElementById('idNumber');
-  const nicRadio = document.getElementById('nic');
-  const passportRadio = document.getElementById('passport');
+  const idNumberInput = document.getElementById("idNumber");
+  const nicRadio = document.getElementById("nic");
+  const passportRadio = document.getElementById("passport");
 
   function updatePattern() {
-      if (nicRadio.checked) {
-          idNumberInput.setAttribute('pattern', nicPattern);
-          idNumberInput.setAttribute('placeholder', 'Enter NIC number');
-      } else if (passportRadio.checked) {
-          idNumberInput.setAttribute('pattern', passportPattern);
-          idNumberInput.setAttribute('placeholder', 'Enter Passport number');
-      }
+    if (nicRadio.checked) {
+      idNumberInput.setAttribute("pattern", nicPattern);
+      idNumberInput.setAttribute("placeholder", "Enter NIC number");
+    } else if (passportRadio.checked) {
+      idNumberInput.setAttribute("pattern", passportPattern);
+      idNumberInput.setAttribute("placeholder", "Enter Passport number");
+    }
   }
 
-  nicRadio.addEventListener('change', updatePattern);
-  passportRadio.addEventListener('change', updatePattern);
+  nicRadio.addEventListener("change", updatePattern);
+  passportRadio.addEventListener("change", updatePattern);
 
   // Initialize pattern on page load
   updatePattern();

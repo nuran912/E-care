@@ -24,7 +24,7 @@ class Processpayment extends Controller
             $sessionTime = $_POST['session_time'] ?? '';
             $appointmentNumber = $_POST['appointment_number'] ?? '';
             $doctorid = $_POST['doctor_id'] ?? '';
-            $total_fee=$_POST['total_fee'] ?? '';
+            $total_fee = $_POST['total_fee'] ?? '';
 
             $data = [
                 // 'title' => $title,
@@ -39,7 +39,7 @@ class Processpayment extends Controller
                 'appointment_number' => $appointmentNumber,
                 'doctor_id' => $doctorid,
                 'user_id' => isset($_SESSION['USER']) ? $_SESSION['USER']->user_id : 'NULL',
-                'total_fee'=>$total_fee
+                'total_fee' => $total_fee
             ];
         }
 

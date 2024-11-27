@@ -7,6 +7,7 @@
             $this->view('header');
 
             $document = new Document;
+            $document->setOrder('desc');
 
             //insert a private file
             if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {

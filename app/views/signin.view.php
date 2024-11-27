@@ -1,4 +1,5 @@
 <?php
+
 if (!isset($errors)) {
    $errors = [];
 }
@@ -21,7 +22,7 @@ if (!isset($errors)) {
 
       <h1>Welcome to E-Care by Union Hospital</h1>
       <?php if (!empty($errors['email'])) : ?>
-            <div class="error"><?php echo $errors['email']; ?></div>
+         <div class="error"><?php echo $errors['email']; ?></div>
       <?php endif; ?>
 
       <div class="container">
@@ -54,11 +55,11 @@ if (!isset($errors)) {
          </form>
 
          <p class="noAccount">Don't have an account? <a href="<?php echo ROOT ?>/Signin">Sign Up</a></p>
-         
+
       </div>
-      
+
    </div>
-   
+
 </body>
 
 </html>

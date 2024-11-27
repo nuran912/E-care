@@ -1,6 +1,7 @@
 <?php
 
-class InsuranceCompany {
+class InsuranceCompany
+{
    use Model;
 
    protected $table = 'insurancecompanies';

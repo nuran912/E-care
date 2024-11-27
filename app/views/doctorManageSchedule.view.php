@@ -116,7 +116,7 @@
 <body>
     <div class='container'>
         <h3>Create New Appointment Slot</h3>
-        <form class="createAppt">
+        <form class="createAppt" method="post" action="<?=ROOT?>/DoctorManageSchedule">
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>

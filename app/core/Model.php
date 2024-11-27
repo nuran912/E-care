@@ -4,16 +4,16 @@ Trait Model {
    use Database;
 
    // protected $table = 'users';
-   protected $limit = 10;
+   public $limit = 10;
    protected $offset = 0;
-   protected $order_column = 'user_id';
-   protected $order_type = 'asc';
+   // public $order_column = 'user_id';
+   // protected $order_type = 'asc';
+   public $errors = [];
 
    public function findAll(){
-      
       $query  = "SELECT * FROM $this->table ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
-
-      return $this->query($query);
+      $result = $this->query($query);
+      return json_decode(json_encode($result), true); // Convert object to array
    }
 
    public function where($data, $data_not = []){
@@ -47,9 +47,8 @@ Trait Model {
          $query .= "$key != :$key && ";
       }
       $query = rtrim($query, " && ");
-      $query .= "ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
+      $query .= " ORDER BY $this->order_column $this->order_type LIMIT 1";
 
-      // echo $query;
       $data = array_merge($data, $data_not);
       $result = $this->query($query, $data);
       if($result){
@@ -95,5 +94,11 @@ Trait Model {
       $this->query($query, $data);
       return false;
    } 
+
+   public function setLimit($limit) {
+      $this->limit = $limit;
+   }
+
+
 
 }

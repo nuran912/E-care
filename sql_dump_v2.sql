@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 19, 2024 at 05:42 PM
+-- Generation Time: Nov 11, 2024 at 09:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,6 +50,36 @@ INSERT INTO `appointments` (`appointment_id`, `user_id`, `doctor_id`, `schedule_
 (1, 1, 1, 1, '2024-09-20', '09:30:00', '10:00:00', 'scheduled', 'Patient has mild chest pain.', 101, '2024-09-19 12:10:44', '2024-09-19 12:10:44'),
 (2, 1, 1, 2, '2024-09-21', '14:30:00', '15:00:00', 'completed', 'Patient diagnosed with migraine.', 102, '2024-09-19 12:10:44', '2024-09-19 12:10:44'),
 (3, 1, 2, 3, '2024-09-22', '10:45:00', '11:15:00', 'scheduled', '', 103, '2024-09-19 12:10:44', '2024-09-19 12:10:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `articles`
+--
+
+CREATE TABLE `articles` (
+  `article_id` int(11) NOT NULL,
+  `image_url` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `content` text NOT NULL,
+  `publish_date` date NOT NULL,
+  `views` int(11) DEFAULT 0,
+  `author_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `articles`
+--
+
+INSERT INTO `articles` (`article_id`, `image_url`, `title`, `category`, `description`, `content`, `publish_date`, `views`, `author_id`, `created_at`, `updated_at`) VALUES
+(2, 'https://example.com/images/article2.jpg', 'The Future of AI in Healthcare', 'Healthcare', 'How AI is transforming the healthcare industry and what to expect in the future.', 'Artificial Intelligence is revolutionizing healthcare in ways we never imagined...', '2024-11-04', 0, 4, '2024-11-11 08:48:58', '2024-11-11 08:53:00'),
+(4, 'https://example.com/images/article1.jpg', 'The Role of Digital Health in Modern Healthcare Systems', 'Health System', 'An overview of how digital health solutions are reshaping healthcare delivery.', 'Digital health encompasses a wide range of technologies, from telemedicine to electronic health records, enabling more efficient, accessible healthcare. This article discusses how these systems improve patient care, streamline hospital operations, and reduce healthcare costs...', '2024-11-04', 0, 4, '2024-11-11 08:52:22', '2024-11-11 08:53:12'),
+(5, 'https://example.com/images/article2.jpg', 'How Data Analytics is Improving Hospital Management', 'Health System', 'Exploring how data-driven insights help hospitals optimize their operations and improve patient outcomes.', 'Data analytics enables hospitals to make informed decisions based on patient demographics, treatment effectiveness, and operational performance. With the implementation of data analytics tools, health systems can enhance resource allocation, predict patient needs, and improve overall efficiency...', '2024-11-04', 0, 4, '2024-11-11 08:52:22', '2024-11-11 08:53:22'),
+(6, 'https://example.com/images/article3.jpg', 'The Impact of AI on Health Systems Management', 'Health System', 'Examining the benefits of artificial intelligence in hospital management and patient care.', 'AI technologies, from machine learning algorithms to predictive analytics, are transforming health systems by assisting in diagnosis, optimizing workflows, and enhancing patient experiences. This article explores various AI applications within hospitals and the broader healthcare sector...', '2024-11-04', 0, 4, '2024-11-11 08:52:22', '2024-11-11 08:53:37');
 
 -- --------------------------------------------------------
 
@@ -143,18 +173,22 @@ CREATE TABLE `insurancecompanies` (
   `insurance_company_id` int(11) NOT NULL,
   `company_name` varchar(255) NOT NULL,
   `website_link` varchar(255) DEFAULT NULL,
-  `contact_info` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `email` varchar(255) NOT NULL,
+  `number` varchar(12) NOT NULL,
+  `logo` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `insurancecompanies`
 --
 
-INSERT INTO `insurancecompanies` (`insurance_company_id`, `company_name`, `website_link`, `contact_info`, `created_at`, `updated_at`) VALUES
-(1, 'HealthSecure Insurance', 'https://www.healthsecure.com', 'info@healthsecure.com, 123-456-7890', '2024-09-19 12:10:44', '2024-09-19 12:10:44'),
-(2, 'WellCare Insurance', 'https://www.wellcare.com', 'support@wellcare.com, 987-654-3210', '2024-09-19 12:10:44', '2024-09-19 12:10:44');
+INSERT INTO `insurancecompanies` (`insurance_company_id`, `company_name`, `website_link`, `created_at`, `updated_at`, `email`, `number`, `logo`) VALUES
+(1, 'Allianz Lanka', 'https://www.allianz.lk', '2024-09-19 12:10:44', '2024-11-11 08:31:10', 'info@allianz.com', '123-456-7890', 'http://localhost/E-care/public/assets/img/home-img/insurance/allianz.svg'),
+(2, 'Softlogic Life', 'https://www.softlogic.com', '2024-09-19 12:10:44', '2024-11-11 08:31:43', 'support@softlogic.com', '987-654-3210', 'http://localhost/E-care/public/assets/img/home-img/insurance/softlogic.svg'),
+(3, 'Ceylinco Life', 'https://ceylincolife.lk', '2024-11-10 10:47:28', '2024-11-11 08:32:14', 'health@ceylinco.com', '123-456-7898', 'http://localhost/E-care/public/assets/img/home-img/insurance/ceylinco.svg'),
+(4, 'AIA Sri Lanka', 'https://aia.lk', '2024-11-10 10:48:56', '2024-11-11 08:33:08', 'health@aialk.com', '987-654-3218', 'http://localhost/E-care/public/assets/img/home-img/insurance/aia.svg');
 
 -- --------------------------------------------------------
 
@@ -236,7 +270,8 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `phone_number`, `NI
 (1, 'John Doe', 'john.doe@example.com', 'hashedpassword1', '123-456-7890', '123456789V', 'patient', 1, '2024-09-19 12:10:43', '2024-09-19 12:10:43'),
 (2, 'Dr. Alice Smith', 'alice.smith@example.com', 'hashedpassword2', '098-765-4321', '987654321V', 'doctor', 1, '2024-09-19 12:10:43', '2024-09-19 12:10:43'),
 (3, 'Lab Clerk Bob', 'bob.clerk@example.com', 'hashedpassword3', '321-654-0987', '654987321V', 'lab_clerk', 1, '2024-09-19 12:10:43', '2024-09-19 12:10:43'),
-(4, 'Admin Jane', 'jane.admin@example.com', 'hashedpassword4', '555-123-4567', '112233445V', 'admin', 1, '2024-09-19 12:10:43', '2024-09-19 12:10:43');
+(4, 'Admin Jane', 'jane.admin@example.com', 'hashedpassword4', '555-123-4567', '112233445V', 'admin', 1, '2024-09-19 12:10:43', '2024-09-19 12:10:43'),
+(7, 'Michael John', 'michael.johnson@example.com', 'hashpass7', '321-654-0987', '556677889V', 'reception_clerk', 1, '2024-11-04 09:08:48', '2024-11-04 09:12:38');
 
 --
 -- Indexes for dumped tables
@@ -250,6 +285,13 @@ ALTER TABLE `appointments`
   ADD KEY `user_id` (`user_id`),
   ADD KEY `doctor_id` (`doctor_id`),
   ADD KEY `schedule_id` (`schedule_id`);
+
+--
+-- Indexes for table `articles`
+--
+ALTER TABLE `articles`
+  ADD PRIMARY KEY (`article_id`),
+  ADD KEY `author_id` (`author_id`);
 
 --
 -- Indexes for table `doctors`
@@ -315,6 +357,12 @@ ALTER TABLE `appointments`
   MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `articles`
+--
+ALTER TABLE `articles`
+  MODIFY `article_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `doctors`
 --
 ALTER TABLE `doctors`
@@ -336,7 +384,7 @@ ALTER TABLE `insuranceclaims`
 -- AUTO_INCREMENT for table `insurancecompanies`
 --
 ALTER TABLE `insurancecompanies`
-  MODIFY `insurance_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `insurance_company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -354,7 +402,7 @@ ALTER TABLE `schedules`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -367,6 +415,12 @@ ALTER TABLE `appointments`
   ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`doctor_id`) REFERENCES `doctors` (`doctor_id`),
   ADD CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`schedule_id`);
+
+--
+-- Constraints for table `articles`
+--
+ALTER TABLE `articles`
+  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `users` (`user_id`);
 
 --
 -- Constraints for table `doctors`

@@ -1,0 +1,130 @@
+/* for the whole page */
+.main-context {
+   font-family: 'Lucida Sans';
+   justify-content: center;
+   align-items: center;
+
+   height: 100vh; /* Added */
+}
+
+/* for the whole sign in form */
+.container {    
+   justify-content: center;
+   align-items: center;
+   padding: 20px;
+   
+   margin: auto; /* Modified */
+   border-radius: 10px;
+   border: 2px solid #0E2F56;
+   width: 400px;
+}
+
+/* for the h2 tag */
+h1 {
+   text-align: center;
+   margin-top: 100px;
+   margin-bottom: 50px;
+   color: #0E2F56;
+}
+
+/* for the h3 tag */
+h3 {
+   margin-top: 10px;
+   margin-bottom: 20px;
+}
+
+/* for the p tag */
+.signIntext {
+   color: #333;
+   margin-bottom: 10px;
+}
+
+/* for the labels */
+label {
+   font-size: 14px;
+   color: #333;
+   margin-bottom: 5px;
+}
+
+/* for email and password textboxes */
+.email , .password {
+   padding: 10px;
+   border: 1px solid #CED4DA;
+   border-radius: 10px;
+   font-size: 17px;
+   background-color: #f8f8f8;
+}
+
+/* for email and password labels and textboxes */
+.form-group {
+   display: flex;
+   flex-direction: column;
+   flex: 1;
+   margin-left: 5px;
+   margin-right: 5px;
+   margin-bottom: 20px;
+}
+
+/* for keep me signed in checkbox */
+.signedIncheckbox {
+   margin-left: 30px;
+}
+
+/* for keep me signed in statement */
+.signedInstatement {
+   margin-left: 6px;
+   margin-top: 7px;
+}
+
+/* focus on textboxes mouse point clicks on them */
+input:focus {
+   outline: none;
+   border-color: #174ea6;
+}
+
+/* for the sign in button */
+.signInBtn {
+   width: 200px;
+   padding: 10px;
+   background-color: #28a745;
+   border: none;
+   border-radius: 5px;
+   color: #fff;
+   font-size: 16px;
+   cursor: pointer;
+   margin: 20px auto;
+   display: block;
+}
+
+.signInBtn:hover {
+   background-color: #218838;
+}
+
+.noAccount {
+   margin: auto; 
+   text-align: center; 
+}
+
+a {
+   text-decoration: none;
+   color: blue;
+}
+
+.error {
+   position:relative;
+   background-color: white;
+   color: red;
+   border: 3px red solid;
+   padding: 20px 20px;
+   border-radius: 10px;
+   font-size: 14px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   width: 200px;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   margin: auto;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   /* z-index: 1000; */
+}

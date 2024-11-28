@@ -6,7 +6,7 @@
     <title>Doctor Profile</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             background-color: #f3f6fa;
             margin: 0;
             padding: 0;

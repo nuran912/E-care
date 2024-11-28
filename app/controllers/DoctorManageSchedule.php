@@ -48,11 +48,11 @@ class DoctorManageSchedule extends Controller{
         // show( $_POST['hospital']);
         $hospital = $hospital->first($data);
         // show($hospital->id);
-
+        show($_POST);
         $data['date'] = $_POST['date'];
         $data['start_time'] = $_POST['time'];
         $data['duration'] = $_POST['duration'];
-        $data['doctor_fee'] = $_POST['fee'];
+        // $data['doctor_fee'] = $_POST['fee'];
         $data['hospital_id'] = $hospital->id;
         $data['total_slots'] = $_POST['count'];
         $data['doctor_id'] = $_SESSION['USER']->user_id;

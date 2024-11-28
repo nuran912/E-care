@@ -164,15 +164,19 @@
 <body>
     <div class='container'>
         <h3>Create New Appointment Slot</h3>
-        <form class="createAppt" method="post" action="<?=ROOT?>/DoctorManageSchedule/create">
+        <form class="createAppt" method="POST" action="<?=ROOT?>/DoctorManageSchedule/create">
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
                     <input type="date" id="date" name="date">
                 </div>
-                <div class="item">
+                <!-- <div class="item">
                     <label for="time">&nbsp&nbspTime</label>
                     <input type="time" id="time" name="time">
+                </div> -->
+                <div class="item">
+                    <label for="count">&nbsp&nbspNo. of patients</label>
+                    <input type="text" id="count" name="count" placeholder="Enter number of patients">
                 </div>
             </div>
             <div class="form-group">
@@ -180,9 +184,13 @@
                     <label for="duration">&nbsp&nbspDuration of slot(hours)</label>
                     <input type="text" id="duration" name="duration">
                 </div>
-                <div class="item">
+                <!-- <div class="item">
                     <label for="fee">&nbsp&nbspAppointment fee</label>
                     <input type="text" id="fee" name="fee">
+                </div> -->
+                <div class="item">
+                    <label for="time">&nbsp&nbspTime</label>
+                    <input type="time" id="time" name="time">
                 </div>
             </div>
             <div class="form-group">
@@ -194,10 +202,10 @@
                         <option value="UNION SURGICAL">Union Surgical Hospital</option>
                     </select>
                 </div>
-                <div class="item">
+                <!-- <div class="item">
                     <label for="count">&nbsp&nbspNo. of patients</label>
                     <input type="text" id="count" name="count" placeholder="Enter number of patients">
-                </div>
+                </div> -->
             </div>
             <div class="form-footer">
                 <button type="submit">Create Slot</button>

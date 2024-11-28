@@ -85,7 +85,7 @@ main {
 
 .record {
     display: grid;
-    grid-template-columns: 1fr 100px 100px;
+    grid-template-columns: 2fr 1.5fr 1fr;
     gap: 10px;
     padding: 20px;
     border: 1px solid #ccc;
@@ -113,6 +113,10 @@ main {
     text-align: center;
     border-radius: 4px;
     border: 1px solid #888;
+}
+
+.record .ref-no {
+    white-space: nowrap;
 }
 
 .view-button, .private-view-button, .private-edit-button, .private-delete-button {

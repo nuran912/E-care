@@ -38,9 +38,9 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Doctor">Doctor</a></button> -->
                <card>
                   <h4>Doctor Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Doctor/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Doctor/appointment">Manage Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Doctor/schedule">Manage Schedules</a></p>
+                  <p><a href="<?php echo ROOT ?>/DoctorProfile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/DoctorPendingAppt">Manage Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/DoctorManageSchedule">Manage Schedules</a></p>
                   
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

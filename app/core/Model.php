@@ -7,7 +7,7 @@ Trait Model {
    public $limit = 10;
    protected $offset = 0;
    // public $order_column = 'user_id';
-   protected $order_type = 'asc';
+   public $order_type = 'asc';
    public $errors = [];
 
    public function findAll(){
@@ -97,6 +97,14 @@ Trait Model {
 
    public function setLimit($limit) {
       $this->limit = $limit;
+   }
+
+   public function setOffset($offset) {
+      $this->offset = $offset;
+   }
+
+   public function setOrder($type) {
+      $this->order_type = $type;
    }
 
 

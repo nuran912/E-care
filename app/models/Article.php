@@ -19,5 +19,5 @@ class Article {
       'updated_at'
    ];
 
-   public $order_column = 'publish_date';
+   public $order_column = 'created_at';
 }

@@ -115,7 +115,7 @@ if (!isset($errors)) {
 
                 <div class="form-row">
                     <input type="checkbox" name="terms" class="terms">
-                    <label for="" class="termsagreement">I agree to the <a href="#" class="termsConditions">terms and conditions</a></label>
+                    <label for="" class="termsagreement">I agree to the <a href="<?= ROOT ?>/termsAndConditions" class="termsConditions">terms and conditions</a></label>
                     <?php if (!empty($errors['terms'])) : ?>
                         <div class="error" style="margin-left: 20px;"><br><?php echo $errors['terms']; ?></div>
                     <?php endif; ?>

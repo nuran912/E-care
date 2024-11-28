@@ -1,5 +1,5 @@
-<p>Payment Gateway</p>
-<p>Redirecting in <span id="countdown">5</span> seconds...</p>
+<h2>Payment Gateway</h2>
+<h4>Redirecting in <span id="countdown">5</span> seconds...</h4>
 <script>
     var seconds = 5;
     var countdown = document.getElementById('countdown');

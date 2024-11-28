@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/Doctorprofilepage.css">
+    <!-- <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/Doctorprofilepage.css"> -->
     <title>Doctor Profile</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             background-color: #f3f6fa;
             margin: 0;
             padding: 0;
@@ -145,7 +145,7 @@
                 </div>
                 <div class="info">
                     <label for="empId">Registration Number:</label>
-                    <input type="text" name="registration_number" id="empId" placeholder="Enter your employee ID" value="<?= $data[0]->registration_number ?>">
+                    <input type="text" name="registration_number" id="empId" placeholder="Enter your registration ID" value="<?= $data[0]->registration_number ?>">
                 </div>
                 <div class="info">
                     <label for="specialization">Specialization :</label>
@@ -169,7 +169,7 @@
                 </div>
                 <!-- <div class="info">
                     <label for="password">Password :</label>
-                    <input type="password" name="password" id="password" placeholder="******" value="<?= $data[1]->password ?>">
+                    <input type="password" name="password" id="password" placeholder="**" value="<?= $data[1]->password ?>">
                 </div>
                 <div class="info">
                     <label for="newpassword">New Password :</label>

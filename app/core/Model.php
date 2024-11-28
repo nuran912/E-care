@@ -99,12 +99,8 @@ Trait Model {
       $this->limit = $limit;
    }
 
-   public function setOffset($offset) {
-      $this->offset = $offset;
-   }
-
-   public function setOrder($type) {
-      $this->order_type = $type;
+   public function setOrder($order) {
+      $this->order_type = $order;
    }
 
 

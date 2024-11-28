@@ -28,8 +28,8 @@ class DoctorProfile extends Controller {
         // show($userData->user_id);
         // show($_POST);
         
-        $doctor->update($doctorData->id, $_POST, 'user_id');
+        $doctor->update($doctorData->id, $_POST, 'id');
         $user->updateDoctorDetails($userData->user_id, $_POST, 'user_id');
-        redirect('/doctorprofile');
+        redirect('DoctorProfile');
     }
 }

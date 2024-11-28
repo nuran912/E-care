@@ -127,7 +127,7 @@
         <!-- Profile Card Section -->
         <div class="profileCard">
             <div class="profilePic">
-                <img src="https://via.placeholder.com/150" alt="Profile Picture">
+                <img src="" alt="Profile Picture">
             </div>
             <div class="profileDesc">
                 <h3>Dr. John Doe</h3>

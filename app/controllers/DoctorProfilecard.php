@@ -1,8 +1,10 @@
 
 <?php
 
-class DoctorProfile extends Controller {
-    public function index($a = '', $b = '', $c = '') {
+class DoctorProfilecard extends Controller
+{
+    public function index($a = '', $b = '', $c = '')
+    {
         $this->view('header');
         $doctorModel = new Doctor();
 

@@ -15,13 +15,13 @@
         <div class="container">
             <div class="profile-card">
                 <div class="profile-image">
-                    <img src="<?=ROOT;?>/assets/img/profilepic-img/profilepic.svg" alt="doctor profile">
+                    <img src="<?= ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="doctor profile">
                 </div>
                 <div class="profile-info">
-                    <h6><?= $gender?></h6>
+                    <h6><?= $gender ?></h6>
                     <h2>Dr. <?= $name ?></h2>
                     <h5 class="specialization"><?= is_array($specialization) ? join(", ", $specialization) : $specialization ?></h5>
-                    
+
                 </div>
                 <!-- <a href="<?php echo ROOT; ?>/DoctorAvailableTimes?id=<?= $doctorId ?>">
                 <button class="channel-now-btn">Channel Now</button>
@@ -46,15 +46,15 @@
                             <span class="status-tick"><?= $practicing_government_hospitals ? '&#10003;' : '&#10007;' ?></span>
                         </div>
                     </div>
-                    </div>
+                </div>
 
-                    <div class="detail-item">
-                        <h3>Special Note</h3>
-                        <p><?= $special_note ?></p>
-                    </div>
+                <div class="detail-item">
+                    <h3>Special Note</h3>
+                    <p><?= $special_note ?></p>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </body>
 

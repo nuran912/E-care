@@ -5,7 +5,7 @@
 
         protected $table = 'documents';
         protected $order_column = "uploaded_at";
-        protected $order_type = 'desc';
+        // protected $order_type = 'desc';
 
         protected $allowedColumns = [
             'document_id',

@@ -42,6 +42,8 @@ class Patient extends Controller
 
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
 
+        
+
         $this->view('patient/appointments', $data);
 
         $this->view('footer');
@@ -162,6 +164,7 @@ class Patient extends Controller
 
             //retrieve the documents from the database
             $document->setLimit(50);
+            $document->setOrder('desc');
             $documents = $document->findAll();
 
             $data = [
@@ -173,6 +176,6 @@ class Patient extends Controller
             $this->view('footer');
         }
     }
-}
+
 
    

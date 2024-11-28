@@ -1,3 +1,9 @@
+body{
+   margin: 0;
+   padding: 0;
+   background-color: #f8f9fa;
+   font-family: 'Lucida Sans';
+}
 /* for the whole page */
 .main-context {
    font-family: 'Lucida Sans';

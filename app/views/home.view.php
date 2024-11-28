@@ -73,9 +73,9 @@
                     <h2>Union Health Network</h2>
                 </div>
                 <div>
-                    <button><a href="#">UNION MEDICAL</a></button>
-                    <button><a href="#">UNION CENTRAL</a></button>
-                    <button><a href="#">UNION SURGICAL</a></button>
+                    <button><a href="<?= ROOT ?>/Hospitals">UNION MEDICAL</a></button>
+                    <button><a href="<?= ROOT ?>/Hospitals">UNION CENTRAL</a></button>
+                    <button><a href="<?= ROOT ?>/Hospitals">UNION SURGICAL</a></button>
                 </div>
             </div>
             <div class="card">
@@ -84,9 +84,9 @@
                     <h2>Union Laboratories</h2>
                 </div>
                 <div>
-                    <button><a href="#">RAJAGIRIYA</a></button>
-                    <button><a href="#">BAMBALAPITIYA</a></button>
-                    <button><a href="#">DEHIWALA</a></button>
+                    <button><a href="<?= ROOT ?>/Laboratories">RAJAGIRIYA</a></button>
+                    <button><a href="<?= ROOT ?>/Laboratories">BAMBALAPITIYA</a></button>
+                    <button><a href="<?= ROOT ?>/Laboratories">DEHIWALA</a></button>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@
     <div class="channel">
         <h1>Your Well-being Starts Here</h1>
         <h3>Schedule Your Appointment Today!</h3>
-        <button>Channel Now</button>
+        <button><a href="<?= ROOT?>/appointmentsearchpage" style="text-decoration:none; color:aliceblue;">Channel Now</a></button>
     </div>
 
     <div class="insurance">

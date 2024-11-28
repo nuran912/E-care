@@ -9,7 +9,7 @@
 <body>
     <div class="main-container">
         <div class="welcome-section">
-            <h1>Welcome to Dr. <?= $doctor->name ?>'s Profile</h1>
+            <h1>Welcome to <?= $doctor->name ?>'s Profile</h1>
         </div>
 
         <div class="container">
@@ -19,7 +19,7 @@
                 </div>
                 <div class="profile-info">
                     <h6><?= $gender ?></h6>
-                    <h2>Dr. <?= $name ?></h2>
+                    <h2><?= $name ?></h2>
                     <h5 class="specialization"><?= is_array($specialization) ? join(", ", $specialization) : $specialization ?></h5>
 
                 </div>

@@ -5,7 +5,10 @@
 
         <style>
             body{
+                margin: 0;
+                padding: 0;
                 color: white;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             }
             .background{
                 background-image: url('<?php echo ROOT ?>/assets/img/Hospital-background.jpg');

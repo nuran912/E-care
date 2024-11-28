@@ -20,8 +20,10 @@ if (!isset($errors)) {
         <h1>Welcome to E-Care by Union Hospital</h1>
 
         <div class="container">
-            <center><h3>Register an Account</h3>
-            <p class="signUptext">Please fill the following form fields.</p></center>
+            <center>
+                <h3>Register an Account</h3>
+                <p class="signUptext">Please fill the following form fields.</p>
+            </center>
             <br />
 
             <form method="POST">
@@ -45,7 +47,7 @@ if (!isset($errors)) {
                         <?php endif; ?>
                     </div>
 
-                    
+
 
                 </div>
 
@@ -57,7 +59,7 @@ if (!isset($errors)) {
                         <?php if (!empty($errors['email'])) : ?>
                             <div class="error"><?php echo $errors['email']; ?></div>
                         <?php endif; ?>
-                    
+
                     </div>
 
                     <div class="form-group">

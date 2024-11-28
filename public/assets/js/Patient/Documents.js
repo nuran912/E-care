@@ -53,31 +53,3 @@ document.addEventListener("click", (event) => {
         }
     })
 })
-
-//delete confirmation box
-// const box = document.getElementById("confirmation-box");
-// const confirmDeleteButton = document.getElementById("confirm-delete");
-// const cancelDeleteButton = document.getElementById("cancel-delete");
-
-// document.querySelectorAll(".private-delete-button").forEach((deleteButton) => {
-//     deleteButton.addEventListener("click", (event) => {
-//         event.preventDefault();
-//         const form = this.closest("form");
-
-//         box.style.display = "flex";
-
-//         confirmDeleteButton.onclick = () => {
-//             form.submit();
-//         }
-
-//         cancelDeleteButton.onclick = () => {
-//             box.style.display = "none";
-//         }
-//     })
-// })
-
-// window.addEventListener("click",(event) => {
-//     if(event.target === box) {
-//         box.style.display = "none";
-//     }
-// })

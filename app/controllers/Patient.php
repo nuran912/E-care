@@ -34,16 +34,14 @@ class Patient extends Controller
     {
         $this->view('header');
 
-
-
-
         $doctorModel = new Doctor;
-
-
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
 
-        $this->view('patient/appointments', $data);
+        if (!is_array($data)) {
+            $data = [];
+        }
 
+        $this->view('patient/appointments', $data);
         $this->view('footer');
     }
 
@@ -162,6 +160,7 @@ class Patient extends Controller
 
             //retrieve the documents from the database
             $document->setLimit(50);
+            $document->setOrder('desc');
             $documents = $document->findAll();
 
             $data = [
@@ -172,7 +171,10 @@ class Patient extends Controller
 
             $this->view('footer');
         }
-    }
-}
 
-   
+        public function insuranceclaims($a = '',$b = '', $c = '') {
+            $this->view('header');
+            $this->view('Patient/insurance_claim');
+            $this->view('footer');
+        }
+    }

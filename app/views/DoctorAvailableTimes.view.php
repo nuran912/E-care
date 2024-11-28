@@ -25,7 +25,7 @@ $doctorId = $data['doctorId'];
             </div>
             <div class="doctor-name">Dr. <?php echo $doctor_name; ?></div>
             <div class="specialization"><?php echo isset($doctor_specialization) ? $doctor_specialization : 'Specialization not available'; ?></div>
-            <a href="<?php echo ROOT; ?>/DoctorProfile?id=<?= $doctorId ?>">
+            <a href="<?php echo ROOT; ?>/DoctorProfilecard?id=<?= $doctorId ?>">
                 <button class="view-profile-btn">View Profile</button>
             </a>
         </div>

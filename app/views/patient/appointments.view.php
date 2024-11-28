@@ -43,6 +43,8 @@
                                     </form>
 
                                 </div>
+                            <?php else: ?>
+                                <p>No Pending Appointments found.</p>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -65,6 +67,8 @@
                                     <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
                                     <span class="specialization"><?php echo ($appointment->specialization); ?></span>
                                 </div>
+                            <?php else: ?>
+                                <p>No Past Appointments found.</p>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php else: ?>

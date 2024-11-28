@@ -48,11 +48,11 @@
                     <label>ID Type</label>
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="nic" name="idType"  required value="nic" checked>
+                            <input type="radio" id="nic" name="idType" required value="nic" checked>
                             <label for="nic">NIC</label>
                         </div>
                         <div class="radio-item">
-                            <input type="radio" id="passport" name="idType"  required value="passport">
+                            <input type="radio" id="passport" name="idType" required value="passport">
                             <label for="passport">Passport</label>
                         </div>
                     </div>
@@ -60,10 +60,10 @@
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
-                    <input type="text" id="idNumber" placeholder="Enter Nic number"   name="NicOrPassport" required>
+                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required>
                     <span id="idError" class="error-message"></span>
                 </div>
-                
+
 
                 <div class="form-group">
                     <label>Address <small class="optional-message">(optional)</small></label>

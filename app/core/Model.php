@@ -117,6 +117,11 @@ trait Model
       $this->limit = $limit;
    }
 
+   public function setOrder($order) {
+      $this->order_type = $order;
+   }
+
+
    public function getHospitals()
    {
       $query = "SELECT id, name FROM hospitals";

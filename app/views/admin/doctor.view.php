@@ -21,7 +21,7 @@
       <section class="main-div">
          <div class="search">
             <h2>Find Doctor</h2>
-            <input type="search" class="search-bar" placeholder="Search user here...">
+            <input type="search" class="search-bar" placeholder="Search doctor here...">
             <button type="submit" class="btn-search">Search</button>
          </div>
 

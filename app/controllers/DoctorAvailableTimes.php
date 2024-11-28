@@ -51,7 +51,7 @@ class DoctorAvailableTimes extends Controller
             'doctorId' => $doctorId,
             'noAppointmentsMessage' => $noAppointmentsMessage
         ];
-        $this->view('DoctorAvailableTimes', $data);
+        $this->view('doctorAvailableTimes', $data);
         $this->view('footer');
     }
 }

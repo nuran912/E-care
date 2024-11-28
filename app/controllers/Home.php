@@ -22,9 +22,5 @@ class Home extends Controller {
         $this->view('home', $data);
         $this->view('footer');
     }
-    
-
-
-
 }
 

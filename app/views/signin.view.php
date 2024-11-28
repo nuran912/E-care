@@ -54,7 +54,7 @@ if (!isset($errors)) {
 
          </form>
 
-         <p class="noAccount">Don't have an account? <a href="<?php echo ROOT ?>/Signin">Sign Up</a></p>
+         <p class="noAccount">Don't have an account? <a href="<?php echo ROOT ?>/Signup">Sign Up</a></p>
 
       </div>
 

@@ -1,4 +1,7 @@
-
+body {
+   margin: 0;
+   padding: 0;
+}
 .main-context {
    font-family: 'Lucida Sans';
 }
@@ -151,4 +154,23 @@ input:focus,select:focus {
 .signin a {
    text-decoration: none;
    color: blue;
+}
+
+.error-message {
+   position:relative;
+   background-color: white;
+   color: red;
+   border: 3px red solid;
+   padding: 20px 20px;
+   border-radius: 10px;
+   font-size: 14px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   width: 200px;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   margin: auto;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   /* z-index: 1000; */
 }

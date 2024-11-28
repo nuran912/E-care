@@ -15,10 +15,18 @@ if (!isset($errors)) {
 
 <body>
 
+
     <div class="main-context">
 
         <h1>Welcome to E-Care by Union Hospital</h1>
 
+        <?php if (!empty($errors)): ?>
+            <div class="error-message">
+                <?php foreach ($errors as $error): ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
         <div class="container">
             <center>
                 <h3>Register an Account</h3>

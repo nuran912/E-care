@@ -86,13 +86,12 @@ trait Model
 
    public function update($id, $data, $id_column = 'id')
    {
-      show($id, $data, $id_column = 'id');
       // remove unvalid columns
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 
       $keys = array_keys($data);
       $query = "UPDATE $this->table SET ";
-      foreach ($keys as $key) {
+      foreach($keys as $key){
          $query .= "$key = :$key, ";
       }
       $query = rtrim($query, ", ");

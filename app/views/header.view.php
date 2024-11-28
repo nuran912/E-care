@@ -11,17 +11,18 @@
       <ul class="navbar-headings">
          <li><a href="<?= ROOT ?>/Home">Home</a></li>
          <li><a href="#">Services</a></li>
-         <li><a href="../Pages/Appointment.php">Appointment</a></li>
+         <li><a href="<?= ROOT;?>/appointmentsearchpage">Appointment</a></li>
          <li><a href="#">About</a></li>
          <li><a href="#">Contact Us</a></li>
       </ul>
+
       <div class="buttons-div">
          <?php if (isset($_SESSION['USER'])): ?>
-            <p >Hi, <?php echo $_SESSION['USER']->name; ?></p>
+            <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
             <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User"></a>
             <img class="menu" src="<?php echo ROOT ?>/assets/img/menu.svg" alt="Menu">
             <?php if ($_SESSION['USER']->role == 'admin'): ?>
-               
+
                <card>
                   <h4>Admin Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Admin/profile">Profile</a></p>
@@ -62,7 +63,7 @@
                   <h4>Lab Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Labclerk/work">Work Station</a></p>
-                  
+
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
             <?php endif; ?>
@@ -73,7 +74,7 @@
                   <p><a href="<?php echo ROOT ?>/Receptionclerk/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Receptionclerk/create">Create Appointments</a></p>
                   <p><a href="<?php echo ROOT ?>/Receptionclerk/pending">Pending Appointments</a></p>
-                  
+
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
             <?php endif; ?>
@@ -83,15 +84,15 @@
                   <h4>Record Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Recordclerk/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Recordclerk/work">Work Station</a></p>
-                  
+
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
             <?php endif; ?>
-         
+
          <?php else: ?>
-         <button class="signin-btn"><a href="<?php echo ROOT ?>/Signin">Sign In</a></button>
-         <button class="reg-btn"><a href="<?php echo ROOT ?>/Signup">Register</a></button>
+            <button class="signin-btn"><a href="<?php echo ROOT ?>/Signin">Sign In</a></button>
+            <button class="reg-btn"><a href="<?php echo ROOT ?>/Signup">Register</a></button>
          <?php endif; ?>
-         </div>
+      </div>
    </div>
 </nav>

@@ -68,6 +68,14 @@ class Doctor
         return $result ? $result[0] : null;
     }
 
+    //get doctor details from doctors table using user_id from users table
+    public function getDoctorByUserId($user_id)
+    {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
+        $result = $this->query($query, ['user_id' => $user_id]);
+        return $result ? $result[0] : null;
+    }
+
     
   //thie function is used to get the doctor details in pending appointments and past appointments in appointments controller
     public function getDoctorDetails($doctor_id)

@@ -50,6 +50,7 @@
         label {
             font-weight: 500;
             margin-bottom: 8px;
+            font-weight: bold;
         }
 
         input[type="date"],
@@ -110,13 +111,60 @@
                 grid-template-columns: 1fr;
             }
         }
+        .appointments{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .date{
+            font-weight: bold;
+        }
+        .apptInfo{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            border: 2px solid #ada8a8;
+            border-radius: 6px;
+            padding: 25px  5px;
+            width: 100%;
+        }
+        .item2{
+            border: 2px solid #908585;
+            border-radius: 4px;
+            padding: 4px 10px;
+            background-color: #ebe0e0;
+            font-weight: bold;
+        }
+        .buttons{
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            justify-content: center;
+        }
+        .view{
+            background: rgb(88, 223, 250);
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: medium;
+        }
+        .cancel{
+            background: rgb(250, 65, 65);
+            padding: 10px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size:medium
+        }
         
     </style>
 </head>
 <body>
     <div class='container'>
         <h3>Create New Appointment Slot</h3>
-        <form class="createAppt">
+        <form class="createAppt" method="post" action="<?=ROOT?>/DoctorManageSchedule/create">
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
@@ -129,11 +177,21 @@
             </div>
             <div class="form-group">
                 <div class="item">
+                    <label for="duration">&nbsp&nbspDuration of slot(hours)</label>
+                    <input type="text" id="duration" name="duration">
+                </div>
+                <div class="item">
+                    <label for="fee">&nbsp&nbspAppointment fee</label>
+                    <input type="text" id="fee" name="fee">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="item">
                     <label for="hospital">&nbsp&nbspHospital</label>
                     <select id="hospital" name="hospital">
-                        <option value="medical">Union Medical Hospital</option>
-                        <option value="central">Union Central Hospital</option>
-                        <option value="surgical">Union Surgical Hospital</option>
+                        <option value="UNION MEDICAL">Union Medical Hospital</option>
+                        <option value="UNION CENTRAL">Union Central Hospital</option>
+                        <option value="UNION SURGICAL">Union Surgical Hospital</option>
                     </select>
                 </div>
                 <div class="item">
@@ -145,9 +203,60 @@
                 <button type="submit">Create Slot</button>
             </div>
         </form>
-        <h3><a href="./doctorUpcomingAppt">View Upcoming Appointments</a></h3>
+        <!-- <h3><a href="./doctorUpcomingAppt">View Upcoming Appointments</a></h3> -->
     </div>
     <div class="container">
-        </html><h3>Upcoming Appointments</h3>
+        <h3>Upcoming Appointments</h3>      
+        <?php
+            usort($data, function($a, $b) {
+                return strtotime($a->date) <=> strtotime($b->date); // Compare dates as timestamps
+            });
+            foreach($data as $appt) :
+                $hospital = new Hospital;
+                $hospital = $hospital->getHospitalById($appt->hospital_id);
+                // show($hospital);
+                // show($hospital[0]->name);
+                // $hospitalName = $hospital->name;
+                // show(gettype($appt->date));
+                // show(((new DateTime($appt->date))->format('Y-m-d')));
+                // show(gettype($appt));
+                // show((new DateTime())->format('Y-m-d'));
+                if(((new DateTime($appt->date))->format('Y-m-d')) > (new DateTime())->format('Y-m-d')){  ?>
+                <!-- show((new DateTime($appt['current_date']))->format('Y-m-d')); -->
+            <div class="appointments">
+            <div class="date"> &nbsp<?php echo $appt->date ?></div>
+            <div class="apptInfo">
+                <div>
+                    <label>hospital</label>
+                    <div class="item2"><?php echo $hospital[0]->name ?></div>
+                </div>
+                <div>
+                    <label>start time</label>
+                    <div class="item2"><?php echo $appt->start_time ?></div>
+                </div>
+                <div>
+                    <label>end time</label>
+                    <div class="item2"><?php echo (new DateTime($appt->start_time))->modify('+'.$appt->duration.' hours')->format('H:i:s'); ?></div>
+                </div>
+                <div>
+                    <label>total patients</label>
+                    <div class="item2"><?php echo $appt->total_slots ?></div>
+                </div>
+                <form class="buttons" method="GET" action="<?= ROOT?>/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
+                    <button class="cancel" >Cancel</button>
+                </form>
+            </div>
+        </div>
+            <br/>
+        <?php
+            }
+        endforeach;  
+        ?>
     </div>
+    <script>
+        function confirmCancel(){
+            return confirm("Are you sure you want to cancel this appointment?");
+        }
+    </script>
 </body>
+</html>

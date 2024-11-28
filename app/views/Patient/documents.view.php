@@ -33,7 +33,7 @@
                                     <div class="record-date-time"><p><?php echo htmlspecialchars($document['uploaded_at']) ?></p></div>
                                         <div class="record">
                                             <span class="label"><p><?php echo htmlspecialchars($document['document_name']) ?></p></span>
-                                            <span class="ref-no"><p><?php echo htmlspecialchars($document['ref_no']) ?></p></span>
+                                            <span class="ref-no"><p>Ref No: <?php echo htmlspecialchars($document['ref_no']) ?></p></span>
                                             <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
                                         </div>
                                     </div>
@@ -58,7 +58,7 @@
                                     <div class="record-date-time"><p><?php echo htmlspecialchars($document['uploaded_at']) ?></p></div>
                                     <div class="record">
                                         <span class="label"><p><?php echo htmlspecialchars($document['document_name']) ?></p></span>
-                                        <span class="ref-no"><p><?php echo htmlspecialchars($document['ref_no']) ?></p></span>
+                                        <span class="ref-no"><p>Ref No: <?php echo htmlspecialchars($document['ref_no']) ?></p></span>
                                         <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
                                     </div>
                                 

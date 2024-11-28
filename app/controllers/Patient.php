@@ -2,7 +2,7 @@
 
     class Patient extends Controller {
         
-        public function documents($a = '') {
+        public function documents($a = '',$b = '',$c = '') {
 
             $this->view('header');
 
@@ -101,6 +101,12 @@
 
             $this->view('Patient/documents',$data);
 
+            $this->view('footer');
+        }
+
+        public function insuranceclaims($a = '',$b = '', $c = '') {
+            $this->view('header');
+            $this->view('Patient/insurance_claim');
             $this->view('footer');
         }
     }

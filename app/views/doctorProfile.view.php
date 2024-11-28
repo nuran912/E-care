@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/Doctorprofilepage.css">
     <title>Doctor Profile</title>
     <style>
         body {
@@ -138,43 +138,43 @@
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
-            <form>
+            <form method="POST" action="<?= ROOT?>/DoctorProfile/update/">
                 <div class="info">
                     <label for="name">Name :</label>
-                    <input type="text" id="name" placeholder="John Doe">
+                    <input type="text" name="name" id="name" value="<?= $data[1]->name ?>">
                 </div>
                 <div class="info">
-                    <label for="empId">Employee Number:</label>
-                    <input type="text" id="empId" placeholder="Enter your employee ID">
+                    <label for="empId">Registration Number:</label>
+                    <input type="text" name="registration_number" id="empId" placeholder="Enter your employee ID" value="<?= $data[0]->registration_number ?>">
                 </div>
                 <div class="info">
                     <label for="specialization">Specialization :</label>
-                    <input type="text" id="specialization" placeholder="Enter your specialization">
+                    <input type="text" name="specialization" id="specialization" placeholder="Enter your specialization" value="<?= $data[0]->specialization ?>">
                 </div>
                 <div class="info">
                     <label for="qualifications">Qualifications :</label>
-                    <input type="text" id="qualifications" placeholder="Enter your qualifications">
+                    <input type="text" name="other_qualifications" id="qualifications" placeholder="Enter your qualifications" value="<?= $data[0]->other_qualifications ?>">
                 </div>
                 <div class="info">
                     <label for="id">NIC/Passport :</label>
-                    <input type="text" id="id" placeholder="Enter your identification">
+                    <input type="text" name="NIC" id="id" placeholder="Enter your identification" value="<?= $data[1]->NIC ?>">
                 </div>
                 <div class="info">
                     <label for="contact">Contact Number :</label>
-                    <input type="text" id="contact" placeholder="Enter your contact">
+                    <input type="text" name="phone_number" id="contact" placeholder="Enter your contact" value="<?= $data[1]->phone_number ?>">
                 </div>
                 <div class="info">
                     <label for="email">Email :</label>
-                    <input type="email" id="email" placeholder="johndoe@example.com">
+                    <input type="email" name="email" id="email" placeholder="johndoe@example.com" value="<?= $data[1]->email ?>">
                 </div>
-                <div class="info">
+                <!-- <div class="info">
                     <label for="password">Password :</label>
-                    <input type="password" id="password" placeholder="******">
+                    <input type="password" name="password" id="password" placeholder="******" value="<?= $data[1]->password ?>">
                 </div>
                 <div class="info">
                     <label for="newpassword">New Password :</label>
-                    <input type="password" id="newpassword" placeholder="Enter your new password">
-                </div>
+                    <input type="password" name="newpassword" id="newpassword" placeholder="Enter your new password">
+                </div> -->
                 <div class="info">
                     <input type="submit" value="Save Changes">
                 </div>

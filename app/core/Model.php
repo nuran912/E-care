@@ -8,7 +8,7 @@ trait Model
    public $limit = 10;
    protected $offset = 0;
    // public $order_column = 'user_id';
-   // protected $order_type = 'asc';
+   public $order_type = 'asc';
    public $errors = [];
 
    public function findAll()
@@ -24,8 +24,6 @@ trait Model
       $result = $this->query($query);
       return json_decode(json_encode($result), true); // Convert object to array
    }
-
-
 
    public function where($data, $data_not = [])
    {
@@ -88,7 +86,7 @@ trait Model
 
    public function update($id, $data, $id_column = 'id')
    {
-
+      show($id, $data, $id_column = 'id');
       // remove unvalid columns
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 
@@ -130,4 +128,11 @@ trait Model
       $query = "SELECT DISTINCT specialization FROM doctors";
       return $this->query($query);
    }
+
+   public function getById($id)
+    {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
+        $result = $this->query($query, ['user_id' => $id]);
+        return $result ? $result[0] : null;
+    }
 }

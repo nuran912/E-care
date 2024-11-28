@@ -195,6 +195,17 @@ table .user-img{
    
 }
 
+.btn-delete {
+   text-decoration: none;
+   border-radius: 10px;
+   border: none;
+   cursor: pointer;
+}
+
+.btn-delete:hover {
+   background-color: #f8f8f8;
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -260,7 +271,7 @@ table .user-img{
 .popup-edit select, 
 .popup-edit textarea {
     width: 100%;
-    max-width: 400px;
+    /* max-width: 400px; */
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #CED4DA;
@@ -348,7 +359,7 @@ table .user-img{
     font-size: 15px;
 }
 
-.form-group label {
+.form-group label  {
     position: absolute;
     top:0px;
     left: 15px;
@@ -372,8 +383,13 @@ table .user-img{
     color: #007bff;
 }
 
+.form-full {
+   width: 100%;
+
+}
+
 .insurance-img {
-      width: 50px;
+      width: 80px;
       height: 50px;
       /* border-radius: 50%; */
       /* object-fit: cover; */
@@ -392,6 +408,84 @@ table .user-img{
    border: #007bff 1px solid;
 }
 
+.article-img-preview {
+   width: 100%;
+   height: 200px;
+   border-radius: 10px;
+   object-fit: cover;
+   cursor: pointer;
+   border: #666 1px solid;
+   position: relative;
+   background-image: url('http://localhost/E-Care/public/assets/img/articles/default.png');
+   background-size: cover;
+   background-position: center;
+}
+
+.article-img-preview.show {
+   background-image: none; /* Remove default background when image is uploaded */
+}
+
+.article-img-preview:hover {
+   border: #007bff 1px solid;
+}
+
+.article-img-preview::after {
+   z-index: 1000;
+   content: "Upload Cover Page";
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   color: #fff;
+   background: rgb(5, 131, 234);
+   padding: 10px 20px;
+   border-radius: 5px;
+   display: none;
+}
+
+.article-img-preview:hover::after {
+   display: block;
+}
+
+.error {
+   position:relative;
+   background-color: darkred;
+   color: white;
+   border: 3px red solid;
+   padding: 20px 20px;
+   border-radius: 10px;
+   font-size: 14px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   width: 200px;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   margin: auto;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   text-align: center;
+   /* z-index: 1000; */
+}
+
+.success {
+   position:relative;
+   background-color: green;
+   color: white;
+   border: 3px lightgreen solid;
+   padding: 20px 20px;
+   border-radius: 10px;
+   font-size: 14px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   width: 200px;
+   justify-content: center;
+   align-items: center;
+   display: flex;
+   margin: auto;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   text-align: center;
+   /* z-index: 1000; */
+}
 @media (max-width: 768px) {
    .stats-grid {
        grid-template-columns: 1fr;

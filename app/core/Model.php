@@ -119,9 +119,10 @@ trait Model
       $this->limit = $limit;
    }
 
-   public function setOrder($type){
-      $this->order_type = $type;
+   public function setOrder($order) {
+      $this->order_type = $order;
    }
+
 
    public function getHospitals()
    {

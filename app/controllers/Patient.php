@@ -34,18 +34,14 @@ class Patient extends Controller
     {
         $this->view('header');
 
-
-
-
         $doctorModel = new Doctor;
-
-
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
 
-        
+        if (!is_array($data)) {
+            $data = [];
+        }
 
         $this->view('patient/appointments', $data);
-
         $this->view('footer');
     }
 

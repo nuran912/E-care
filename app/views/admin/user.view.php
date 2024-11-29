@@ -51,7 +51,7 @@
                             <td>nuran@gmail.com</td>
                             <td>0761985642</td>
                             <td>200254268791</td>
-                            <td><button class="btn-disable">Disable</button></td>
+                            <td><button class="btn-disable">Disabled</button></td>
                             <td><button class="btn-reset">Reset</button></td>
                         </tr>
                         <tr>

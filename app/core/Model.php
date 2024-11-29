@@ -25,8 +25,6 @@ trait Model
       return json_decode(json_encode($result), true); // Convert object to array
    }
 
-
-
    public function where($data, $data_not = [])
    {
       $keys = array_keys($data);
@@ -88,13 +86,12 @@ trait Model
 
    public function update($id, $data, $id_column = 'id')
    {
-
       // remove unvalid columns
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 
       $keys = array_keys($data);
       $query = "UPDATE $this->table SET ";
-      foreach ($keys as $key) {
+      foreach($keys as $key){
          $query .= "$key = :$key, ";
       }
       $query = rtrim($query, ", ");
@@ -135,4 +132,11 @@ trait Model
       $query = "SELECT DISTINCT specialization FROM doctors";
       return $this->query($query);
    }
+
+   public function getById($id)
+    {
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
+        $result = $this->query($query, ['user_id' => $id]);
+        return $result ? $result[0] : null;
+    }
 }

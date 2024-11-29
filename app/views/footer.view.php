@@ -6,7 +6,7 @@
 </head>
 
 <body>
-   <div class="footer">
+   <div class="footer" id="footer">
       <div class="footer-main">
          <div class="footer-main-img">
          <img src="<?php echo ROOT ?>/assets/img/footer-img/Logo_white.svg"> <br>

@@ -61,7 +61,7 @@
                      <td>aia.health@yahoo.lk</td>
                      <td><a href="">AIA</a></td>
                      <td>0766584235</td>
-                     <td><button class="btn-disable">Disable</button></td>
+                     <td><button class="btn-disable">Disabled</button></td>
                      <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                   </tr>
                   <tr>

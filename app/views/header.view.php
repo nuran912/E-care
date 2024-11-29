@@ -10,13 +10,12 @@
       </div>
       <ul class="navbar-headings">
          <li><a href="<?= ROOT ?>/Home">Home</a></li>
-         <li><a href="<?=ROOT?>/Laboratories">Services</a></li>
+         <li><a href="<?= ROOT ?>/Laboratories">Services</a></li>
          <li><a href="<?= ROOT?>/appointmentsearchpage">Appointment</a></li>
-         <li><a href="<?=ROOT?>/Hospitals">About</a></li>
-         <li><a href="<?=ROOT?>/Footer">Contact Us</a></li>
-        
-    </ul>
- <!-- controller functions to be added -->
+         <li><a href="<?= ROOT ?>/Hospitals">About</a></li>
+         <li><a href="#footer">Contact Us</a></li>
+      </ul>
+
       <div class="buttons-div">
          <?php if (isset($_SESSION['USER'])): ?>
             <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
@@ -74,8 +73,8 @@
                <card>
                   <h4>Reception Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Receptionclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Receptionclerk/create">Create Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Receptionclerk/pending">Pending Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Create Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Pending Appointments</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -85,7 +84,8 @@
                <card>
                   <h4>Record Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Recordclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Recordclerk/work">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Work Station</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

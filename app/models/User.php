@@ -129,6 +129,23 @@ class User
       return false;
    }
 
+   public function updateDoctorDetails($id, $data, $id_column = 'id'){
+      // remove unvalid columns
+      $data = array_intersect_key($data, array_flip($this->allowedColumns));
+
+      $keys = array_keys($data);
+      $query = "UPDATE $this->table SET ";
+      foreach ($keys as $key) {
+         $query .= "$key = :$key, ";
+      }
+      $query = rtrim($query, ", ");
+      $query .= " WHERE $id_column = :$id_column";
+      $data[$id_column] = $id;
+      // echo $query;
+      $this->query($query, $data);
+      return false;
+   }
+
    public function validateUpdate($data)
    {
       $this->errors = [];

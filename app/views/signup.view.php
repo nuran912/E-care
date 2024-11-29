@@ -15,10 +15,18 @@ if (!isset($errors)) {
 
 <body>
 
+
     <div class="main-context">
 
         <h1>Welcome to E-Care by Union Hospital</h1>
 
+        <?php if (!empty($errors)): ?>
+            <div class="error-message">
+                <?php foreach ($errors as $error): ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
         <div class="container">
             <center>
                 <h3>Register an Account</h3>
@@ -107,7 +115,7 @@ if (!isset($errors)) {
 
                 <div class="form-row">
                     <input type="checkbox" name="terms" class="terms">
-                    <label for="" class="termsagreement">I agree to the <a href="#" class="termsConditions">terms and conditions</a></label>
+                    <label for="" class="termsagreement">I agree to the <a href="<?= ROOT ?>/termsAndConditions" class="termsConditions">terms and conditions</a></label>
                     <?php if (!empty($errors['terms'])) : ?>
                         <div class="error" style="margin-left: 20px;"><br><?php echo $errors['terms']; ?></div>
                     <?php endif; ?>

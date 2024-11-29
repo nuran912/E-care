@@ -6,10 +6,14 @@
     <title>Doctor Pending Appointments</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             background-color: #f9f9f9;
             margin: 0;
+<<<<<<< HEAD
             Padding: 0;
+=======
+            padding: 0;
+>>>>>>> 3f151168cc3d252fdc2fe606ef3819cfa8692dd1
         }
         .container{
             display: flex;

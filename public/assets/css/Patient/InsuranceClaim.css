@@ -1,44 +1,46 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Lucida Sans', Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 .header-container {
-    background-color: #036;
+    background-color: #0E2F56;
     color: white;
     text-align: center;
-    padding: 20px 10px;
+    padding: 80px 30px;
+    /* border-radius: 10px; */
+    margin-bottom: 20px;
 }
 
 .header-container h1 {
-    font-size: 1.5em;
+    font-size: 2em;
     font-weight: bold;
     margin: 0;
     padding-bottom: 5px;
 }
 
 .header-container p {
-    font-size: 0.9em;
-    font-weight: bold;
+    font-size: 1em;
     margin-top: 10px;
 }
 
 h2 {
     text-align: center;
-    color: #1a1a1a;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    margin-top: 15px;
+    color: #0E2F56;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .insurance-claim-form {
-    width: 700px;
+    width: 70%;
     margin: 0 auto;
-    padding: 15px;
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
+    padding: 20px;
+    border: 2px solid #0E2F56;
+    border-radius: 10px;
+    background-color: #f8f8f8;
     margin-bottom: 20px;
 }
 
@@ -47,6 +49,7 @@ h2 {
     vertical-align: top;
     width: 48%;
     margin-right: 2%;
+    gap: 20px;
 }
 
 .second-column {
@@ -54,24 +57,24 @@ h2 {
 }
 
 .insurance-claim-form label {
-    display: block;
+    /* display: block; */
+    font-size: 12px;
+    color: #0E2F56;
     font-weight: bold;
-    margin-bottom: 0px;
-    color: #333;
-    font-size: 0.85em;
+    /* margin-bottom: 5px; */
 }
 
 .insurance-claim-form input[type="text"],
 .insurance-claim-form input[type="email"],
 .insurance-claim-form select {
     width: 100%;
-    padding: 3px;
-    margin-bottom: 2px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 0.85em;
-    color: #666;
+    padding: 10px;
+    /* margin-bottom: 10px; */
+    border: 1px solid #CED4DA;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #f8f8f8;
+    margin-top: 5px;
 }
 
 .insurance-claim-form select {
@@ -84,12 +87,12 @@ h2 {
 }
 
 .box {
-    padding: 3px;
+    padding: 10px;
     width: 100%;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
+    border: 1px solid #CED4DA;
+    border-radius: 10px;
     box-sizing: border-box;
-    margin-top: 20px;
+    /* margin-top: 20px; */
 }
 
 .upload-label p {
@@ -168,25 +171,25 @@ h2 {
 
 .insurance-claim-form input[type="submit"] {
     display: block;
-    width: 90px;
-    padding: 8px;
-    margin: 10px auto;
-    background-color: #3b83ff;
+    width: 200px;
+    padding: 10px;
+    margin: 20px auto;
+    background-color: #28a745;
     border: none;
     border-radius: 5px;
     color: white;
-    font-size: 0.9em;
+    font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .insurance-claim-form input[type="submit"]:hover {
-    background-color: #36c;
+    background-color: #218838;
 }
 
 .error-message {
     color: red;
-    font-size: 0.8em;
+    font-size: 13px;
     display: block;
     margin-top: 2px;
 }

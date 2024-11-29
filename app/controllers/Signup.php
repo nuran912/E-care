@@ -10,11 +10,20 @@ class Signup extends Controller
         $data['errors'] = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($user->validate($_POST)) {
-                $user->insert($_POST);
-                redirect('signin');
+            try {
+                if ($user->validate($_POST)) {
+                    $user->insert($_POST);
+                    redirect('signin');
+                } else {
+                    $data['errors'] = $user->errors;
+                }
+            } catch (Exception $e) {
+                if ($e->getCode() == 23000) { // Duplicate entry error code
+                    $data['errors'][] = "User details already exist";
+                } else {
+                    $data['errors'][] = $e->getMessage();
+                }
             }
-            $data['errors'] = $user->errors;
         }
 
         $this->view('signup', $data);

@@ -23,7 +23,7 @@ $doctorId = $data['doctorId'];
             <div class="profile-image">
                 <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
             </div>
-            <div class="doctor-name">Dr. <?php echo $doctor_name; ?></div>
+            <div class="doctor-name"><?php echo $doctor_name; ?></div>
             <div class="specialization"><?php echo isset($doctor_specialization) ? $doctor_specialization : 'Specialization not available'; ?></div>
             <a href="<?php echo ROOT; ?>/DoctorProfilecard?id=<?= $doctorId ?>">
                 <button class="view-profile-btn">View Profile</button>

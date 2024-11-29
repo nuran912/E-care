@@ -10,12 +10,13 @@
       </div>
       <ul class="navbar-headings">
          <li><a href="<?= ROOT ?>/Home">Home</a></li>
-         <li><a href="#">Services</a></li>
-         <li><a href="<?= ROOT;?>/appointmentsearchpage">Appointment</a></li>
-         <li><a href="#">About</a></li>
-         <li><a href="#">Contact Us</a></li>
-      </ul>
-
+         <li><a href="<?=ROOT?>/Laboratories">Services</a></li>
+         <li><a href="<?= ROOT?>/appointmentsearchpage">Appointment</a></li>
+         <li><a href="<?=ROOT?>/Hospitals">About</a></li>
+         <li><a href="<?=ROOT?>/Footer">Contact Us</a></li>
+        
+    </ul>
+ <!-- controller functions to be added -->
       <div class="buttons-div">
          <?php if (isset($_SESSION['USER'])): ?>
             <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
@@ -61,8 +62,9 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
                <card>
                   <h4>Lab Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Labclerk/work">Work Station</a></p>
+                  <!-- <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p> -->
+                  <p><a href="<?php echo ROOT ?>/clerkWorkLog">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/clerkUploadDoc">Upload Document</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

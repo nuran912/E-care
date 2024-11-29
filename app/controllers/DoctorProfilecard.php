@@ -38,7 +38,7 @@ class DoctorProfilecard extends Controller
 
         ];
 
-        $this->view('doctorProfilecard', $data);
+        $this->view('appointment/doctorProfilecard', $data);
         $this->view('footer');
     }
 }

@@ -10,6 +10,6 @@ sleep(10);
 
 
 
-       $this->view('paymentsuccessfulpage');
+       $this->view('appointment/paymentsuccessfulpage');
     }
 }

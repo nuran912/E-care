@@ -50,7 +50,7 @@ class Appointmentdetailsverification extends Controller
             $_SESSION['appointment'] = $data;
 
 
-            $this->view('appointmentdetailsverification', $data);
+            $this->view('appointment/appointmentdetailsverification', $data);
         } else {
             echo "Invalid request method.";
         }

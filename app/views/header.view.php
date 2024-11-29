@@ -62,7 +62,8 @@
                <card>
                   <h4>Lab Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Labclerk/work">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Work Station</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -72,8 +73,8 @@
                <card>
                   <h4>Reception Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Receptionclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Receptionclerk/create">Create Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Receptionclerk/pending">Pending Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Create Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Pending Appointments</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -83,7 +84,8 @@
                <card>
                   <h4>Record Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Recordclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Recordclerk/work">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Work Station</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

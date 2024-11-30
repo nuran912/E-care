@@ -35,7 +35,7 @@ class Appointmentsearchpage extends Controller
                 }
             }
         }
-
+     
         $data = [
             'doctorResults' => $doctorResults,
             'hospitals' => $hospitals,

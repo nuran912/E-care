@@ -29,26 +29,26 @@
                     </div>
                     <div class="form-group name-group">
                         <label>Patient's Full name</label>
-                        <input type="text" id="patientName" name="patientName" placeholder="Enter full name" required>
+                        <input type="text" id="patientName" name="patientName" placeholder="Enter full name" value="<?php echo $_SESSION['USER']->name; ?>" required>
                         <span id="nameError" class="error-message"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Email <small class="optional-message">(optional)</small></label>
-                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email">
+                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" value="<?php echo $_SESSION['USER']->email; ?>">
                     <span id="emailError" class="error-message"></span>
                 </div>
                 <div class="form-group">
                     <label>Phone number</label>
-                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>
+                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required value="<?php echo $_SESSION['USER']->phone_number; ?>">
                     <span id="phoneError" class="error-message"></span>
                 </div>
                 <div class="form-group id-section">
                     <label>ID Type</label>
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="nic" name="idType" required value="nic" checked>
+                            <input type="radio" id="nic" name="idType" required value="nic" checked >
                             <label for="nic">NIC</label>
                         </div>
                         <div class="radio-item">
@@ -60,7 +60,7 @@
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
-                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required>
+                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required value="<?php echo $_SESSION['USER']->NIC; ?>">
                     <span id="idError" class="error-message"></span>
                 </div>
 

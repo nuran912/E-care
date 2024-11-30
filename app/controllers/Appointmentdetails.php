@@ -1,5 +1,7 @@
 <?php
 
+
+
 class Appointmentdetails extends Controller
 {
     public function index($a = '', $b = '', $c = '')
@@ -7,7 +9,7 @@ class Appointmentdetails extends Controller
         $this->view('header');
 
         $availableTimes = (new Availabletime())->getAll();
-        $doctors = (new Doctor())->getAll();
+        $doctors = (new DoctorModel())->getAll();
         $hospitals = (new Hospital())->getAll();
 
         $availableTimeId = isset($_GET['availableTimeId']) ? (int)$_GET['availableTimeId'] : null;

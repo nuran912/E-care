@@ -1,5 +1,5 @@
 <?php
-class Doctor
+class DoctorModel
 {
     use Model;
 

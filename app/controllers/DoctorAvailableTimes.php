@@ -18,7 +18,7 @@ class DoctorAvailableTimes extends Controller
 
         $availableTimes = new Availabletime();
 
-        $doctorModel = new Doctor();
+        $doctorModel = new DoctorModel();
         $hospitals = new Hospital();
 
         $doctorId = $_GET['doctor_id'] ?? null;
@@ -43,14 +43,30 @@ class DoctorAvailableTimes extends Controller
 
         $getAppointmentdetails = $availableTimes->getAppointmentDetails($doctorId, $dateQuery, $hospitalQuery);
         $noAppointmentsMessage = empty($getAppointmentdetails) ? "No appointments available for this doctor at the moment." : null;
+       
+       
+                   
+        $appointmentDates = array_map(function($appointment) {
+            return $appointment->appointment_date;
+        }, $getAppointmentdetails);
+
+        $appointmentDate = !empty($appointmentDates) ? implode(", ", $appointmentDates) : 'No appointment dates available';
+
+        
+       
+
+
+
 
         $data = [
             'appointments' => $getAppointmentdetails,
-            'doctor_name' => $doctor_name,
+             'doctor_name' => $doctor_name,
             'doctor_specialization' => $doctor_specialization,
             'doctorId' => $doctorId,
             'noAppointmentsMessage' => $noAppointmentsMessage
         ];
+
+       
         $this->view('appointment/doctorAvailableTimes', $data);
         $this->view('footer');
     }

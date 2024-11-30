@@ -5,7 +5,7 @@ class Appointmentsearchpage extends Controller
     {
         $this->view('header');
 
-        $doctor = new Doctor();
+        $doctor = new DoctorModel();
         $hospital = new Hospital();
         $specializations = $doctor->getSpecializations();
         $hospitals = $hospital->findAll();

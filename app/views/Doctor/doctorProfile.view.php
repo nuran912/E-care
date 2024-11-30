@@ -138,7 +138,7 @@
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
-            <form method="POST" action="<?= ROOT?>/DoctorProfile/update/">
+            <form method="POST" action="<?= ROOT?>/Doctor/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
                     <input type="text" name="name" id="name" value="<?= $data[1]->name ?>">
@@ -167,14 +167,14 @@
                     <label for="email">Email :</label>
                     <input type="email" name="email" id="email" placeholder="johndoe@example.com" value="<?= $data[1]->email ?>">
                 </div>
-                <!-- <div class="info">
+                <div class="info">
                     <label for="password">Password :</label>
                     <input type="password" name="password" id="password" placeholder="**" value="<?= $data[1]->password ?>">
                 </div>
                 <div class="info">
                     <label for="newpassword">New Password :</label>
                     <input type="password" name="newpassword" id="newpassword" placeholder="Enter your new password">
-                </div> -->
+                </div>
                 <div class="info">
                     <input type="submit" value="Save Changes">
                 </div>

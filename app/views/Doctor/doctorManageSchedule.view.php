@@ -164,7 +164,7 @@
 <body>
     <div class='container'>
         <h3>Create New Appointment Slot</h3>
-        <form class="createAppt" method="POST" action="<?=ROOT?>/DoctorManageSchedule/create">
+        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create">
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
@@ -250,7 +250,7 @@
                     <label>total patients</label>
                     <div class="item2"><?php echo $appt->total_slots ?></div>
                 </div>
-                <form class="buttons" method="GET" action="<?= ROOT?>/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
+                <form class="buttons" method="GET" action="<?= ROOT?>/Doctor/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
                     <button class="cancel" >Cancel</button>
                 </form>
             </div>

@@ -23,9 +23,12 @@ class DoctorManageSchedule extends Controller{
         // show($hospital->id);
 
         $apptSlot = new Availabletime;
-        $apptSlot = $apptSlot->getByDoctorId($_SESSION['USER']->user_id);
-        // show($apptSlot);
-        $data = $apptSlot;
+        $doctor = new Doctor;
+        $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        // show($doctor);
+        $data = $apptSlot->getByDoctorId($doctor->id);
+        // show($data);
+        // $data = $apptSlot;
         // $hos['id'] = $apptSlot[0]->hospital_id;
         // $hospital = new Hospital;
         // $hospital = $hospital->getHospitalById($apptSlot[0]->hospital_id);
@@ -37,7 +40,7 @@ class DoctorManageSchedule extends Controller{
         // show($data[0]->date);
         // show($data['current_date']->format('Y-m-d'));
 
-        $this->view('doctorManageSchedule', $data);
+        $this->view('Doctor/doctorManageSchedule', $data);
         $this->view('footer');
 
     }
@@ -55,7 +58,9 @@ class DoctorManageSchedule extends Controller{
         // $data['doctor_fee'] = $_POST['fee'];
         $data['hospital_id'] = $hospital->id;
         $data['total_slots'] = $_POST['count'];
-        $data['doctor_id'] = $_SESSION['USER']->user_id;
+        $doctor = new Doctor;
+        $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $data['doctor_id'] = $doctor->id;
 
         $apptSlot = new Availabletime;
         $apptSlot->insert($data);

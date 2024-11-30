@@ -15,7 +15,7 @@ class DoctorProfile extends Controller {
         // show($data);
 
         $this->view('header');
-        $this->view('doctorProfile', $data);
+        $this->view('Doctor/doctorProfile', $data);
         $this->view('footer');
     }
 

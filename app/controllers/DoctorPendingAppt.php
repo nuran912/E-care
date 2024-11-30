@@ -3,7 +3,7 @@
 class DoctorPendingAppt extends Controller{
     public function index(){
         $this->view('header');
-        $this->view('doctorPendingAppt');
+        $this->view('Doctor/doctorPendingAppt');
         $this->view('footer');
     }
 }

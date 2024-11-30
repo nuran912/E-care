@@ -44,7 +44,7 @@
 
                                 </div>
                             <?php else: ?>
-                                <p>No Pending Appointments found.</p>
+                                <!-- <p>No Pending Appointments found.</p> -->
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -68,7 +68,7 @@
                                     <span class="specialization"><?php echo ($appointment->specialization); ?></span>
                                 </div>
                             <?php else: ?>
-                                <p>No Past Appointments found.</p>
+                                <!-- <p>No Past Appointments found.</p> -->
                             <?php endif; ?>
                         <?php endforeach; ?>
                     <?php else: ?>

@@ -138,7 +138,7 @@
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
-            <form method="POST" action="<?= ROOT?>/DoctorProfile/update/">
+            <form method="POST" action="<?= ROOT?>/Doctor/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
                     <input type="text" name="name" id="name" value="<?= $data[1]->name ?>">

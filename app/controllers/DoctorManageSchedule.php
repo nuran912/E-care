@@ -64,7 +64,7 @@ class DoctorManageSchedule extends Controller{
 
         $apptSlot = new Availabletime;
         $apptSlot->insert($data);
-        redirect('/doctorManageSchedule');
+        redirect('/DoctorManageSchedule');
     }
 
     public function cancelAppointment($apptId = ""){
@@ -72,6 +72,6 @@ class DoctorManageSchedule extends Controller{
         if(!empty($apptId)){
             $apptSlot->delete($apptId);
         }
-        redirect('/doctorManageSchedule');
+        redirect('/DoctorManageSchedule');
     }
 }

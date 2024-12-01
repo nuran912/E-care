@@ -12,6 +12,14 @@
         <!-- Patient Details Form - Top Container -->
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
+            <div class="isloggedperson">
+            <input name="isloggedperson" type="checkbox" id="isloggedperson"  
+                       data-username="<?php echo htmlspecialchars($_SESSION['USER']->name ?? ''); ?>" 
+                       data-email="<?php echo htmlspecialchars($_SESSION['USER']->email ?? ''); ?>" 
+                       data-contact="<?php echo htmlspecialchars($_SESSION['USER']->phone_number ?? ''); ?>" 
+                       data-idnumber="<?php echo htmlspecialchars($_SESSION['USER']->NIC ?? ''); ?>">
+            <label for="serviceCharge">Click here to add the logged person's details</label>
+            </div>
             <div id="patientForm">
                 <div class="form-row">
                     <div class="form-group title-group">
@@ -29,19 +37,19 @@
                     </div>
                     <div class="form-group name-group">
                         <label>Patient's Full name</label>
-                        <input type="text" id="patientName" name="patientName" placeholder="Enter full name" value="<?php echo $_SESSION['USER']->name; ?>" required>
+                        <input type="text" id="patientName" name="patientName" placeholder="Enter full name"  required>
                         <span id="nameError" class="error-message"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Email <small class="optional-message">(optional)</small></label>
-                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" value="<?php echo $_SESSION['USER']->email; ?>">
+                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" >
                     <span id="emailError" class="error-message"></span>
                 </div>
                 <div class="form-group">
                     <label>Phone number</label>
-                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required value="<?php echo $_SESSION['USER']->phone_number; ?>">
+                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required >
                     <span id="phoneError" class="error-message"></span>
                 </div>
                 <div class="form-group id-section">
@@ -60,7 +68,7 @@
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
-                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required value="<?php echo $_SESSION['USER']->NIC; ?>">
+                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required >
                     <span id="idError" class="error-message"></span>
                 </div>
 
@@ -161,5 +169,7 @@
 
     <script src="<?php echo ROOT; ?>/assets/js/payment_page.js"></script>
 </body>
-
+?>
+      
+        
 </html>

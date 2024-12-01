@@ -23,7 +23,11 @@ class Appointments
     ];
 
     public $order_column = 'id';
-
+ 
+    function updateStatus($appointmentId, $paymentstatus)
+    {
+        $this->update($appointmentId, $paymentstatus);
+    }
 
 
 

@@ -81,7 +81,7 @@ class Appointmentdetails extends Controller
         $totalWithoutServiceCharge = $doctor_fee + $hospital_fee;
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
 
-    
+
 
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,
@@ -90,8 +90,9 @@ class Appointmentdetails extends Controller
             'formatted_service_charge' => $formatted_service_charge,
             'hospital_fee' => $hospital_fee,
             'doctor_fee' => $doctor_fee,
-            'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,]);
-            
+            'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,
+        ]);
+
         $this->view('footer');
     }
 }

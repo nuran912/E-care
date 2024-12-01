@@ -12,43 +12,47 @@
         <!-- Patient Details Form - Top Container -->
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
+            <div class="isloggedperson">
+            <input name="isloggedperson" type="checkbox" id="isloggedperson"
+                          data-title="<?php echo htmlspecialchars($_SESSION['USER']->title ?? ''); ?>"  
+                       data-username="<?php echo htmlspecialchars($_SESSION['USER']->name ?? ''); ?>" 
+                       data-email="<?php echo htmlspecialchars($_SESSION['USER']->email ?? ''); ?>" 
+                       data-contact="<?php echo htmlspecialchars($_SESSION['USER']->phone_number ?? ''); ?>" 
+                       data-idnumber="<?php echo htmlspecialchars($_SESSION['USER']->NIC ?? ''); ?>">
+                       
+            <label for="serviceCharge">Click here to add the logged person's details <span class="warning-text">
+                            (This feature can use only if the logged person is the patient.. Guest users have to fill the form)
+                        </span></label>
+            </div>
             <div id="patientForm">
                 <div class="form-row">
                     <div class="form-group title-group">
                         <label for="title">Title</label>
+                        <input type="text" id="title" name="title" placeholder="Enter title" required>
                         <span id="idError" class="error-message"></span>
-                        <select id="title" name="title" required>
-                            <option value="" disabled selected>Select Title</option>
-                            <option value="dr">Dr.</option>
-                            <option value="mr">Mr.</option>
-                            <option value="mrs">Mrs.</option>
-                            <option value="ms">Ms.</option>
-                            <option value="miss">Miss</option>
-                            <option value="ven">ven.</option>
-                        </select>
                     </div>
                     <div class="form-group name-group">
                         <label>Patient's Full name</label>
-                        <input type="text" id="patientName" name="patientName" placeholder="Enter full name" required>
+                        <input type="text" id="patientName" name="patientName" placeholder="Enter full name"  required>
                         <span id="nameError" class="error-message"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label>Email <small class="optional-message">(optional)</small></label>
-                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email">
+                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" >
                     <span id="emailError" class="error-message"></span>
                 </div>
                 <div class="form-group">
                     <label>Phone number</label>
-                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>
+                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required >
                     <span id="phoneError" class="error-message"></span>
                 </div>
                 <div class="form-group id-section">
                     <label>ID Type</label>
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="nic" name="idType" required value="nic" checked>
+                            <input type="radio" id="nic" name="idType" required value="nic" checked >
                             <label for="nic">NIC</label>
                         </div>
                         <div class="radio-item">
@@ -60,7 +64,7 @@
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
-                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required>
+                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required >
                     <span id="idError" class="error-message"></span>
                 </div>
 
@@ -161,5 +165,7 @@
 
     <script src="<?php echo ROOT; ?>/assets/js/payment_page.js"></script>
 </body>
-
+?>
+      
+        
 </html>

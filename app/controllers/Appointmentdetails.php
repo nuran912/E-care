@@ -1,5 +1,7 @@
 <?php
 
+
+
 class Appointmentdetails extends Controller
 {
     public function index($a = '', $b = '', $c = '')
@@ -7,7 +9,7 @@ class Appointmentdetails extends Controller
         $this->view('header');
 
         $availableTimes = (new Availabletime())->getAll();
-        $doctors = (new Doctor())->getAll();
+        $doctors = (new DoctorModel())->getAll();
         $hospitals = (new Hospital())->getAll();
 
         $availableTimeId = isset($_GET['availableTimeId']) ? (int)$_GET['availableTimeId'] : null;
@@ -64,7 +66,7 @@ class Appointmentdetails extends Controller
             echo "Appointment ID not provided.";
             exit;
         }
-
+var_dump($_SESSION);
 
         $service_charge = 285;
 
@@ -79,6 +81,9 @@ class Appointmentdetails extends Controller
         $totalWithoutServiceCharge = $doctor_fee + $hospital_fee;
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
 
+      
+
+
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,
             'formatted_doctor_fee' => $formatted_doctor_fee,
@@ -88,6 +93,7 @@ class Appointmentdetails extends Controller
             'doctor_fee' => $doctor_fee,
             'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,
         ]);
+
         $this->view('footer');
     }
 }

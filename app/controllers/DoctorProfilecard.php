@@ -6,7 +6,7 @@ class DoctorProfilecard extends Controller
     public function index($a = '', $b = '', $c = '')
     {
         $this->view('header');
-        $doctorModel = new Doctor();
+        $doctorModel = new DoctorModel();
 
         $id = $_GET["id"];
         $doctor = $doctorModel->getDoctorById($id);

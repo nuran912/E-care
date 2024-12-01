@@ -15,6 +15,22 @@
                 <label for="doctor-name">Doctor Name:</label>
                 <input type="text" <?php echo (empty($nameQuery) ? "" :  "value=\"$nameQuery\"") ?> name="doctor" id="" placeholder=" Enter doctor name">
             </div>
+            <!-- <div class="form-group">
+                <label for="doctor">Doctor:</label>
+                <select id="doctor" name="doctor" <?php echo (empty($nameQuery) ? "" :  "value=\"$nameQuery\"") ?>>
+                    <option value="" disabled selected>--Select Doctor--</option>
+                    <?php if (!empty($doctorNames)) : ?>
+                    <?php foreach ($doctorNames as $doctor): ?>
+                        <option value="<?php echo $doctor['id']; ?>" <?php echo $nameQuery == $doctor['id'] ? 'selected' : ''; ?>>
+                            <?php echo $doctor['name']; ?>
+                        </option>
+                    <?php endforeach; ?>
+                    <?php else : ?>
+                        <option value="" disabled>No doctors available</option>
+                    <?php endif; ?>
+                </select>
+                </select>
+            </div> -->
 
             <div class="form-group">
                 <label for="hospital">Hospital:</label>

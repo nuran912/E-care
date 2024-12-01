@@ -66,7 +66,7 @@ class Appointmentdetails extends Controller
             echo "Appointment ID not provided.";
             exit;
         }
-
+var_dump($_SESSION);
 
         $service_charge = 285;
 

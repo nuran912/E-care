@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const patientEmailInput = document.getElementById("patientEmail");
   const patientPhoneInput = document.getElementById("patientPhone");
   const idNumberInput = document.getElementById("idNumber");
+  const title= document.getElementById("title");
 
   function updateFormFields() {
     if (loggedpersonCheckbox.checked) {
@@ -82,11 +83,13 @@ document.addEventListener("DOMContentLoaded", function () {
       patientEmailInput.value = loggedpersonCheckbox.dataset.email;
       patientPhoneInput.value = loggedpersonCheckbox.dataset.contact;
       idNumberInput.value = loggedpersonCheckbox.dataset.idnumber;
+      title.value = loggedpersonCheckbox.dataset.title;
     } else {
       patientNameInput.value = "";
       patientEmailInput.value = "";
       patientPhoneInput.value = "";
       idNumberInput.value = "";
+      title.value = "";
     }
   }
 

@@ -13,27 +13,23 @@
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
             <div class="isloggedperson">
-            <input name="isloggedperson" type="checkbox" id="isloggedperson"  
+            <input name="isloggedperson" type="checkbox" id="isloggedperson"
+                          data-title="<?php echo htmlspecialchars($_SESSION['USER']->title ?? ''); ?>"  
                        data-username="<?php echo htmlspecialchars($_SESSION['USER']->name ?? ''); ?>" 
                        data-email="<?php echo htmlspecialchars($_SESSION['USER']->email ?? ''); ?>" 
                        data-contact="<?php echo htmlspecialchars($_SESSION['USER']->phone_number ?? ''); ?>" 
                        data-idnumber="<?php echo htmlspecialchars($_SESSION['USER']->NIC ?? ''); ?>">
-            <label for="serviceCharge">Click here to add the logged person's details</label>
+                       
+            <label for="serviceCharge">Click here to add the logged person's details <span class="warning-text">
+                            (This feature can use only if the logged person is the patient.. Guest users have to fill the form)
+                        </span></label>
             </div>
             <div id="patientForm">
                 <div class="form-row">
                     <div class="form-group title-group">
                         <label for="title">Title</label>
+                        <input type="text" id="title" name="title" placeholder="Enter title" required>
                         <span id="idError" class="error-message"></span>
-                        <select id="title" name="title" required>
-                            <option value="" disabled selected>Select Title</option>
-                            <option value="dr">Dr.</option>
-                            <option value="mr">Mr.</option>
-                            <option value="mrs">Mrs.</option>
-                            <option value="ms">Ms.</option>
-                            <option value="miss">Miss</option>
-                            <option value="ven">ven.</option>
-                        </select>
                     </div>
                     <div class="form-group name-group">
                         <label>Patient's Full name</label>

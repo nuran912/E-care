@@ -39,11 +39,15 @@ if (!isset($errors)) {
                 <div class="form-row">
 
                     <div class="form-group">
-                        <label for="">Title</label>
-                        <select name="title" class="title">
+                        <label for="">Title<span style="color: red;">*</span></label>
+                        <select name="title" class="title" required>
                             <option value="Mr">Mr</option>
                             <option value="Ms">Ms</option>
                             <option value="Mrs">Mrs</option>
+                            <option value="Dr">Dr</option>
+                            <option value="prof">Prof</option>
+                            <option value="Rev">Rev</option>
+
                         </select>
                     </div>
 

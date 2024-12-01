@@ -41,6 +41,7 @@ if (!isset($errors)) {
                     <div class="form-group">
                         <label for="">Title<span style="color: red;">*</span></label>
                         <select name="title" class="title" required>
+                            <option value="" disabled selected>Select</option>
                             <option value="Mr">Mr</option>
                             <option value="Ms">Ms</option>
                             <option value="Mrs">Mrs</option>

@@ -21,7 +21,7 @@ $doctorId = $data['doctorId'];
         <!-- Doctor Card -->
         <div class="doctor-card">
             <div class="profile-image">
-                <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+                <img class="profimg " src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
             </div>
             <div class="doctor-name"><?php echo $doctor_name; ?></div>
             <div class="specialization"><?php echo isset($doctor_specialization) ? $doctor_specialization : 'Specialization not available'; ?></div>

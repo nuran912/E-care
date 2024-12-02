@@ -8,7 +8,17 @@
 </head>
 
 <body>
+<div class="maincontent">  <h5>
+    <span style="--i:1">Welcome</span> 
+    <span style="--i:2">To</span> 
+    <span style="--i:3">ECARE-UNION</span> 
+    <span style="--i:4">Digital</span> 
+    <span style="--i:5">Platform!</span>
+  </h5>
+    <h6>We are delighted to assist you in booking your appointments with our esteemed medical professionals.</h6>
+    </div >
     <div class="searchform">
+        
         <h2>Book Your Appointment</h2>
         <form id="search-form" action="" method="GET">
             <div class="form-group">
@@ -90,7 +100,7 @@
                 <?php if (isset($doctorResults) && is_array($doctorResults)): ?>
                     <?php foreach ($doctorResults as $doc) : ?>
                         <div class="card">
-                            <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+                            <img class="profimg " src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
                             <h3><?php echo $doc->name ?></h3>
                             <p><?php echo is_array($doc->specialization) ? implode(", ", $doc->specialization) : $doc->specialization; ?></p>
                             <?php
@@ -109,7 +119,7 @@
                             <a href="<?php echo ROOT;  ?>/DoctorAvailableTimes?<?php echo http_build_query($queryArray); ?>">
                                 <button>Channel Now</button>
                             </a>
-                            <a href="<?php echo ROOT; ?>/DoctorProfile?id=<?= $doc->id ?>">
+                            <a href="<?php echo ROOT; ?>/DoctorProfilecard?id=<?= $doc->id ?>">
                                 <button>View Profile</button>
                             </a>
                         </div>

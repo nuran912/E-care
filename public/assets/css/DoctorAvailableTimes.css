@@ -184,6 +184,7 @@ body {
     width: 100%;
   }
 }
-img{
+.profimg{
   margin-bottom: 15px;
+  height: 120px;
 }

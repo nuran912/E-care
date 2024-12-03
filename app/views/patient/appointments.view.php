@@ -32,6 +32,7 @@ $currentDate = date("Y-m-d H:i:s");
                 <div class="content active">
                    <?php if (isset($data) && is_array($data) && !empty($data)): ?>
                         <?php 
+                        
                    $hasPendingAppointments = false;
                     foreach ($data as $appointment): 
                        if ($appointment->status == 'scheduled' || $appointment->status == 'pending'): 
@@ -61,6 +62,7 @@ $currentDate = date("Y-m-d H:i:s");
         <?php endif; ?>
 
     <?php else: ?>
+        clear
         <p>No Pending Appointments found.</p>
     <?php endif; ?>
 </div>

@@ -10,6 +10,7 @@
 
 <body>
     <main>
+
         <div class="container">
             <div class="tab-box">
                 <button class="tab-button active">Pending Appointments</button>
@@ -20,57 +21,80 @@
             <div class="content-box">
 
 
+<?php
+date_default_timezone_set("Asia/Colombo");
+$currentDate = date("Y-m-d H:i:s");
 
+?>
+
+  
                 <!-- Pending Appointments Section -->
                 <div class="content active">
-                    <?php if (isset($data) && is_array($data)): ?>
-                        <?php foreach ($data as $appointment): ?>
-                            <?php if ($appointment->status == 'scheduled' || $appointment->status == 'pending'): ?>
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                   <?php if (isset($data) && is_array($data) && !empty($data)): ?>
+                        <?php 
+                   $hasPendingAppointments = false;
+                    foreach ($data as $appointment): 
+                       if ($appointment->status == 'scheduled' || $appointment->status == 'pending'): 
+                         $hasPendingAppointments = true;
+                                     ?>
+                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
 
-                                <div class="appointment">
-                                    <span class="doctor">Doctor: <?php echo ($appointment->doctor_name); ?></span>
-                                    <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                <div class="appointment">
+                    <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
+                    <span class="ref-no">Appointment No: <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
+                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
 
-                                    <button class="view-button">View</button>
-                                    <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
-                                    <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+                    <button class="view-button">View</button>
+                    <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
+                    <span class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
 
-                                    <form method="POST" action="<?= ROOT; ?>/patient/cancelAppointment" onsubmit="return confirmDelete();">
-                                        <input type="hidden" name="appointment_id" value="<?= $appointment->appointment_id; ?>">
-                                        <button type="submit" name="cancel" class="cancel-button">Cancel</button>
-                                    </form>
-
-                                </div>
-                            <?php else: ?>
-                                <!-- <p>No Pending Appointments found.</p> -->
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>No Pending Appointments found.</p>
-                    <?php endif; ?>
+                    <form method="POST" action="<?= ROOT; ?>/patient/cancelAppointment" onsubmit="return confirmDelete();">
+                        <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($appointment->appointment_id); ?>">
+                        <button type="submit" name="cancel" class="cancel-button">Cancel</button>
+                    </form>
                 </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <?php if (!$hasPendingAppointments): ?>
+            <p>No Pending Appointments found.</p>
+        <?php endif; ?>
+
+    <?php else: ?>
+        <p>No Pending Appointments found.</p>
+    <?php endif; ?>
+</div>
+
 
                 <!-- Past Appointments Section -->
                 <div class="content">
-                    <?php if (isset($data) && is_array($data)): ?>
-                        <?php foreach ($data as $appointment): ?>
-                            <?php if ($appointment->status == 'completed'): ?>
+                    <?php if (isset($data) && is_array($data) &&(!empty($data))): ?>
+                     
+                        <?php 
+                           $haspastAppointments=false;
+                        foreach ($data as $appointment): 
+                              if ($appointment->status == 'completed'): 
+                                $haspastAppointments=true;
+                                ?>
+
+
                                 <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
 
                                 <div class="appointment">
-                                    <span class="doctor">Doctor: <?php echo ($appointment->doctor_name); ?></span>
+                                    <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
                                     <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
                                     <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
                                     <button class="cancel-view-button">View</button>
                                     <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
                                     <span class="specialization"><?php echo ($appointment->specialization); ?></span>
                                 </div>
-                            <?php else: ?>
-                                <!-- <p>No Past Appointments found.</p> -->
+                            
                             <?php endif; ?>
                         <?php endforeach; ?>
+                        <?php if (!$haspastAppointments): ?>
+                       <p>No past Appointments found.</p>
+                       <?php endif; ?>
+
                     <?php else: ?>
                         <p>No Past Appointments found.</p>
                     <?php endif; ?>

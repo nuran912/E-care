@@ -112,7 +112,7 @@
                             }
                             if ($dateQuery) {
                                 $queryArray['date'] = $dateQuery;
-                            }
+                              }
                             ?>
 
 

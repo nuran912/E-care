@@ -11,49 +11,78 @@ class Doctor extends Controller{
     }
 
     public function profile($a = '', $b = '', $c = ''){
-    
+    //   show($_SESSION['USER']);
       $doctor = new DoctorModel;
       $user = new User;
-      // show($_SESSION['USER']);
       $data1 = array($doctor->getDoctorByUserId($_SESSION['USER']->user_id));
       $data2 = array($user->getById($_SESSION['USER']->user_id));
       $data = array_merge($data1, $data2);
-      // show($data1);
-      // show($data2);
-      // show($data);
+      $data['error'] = "";
+      $data['success'] = "";
 
       $this->view('header');
       
       if( $a == 'update'){
-          
           if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-              
-              $doctor = new DoctorModel;
-              $user = new User;
-              $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-              $userData = $user->getById($_SESSION['USER']->user_id);
-              // show($doctorData->id);
-              // show($userData->user_id);
-              // show($_POST);
-              
-              $doctor->update($doctorData->id, $_POST, 'id');
-              $user->updateDoctorDetails($userData->user_id, $_POST, 'user_id');
+            $doctor = new DoctorModel;
+            $user = new User;
+            $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+            $userData = $user->getById($_SESSION['USER']->user_id);
+
+            $dataToUpdate = $_POST;
+            if(empty($dataToUpdate['password']) || empty($dataToUpdate['newpassword'])){
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                $_SESSION['success'] = "Profile updated successfully";
+              }else if(!empty($dataToUpdate['password']) && !empty($dataToUpdate['newpassword'])){
+                if($dataToUpdate['password'] == $_SESSION['USER']->password){
+                    $dataToUpdate['password'] = $dataToUpdate['newpassword'];
+                    unset($dataToUpdate['newpassword']);
+                    $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                    $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                    $_SESSION['success'] = "Profile updated successfully";
+                }
+              }
+            //   else if(!empty($dataToUpdate['password']) || !empty($dataToUpdate['newpassword'])){
+            //     $_SESSION['error'] = "Enter current and new passwords to update your password";
+            //   } else{
+            //     $_SESSION['error'] == "update failed";
+            //   }
               redirect('Doctor/profile');
             }
         }
+        // $data['success'] = $_SESSION['success'];
+        // $data['error'] = $_SESSION['error'];
     $this->view('Doctor/doctorProfile', $data);
     $this->view('footer');
     }
 
     public function doctorPastAppt($a = '', $b = '', $c = ''){
         $this->view('header');
-        $this->view('Doctor/doctorPastAppt');
+
+        $appointments = new Appointments;
+        $doctor = new DoctorModel;
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $appointmentsData = $appointments->getAppointmentsByDoctorId($doctorData->id);
+
+        $this->view('Doctor/doctorPastAppt', $appointmentsData);
         $this->view('footer');
     }
 
     public function doctorPendingAppt($a = '', $b = '', $c = ''){
         $this->view('header');
-        $this->view('Doctor/doctorPendingAppt');
+
+        $appointments = new Appointments;
+        $doctor = new DoctorModel;
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        // show($_SESSION['USER']);
+        // show($doctorData);
+        $appointmentsData = $appointments->getAppointmentsByDoctorId($doctorData->id);
+        // show($appointmentsData);
+
+        $this->view('Doctor/doctorPendingAppt', $appointmentsData);
         $this->view('footer');
     }
 

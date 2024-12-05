@@ -87,7 +87,7 @@ class User
       return false;
    }
 
-   public function update($id, $data, $id_column = 'id')
+   public function updateUser($id, $data, $id_column = 'id')
    {
       $password = $data['password'];
       $newPassword = $data['newPassword'];

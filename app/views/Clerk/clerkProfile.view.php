@@ -110,39 +110,7 @@
             color: #bbb;
         }
 
-        button {
-            background-color: #0E2F56;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 20px;
-            width: 35%;
-            font-size:medium;
-        }
-
-        button:hover {
-            background-color: #0a2340;
-        }
-
-        button[type="reset"]{
-            background-color: #dc3545;
-        }
-        button[type="reset"]:hover{
-            background-color: #c82333;
-        }
-
-        .buttons {
-            display: flex;
-            flex-grow: 1;
-            flex-direction: row;
-            justify-content: center;
-            gap: 50px;
-        }
-        /* input[type="submit"] {
+        input[type="submit"] {
             background-color: #0E2F56;
             color: white;
             border: none;
@@ -156,7 +124,7 @@
 
         input[type="submit"]:hover {
             background-color: #0a2340;
-        } */
+        }
 
         .alert {
             padding: 16px;
@@ -184,42 +152,33 @@
                 <img src="" alt="Profile Picture">
             </div>
             <div class="profileDesc">
-                <h3>Dr. <?= $data[1]->name ?></h3>
-                <h3><?= $data[0]->specialization ?></h3>
-                <h4>Specialist</h4>
+                <h3>Mr. <?=$data[0]->name?></h3>
+                <h3><?=$data[0]->role?></h3>
             </div>
         </div>
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
-            <form method="POST" action="<?= ROOT?>/Doctor/profile/update">
+            <form method="POST" action="<?= ROOT?>/Clerk/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
-                    <input type="text" name="name" id="name" value="<?= $data[1]->name ?>">
+                    <input type="text" name="name" id="name" value="<?=$data[0]->name?>">
                 </div>
                 <div class="info">
-                    <label for="empId">Registration Number:</label>
-                    <input type="text" name="registration_number" id="empId" placeholder="Enter your registration ID" value="<?= $data[0]->registration_number ?>">
-                </div>
-                <div class="info">
-                    <label for="specialization">Specialization :</label>
-                    <input type="text" name="specialization" id="specialization" placeholder="Enter your specialization" value="<?= $data[0]->specialization ?>">
-                </div>
-                <div class="info">
-                    <label for="qualifications">Qualifications :</label>
-                    <input type="text" name="other_qualifications" id="qualifications" placeholder="Enter your qualifications" value="<?= $data[0]->other_qualifications ?>">
+                    <label for="empId">Employee ID:</label>
+                    <input type="text" name="empId" id="empId" placeholder="Enter your employee ID" value="emp no.">
                 </div>
                 <div class="info">
                     <label for="id">NIC/Passport :</label>
-                    <input type="text" name="NIC" id="id" placeholder="Enter your identification" value="<?= $data[1]->NIC ?>">
+                    <input type="text" name="NIC" id="id" placeholder="Enter your identification" value="<?=$data[0]->NIC?>">
                 </div>
                 <div class="info">
                     <label for="contact">Contact Number :</label>
-                    <input type="text" name="phone_number" id="contact" placeholder="Enter your contact" value="<?= $data[1]->phone_number ?>">
+                    <input type="text" name="phone_number" id="contact" placeholder="Enter your contact" value="<?=$data[0]->phone_number?>">
                 </div>
                 <div class="info">
                     <label for="email">Email :</label>
-                    <input type="email" name="email" id="email" placeholder="johndoe@example.com" value="<?= $data[1]->email ?>">
+                    <input type="email" name="email" id="email" placeholder="johndoe@example.com" value="<?=$data[0]->email?>">
                 </div>
                 <br/>
                 <div class="info">
@@ -232,11 +191,7 @@
                 </div>
                 <p>(Enter current password to change the password)</p>
                 <div class="info">
-                    <!-- <input type="submit" value="Save Changes"> -->
-                    <div class="buttons">
-                        <button type="submit">Save Changes</button>
-                        <button type="reset">Reset</button>
-                    </div>
+                    <input type="submit" value="Save Changes">
                 </div>
                 <!-- <?php if(!empty($data['error'])): ?>
                     <div class="alert alert-danger">

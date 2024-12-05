@@ -34,7 +34,7 @@ class Patient extends Controller
     {
         $this->view('header');
 
-        $doctorModel = new Doctor;
+        $doctorModel = new DoctorModel;
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
 
         if (!is_array($data)) {

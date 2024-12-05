@@ -57,13 +57,13 @@
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
             <?php endif; ?>
-            <?php if ($_SESSION['USER']->role == 'lab_clerk'): ?>
+            <?php if (($_SESSION['USER']->role == 'lab_clerk') || ($_SESSION['USER']->role == 'record_clerk')): ?>
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
                <card>
                   <h4>Lab Clerk Menu</h4>
-                  <!-- <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p> -->
-                  <p><a href="<?php echo ROOT ?>/clerkWorkLog">Work Station</a></p>
-                  <p><a href="<?php echo ROOT ?>/clerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/clerkWorkLog">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/clerkUploadDoc">Upload Document</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

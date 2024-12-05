@@ -5,7 +5,7 @@ $doctor_name = $data['doctor_name'];
 $doctor_specialization = $data['doctor_specialization'];
 $doctorId = $data['doctorId'];
 
-// var_dump($appointments, $doctor_name, $doctor_specialization);
+
 
 ?>
 <!DOCTYPE html>

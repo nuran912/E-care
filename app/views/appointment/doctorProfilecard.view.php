@@ -23,12 +23,9 @@
                     <h5 class="specialization"><?= is_array($specialization) ? join(", ", $specialization) : $specialization ?></h5>
 
                 </div>
-                <!-- <a href="<?php echo ROOT; ?>/DoctorAvailableTimes?id=<?= $doctorId ?>">
-                <button class="channel-now-btn">Channel Now</button>
-            </a> -->
+                <button class="channel-now-btn" onclick="window.history.back();">Channel Now</button>
             </div>
-
-            <div class="details-card">
+     <div class="details-card">
                 <div class="details-grid">
                     <div class="detail-item">
                         <h3>Other Qualifications</h3>

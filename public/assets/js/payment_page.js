@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
       idNumberInput.setAttribute("placeholder", "Enter NIC number");
     } else if (passportRadio.checked) {
       idNumberInput.setAttribute("pattern", passportPattern);
-      idNumberInput.setAttribute("placeholder", "Enter Passport number");
+      idNumberInput.setAttribute("placeholder", "Enter Passport number (Passport number must start with N or P followed by 7 digits (e.g., N1234567))");
     }
   }
 
@@ -67,4 +67,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize pattern on page load
   updatePattern();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const loggedpersonCheckbox = document.getElementById("isloggedperson");
+  const patientNameInput = document.getElementById("patientName");
+  const patientEmailInput = document.getElementById("patientEmail");
+  const patientPhoneInput = document.getElementById("patientPhone");
+  const idNumberInput = document.getElementById("idNumber");
+  const title= document.getElementById("title");
+
+  function updateFormFields() {
+    if (loggedpersonCheckbox.checked) {
+      patientNameInput.value = loggedpersonCheckbox.dataset.username;
+      patientEmailInput.value = loggedpersonCheckbox.dataset.email;
+      patientPhoneInput.value = loggedpersonCheckbox.dataset.contact;
+      idNumberInput.value = loggedpersonCheckbox.dataset.idnumber;
+      title.value = loggedpersonCheckbox.dataset.title;
+    } else {
+      patientNameInput.value = "";
+      patientEmailInput.value = "";
+      patientPhoneInput.value = "";
+      idNumberInput.value = "";
+      title.value = "";
+    }
+  }
+
+  // Initial check on page load
+  updateFormFields();
+
+  // Add event listener for changes
+  loggedpersonCheckbox.addEventListener("change", updateFormFields);
 });

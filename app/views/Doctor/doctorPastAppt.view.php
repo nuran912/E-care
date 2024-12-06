@@ -28,7 +28,7 @@
             flex-direction: row;
             justify-content: center;
             border-bottom: 2px solid #d1c9c9;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             width: 100%;
         }
         .tab{
@@ -36,6 +36,7 @@
             display: flex;
             justify-content: center;
             flex-grow: 1;
+            font-size: 1.17em;
         }
         .tab.active{
             color: #003366;
@@ -70,6 +71,7 @@
             padding: 4px 10px;
             background-color: #ebe0e0;
             font-weight: bold;
+            width: 150px;
         }
         .buttons{
             display: flex;
@@ -93,17 +95,44 @@
             <div class="tab"><a href="./doctorPendingAppt">Pending Appointments</a></div>
             <div class="tab active">Past Appointments</div>
         </div>
+        <?php 
+            $pastApptCount = 0;
+            foreach($data as $appt){
+                if((new DateTime($appt->session_date)) < (new DateTime())){
+                    $pastApptCount++;
+                }
+            }
+            // show($pastApptCount);
+            if($pastApptCount == 0){
+                echo "<h3>No past appointments found.</h3>";
+            }else{
+            usort($data, function($a, $b) {
+                    return strtotime($a->session_date) <=> strtotime($b->session_date); // Compare dates as timestamps
+                });
+            foreach($data as $appt) : { 
+                if ((new DateTime($appt->session_date)) < new DateTime()){
+        ?>
         <div class="appointments">
-            <div class="date"> &nbsp&nbsp88 / 88 / 8888</div>
+            <div class="date"> &nbsp&nbsp<?=$appt->session_date?></div>
             <div class="apptInfo">
-                <div class="item">Patient Name</div>
-                <div class="item">reference Number</div>
-                <div class="item">Time</div>
+                <div>
+                    <label>Patient Name</label>
+                    <div class="item"><?=$appt->patient_name?></div>
+                </div>
+                <div>
+                    <label>reference Number</label>
+                    <div class="item"><?=$appt->appointment_id?></div>
+                </div>
+                <div>
+                    <label>Time</label>
+                    <div class="item"><?=$appt->session_time?></div>
+                </div>
                 <div class="buttons">
                     <button class="view">View</button>
                 </div>
             </div>
         </div>
+        <?php }} endforeach; } ?>
     </div>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <title>Dr Pending Appt</title>
     <style>
         body {
-            font-family: 'Lucida Sans';
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
             background-color: #f9f9f9;
             margin: 0;
             padding: 0;
@@ -28,7 +28,7 @@
             flex-direction: row;
             justify-content: center;
             border-bottom: 2px solid #d1c9c9;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             width: 100%;
         }
         .tab{
@@ -36,6 +36,7 @@
             display: flex;
             justify-content: center;
             flex-grow: 1;
+            font-size: 1.17em;
         }
         .tab.active{
             color: #003366;
@@ -70,6 +71,7 @@
             padding: 4px 10px;
             background-color: #ebe0e0;
             font-weight: bold;
+            width: 150px;
         }
         .buttons{
             display: flex;
@@ -100,18 +102,46 @@
             <div class="tab active">Pending Appointments</div>
             <div class="tab"><a href="./doctorPastAppt">Past Appointments</a></div>
         </div>
-        <div class="appointments">
-            <div class="date"> &nbsp&nbsp88 / 88 / 8888</div>
-            <div class="apptInfo">
-                <div class="item">Patient Name</div>
-                <div class="item">reference Number</div>
-                <div class="item">Time</div>
-                <div class="buttons">
-                    <button class="view">View</button>
-                    <button class="cancel">Cancel</button>
+        
+        <?php
+            $pendingApptCount = 0;
+            foreach($data as $appt){
+                if((new DateTime($appt->session_date)) >= (new DateTime())){
+                    $pendingApptCount++;
+                }
+            }
+            // show($pendingApptCount);
+            if($pendingApptCount == 0){
+                echo "<h3>No pending appointments found.</h3>";
+            }else{
+            usort($data, function($a, $b) {
+                    return strtotime($a->session_date) <=> strtotime($b->session_date); // Compare dates as timestamps
+                });
+            foreach($data as $appt) : { 
+                if ((new DateTime($appt->session_date)) >= new DateTime()){
+        ?>
+            <div class="appointments">
+                <div class="date"> &nbsp&nbsp<?=$appt->session_date?></div>
+                <div class="apptInfo">
+                    <div>
+                        <label>Patient Name</label>
+                        <div class="item"><?=$appt->patient_name?></div>
+                    </div>
+                    <div>
+                        <label>reference Number</label>
+                        <div class="item"><?=$appt->appointment_id?></div>
+                    </div>
+                    <div>
+                        <label>Time</label>
+                        <div class="item"><?=$appt->session_time?></div>
+                    </div>
+                    <div class="buttons">
+                        <button class="view">View</button>
+                        <button class="cancel">Cancel</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php }} endforeach; } ?>
     </div>
 </body>
 </html>

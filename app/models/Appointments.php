@@ -23,16 +23,17 @@ class Appointments
     ];
 
     public $order_column = 'id';
- 
-    function updateStatus($appointmentId, $paymentstatus)
-    {
-        $this->update($appointmentId, $paymentstatus);
+
+    public function getAppointmentsByUserId($id){
+        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
+        $result = $this->query($query, ['user_id' => $id]);
+        return $result ? $result : null;
     }
-
-
-
-    
-  
+    public function getAppointmentsByDoctorId($doctorId){
+        $query = "SELECT * FROM $this->table WHERE doctor_id = :doctor_id ";
+        $result = $this->query($query, ['doctor_id' => $doctorId]);
+        return $result ? $result : null;
+    }
 }
 
 

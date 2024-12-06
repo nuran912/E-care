@@ -1,5 +1,4 @@
 <?php
-
 trait Model
 {
    use Database;

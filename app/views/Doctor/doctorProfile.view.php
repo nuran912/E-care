@@ -86,9 +86,13 @@
             text-align: left;
         }
 
-        p{
+        .pw-desc{
             color: #0E2F56;
             margin-top: 0;
+        }
+        p {
+            color: #0E2F56;
+            /* margin-top: 0; */
         }
 
         input {
@@ -142,21 +146,6 @@
             justify-content: center;
             gap: 50px;
         }
-        /* input[type="submit"] {
-            background-color: #0E2F56;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0a2340;
-        } */
 
         .alert {
             padding: 16px;
@@ -173,6 +162,47 @@
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
+        }
+        .error {
+            position:relative;
+            /* background-color: darkred; */
+            /* border-color: #c82333; */
+            color: white;
+            border: 3px red solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            /* z-index: 1000; */
+        }
+
+        .success {
+            position:relative;
+            /* background-color: green; */
+            /* border-color: lightgreen; */
+            color: white;
+            border: 3px lightgreen solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            /* z-index: 1000; */
         }
     </style>
 </head>
@@ -192,6 +222,34 @@
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
+            <!-- <?php show($data) ?> -->
+            <!-- <?=$data['success']?>
+            <?=$data['passUpdateError']?>
+            <?=$data['passUpdateSuccess']?>  -->
+            <!-- <?php $status = $_SESSION['updateData'] ?> -->
+            <!-- <?= show($status)?> -->
+            <?php if (!empty($data['error'])): ?>
+                <div class="error">
+                    <?php foreach ($data['error'] as $error): ?>
+                        <p><?=$error?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['success'] != "" ): ?>
+                <div class="success">
+                        <p><?=$data['success']?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['passUpdateError'] != "" ): ?>
+                <div class="error">
+                        <p><?=$data['passUpdateError']?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['passUpdateSuccess'] != "" ): ?>
+                <div class="success">
+                        <p><?=$data['passUpdateSuccess']?></p>
+                </div>
+            <?php endif; ?> 
             <form method="POST" action="<?= ROOT?>/Doctor/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
@@ -230,7 +288,7 @@
                     <label for="newpassword">New Password :</label>
                     <input type="password" name="newpassword" id="newpassword" placeholder="Enter your new password">
                 </div>
-                <p>(Enter current password to change the password)</p>
+                <p class="pw-desc">(Enter current password to change the password)</p>
                 <div class="info">
                     <!-- <input type="submit" value="Save Changes"> -->
                     <div class="buttons">

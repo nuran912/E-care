@@ -17,44 +17,69 @@ class Doctor extends Controller{
       $data1 = array($doctor->getDoctorByUserId($_SESSION['USER']->user_id));
       $data2 = array($user->getById($_SESSION['USER']->user_id));
       $data = array_merge($data1, $data2);
-      $data['error'] = "";
+      $data['error'] = [];
       $data['success'] = "";
+      $data['status'] = [];
+      $data['passUpdateSuccess'] = "";
+      $data['passUpdateError'] = "";
+      $_SESSION['updateData'] = [];
+      
 
       $this->view('header');
       
       if( $a == 'update'){
           if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $doctor = new DoctorModel;
-            $user = new User;
+            // $doctor = new DoctorModel;
+            // $user = new User;
             $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
             $userData = $user->getById($_SESSION['USER']->user_id);
 
+            $originalProfileInfo = [
+                'name' => $userData->name,
+                'registration_number' => $doctorData->registration_number,
+                'specialization' => $doctorData->specialization,
+                'other_qualifications' => $doctorData->other_qualifications,
+                'NIC' => $userData->NIC,
+                'phone_number' => $userData->phone_number,
+                'email' => $userData->email,
+            ];
+
             $dataToUpdate = $_POST;
-            if(empty($dataToUpdate['password']) || empty($dataToUpdate['newpassword'])){
-                unset($dataToUpdate['password']);
-                unset($dataToUpdate['newpassword']);
-                $doctor->update($doctorData->id, $dataToUpdate, 'id');
-                $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
-                $_SESSION['success'] = "Profile updated successfully";
-              }else if(!empty($dataToUpdate['password']) && !empty($dataToUpdate['newpassword'])){
-                if($dataToUpdate['password'] == $_SESSION['USER']->password){
-                    $dataToUpdate['password'] = $dataToUpdate['newpassword'];
-                    unset($dataToUpdate['newpassword']);
+            $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
+            
+            $data['status'] = $doctor->profileValidation($dataToUpdate, $originalProfileInfo);
+            
+            if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                if($data['status'] === true){
                     $doctor->update($doctorData->id, $dataToUpdate, 'id');
                     $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
-                    $_SESSION['success'] = "Profile updated successfully";
+                    $data['success'] = "Profile information updated successfully";
+                }else{
+                    $data['error'] = $data['status'];
                 }
-              }
-            //   else if(!empty($dataToUpdate['password']) || !empty($dataToUpdate['newpassword'])){
-            //     $_SESSION['error'] = "Enter current and new passwords to update your password";
-            //   } else{
-            //     $_SESSION['error'] == "update failed";
-            //   }
-              redirect('Doctor/profile');
+            }else{
+                $passswordToUpdate = $doctor->passwordValidation($passswordToUpdate, $userData->password);
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                if($data['status'] === true){
+                    $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                    $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                    $data['success'] = "Profile information updated successfully";
+                }else{
+                    $data['error'] = $data['status'];
+                }
+                if($passswordToUpdate['passUpdateStatus'] === true){
+                    $user->updateDoctorDetails($userData->user_id, $passswordToUpdate, 'user_id');
+                    $_SESSION['USER']->password = $passswordToUpdate['password'];
+                    $data['passUpdateSuccess'] = "Password updated successfully";
+                }else{
+                    $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
+                }
+            }
+            // redirect('Doctor/profile');
+            
             }
         }
-        // $data['success'] = $_SESSION['success'];
-        // $data['error'] = $_SESSION['error'];
     $this->view('Doctor/doctorProfile', $data);
     $this->view('footer');
     }
@@ -77,10 +102,7 @@ class Doctor extends Controller{
         $appointments = new Appointments;
         $doctor = new DoctorModel;
         $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-        // show($_SESSION['USER']);
-        // show($doctorData);
         $appointmentsData = $appointments->getAppointmentsByDoctorId($doctorData->id);
-        // show($appointmentsData);
 
         $this->view('Doctor/doctorPendingAppt', $appointmentsData);
         $this->view('footer');

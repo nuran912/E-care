@@ -3,7 +3,7 @@ class ClerkModel
 {
     use Model;
 
-    protected $table = 'users';
+    protected $table = 'clerks';
 
     protected $allowedColumns = [
         'id',
@@ -22,114 +22,91 @@ class ClerkModel
 
     public $order_column = 'name';
 
-    //search for doctors
-    public function search($nameQuery = null, $hospitalQuery = null, $specializationQuery = null, $dateQuery = null)
+    public function getClerkById($emp_id)
     {
-        $query = "SELECT * FROM doctors WHERE 1=1";
-        $data = [];
-        if (!empty($nameQuery)) {
-            $query .= " AND name LIKE :name";
-            $data['name'] = "%$nameQuery%";
-        }
-        if (!empty($hospitalQuery)) {
-            $query .= " AND hospital = :hospital";
-            $data['hospital'] = $hospitalQuery;
-        }
-        if (!empty($specializationQuery)) {
-            $query .= " AND specialization = :specialization";
-            $data['specialization'] = $specializationQuery;
-        }
-        if (!empty($dateQuery)) {
-            $query .= " AND id IN (SELECT doctor_id FROM availabletimes WHERE date = :date)";
-            $data['date'] = $dateQuery;
-        }
-        return $this->query($query, $data);
-    }
-     
-
-
-    
-    //get all specializations
-    public function getSpecializations()
-    {
-        $query = "SELECT DISTINCT specialization FROM doctors";
-        $result = $this->query($query);
-        $specializations = [];
-        foreach ($result as $row) {
-            $specializations[] =  $row->specialization;
-        }
-        return $specializations;
-    }
-
-    public function getDoctorById($doctorId)
-    {
-        $query = "SELECT * FROM $this->table WHERE id = :id ";
-        $result = $this->query($query, ['id' => $doctorId]);
+        $query = "SELECT * FROM $this->table WHERE emp_id = :emp_id ";
+        $result = $this->query($query, ['emp_id' => $emp_id]);
         return $result ? $result[0] : null;
     }
 
-    //get doctor details from doctors table using user_id from users table
-    public function getDoctorByUserId($user_id)
+    //get clerk details from clerks table using user_id from users table
+    public function getClerkByUserId($user_id)
     {
         $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
         $result = $this->query($query, ['user_id' => $user_id]);
         return $result ? $result[0] : null;
     }
 
+    public function profileValidation($data, $originalData)
+    {
+        unset($originalData['password']);
+        unset($originalData['newpassword']);
+        unset($data['password']);
+        unset($data['newpassword']);
+
+        if($data === $originalData){
+            return ["No changes made"];
+        }
+
+       $this->errors = [];
+ 
+       //check email (validity)
+       if (empty($data['email'])) {
+          $this->errors['email'] = "Email is required";
+       } else {
+          $email = $data['email'];
+          if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+             $this->errors['email'] = 'Email must be a valid email address';
+          }
+       }
+ 
+       if (empty($data['phone_number'])) {
+          $this->errors['phone_number'] = "Phone number is required";
+       } else {
+          $phone_number = $data['phone_number'];
+          if (!preg_match('/^\d{10}$/', $phone_number)) {
+             $this->errors['phone_number'] = "Phone number must be 10 digits long";
+          }
+       }
+ 
+       if (empty($data['NIC'])) {
+          $this->errors['NIC'] = "NIC number is required";
+       } else {
+          $NIC = $data['NIC'];
+          if (!preg_match('/^\d{9}[vVxX]$|^\d{12}$/', $NIC)) {
+             $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits";
+          }
+       }
+       if (empty($this->errors)) {
+          return true;
+       }
+       return $this->errors;
+    }
     
-  //thie function is used to get the doctor details in pending appointments and past appointments in appointments controller
-    public function getDoctorDetails($doctor_id)
-    {
-        return $this->query(
-            "SELECT name, specialization FROM doctors WHERE id = :doctor_id",
-            ['doctor_id' => $doctor_id]
-        );
+    public function passwordValidation($dataToUpdate, $existingPass){
+
+        $dataToUpdate['passUpdateSuccess'] = "";
+        
+        if(!empty($dataToUpdate['password']) && !empty($dataToUpdate['newpassword'])){
+            if($dataToUpdate['password'] == $existingPass){
+                $dataToUpdate['password'] = $dataToUpdate['newpassword'];
+                unset($dataToUpdate['newpassword']);
+                $dataToUpdate['passUpdateStatus'] = true;
+                return $dataToUpdate;
+            }else{
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                $dataToUpdate['passUpdateStatus'] = "Current password doesn't match";
+                return $dataToUpdate;
+            }
+          }else{
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                $dataToUpdate['passUpdateStatus'] = "Enter both current and new passwords to update password";
+                return $dataToUpdate;
+            }
     }
-// this  function use to get the doctor specialization in appointments controller
-    public function getDoctorspecilaization($doctor_id, $user_id){
-        return $this->query(
-            "SELECT 
-                d.name AS doctor_name,
-                d.specialization, 
-                a.user_id,
-                a.status
-            FROM 
-                doctors d
-            JOIN 
-                appointments a
-            ON 
-                d.id = a.doctor_id
-            WHERE 
-                a.doctor_id = :doctor_id AND a.user_id = :user_id",
-            ['doctor_id' => $doctor_id, 'user_id' => $user_id]
-        );
-    }
-    public function getUserDoctorAppointments( $user_id)
-    {
-        return $this->query(
-            "SELECT 
-                a.appointment_id,
-                a.user_id,
-                a.status,
-                a.appointment_number,
-                a.hospital_name,
-                a.phone_number,
-                a.session_time,
-                a.session_date,
-                a.total_fee,
-                d.name AS doctor_name,
-                d.specialization
-            FROM 
-              appointments a 
-            JOIN 
-                  doctors d 
-            ON 
-                d.id = a.doctor_id
-            WHERE 
-               a.user_id = :user_id",
-            [ 'user_id' => $user_id]
-        );
-    }
+   
 }
 
 

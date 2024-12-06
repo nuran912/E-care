@@ -3,7 +3,7 @@
 
 <head>
     <!-- <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/Doctorprofilepage.css"> -->
-    <title>Doctor Profile</title>
+    <title>Clerk Profile</title>
     <style>
         body {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -86,9 +86,13 @@
             text-align: left;
         }
 
-        p{
+        .pw-desc{
             color: #0E2F56;
             margin-top: 0;
+        }
+        p {
+            color: #0E2F56;
+            /* margin-top: 0; */
         }
 
         input {
@@ -110,7 +114,7 @@
             color: #bbb;
         }
 
-        input[type="submit"] {
+        button {
             background-color: #0E2F56;
             color: white;
             border: none;
@@ -120,10 +124,27 @@
             padding: 12px;
             border-radius: 8px;
             margin-top: 20px;
+            width: 35%;
+            font-size:medium;
         }
 
-        input[type="submit"]:hover {
+        button:hover {
             background-color: #0a2340;
+        }
+
+        button[type="reset"]{
+            background-color: #dc3545;
+        }
+        button[type="reset"]:hover{
+            background-color: #c82333;
+        }
+
+        .buttons {
+            display: flex;
+            flex-grow: 1;
+            flex-direction: row;
+            justify-content: center;
+            gap: 50px;
         }
 
         .alert {
@@ -142,6 +163,47 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        .error {
+            position:relative;
+            /* background-color: darkred; */
+            /* border-color: #c82333; */
+            color: white;
+            border: 3px red solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            /* z-index: 1000; */
+        }
+
+        .success {
+            position:relative;
+            /* background-color: green; */
+            /* border-color: lightgreen; */
+            color: white;
+            border: 3px lightgreen solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            /* z-index: 1000; */
+        }
     </style>
 </head>
 <body>
@@ -152,13 +214,36 @@
                 <img src="" alt="Profile Picture">
             </div>
             <div class="profileDesc">
-                <h3>Mr. <?=$data[0]->name?></h3>
-                <h3><?=$data[0]->role?></h3>
+                <h3><?=$data[0]->name?></h3>
+                <h4><?=$data[1]->type?></h4>
             </div>
         </div>
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
+            
+            <?php if (!empty($data['error'])): ?>
+                <div class="error">
+                    <?php foreach ($data['error'] as $error): ?>
+                        <p><?=$error?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['success'] != "" ): ?>
+                <div class="success">
+                        <p><?=$data['success']?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['passUpdateError'] != "" ): ?>
+                <div class="error">
+                        <p><?=$data['passUpdateError']?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['passUpdateSuccess'] != "" ): ?>
+                <div class="success">
+                        <p><?=$data['passUpdateSuccess']?></p>
+                </div>
+            <?php endif; ?> 
             <form method="POST" action="<?= ROOT?>/Clerk/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
@@ -166,10 +251,10 @@
                 </div>
                 <div class="info">
                     <label for="empId">Employee ID:</label>
-                    <input type="text" name="empId" id="empId" placeholder="Enter your employee ID" value="emp no.">
+                    <input type="text" name="empId" id="empId" placeholder="Enter your employee ID" value="<?=$data[1]->emp_id?>">
                 </div>
                 <div class="info">
-                    <label for="id">NIC/Passport :</label>
+                    <label for="id">NIC : </label>
                     <input type="text" name="NIC" id="id" placeholder="Enter your identification" value="<?=$data[0]->NIC?>">
                 </div>
                 <div class="info">
@@ -189,20 +274,14 @@
                     <label for="newpassword">New Password :</label>
                     <input type="password" name="newpassword" id="newpassword" placeholder="Enter your new password">
                 </div>
-                <p>(Enter current password to change the password)</p>
+                <p class="pw-desc">(Enter current password to change the password)</p>
                 <div class="info">
-                    <input type="submit" value="Save Changes">
+                    <div class="buttons">
+                        <button type="submit">Save Changes</button>
+                        <button type="reset">Reset</button>
+                    </div>
                 </div>
-                <!-- <?php if(!empty($data['error'])): ?>
-                    <div class="alert alert-danger">
-                        <?= $data['error']; ?>
-                    </div>
-                <?php endif; ?>
-                <?php if(!empty($data['success'])): ?>
-                    <div class="alert alert-success">
-                        <?= $data['success']; ?>
-                    </div>
-                <?php endif; ?> -->
+                
             </form>
         </div>
     </div>

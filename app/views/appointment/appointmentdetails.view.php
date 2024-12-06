@@ -152,10 +152,12 @@
         <input type="hidden" name="hospital_name" value="<?= $appointmentDetails['hospital_name']; ?>">
         <input type="hidden" name="session_date" value="<?= $appointmentDetails['session_date'] ?>">
         <input type="hidden" name="session_time" value="<?= $appointmentDetails['session_time'] ?>">
+        <input type="hidden" name="patient_appointment_time" value="<?= $appointmentDetails['patient_appointment_time']?>">
         <input type="hidden" name="appointment_number" value="<?= $appointmentDetails['appointment_number'] ?>">
         <input type="hidden" name="doctor_id" value="<?= $appointmentDetails['doctor_id'] ?>">
         <input type="hidden" name="doctor_fee" value="<?= $doctor_fee ?>">
         <input type="hidden" name="hospital_fee" value="<?= $hospital_fee ?>">
+
 
     </form>
     <script>

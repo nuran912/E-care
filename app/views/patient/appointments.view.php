@@ -23,7 +23,8 @@
 
                 <?php
                 date_default_timezone_set("Asia/Colombo");
-                $currentDate = date("Y-m-d H:i:s");
+                $currentDate = date("Y-m-d ");
+                $currentTime = date("g:i A");
 
                 ?>
 
@@ -35,10 +36,10 @@
 
                         $hasPendingAppointments = false;
                         foreach ($data as $appointment):
-                            if ($appointment->status == 'scheduled' || $appointment->status == 'pending'):
+                            if ($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime))):
                                 $hasPendingAppointments = true;
                         ?>
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>     <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
                                 <div class="appointment">
                                     <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
@@ -48,12 +49,14 @@
                                     <button class="view-button">View</button>
                                     <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
                                     <span class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
-
                                     <form method="POST" action="<?= ROOT; ?>/patient/cancelAppointment" onsubmit="return confirmDelete();">
                                         <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($appointment->appointment_id); ?>">
                                         <button type="submit" name="cancel" class="cancel-button">Cancel</button>
+                                        
                                     </form>
+                                
                                 </div>
+                               
                             <?php endif; ?>
                         <?php endforeach; ?>
 
@@ -75,12 +78,12 @@
                         <?php
                         $haspastAppointments = false;
                         foreach ($data as $appointment):
-                            if ($appointment->status == 'completed'):
+                            if ($appointment->session_date <= $currentDate && $appointment->session_time < $currentTime):
                                 $haspastAppointments = true;
                         ?>
 
 
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?>  <span class="status">Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
                                 <div class="appointment">
                                     <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
@@ -89,6 +92,7 @@
                                     <button class="cancel-view-button">View</button>
                                     <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
                                     <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+                                    
                                 </div>
 
                             <?php endif; ?>
@@ -141,6 +145,7 @@
                     <p><strong>Time:</strong> ${time}</p>
                     <p><strong>Hospital:</strong> ${hospital}</p>
                     <p><strong>Specialization:</strong> ${specialization}</p>
+                    <!-- <p><strong>Status:</strong> ${appointmentElement.closest('.content').classList.contains('active') ? 'Pending' : 'Completed'}</p> -->
                 `;
                                 appointmentDetailsDiv.innerHTML = details;
 
@@ -176,16 +181,18 @@
                         height: 100%;
                         overflow: auto;
                         background-color: rgba(0, 0, 0, 0.6);
+
                     }
 
 
                     .modal-content {
-                        background-color: white;
+                        background-color: #fefefe;
                         margin: 10% auto;
                         padding: 20px;
                         border-radius: 10px;
                         width: 50%;
                         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        border: solid 1px black;
                     }
 
                     .close {

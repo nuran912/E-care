@@ -103,9 +103,11 @@ main {
   width: 100%;
   max-width: 730px;
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
-
+.content-box{
+  margin-left: 0;
+}
 @media (max-width: 768px) {
   .appointment {
     grid-template-columns: 1fr;
@@ -168,20 +170,23 @@ main {
   grid-column: 4;
   grid-row: 1;
   margin-left: 25px;
+  
 }
 
 .cancel-view-button {
-    background-color: #add8e6;
-    color: black;
-    border: 1px solid #007bff;
+    grid-column: 4;      /* Keeps it in the 4th column */
+    grid-row: 1 / 3;     /* Places it between row 1 and row 2 */
+    align-self: center;  /* Vertically centers it between the rows */
+    margin: 0 auto;      /* Centers it horizontally within the column */
     padding: 8px;
     text-align: center;
     border-radius: 4px;
+    background-color: #add8e6;
+    color: black;
     cursor: pointer;
-    grid-column: 4;
-    grid-row: 1;
-    margin-left: 25px;
-  }
+    border: 1px solid #007bff;
+}
+
   
 
 
@@ -205,5 +210,16 @@ main {
 .cancel-button:hover {
   background-color: #b71c1c;
 }
-
+.status{
+  margin-left: 37%;
+ 
+}
+.pending{
+  color: green;
+  font-weight: bold;
+}
+.past{
+  color: red;
+  font-weight: bold;
+}
 /* this is for popup  tab */

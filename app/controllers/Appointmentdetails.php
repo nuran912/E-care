@@ -96,7 +96,7 @@ class Appointmentdetails extends Controller
             'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,
         
         ]);
-    var_dump($_SESSION['USER']);
+    
         $this->view('footer');
     }
 }

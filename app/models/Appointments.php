@@ -12,7 +12,7 @@ class Appointments
         'patient_name',
         'patient_Email',
         'phone_number',
-        'shedule_id',
+        'schedule_id',
         'status',
         'nic_passport',
          'session_date',

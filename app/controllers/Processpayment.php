@@ -41,8 +41,8 @@ class Processpayment extends Controller
                 'doctor_id' => $doctorId,
                 'user_id' => $userId,
                 'total_fee' => $totalFee,
-                'paymentstatus' => 'pending'
-            ];
+                'paymentstatus' => 'pending',
+                'schedule_id' => $availableatimeId          ];
              $data2=[
                 'filled_slots' => $filledSlots + 1];
                 $updatefilledslotts->update($availableatimeId,$data2,'id');

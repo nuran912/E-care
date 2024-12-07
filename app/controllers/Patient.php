@@ -76,7 +76,7 @@ class Patient extends Controller
                       $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
                   }
               }
-              // redirect('clerk/profile');
+              
               
               }
           }
@@ -111,6 +111,7 @@ class Patient extends Controller
         if (isset($_POST['appointment_id'])) {
             $appointment_id = $_POST['appointment_id'];
             $appointmentsModel = new Appointments;
+            $update_availabletime_slot=new Availabletime;
             // Call the delete method from the model
             $appointmentsModel->delete($appointment_id, 'appointment_id');
 

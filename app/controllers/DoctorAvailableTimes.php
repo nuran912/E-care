@@ -39,24 +39,31 @@ class DoctorAvailableTimes extends Controller
         $getAppointmentdetails = $availableTimes->getAppointmentDetails($doctorId, $dateQuery, $hospitalQuery);
         $noAppointmentsMessage = empty($getAppointmentdetails) ? "No appointments available for this doctor at the moment." : null;
 
-      
+       
         date_default_timezone_set(timezoneId: 'Asia/Colombo');
              $CurrentDate = date('Y-m-d');
-             $CurrentTime= date('H:i:A');
-            
-            $getfilteredAppointmentdetails=array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
+             $CurrentTime = date('H:i:s');
+            /**
+             * There is a problem when two or more appointment dates are equal to the current date.
+             * If the end time of these appointments is higher than the current time, 
+             * the appointments are not displaying in the view page.
+             */
+             
+            $getAppointmentdetails=array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
                 if ($appointment->appointment_date > $CurrentDate) {
                     return true;
                 }
-                if ($appointment->appointment_date == $CurrentDate && $appointment->start_time > $CurrentTime) {
-                    return true;
-                }
+
+            $endTime = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
+            if ($appointment->appointment_date == $CurrentDate && $endTime > $CurrentTime) {
+                return true;
+            }
                 
                 // Otherwise, hide the slot
                 return false;
             });
             
-                if(empty($getfilteredAppointmentdetails)) {
+                if(empty($getAppointmentdetails)) {
                     $noAppointmentsMessage = "No appointments available for this doctor at the moment.";
                 }
             

@@ -6,7 +6,7 @@ class Appointmentdetailsverification extends Controller
 
         $this->view('header');
 
-
+        
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -27,6 +27,8 @@ class Appointmentdetailsverification extends Controller
             $doctorFee = $_POST['doctor_fee'] ?? '';
             $hospitalFee = $_POST['hospital_fee'] ?? '';
             $serviceCharge = isset($_POST['serviceCharge']) && $_POST['serviceCharge'] === "on" ? 285 : 0;
+            $filledSlots = $_POST['filled_slots'] ?? '';
+            $availableatime_id = $_POST['availableatime_id'] ?? '';
 
             $totalFee = $hospitalFee + $doctorFee + $serviceCharge;
           
@@ -46,11 +48,13 @@ class Appointmentdetailsverification extends Controller
                 'appointment_number' => $appointmentNumber,
                 'doctor_id' => $doctorid,
                 'total_fee' => $totalFee,
+                'filled_slots' => $filledSlots,
+                'availableatime_id' => $availableatime_id
             ];
 
  
             $_SESSION['appointment'] = $data;
-
+         
            
             $this->view('appointment/appointmentdetailsverification', $data);
     

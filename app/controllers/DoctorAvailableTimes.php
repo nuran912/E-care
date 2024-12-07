@@ -9,11 +9,6 @@ class DoctorAvailableTimes extends Controller
     public function index($a = '', $b = '', $c = '')
     {
 
-
-
-
-
-
         $this->view('header');
 
         $availableTimes = new Availabletime();
@@ -45,21 +40,7 @@ class DoctorAvailableTimes extends Controller
         $noAppointmentsMessage = empty($getAppointmentdetails) ? "No appointments available for this doctor at the moment." : null;
 
 
-
-        // $appointmentDates = array_map(function ($appointment) {
-        //     return $appointment->appointment_date . ' ' . $appointment->start_time;
-        // }, $getAppointmentdetails);
-
-        // $appointmentDate = !empty($appointmentDates) ? $appointmentDates : ['No appointment dates available'];
-
-        // // var_dump($appointmentDate);
-        //   date_default_timezone_set('Asia/Colombo'); // Set Sri Lanka's timezone
-        //   $current_date= date("Y-m-d H:i:s");
-        //   var_dump($current_date);
-        //   if($appointmentDate[0] < $current_date){
-        //       echo "The date is in the past";
-
-        //   }
+    
 
 
         $data = [

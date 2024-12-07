@@ -113,7 +113,7 @@
                     <p><strong>Specialization: </strong> <?= $appointmentDetails['doctor_specialization'] ?? 'Not Available' ?></p>
                     <p><strong>Hospital name: </strong> <?= $appointmentDetails['hospital_name'] ?? 'Not Available' ?></p>
                     <p><strong>Session date:</strong> <?= $appointmentDetails['session_date'] ?? 'Not Available' ?></p>
-                    <p><strong>Session time:</strong> <?= $appointmentDetails['session_time'] ?? 'Not Available' ?></p>
+                    <p><strong>Session time:</strong> <?= $appointmentDetails['patient_appointment_time'] ?? 'Not Available' ?></p>
                     <p><strong>Appointment no:</strong> <?= $appointmentDetails['appointment_number'] ?? 'Not Available' ?></p>
                     <p class="warning">Your appointment session time <span style="color:  rgb(235,162,162 );"><?= $appointmentDetails['patient_appointment_time'] ?? 'Not Available' ?></span>. This time is depending on the time spend with patient ahead of you</p>
                 </div>
@@ -157,8 +157,10 @@
         <input type="hidden" name="doctor_id" value="<?= $appointmentDetails['doctor_id'] ?>">
         <input type="hidden" name="doctor_fee" value="<?= $doctor_fee ?>">
         <input type="hidden" name="hospital_fee" value="<?= $hospital_fee ?>">
+        <input type="hidden" name="filled_slots" value="<?= $appointmentDetails['filled_slots'] ?>">
+        <input type="hidden" name="availableatime_id" value="<?= $appointmentDetails['availableatime_id'] ?>">
 
-
+       
     </form>
     <script>
         const paymentData = {
@@ -169,7 +171,7 @@
 
     <script src="<?php echo ROOT; ?>/assets/js/payment_page.js"></script>
 </body>
-?>
+
 
 
 </html>

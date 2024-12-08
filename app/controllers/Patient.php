@@ -10,22 +10,77 @@ class Patient extends Controller
         $this->view('footer');
     }
 
-    public function profile()
+    public function profile($a = '', $b = '', $c = '')
     {
-
-        $data['errors'] = [];
-        $data['success'] = [];
-        $user = new User;
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($user->validateUpdate($_POST)) {
-                $user->update($_SESSION['USER']->user_id, $_POST, 'user_id');
-                $_SESSION['USER'] = $user->first(['user_id' => $_SESSION['USER']->user_id]);
-            }
-            $data['errors'] = $user->errors;
-            if (empty($data['errors']))
-                $data['success'] = 'Profile updated successfully';
-        }
         $this->view('header');
+
+        // $data['errors'] = [];
+        // $data['success'] = [];
+        // $user = new User;
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //     if ($user->validateUpdate($_POST)) {
+        //         $user->update($_SESSION['USER']->user_id, $_POST, 'user_id');
+        //         $_SESSION['USER'] = $user->first(['user_id' => $_SESSION['USER']->user_id]);
+        //     }
+        //     $data['errors'] = $user->errors;
+        //     if (empty($data['errors']))
+        //         $data['success'] = 'Profile updated successfully';
+        // }
+        $user = new User;
+        $data = array($user->getById($_SESSION['USER']->user_id));
+        $data['error'] = [];
+        $data['success'] = "";
+        $data['status'] = [];
+        $data['passUpdateSuccess'] = "";
+        $data['passUpdateError'] = "";
+
+        if( $a == 'update'){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+              
+              $userData = $user->getById($_SESSION['USER']->user_id);
+  
+              $originalProfileInfo = [
+                  'name' => $userData->name,
+                  'NIC' => $userData->NIC,
+                  'phone_number' => $userData->phone_number,
+                  'email' => $userData->email,
+              ];
+  
+              $dataToUpdate = $_POST;
+              $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
+              
+              $data['status'] = $user->profileValidation($dataToUpdate, $originalProfileInfo);
+              
+              if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                  if($data['status'] === true){
+                      $user->update($userData->user_id, $dataToUpdate, 'user_id');
+                      $data['success'] = "Profile information updated successfully";
+                  }else{
+                      $data['error'] = $data['status'];
+                  }
+              }else{
+                  $passswordToUpdate = $user->passwordValidation($passswordToUpdate, $userData->password);
+                  unset($dataToUpdate['password']);
+                  unset($dataToUpdate['newpassword']);
+                  if($data['status'] === true){
+                      $user->update($userData->user_id, $dataToUpdate, 'user_id');
+                      $data['success'] = "Profile information updated successfully";
+                  }else{
+                      $data['error'] = $data['status'];
+                  }
+                  if($passswordToUpdate['passUpdateStatus'] === true){
+                      $user->update($userData->user_id, $passswordToUpdate, 'user_id');
+                      $_SESSION['USER']->password = $passswordToUpdate['password'];
+                      $data['passUpdateSuccess'] = "Password updated successfully";
+                  }else{
+                      $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
+                  }
+              }
+              // redirect('clerk/profile');
+              
+              }
+          }
+
         $this->view('patient/profile', $data);
         $this->view('footer');
     }

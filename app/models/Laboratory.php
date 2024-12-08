@@ -1,17 +1,15 @@
 <?php
-class Hospital
+class Laboratory
 {
 
     use Model;
 
-    protected $table = 'hospitals';
+    protected $table = 'laboratories';
 
     protected $allowedColumns = [
         'id',
         'name',
-        'hospital_fee',
-        // 'created_at',
-        // 'updated_at',
+        'hlab_fee',
         'description',
         'services',
         'address',
@@ -22,10 +20,10 @@ class Hospital
 
     public $order_column = 'name';
 
-    public function getHospitalById($hospitalId)
+    public function getLaboratoryById($laboratoryId)
     {
         $query = "SELECT * FROM $this->table WHERE id = :id";
-        $params = ['id' => $hospitalId];
+        $params = ['id' => $laboratoryId];
         return $this->query($query, $params, true);
     }
     public function getAll()

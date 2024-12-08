@@ -11,34 +11,73 @@ class Doctor extends Controller{
     }
 
     public function profile($a = '', $b = '', $c = ''){
-    
+    //   show($_SESSION['USER']);
       $doctor = new DoctorModel;
       $user = new User;
-      // show($_SESSION['USER']);
       $data1 = array($doctor->getDoctorByUserId($_SESSION['USER']->user_id));
       $data2 = array($user->getById($_SESSION['USER']->user_id));
       $data = array_merge($data1, $data2);
-      // show($data1);
-      // show($data2);
-      // show($data);
+      $data['error'] = [];
+      $data['success'] = "";
+      $data['status'] = [];
+      $data['passUpdateSuccess'] = "";
+      $data['passUpdateError'] = "";
+      $_SESSION['updateData'] = [];
+      
 
       $this->view('header');
       
       if( $a == 'update'){
-          
           if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-              
-              $doctor = new DoctorModel;
-              $user = new User;
-              $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-              $userData = $user->getById($_SESSION['USER']->user_id);
-              // show($doctorData->id);
-              // show($userData->user_id);
-              // show($_POST);
-              
-              $doctor->update($doctorData->id, $_POST, 'id');
-              $user->updateDoctorDetails($userData->user_id, $_POST, 'user_id');
-              redirect('Doctor/profile');
+            // $doctor = new DoctorModel;
+            // $user = new User;
+            $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+            $userData = $user->getById($_SESSION['USER']->user_id);
+
+            $originalProfileInfo = [
+                'name' => $userData->name,
+                'registration_number' => $doctorData->registration_number,
+                'specialization' => $doctorData->specialization,
+                'other_qualifications' => $doctorData->other_qualifications,
+                'NIC' => $userData->NIC,
+                'phone_number' => $userData->phone_number,
+                'email' => $userData->email,
+            ];
+
+            $dataToUpdate = $_POST;
+            $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
+            
+            $data['status'] = $doctor->profileValidation($dataToUpdate, $originalProfileInfo);
+            
+            if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                if($data['status'] === true){
+                    $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                    $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                    $data['success'] = "Profile information updated successfully";
+                }else{
+                    $data['error'] = $data['status'];
+                }
+            }else{
+                $passswordToUpdate = $doctor->passwordValidation($passswordToUpdate, $userData->password);
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                if($data['status'] === true){
+                    $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                    $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                    $data['success'] = "Profile information updated successfully";
+                }else{
+                    $data['error'] = $data['status'];
+                }
+                if($passswordToUpdate['passUpdateStatus'] === true){
+                    $user->updateDoctorDetails($userData->user_id, $passswordToUpdate, 'user_id');
+                    $_SESSION['USER']->password = $passswordToUpdate['password'];
+                    $data['passUpdateSuccess'] = "Password updated successfully";
+                }else{
+                    $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
+                }
+            }
+            // redirect('Doctor/profile');
+            
             }
         }
     $this->view('Doctor/doctorProfile', $data);
@@ -47,13 +86,25 @@ class Doctor extends Controller{
 
     public function doctorPastAppt($a = '', $b = '', $c = ''){
         $this->view('header');
-        $this->view('Doctor/doctorPastAppt');
+
+        $appointments = new Appointments;
+        $doctor = new DoctorModel;
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $appointmentsData = $appointments->getAppointmentsByDoctorId($doctorData->id);
+
+        $this->view('Doctor/doctorPastAppt', $appointmentsData);
         $this->view('footer');
     }
 
     public function doctorPendingAppt($a = '', $b = '', $c = ''){
         $this->view('header');
-        $this->view('Doctor/doctorPendingAppt');
+
+        $appointments = new Appointments;
+        $doctor = new DoctorModel;
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $appointmentsData = $appointments->getAppointmentsByDoctorId($doctorData->id);
+
+        $this->view('Doctor/doctorPendingAppt', $appointmentsData);
         $this->view('footer');
     }
 

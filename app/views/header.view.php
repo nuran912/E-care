@@ -52,7 +52,7 @@
                   <h4>Patient Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Patient/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Patient/appointments">Manage Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Patient/documents">Medical Documents</a></p>
+                  <p><a href="<?php echo ROOT ?>/Patient/medical_records">Medical Documents</a></p>
                   <p><a href="<?php echo ROOT ?>/Patient/insuranceclaims">Insurance Claims</a></p>
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -61,9 +61,9 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
                <card>
                   <h4>Lab Clerk Menu</h4>
-                  <!-- <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p> -->
-                  <p><a href="<?php echo ROOT ?>/clerkWorkLog">Work Station</a></p>
-                  <p><a href="<?php echo ROOT ?>/clerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/labClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/labClerkWorkLog">Work Log</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -73,8 +73,8 @@
                <card>
                   <h4>Reception Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Receptionclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Create Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Pending Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/receptionClerkUploadDoc">Create Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/receptionClerkWorkLog">Pending Appointments</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -84,8 +84,8 @@
                <card>
                   <h4>Record Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Recordclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Upload Document</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/recordClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/recordClerkWorkLog">Work Log</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

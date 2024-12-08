@@ -9,9 +9,30 @@
 <?php  ?>
 
 <body>
+    <!-- Success Message -->
+    <?php if (isset($_SESSION['success'])): ?>
+        <div id="successMessage" class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['success']); ?>
+        </div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div id="errorMessage" class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['error']); ?>
+        </div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
     <main>
+        <!-- #region -->
+
+
 
         <div class="container">
+
+
+
             <div class="tab-box">
                 <button class="tab-button active">Pending Appointments</button>
                 <button class="tab-button">Past Appointments</button>
@@ -39,7 +60,7 @@
                             if ($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime))):
                                 $hasPendingAppointments = true;
                         ?>
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>     <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
+                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span> <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
                                 <div class="appointment">
                                     <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
@@ -52,11 +73,11 @@
                                     <form method="POST" action="<?= ROOT; ?>/patient/cancelAppointment" onsubmit="return confirmDelete();">
                                         <input type="hidden" name="appointment_id" value="<?= htmlspecialchars($appointment->appointment_id); ?>">
                                         <button type="submit" name="cancel" class="cancel-button">Cancel</button>
-                                        
+
                                     </form>
-                                
+
                                 </div>
-                               
+
                             <?php endif; ?>
                         <?php endforeach; ?>
 
@@ -83,27 +104,27 @@
                         ?>
 
 
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?>  <span class="status">Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
+                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> <span class="status">Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
-                                <div class="appointment">
-                                    <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
-                                    <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-                                    <button class="cancel-view-button">View</button>
-                                    <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
-                                    <span class="specialization"><?php echo ($appointment->specialization); ?></span>
-                                    
-                                </div>
+                                    <div class="appointment">
+                                        <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
+                                        <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
+                                        <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                                        <button class="cancel-view-button">View</button>
+                                        <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
+                                        <span class="specialization"><?php echo ($appointment->specialization); ?></span>
 
+                                    </div>
+
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                            <?php if (!$haspastAppointments): ?>
+                                <p>No past Appointments found.</p>
                             <?php endif; ?>
-                        <?php endforeach; ?>
-                        <?php if (!$haspastAppointments): ?>
-                            <p>No past Appointments found.</p>
-                        <?php endif; ?>
 
-                    <?php else: ?>
-                        <p>No Past Appointments found.</p>
-                    <?php endif; ?>
+                        <?php else: ?>
+                            <p>No Past Appointments found.</p>
+                        <?php endif; ?>
                 </div>
 
 
@@ -165,6 +186,29 @@
                                 modal.style.display = "none";
                             }
                         };
+                    });
+
+
+
+                    //script to hide success message after 3 seconds
+
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Auto-hide success message after 3 seconds
+                        const successMessage = document.getElementById("successMessage");
+                        const errorMessage = document.getElementById("errorMessage");
+
+                        if (successMessage) {
+                            setTimeout(() => {
+                                successMessage.style.display = "none";
+
+                            }, 4000); // 4 seconds
+                        }
+
+                        if (errorMessage) {
+                            setTimeout(() => {
+                                errorMessage.style.display = "none";
+                            }, 5000); // 5 seconds (if desired)
+                        }
                     });
                 </script>
 

@@ -55,6 +55,8 @@
                 <input type="hidden" name="appointment_number" value="<?php echo $_SESSION['appointment']['appointment_number']; ?>">
                 <input type="hidden" name="doctor_id" value="<?php echo $_SESSION['appointment']['doctor_id']; ?>">
                 <input type="hidden" name="total_fee" value="<?php echo $total_fee; ?>">
+                <input type="hidden" name="filled_slots" value="<?php echo $_SESSION['appointment']['filled_slots']; ?>">
+                <input type="hidden" name="availableatime_id" value="<?php echo $_SESSION['appointment']['availableatime_id']; ?>">
 
             </form>
         <?php endif; ?>

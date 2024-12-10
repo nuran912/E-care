@@ -12,7 +12,7 @@ class Appointments
         'patient_name',
         'patient_Email',
         'phone_number',
-        'shedule_id',
+        'schedule_id',
         'status',
         'nic_passport',
          'session_date',
@@ -32,6 +32,12 @@ class Appointments
     public function getAppointmentsByDoctorId($doctorId){
         $query = "SELECT * FROM $this->table WHERE doctor_id = :doctor_id ";
         $result = $this->query($query, ['doctor_id' => $doctorId]);
+        return $result ? $result : null;
+    }
+
+    public function getByAppointmentId($appointment_id){
+        $query = 'SELECT schedule_id ,session_time FROM appointments WHERE appointment_id = :appointment_id';
+        $result = $this->query($query, ['appointment_id'=> $appointment_id]);
         return $result ? $result : null;
     }
 }

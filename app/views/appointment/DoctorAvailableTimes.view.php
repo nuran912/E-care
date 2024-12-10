@@ -21,7 +21,7 @@ $doctorId = $data['doctorId'];
         <!-- Doctor Card -->
         <div class="doctor-card">
             <div class="profile-image">
-                <img src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+                <img class="profimg " src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
             </div>
             <div class="doctor-name"><?php echo $doctor_name; ?></div>
             <div class="specialization"><?php echo isset($doctor_specialization) ? $doctor_specialization : 'Specialization not available'; ?></div>
@@ -41,12 +41,21 @@ $doctorId = $data['doctorId'];
                     <div class="time-slot-card">
                         <div class="date"><?= date('l, d F Y', strtotime($at->appointment_date)); ?><span class="location"><?php echo $at->hospital_name ?></span></div>
                         <div class="slot-details">
-                            <div class="slots-info"><?= $at->filled_slots ?> of <?= $at->total_slots ?> slots available</div>
+                            <?php
+                            $available_slotts=$at->total_slots - $at->filled_slots;
+                            ?>
+                            <div class="slots-info"><?= $available_slotts?> of <?= $at->total_slots ?> slots available
+                                                        
+                        </div>
                             <div class="time"><?= date('H:i', strtotime($at->start_time)) ?> - <?= date('H:i', strtotime($at->start_time . ' + ' . $at->duration . ' hours')) ?></div>
                             <div class="hospital"> Rs.<?php echo $at->hospital_fee + $at->Doctor_fee ?> + service charge</div>
-                            <a href="<?php echo ROOT; ?>/Appointmentdetails?availableTimeId=<?= $at->appointment_id ?>">
-                                <button class="schedule-btn">Schedule Appointment</button>
-                            </a>
+                            <?php if ($available_slotts == 0): ?>
+                                <button class="schedule-btndis" disabled>No Appointments  Available</button>
+                            <?php else: ?>
+                                <a href="<?php echo ROOT; ?>/Appointmentdetails?availableTimeId=<?= $at->appointment_id ?>">
+                                    <button class="schedule-btn">Schedule Appointment</button>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 <?php endforeach ?>

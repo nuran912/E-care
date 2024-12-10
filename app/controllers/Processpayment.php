@@ -7,6 +7,7 @@ class Processpayment extends Controller
     public function index($a = '', $b = '', $c = '')
     {
         $createappointment = new Appointments;
+        $updatefilledslotts= new Availabletime;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $patientName = $_POST['patientName'] ?? '';
@@ -21,6 +22,9 @@ class Processpayment extends Controller
             $doctorId = $_POST['doctor_id'] ?? '';
             $totalFee = $_POST['total_fee'] ?? '';
             $userId = $_SESSION['USER']->user_id ?? 'NULL';
+            $filledSlots = $_POST['filled_slots'] ?? '';
+            $availableatimeId = $_POST['availableatime_id'] ?? '';  
+        
 
             // Data array for insertion
             $data = [
@@ -37,9 +41,11 @@ class Processpayment extends Controller
                 'doctor_id' => $doctorId,
                 'user_id' => $userId,
                 'total_fee' => $totalFee,
-                'paymentstatus' => 'pending'
-            ];
-
+                'paymentstatus' => 'pending',
+                'schedule_id' => $availableatimeId          ];
+             $data2=[
+                'filled_slots' => $filledSlots + 1];
+                $updatefilledslotts->update($availableatimeId,$data2,'id');
             // Insert data into the database
             $createappointment->insert($data);
 

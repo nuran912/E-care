@@ -1,4 +1,4 @@
-* {
+ body{
   font-family: "Lucida Sans";
   margin: 0;
   padding: 0;
@@ -44,6 +44,7 @@ main {
   border: none;
   padding: 18px;
   cursor: pointer;
+  width: 50%;
 }
 
 .tab-box .tab-button.active {
@@ -76,11 +77,12 @@ main {
 
 .line {
   height: 5px;
-  width: 341px;
+  width: calc(50% - 1px); 
   background-color: #1c3a47;
   position: absolute;
   top: 55.67px;
   left: 0px;
+  bottom: 0px;
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
 }
@@ -95,12 +97,31 @@ main {
   display: grid;
   grid-template-columns: 1.5fr 1.5fr auto auto;
   grid-template-rows: auto auto;
-  gap: 10px;
-  padding: 20px;
+  gap: 15px;
+  padding: 25px;
   border: 1px solid #ccc;
-  width: 700px;
+  width: 100%;
+  max-width: 730px;
   margin: auto;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+.content-box{
+  margin-left: 0;
+}
+@media (max-width: 768px) {
+  .appointment {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+  }
+
+  .appointment .time,
+  .appointment .view-button,
+  .appointment .cancel-button {
+    grid-column: 1;
+    grid-row: auto;
+    width: 100%;
+    margin-left: 0;
+  }
 }
 
 .appointment .doctor,
@@ -149,20 +170,23 @@ main {
   grid-column: 4;
   grid-row: 1;
   margin-left: 25px;
+  
 }
 
 .cancel-view-button {
-    background-color: #add8e6;
-    color: black;
-    border: 1px solid #007bff;
+    grid-column: 4;      /* Keeps it in the 4th column */
+    grid-row: 1 / 3;     /* Places it between row 1 and row 2 */
+    align-self: center;  /* Vertically centers it between the rows */
+    margin: 0 auto;      /* Centers it horizontally within the column */
     padding: 8px;
     text-align: center;
     border-radius: 4px;
+    background-color: #add8e6;
+    color: black;
     cursor: pointer;
-    grid-column: 4;
-    grid-row: 1;
-    margin-left: 25px;
-  }
+    border: 1px solid #007bff;
+}
+
   
 
 
@@ -185,6 +209,44 @@ main {
 
 .cancel-button:hover {
   background-color: #b71c1c;
+}
+.status{
+  margin-left: 35%;
+ 
+}
+.pending{
+  color: green;
+  font-weight: bold;
+}
+.past{
+  color: red;
+  font-weight: bold;
+}
+.alert {
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  margin-left: 40%;
+  font-family: 'Lucida Sans';
+  
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 /* this is for popup  tab */

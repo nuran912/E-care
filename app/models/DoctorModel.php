@@ -111,6 +111,7 @@ class DoctorModel
                 a.appointment_id,
                 a.user_id,
                 a.status,
+                a.schedule_id,
                 a.appointment_number,
                 a.hospital_name,
                 a.phone_number,

@@ -17,6 +17,7 @@ class Availabletime
         'duration',
         'total_slots',
         'filled_slots',
+        
         // 'doctor_fee'
     ];
 

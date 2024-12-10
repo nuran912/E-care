@@ -34,6 +34,12 @@ class Appointments
         $result = $this->query($query, ['doctor_id' => $doctorId]);
         return $result ? $result : null;
     }
+
+    public function getByAppointmentId($appointment_id){
+        $query = 'SELECT schedule_id ,session_time FROM appointments WHERE appointment_id = :appointment_id';
+        $result = $this->query($query, ['appointment_id'=> $appointment_id]);
+        return $result ? $result : null;
+    }
 }
 
 

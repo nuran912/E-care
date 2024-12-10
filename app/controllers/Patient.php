@@ -85,47 +85,112 @@ class Patient extends Controller
         $this->view('footer');
     }
 
+
+
+
+
+
+
+
+
+
     public function appointments()
     {
-        $this->view('header');
-
+       
+  
+        $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
+        $appointmentsModel = new Appointments; 
+       
+        //get details of the appointments of a patient
         $doctorModel = new DoctorModel;
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
 
-        if (!is_array($data)) {
-            $data = [];
-        }
-
-        $this->view('patient/appointments', $data);
-        $this->view('footer');
-    }
-
-    public function cancelAppointment()
-    {
-        // Ensure only patients can delete their own appointments
+        // Ensure user role validation happens first
         if ($_SESSION['USER']->role !== 'patient') {
             header('location: ' . ROOT . '/Home');
             exit;
         }
-
+        
+         $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
+         
+        // Handle appointment cancellation
         if (isset($_POST['appointment_id'])) {
-            $appointment_id = $_POST['appointment_id'];
-            $appointmentsModel = new Appointments;
-            $update_availabletime_slot=new Availabletime;
-            // Call the delete method from the model
+            
             $appointmentsModel->delete($appointment_id, 'appointment_id');
-
-            // Redirect back to the appointments page with success message
+    
+            // Success message and redirect to avoid form resubmission
             $_SESSION['success'] = 'Appointment canceled successfully.';
             header('location: ' . ROOT . '/Patient/appointments');
             exit;
-        } else {
-            // Handle the case where appointment_id is not set
-            $_SESSION['error'] = 'Failed to cancel the appointment.';
-            header('location: ' . ROOT . '/Patient/appointments');
-            exit;
         }
+    
+        // Error handling if no appointment_id is set
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
+            $_SESSION['error'] = 'Failed to cancel the appointment.';
+        }
+    
+       
+        $this->view('header');
+        if (!is_array($data)) {
+            $data = [];
+        }
+    
+        $this->view('patient/appointments', $data);
+        $this->view('footer');
     }
+    
+
+
+
+
+
+
+
+
+    // public function cancelAppointment()
+    // {
+    //     $appointmentsModel = new Appointments;
+            
+
+    //     // Ensure only patients can delete their own appointments
+    //     if ($_SESSION['USER']->role !== 'patient') {
+    //         header('location: ' . ROOT . '/Home');
+    //         exit;
+    //     }
+
+    //     if (isset($_POST['appointment_id'])) {
+    //         $appointment_id = $_POST['appointment_id'];
+    //         $getDetails=$appointmentsModel->getByAppointmentId($appointment_id);
+           
+    //         // Call the delete method from the model
+    //         $appointmentsModel->delete($appointment_id, 'appointment_id');
+
+    //         // Redirect back to the appointments page with success message
+    //         $_SESSION['success'] = 'Appointment canceled successfully.';
+    //         header('location: ' . ROOT . '/Patient/appointments');
+    //         exit;
+    //     } else {
+    //         // Handle the case where appointment_id is not set
+    //         $_SESSION['error'] = 'Failed to cancel the appointment.';
+    //         header('location: ' . ROOT . '/Patient/appointments');
+    //         exit;
+    //     }
+    // }
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     public function documents($a = '')
     {
 

@@ -110,7 +110,7 @@
 
 
                                 <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> <span
-                                        class="status"> Status: <span
+                                        class="status"> Appointment Status: <span
                                             class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
                                     <div class="appointment">
@@ -251,8 +251,7 @@
                         width: 100%;
                         height: 100%;
                         overflow: auto;
-                        background-color: rgba(0, 0, 0, 0.6);
-
+                        background-color: rgba(0, 0, 0, 0.9);
                     }
 
 

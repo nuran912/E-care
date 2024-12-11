@@ -31,8 +31,6 @@
 
         <div class="container">
 
-
-
             <div class="tab-box">
                 <button class="tab-button active">Pending Appointments</button>
                 <button class="tab-button">Past Appointments</button>

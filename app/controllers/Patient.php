@@ -100,11 +100,11 @@ class Patient extends Controller
   
         $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
         $appointmentsModel = new Appointments; 
-       
+      
         //get details of the appointments of a patient
         $doctorModel = new DoctorModel;
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
-
+      
         // Ensure user role validation happens first
         if ($_SESSION['USER']->role !== 'patient') {
             header('location: ' . ROOT . '/Home');
@@ -123,7 +123,7 @@ class Patient extends Controller
             header('location: ' . ROOT . '/Patient/appointments');
             exit;
         }
-    
+        
         // Error handling if no appointment_id is set
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
             $_SESSION['error'] = 'Failed to cancel the appointment.';
@@ -134,6 +134,7 @@ class Patient extends Controller
         if (!is_array($data)) {
             $data = [];
         }
+        
     
         $this->view('patient/appointments', $data);
         $this->view('footer');

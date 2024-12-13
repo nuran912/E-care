@@ -38,7 +38,8 @@ class Appointmentdetails extends Controller
                             'hospital_fee' => $hospitalDetails->hospital_fee,
                             'appointment_number' => $appointment['filled_slots'] + 1,
                             'filled_slots' => $appointment['filled_slots'],
-                            'availableatime_id' => $appointment['id']
+                            'availableatime_id' => $appointment['id'],
+                           
                         ];
                         
 

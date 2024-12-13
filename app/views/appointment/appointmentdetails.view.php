@@ -159,8 +159,9 @@
         <input type="hidden" name="hospital_fee" value="<?= $hospital_fee ?>">
         <input type="hidden" name="filled_slots" value="<?= $appointmentDetails['filled_slots'] ?>">
         <input type="hidden" name="availableatime_id" value="<?= $appointmentDetails['availableatime_id'] ?>">
+        
 
-       
+        
     </form>
     <script>
         const paymentData = {

@@ -32,7 +32,7 @@ class Appointmentdetailsverification extends Controller
 
             $totalFee = $hospitalFee + $doctorFee + $serviceCharge;
           
-
+                
 
             $data = [
                 'title' => $title,
@@ -52,7 +52,7 @@ class Appointmentdetailsverification extends Controller
                 'availableatime_id' => $availableatime_id
             ];
 
- 
+            var_dump($data);
             $_SESSION['appointment'] = $data;
          
            

@@ -45,8 +45,9 @@ class Patient extends Controller
                   'phone_number' => $userData->phone_number,
                   'email' => $userData->email,
               ];
-  
+                       
               $dataToUpdate = $_POST;
+             
               $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
               
               $data['status'] = $user->profileValidation($dataToUpdate, $originalProfileInfo);
@@ -104,26 +105,27 @@ class Patient extends Controller
         //get details of the appointments of a patient
         $doctorModel = new DoctorModel;
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
-      
         // Ensure user role validation happens first
         if ($_SESSION['USER']->role !== 'patient') {
             header('location: ' . ROOT . '/Home');
             exit;
         }
-        
-         $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
+   
          
-        // Handle appointment cancellation
+        
         if (isset($_POST['appointment_id'])) {
+            $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
+            var_dump($appoitmentDetails);
+            // $appointmentsModel->delete($appointment_id, 'appointment_id');
+            // $updateData=['is_deleted' => 1];
             
-            $appointmentsModel->delete($appointment_id, 'appointment_id');
-    
-            // Success message and redirect to avoid form resubmission
+            $appointmentsModel->update_is_deleted($appointment_id);
+            
             $_SESSION['success'] = 'Appointment canceled successfully.';
             header('location: ' . ROOT . '/Patient/appointments');
             exit;
         }
-        
+                  
         // Error handling if no appointment_id is set
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
             $_SESSION['error'] = 'Failed to cancel the appointment.';
@@ -135,7 +137,7 @@ class Patient extends Controller
             $data = [];
         }
         
-    
+     
         $this->view('patient/appointments', $data);
         $this->view('footer');
     }

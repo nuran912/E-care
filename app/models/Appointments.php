@@ -40,7 +40,14 @@ class Appointments
         $result = $this->query($query, ['appointment_id'=> $appointment_id]);
         return $result ? $result : null;
     }
+    public function update_is_deleted($appointment_id)
+{
+    $query = 'UPDATE appointments SET is_deleted = 1 WHERE appointment_id = :appointment_id';
+    $result = $this->query($query, ['appointment_id' => $appointment_id]);
+    return $result ? $result : null;
 }
 
+    
+}
 
 

@@ -55,7 +55,7 @@
 
                         $hasPendingAppointments = false;
                         foreach ($data as $appointment):
-                            if ($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime))):
+                            if (($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime)))&&($appointment->is_deleted == 0)):
                                 $hasPendingAppointments = true;
                         ?>
 
@@ -69,7 +69,8 @@
                                         <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
                                     <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
 
-                                    <button class="view-button" data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                                    <button class="view-button"
+                                        data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
 
                                     <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
                                     <span
@@ -104,7 +105,7 @@
                         <?php
                         $haspastAppointments = false;
                         foreach ($data as $appointment):
-                            if ($appointment->session_date <= $currentDate && $appointment->session_time < $currentTime):
+                            if (($appointment->session_date <= $currentDate && $appointment->session_time < $currentTime)&&($appointment->is_deleted == 0)):
                                 $haspastAppointments = true;
                         ?>
 
@@ -119,7 +120,8 @@
                                             <?php echo ($appointment->appointment_number); ?></span>
                                         <span
                                             class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-                                         <button class="cancel-view-button" data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                                        <button class="cancel-view-button"
+                                            data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
                                         <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
                                         <span class="specialization"><?php echo ($appointment->specialization); ?></span>
 
@@ -161,10 +163,11 @@
                             button.addEventListener('click', function() {
                                 // Find the closest appointment element and extract its details
                                 const appointmentElement = button.closest('.container');
-                               
+
                                 const appointmentId = button.getAttribute('data-appointment-id');
                                 const appointments = <?= json_encode($data); ?>;
-                                const appointment = appointments.find(a => a.appointment_id == appointmentId); 
+                                const appointment = appointments.find(a => a.appointment_id ==
+                                    appointmentId);
 
                                 const doctor = appointmentElement.querySelector('.doctor')
                                     .textContent.replace('Doctor:', '').trim();
@@ -177,21 +180,23 @@
                                     .textContent.trim();
                                 const specialization = appointmentElement.querySelector(
                                     '.specialization').textContent.trim();
-                                const date = appointmentElement.querySelector('.date').textContent.trim();
+                                const date = appointmentElement.querySelector('.date').textContent
+                                    .trim();
 
                                 // Populate the modal with appointment details
                                 const details = `
-                                                     
-                                        <p><strong>Doctor:</strong> ${doctor}</p>
-                                        <p><strong>Appointment No:</strong> ${appointmentNo}</p>
-                                        <p><strong>Date:</strong> ${date}</p>
-                                        <p><strong>Time:</strong> ${time}</p>
-                                        <p><strong>Hospital:</strong> ${hospital}</p>
-                                        <p><strong>Specialization:</strong> ${specialization}</p>
-                                        <p><strong>Patient Name:</strong> ${appointment.patient_name || "N/A"}</p>
+                                         <p><strong>Patient Name:</strong> ${appointment.patient_name || "N/A"}</p>
                                         <p><strong>Patient Email:</strong> ${appointment.patient_Email || "N/A"}</p>
-                                        <p><strong>Patient Address:</strong> ${appointment.patient_address || "N/A"}</p>
-                                        <p><strong>Phone Number:</strong> ${appointment.phone_number || "N/A"}</p>
+                                        <p><strong>Patient Address:</strong> ${appointment.patient_address || "Not entered"}</p>
+                                        <p><strong>Phone Number:</strong> ${appointment.phone_number || "N/A"}</p>            
+                                        <p><strong>Doctor:</strong> ${doctor}</p>
+                                        <p><strong>Specialization:</strong> ${specialization}</p>
+                                        <p><strong>Hospital:</strong> ${hospital}</p>
+                                        <p><strong>Appointment No:</strong> ${appointmentNo}</p>
+                                        <p><strong>Appointment Date:</strong> ${date}</p>
+                                        <p><strong>Appointment Time:</strong> ${time}</p>
+                                        <p><strong>Appointment Fee:</strong> Rs.${appointment.total_fee || "N/A"}.00</p>
+                                        
                                      
                                                                                                      `;
                                 appointmentDetailsDiv.innerHTML = details;

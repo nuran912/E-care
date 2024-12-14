@@ -99,6 +99,7 @@ class Patient extends Controller
 
         $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
         $appointmentsModel = new Appointments;
+        $updateFilledSlots=new  Availabletime;
 
         //get details of the appointments of a patient
         $doctorModel = new DoctorModel;
@@ -107,6 +108,7 @@ class Patient extends Controller
         if ($_SESSION['USER']->role !== 'patient') {
             header('location: ' . ROOT . '/Home');
             exit;
+           
         }
 
 
@@ -119,8 +121,8 @@ class Patient extends Controller
                 $session_time = $appoitment->session_time;
                 $session_date = $appoitment->session_date;
             }
-
-            // echo ' $schedule_id';
+             
+            
 
 
             // $appointmentsModel->delete($appointment_id, 'appointment_id');
@@ -136,8 +138,12 @@ class Patient extends Controller
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }
+            $updateFilledSlots->update_filled_slots($schedule_id);
             header('location: ' . ROOT . '/Patient/appointments');
+           
             exit; 
+
+
         }
 
 

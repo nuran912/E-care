@@ -52,7 +52,7 @@ class Appointmentdetailsverification extends Controller
                 'availableatime_id' => $availableatime_id
             ];
 
-            var_dump($data);
+           
             $_SESSION['appointment'] = $data;
          
            

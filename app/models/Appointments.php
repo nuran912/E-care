@@ -36,7 +36,7 @@ class Appointments
     }
 
     public function getByAppointmentId($appointment_id){
-        $query = 'SELECT schedule_id ,session_time FROM appointments WHERE appointment_id = :appointment_id';
+        $query = 'SELECT schedule_id ,session_time,session_date FROM appointments WHERE appointment_id = :appointment_id';
         $result = $this->query($query, ['appointment_id'=> $appointment_id]);
         return $result ? $result : null;
     }

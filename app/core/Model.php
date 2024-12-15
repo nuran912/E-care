@@ -139,4 +139,6 @@ trait Model
       $result = $this->query($query, ['user_id' => $id]);
       return $result ? $result[0] : null;
    }
+   
 }
+

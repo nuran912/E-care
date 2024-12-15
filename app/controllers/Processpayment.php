@@ -9,6 +9,7 @@ class ProcessPayment extends Controller
         $createAppointment = new Appointments;
         $updateFilledSlots = new AvailableTime;
         
+        
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Collect and sanitize form data
@@ -46,10 +47,12 @@ class ProcessPayment extends Controller
             ];
 
             $updateData = ['filled_slots' => $filledSlots + 1];
+            $user_id=$_SESSION['USER']->user_id;
 
             // Update the database records
             $updateFilledSlots->update($availableTimeId, $updateData, 'id');
             $createAppointment->insert($appointmentData);
+            $appointment_id=$createAppointment->getById_LatestRow($user_id);
 
             // Redirect to PayHere
             $merchantId = '1228671';
@@ -58,7 +61,8 @@ class ProcessPayment extends Controller
             $notifyUrl = ROOT . '/PaymentNotify';
             $merchant_secret='MjQwOTcyNzAzMjM0ODk4MTYwNDQ0Mzc1NjQ3OTQ5MTM5ODYx';
             $currency = "LKR";
-            $order_id = random_int(10000,999999);
+            // $order_id = random_int(10000,999999);
+            $order_id = $appointment_id;
 
             $hash = strtoupper(
                 md5(
@@ -99,6 +103,6 @@ class ProcessPayment extends Controller
             ';
         }
 
-        $this->view('appointment/processpayment', []);
+        // $this->view('appointment/processpayment', []);
     }
 }

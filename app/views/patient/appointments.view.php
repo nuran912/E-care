@@ -55,34 +55,34 @@
 
                         $hasPendingAppointments = false;
                         foreach ($data as $appointment):
-                            if (($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime)))&&($appointment->is_deleted == 0)):
+                            if (($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime))) && ($appointment->is_deleted == 0)):
                                 $hasPendingAppointments = true;
                         ?>
+                                <div class="frame">
+                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                    <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
-                                <span class="status">Appointment Status: <span
-                                        class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
+                                    <div class="appointment">
+                                        <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
+                                        <span class="ref-no">Appointment No:
+                                            <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
+                                        <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
 
-                                <div class="appointment">
-                                    <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
-                                    <span class="ref-no">Appointment No:
-                                        <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                                        <button class="view-button"
+                                            data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
 
-                                    <button class="view-button"
-                                        data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                                        <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
+                                        <span
+                                            class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
 
-                                    <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
-                                    <span
-                                        class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
+                                        <form method="POST" action="<?= ROOT; ?>/patient/appointments"
+                                            onsubmit="return confirmDelete();">
+                                            <input type="hidden" name="appointment_id" value="<?= ($appointment->appointment_id); ?>">
+                                            <button type="submit" name="cancel" class="cancel-button">Cancel</button>
 
-                                    <form method="POST" action="<?= ROOT; ?>/patient/appointments"
-                                        onsubmit="return confirmDelete();">
-                                        <input type="hidden" name="appointment_id" value="<?= ($appointment->appointment_id); ?>">
-                                        <button type="submit" name="cancel" class="cancel-button">Cancel</button>
+                                        </form>
 
-                                    </form>
-
+                                    </div>
                                 </div>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -105,37 +105,38 @@
                         <?php
                         $haspastAppointments = false;
                         foreach ($data as $appointment):
-                            if (($appointment->session_date <= $currentDate && $appointment->session_time < $currentTime)&&($appointment->is_deleted == 0)):
+                            if (($appointment->session_date <= $currentDate && $appointment->session_time < $currentTime) && ($appointment->is_deleted == 0)):
                                 $haspastAppointments = true;
                         ?>
+                                <div class="frame">
 
+                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> <span
+                                            class="status"> Appointment Status: <span
+                                                class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> <span
-                                        class="status"> Appointment Status: <span
-                                            class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
+                                        <div class="appointment">
+                                            <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
+                                            <span class="ref-no">Appointment No:
+                                                <?php echo ($appointment->appointment_number); ?></span>
+                                            <span
+                                                class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                                            <button class="cancel-view-button"
+                                                data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                                            <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
+                                            <span class="specialization"><?php echo ($appointment->specialization); ?></span>
 
-                                    <div class="appointment">
-                                        <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
-                                        <span class="ref-no">Appointment No:
-                                            <?php echo ($appointment->appointment_number); ?></span>
-                                        <span
-                                            class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-                                        <button class="cancel-view-button"
-                                            data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
-                                        <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
-                                        <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+                                        </div>
+                                </div>
 
-                                    </div>
-
-                                <?php endif; ?>
-                            <?php endforeach; ?>
-                            <?php if (!$haspastAppointments): ?>
-                                <p>No past Appointments found.</p>
                             <?php endif; ?>
-
-                        <?php else: ?>
-                            <p>No Past Appointments found.</p>
+                        <?php endforeach; ?>
+                        <?php if (!$haspastAppointments): ?>
+                            <p>No past Appointments found.</p>
                         <?php endif; ?>
+
+                    <?php else: ?>
+                        <p>No Past Appointments found.</p>
+                    <?php endif; ?>
                 </div>
 
 
@@ -162,30 +163,22 @@
                         document.querySelectorAll('.view-button, .cancel-view-button').forEach(function(button) {
                             button.addEventListener('click', function() {
                                 // Find the closest appointment element and extract its details
-                                const appointmentElement = button.closest('.container');
-
+                                const appointmentElement = button.closest('.frame');
                                 const appointmentId = button.getAttribute('data-appointment-id');
                                 const appointments = <?= json_encode($data); ?>;
-                                const appointment = appointments.find(a => a.appointment_id ==
-                                    appointmentId);
+                                const appointment = appointments.find(a => a.appointment_id == appointmentId);
 
-                                const doctor = appointmentElement.querySelector('.doctor')
-                                    .textContent.replace('Doctor:', '').trim();
-                                const appointmentNo = appointmentElement.querySelector(
-                                        '.ref-no').textContent.replace('Appointment No:', '')
-                                    .trim();
-                                const time = appointmentElement.querySelector('.time')
-                                    .textContent.trim();
-                                const hospital = appointmentElement.querySelector('.hospital')
-                                    .textContent.trim();
-                                const specialization = appointmentElement.querySelector(
-                                    '.specialization').textContent.trim();
-                                const date = appointmentElement.querySelector('.date').textContent
-                                    .trim();
+                                const doctor = appointmentElement.querySelector('.doctor').textContent.replace('Doctor:', '').trim();
+                                const appointmentNo = appointmentElement.querySelector('.ref-no').textContent.replace('Appointment No:', '').trim();
+                                const time = appointmentElement.querySelector('.time').textContent.trim();
+                                const hospital = appointmentElement.querySelector('.hospital').textContent.trim();
+                                const specialization = appointmentElement.querySelector('.specialization').textContent.trim();
+                                const date = appointmentElement.querySelector('.date').textContent.trim();
+                              
 
                                 // Populate the modal with appointment details
                                 const details = `
-                                         <p><strong>Patient Name:</strong> ${appointment.patient_name || "N/A"}</p>
+                                        <p><strong>Patient Name:</strong> ${appointment.patient_name || "N/A"}</p>
                                         <p><strong>Patient Email:</strong> ${appointment.patient_Email || "N/A"}</p>
                                         <p><strong>Patient Address:</strong> ${appointment.patient_address || "Not entered"}</p>
                                         <p><strong>Phone Number:</strong> ${appointment.phone_number || "N/A"}</p>            
@@ -193,9 +186,11 @@
                                         <p><strong>Specialization:</strong> ${specialization}</p>
                                         <p><strong>Hospital:</strong> ${hospital}</p>
                                         <p><strong>Appointment No:</strong> ${appointmentNo}</p>
-                                        <p><strong>Appointment Date:</strong> ${date}</p>
+                                        <p><strong>Appointment Date:</strong> ${date}</p> 
                                         <p><strong>Appointment Time:</strong> ${time}</p>
                                         <p><strong>Appointment Fee:</strong> Rs.${appointment.total_fee || "N/A"}.00</p>
+                                        <p><strong>Payment Status:</strong> ${appointment.payment_status || "N/A"}</p>
+
                                         
                                      
                                                                                                      `;

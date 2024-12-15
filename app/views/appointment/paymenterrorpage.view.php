@@ -16,6 +16,6 @@
     <h3 class="pe-error__message">There was an issue processing your payment.</h3>
     <p class="pe-error__description">Please try again or contact support if the issue persists.</p>
 
-    <a  href="payment_gateway.php" class="pe-error__link">Try Again The Payment</a>
+    <a href="<?php echo ROOT; ?>/Appointmentdetails/<?php echo $appointment_id; ?>" class="pe-error__link">Try Again The Payment</a>
 </body>
 </html>

@@ -122,6 +122,7 @@ class DoctorModel
                 a.session_date,
                 a.total_fee,
                 a.is_deleted,
+                a.payment_status,
                 d.name AS doctor_name,
                 d.specialization
             FROM 

@@ -19,7 +19,8 @@ class Appointments
         'session_time',
         'patient_address',
         'total_fee',
-        'appointment_number',     
+        'appointment_number', 
+        'payment_status',    
     ];
 
     public $order_column = 'id';
@@ -47,7 +48,34 @@ class Appointments
     return $result ? $result : null;
 }
 
+public function getById_LatestRow($user_id){
+    $query = "SELECT appointment_id FROM appointments 
+              WHERE user_id = :user_id 
+              ORDER BY appointment_id DESC 
+              LIMIT 1";
     
+    $result = $this->query($query, ['user_id' => $user_id]);
+
+    // Access result as an object
+    return $result ? $result[0]->appointment_id : null;
 }
 
+public function updatePaymentStatus($appointment_id, $status) {
+    
+    $allowedStatuses = ['completed', 'unsuccessful', 'pending'];
+    if (!in_array($status, $allowedStatuses)) {
+        throw new InvalidArgumentException("Invalid payment status: $status");
+    }
 
+    // Prepare and execute the query
+    $query = 'UPDATE appointments SET payment_status = :status WHERE appointment_id = :appointment_id';
+    $params = [
+        'status' => $status,
+        'appointment_id' => $appointment_id
+    ];
+
+    $result = $this->query($query, $params);
+    return $result ? $result : null;
+}
+
+}

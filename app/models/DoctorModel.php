@@ -104,7 +104,7 @@ class DoctorModel
             ['doctor_id' => $doctor_id, 'user_id' => $user_id]
         );
     }
-    public function getUserDoctorAppointments( $user_id)
+    public function getUserDoctorAppointments($user_id)
     {
         return $this->query(
             "SELECT 
@@ -126,14 +126,16 @@ class DoctorModel
                 d.name AS doctor_name,
                 d.specialization
             FROM 
-              appointments a 
+                appointments a 
             JOIN 
-                  doctors d 
+                doctors d 
             ON 
                 d.id = a.doctor_id
             WHERE 
-               a.user_id = :user_id",
-            [ 'user_id' => $user_id]
+                a.user_id = :user_id
+            ORDER BY 
+                a.session_date ASC",
+            ['user_id' => $user_id]
         );
     }
 

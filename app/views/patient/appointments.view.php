@@ -59,7 +59,7 @@
                                 $hasPendingAppointments = true;
                         ?>
                                 <div class="frame">
-                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>  
                                     <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
                                     <div class="appointment">
@@ -110,18 +110,13 @@
                         ?>
                                 <div class="frame">
 
-                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> <span
-                                            class="status"> Appointment Status: <span
-                                                class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
-
+                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> </span>
+                                    <span class="status"> Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
                                         <div class="appointment">
                                             <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
-                                            <span class="ref-no">Appointment No:
-                                                <?php echo ($appointment->appointment_number); ?></span>
-                                            <span
-                                                class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-                                            <button class="cancel-view-button"
-                                                data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                                            <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
+                                            <span  class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                                            <button class="cancel-view-button" data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
                                             <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
                                             <span class="specialization"><?php echo ($appointment->specialization); ?></span>
 
@@ -173,7 +168,7 @@
                                 const time = appointmentElement.querySelector('.time').textContent.trim();
                                 const hospital = appointmentElement.querySelector('.hospital').textContent.trim();
                                 const specialization = appointmentElement.querySelector('.specialization').textContent.trim();
-                                const date = appointmentElement.querySelector('.date').textContent.trim();
+                                const date = appointmentElement.querySelector('.date')?.textContent?.trim() ;
                               
 
                                 // Populate the modal with appointment details
@@ -228,7 +223,7 @@
                             setTimeout(() => {
                                 successMessage.style.display = "none";
 
-                            }, 4000); // 4 seconds
+                            }, 5000); // 4 seconds
                         }
 
                         if (errorMessage) {

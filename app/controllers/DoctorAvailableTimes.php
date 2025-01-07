@@ -49,36 +49,48 @@ class DoctorAvailableTimes extends Controller
              * the appointments are not displaying in the view page.
              */
              
-            $getAppointmentdetails=array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
-                if ($appointment->appointment_date > $CurrentDate) {
-                    return true;
-                }
+           // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)
+if (is_array($getAppointmentdetails)) {
+    // Filter appointments based on the current date and time
+    $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
+        // Check if the appointment date is after the current date
+        if ($appointment->appointment_date > $CurrentDate) {
+            return true;
+        }
 
-            $endTime = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
-            if ($appointment->appointment_date == $CurrentDate && $endTime > $CurrentTime) {
-                return true;
-            }
-                
-                // Otherwise, hide the slot
-                return false;
-            });
-            
-                if(empty($getAppointmentdetails)) {
-                    $noAppointmentsMessage = "No appointments available for this doctor at the moment.";
-                }
-            
-   
-          
-        $data = [
-            'appointments' => $getAppointmentdetails,
-            'doctor_name' => $doctor_name,
-            'doctor_specialization' => $doctor_specialization,
-            'doctorId' => $doctorId,
-            'noAppointmentsMessage' => $noAppointmentsMessage
-        ];
-     
+        // Calculate the end time of the appointment
+        $endTime = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
         
-        $this->view('appointment/doctorAvailableTimes', $data);
-        $this->view('footer');
+        // If the appointment is today and the end time is greater than the current time
+        if ($appointment->appointment_date == $CurrentDate && $endTime > $CurrentTime) {
+            return true;
+        }
+
+        // Otherwise, hide the slot
+        return false;
+    });
+} else {
+    // Handle the case where $getAppointmentdetails is not an array or is empty
+    $getAppointmentdetails = [];
+}
+
+if (empty($getAppointmentdetails)) {
+    $noAppointmentsMessage = "No appointments available for this doctor at the moment.";
+} else {
+    $noAppointmentsMessage = ''; // Clear the message if there are appointments
+}
+
+// Prepare the data for the view
+$data = [
+    'appointments' => $getAppointmentdetails,
+    'doctor_name' => $doctor_name,
+    'doctor_specialization' => $doctor_specialization,
+    'doctorId' => $doctorId,
+    'noAppointmentsMessage' => $noAppointmentsMessage
+];
+
+// Load the views
+$this->view('appointment/doctorAvailableTimes', $data);
+$this->view('footer');
     }
 }

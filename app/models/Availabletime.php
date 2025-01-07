@@ -70,6 +70,14 @@ class Availabletime
         $params = ['doctor_id' => $doctorId, 'date' => $date, 'hospital_id' => $hospitalId];
         return $this->query($query, $params);
     }
+
+    public function update_filled_slots($id)
+{
+    $query = 'UPDATE availabletimes SET filled_slots =filled_slots - 1 WHERE id = :id';
+    $result = $this->query($query, ['id' => $id]);
+    return $result ? $result : null;
+}
+
 }
 ?>
 

@@ -34,52 +34,51 @@ class Patient extends Controller
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
 
-        if( $a == 'update'){
+        if ($a == 'update') {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-              
-              $userData = $user->getById($_SESSION['USER']->user_id);
-  
-              $originalProfileInfo = [
-                  'name' => $userData->name,
-                  'NIC' => $userData->NIC,
-                  'phone_number' => $userData->phone_number,
-                  'email' => $userData->email,
-              ];
-  
-              $dataToUpdate = $_POST;
-              $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
-              
-              $data['status'] = $user->profileValidation($dataToUpdate, $originalProfileInfo);
-              
-              if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
-                  if($data['status'] === true){
-                      $user->update($userData->user_id, $dataToUpdate, 'user_id');
-                      $data['success'] = "Profile information updated successfully";
-                  }else{
-                      $data['error'] = $data['status'];
-                  }
-              }else{
-                  $passswordToUpdate = $user->passwordValidation($passswordToUpdate, $userData->password);
-                  unset($dataToUpdate['password']);
-                  unset($dataToUpdate['newpassword']);
-                  if($data['status'] === true){
-                      $user->update($userData->user_id, $dataToUpdate, 'user_id');
-                      $data['success'] = "Profile information updated successfully";
-                  }else{
-                      $data['error'] = $data['status'];
-                  }
-                  if($passswordToUpdate['passUpdateStatus'] === true){
-                      $user->update($userData->user_id, $passswordToUpdate, 'user_id');
-                      $_SESSION['USER']->password = $passswordToUpdate['password'];
-                      $data['passUpdateSuccess'] = "Password updated successfully";
-                  }else{
-                      $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
-                  }
-              }
-              
-              
-              }
-          }
+
+                $userData = $user->getById($_SESSION['USER']->user_id);
+
+                $originalProfileInfo = [
+                    'name' => $userData->name,
+                    'NIC' => $userData->NIC,
+                    'phone_number' => $userData->phone_number,
+                    'email' => $userData->email,
+                ];
+
+                $dataToUpdate = $_POST;
+
+                $passswordToUpdate = array("password" => $dataToUpdate['password'], "newpassword" => $dataToUpdate['newpassword']);
+
+                $data['status'] = $user->profileValidation($dataToUpdate, $originalProfileInfo);
+
+                if (empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])) {
+                    if ($data['status'] === true) {
+                        $user->update($userData->user_id, $dataToUpdate, 'user_id');
+                        $data['success'] = "Profile information updated successfully";
+                    } else {
+                        $data['error'] = $data['status'];
+                    }
+                } else {
+                    $passswordToUpdate = $user->passwordValidation($passswordToUpdate, $userData->password);
+                    unset($dataToUpdate['password']);
+                    unset($dataToUpdate['newpassword']);
+                    if ($data['status'] === true) {
+                        $user->update($userData->user_id, $dataToUpdate, 'user_id');
+                        $data['success'] = "Profile information updated successfully";
+                    } else {
+                        $data['error'] = $data['status'];
+                    }
+                    if ($passswordToUpdate['passUpdateStatus'] === true) {
+                        $user->update($userData->user_id, $passswordToUpdate, 'user_id');
+                        $_SESSION['USER']->password = $passswordToUpdate['password'];
+                        $data['passUpdateSuccess'] = "Password updated successfully";
+                    } else {
+                        $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
+                    }
+                }
+            }
+        }
 
         $this->view('patient/profile', $data);
         $this->view('footer');
@@ -96,49 +95,74 @@ class Patient extends Controller
 
     public function appointments()
     {
-       
-  
+
+
         $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
-        $appointmentsModel = new Appointments; 
-       
+        $appointmentsModel = new Appointments;
+        $updateFilledSlots=new  Availabletime;
+
         //get details of the appointments of a patient
         $doctorModel = new DoctorModel;
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
-
         // Ensure user role validation happens first
         if ($_SESSION['USER']->role !== 'patient') {
             header('location: ' . ROOT . '/Home');
             exit;
+           
         }
-        
-         $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
-         
-        // Handle appointment cancellation
+
+
+
         if (isset($_POST['appointment_id'])) {
+
+            $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
+            foreach ($appoitmentDetails as $appoitment) {
+                $schedule_id = $appoitment->schedule_id;
+                $session_time = $appoitment->session_time;
+                $session_date = $appoitment->session_date;
+            }
+             
             
-            $appointmentsModel->delete($appointment_id, 'appointment_id');
-    
-            // Success message and redirect to avoid form resubmission
-            $_SESSION['success'] = 'Appointment canceled successfully.';
+
+
+            // $appointmentsModel->delete($appointment_id, 'appointment_id');
+            // $updateData=['is_deleted' => 1];
+            date_default_timezone_set('Asia/Colombo');
+
+            $current_date = date("Y-m-d ");
+
+            if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
+                $appointmentsModel->update_is_deleted($appointment_id);
+
+                $_SESSION['success'] = 'Appointment canceled successfully.';
+            } else {
+                $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
+            }
+            $updateFilledSlots->update_filled_slots($schedule_id);
             header('location: ' . ROOT . '/Patient/appointments');
-            exit;
+           
+            exit; 
+
+
         }
-    
+
+
         // Error handling if no appointment_id is set
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
             $_SESSION['error'] = 'Failed to cancel the appointment.';
         }
-    
-       
+
+
         $this->view('header');
         if (!is_array($data)) {
             $data = [];
         }
-    
+
+
         $this->view('patient/appointments', $data);
         $this->view('footer');
     }
-    
+
 
 
 
@@ -150,7 +174,7 @@ class Patient extends Controller
     // public function cancelAppointment()
     // {
     //     $appointmentsModel = new Appointments;
-            
+
 
     //     // Ensure only patients can delete their own appointments
     //     if ($_SESSION['USER']->role !== 'patient') {
@@ -161,7 +185,7 @@ class Patient extends Controller
     //     if (isset($_POST['appointment_id'])) {
     //         $appointment_id = $_POST['appointment_id'];
     //         $getDetails=$appointmentsModel->getByAppointmentId($appointment_id);
-           
+
     //         // Call the delete method from the model
     //         $appointmentsModel->delete($appointment_id, 'appointment_id');
 
@@ -176,21 +200,8 @@ class Patient extends Controller
     //         exit;
     //     }
     // }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
+
     public function documents($a = '')
     {
 

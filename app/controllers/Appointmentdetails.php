@@ -14,7 +14,7 @@ class Appointmentdetails extends Controller
 
         $availableTimeId = isset($_GET['availableTimeId']) ? (int)$_GET['availableTimeId'] : null;
         $appointmentDetails = null;
-
+         
         if ($availableTimeId) {
 
 
@@ -36,13 +36,17 @@ class Appointmentdetails extends Controller
                             'doctor_specialization' => $doctorDetails['specialization'],
                             'doctor_id' => $doctorDetails['id'],
                             'hospital_fee' => $hospitalDetails->hospital_fee,
-                            'appointment_number' => ($appointment['total_slots'] - $appointment['filled_slots'] + 1),
+                            'appointment_number' => $appointment['filled_slots'] + 1,
+                            'filled_slots' => $appointment['filled_slots'],
+                            'availableatime_id' => $appointment['id'],
+                           
                         ];
+                        
 
                         $appointmentDurationMinutes = $appointment['duration'] * 60;
 
                         if ($appointment['total_slots'] > 0) {
-                            $appointmentDetails['appointment_number'] = ($appointment['total_slots'] - $appointment['filled_slots'] + 1);
+                            $appointmentDetails['appointment_number'] =  $appointment['filled_slots'] + 1;
                             $sessionStartTime = new DateTime($appointmentDetails['session_time']);
                             $patientAppointmentOffsetMinutes = ($appointmentDurationMinutes / $appointment['total_slots']) * ($appointmentDetails['appointment_number'] - 1);
                             $sessionStartTime->add(new DateInterval("PT{$patientAppointmentOffsetMinutes}M"));
@@ -66,7 +70,6 @@ class Appointmentdetails extends Controller
             echo "Appointment ID not provided.";
             exit;
         }
-var_dump($_SESSION);
 
         $service_charge = 285;
 
@@ -82,7 +85,7 @@ var_dump($_SESSION);
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
 
       
-
+           
 
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,
@@ -92,8 +95,9 @@ var_dump($_SESSION);
             'hospital_fee' => $hospital_fee,
             'doctor_fee' => $doctor_fee,
             'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,
+        
         ]);
-
+    
         $this->view('footer');
     }
 }

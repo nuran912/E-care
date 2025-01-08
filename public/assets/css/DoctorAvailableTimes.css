@@ -138,6 +138,16 @@ body {
   font-weight: bold;
   transition: background-color 0.3s;
 }
+.schedule-btndis{
+  background-color: rgb(87, 85, 85);
+  color:rgb(249, 248, 248);
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
 
 .no-appointments-message {
   color: #ff0000; /* Red color to make it stand out */
@@ -180,10 +190,12 @@ body {
   }
 
   .schedule-btn,
-  .schedule-btn2 {
+  .schedule-btn2,
+  .schedule-btndis {
     width: 100%;
   }
 }
-img{
+.profimg{
   margin-bottom: 15px;
+  height: 120px;
 }

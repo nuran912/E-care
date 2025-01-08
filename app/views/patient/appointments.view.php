@@ -9,8 +9,28 @@
 <?php  ?>
 
 <body>
+    <!-- Success Message -->
+    <?php if (isset($_SESSION['success'])): ?>
+        <div id="successMessage" class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['success']); ?>
+        </div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['error'])): ?>
+        <div id="errorMessage" class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['error']); ?>
+        </div>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
     <main>
+        <!-- #region -->
+
+
+
         <div class="container">
+
             <div class="tab-box">
                 <button class="tab-button active">Pending Appointments</button>
                 <button class="tab-button">Past Appointments</button>
@@ -20,57 +40,95 @@
             <div class="content-box">
 
 
+                <?php
+                date_default_timezone_set("Asia/Colombo");
+                $currentDate = date("Y-m-d ");
+                $currentTime = date("g:i A");
+
+                ?>
+
 
                 <!-- Pending Appointments Section -->
                 <div class="content active">
-                    <?php if (isset($data) && is_array($data)): ?>
-                        <?php foreach ($data as $appointment): ?>
-                            <?php if ($appointment->status == 'scheduled' || $appointment->status == 'pending'): ?>
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                    <?php if (isset($data) && is_array($data) && !empty($data)): ?>
+                        <?php
 
-                                <div class="appointment">
-                                    <span class="doctor">Doctor: <?php echo ($appointment->doctor_name); ?></span>
-                                    <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                        $hasPendingAppointments = false;
+                        foreach ($data as $appointment):
+                            if (($appointment->session_date > $currentDate || (strtotime($appointment->session_date) == strtotime($currentDate) && strtotime($appointment->session_time) > strtotime($currentTime))) && ($appointment->is_deleted == 0)):
+                                $hasPendingAppointments = true;
+                        ?>
+                                <div class="frame">
+                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>  
+                                    <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
-                                    <button class="view-button">View</button>
-                                    <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
-                                    <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+                                    <div class="appointment">
+                                        <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
+                                        <span class="ref-no">Appointment No:
+                                            <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
+                                        <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
 
-                                    <form method="POST" action="<?= ROOT; ?>/patient/cancelAppointment" onsubmit="return confirmDelete();">
-                                        <input type="hidden" name="appointment_id" value="<?= $appointment->appointment_id; ?>">
-                                        <button type="submit" name="cancel" class="cancel-button">Cancel</button>
-                                    </form>
+                                        <button class="view-button"
+                                            data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
 
+                                        <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
+                                        <span
+                                            class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
+
+                                        <form method="POST" action="<?= ROOT; ?>/patient/appointments"
+                                            onsubmit="return confirmDelete();">
+                                            <input type="hidden" name="appointment_id" value="<?= ($appointment->appointment_id); ?>">
+                                            <button type="submit" name="cancel" class="cancel-button">Cancel</button>
+
+                                        </form>
+
+                                    </div>
                                 </div>
-                            <?php else: ?>
-                                <!-- <p>No Pending Appointments found.</p> -->
                             <?php endif; ?>
                         <?php endforeach; ?>
+
+                        <?php if (!$hasPendingAppointments): ?>
+                            <p>No Pending Appointments found.</p>
+                        <?php endif; ?>
+
                     <?php else: ?>
+
                         <p>No Pending Appointments found.</p>
                     <?php endif; ?>
                 </div>
 
+
                 <!-- Past Appointments Section -->
                 <div class="content">
-                    <?php if (isset($data) && is_array($data)): ?>
-                        <?php foreach ($data as $appointment): ?>
-                            <?php if ($appointment->status == 'completed'): ?>
-                                <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                    <?php if (isset($data) && is_array($data) && (!empty($data))): ?>
 
-                                <div class="appointment">
-                                    <span class="doctor">Doctor: <?php echo ($appointment->doctor_name); ?></span>
-                                    <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-                                    <button class="cancel-view-button">View</button>
-                                    <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
-                                    <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+                        <?php
+                        $haspastAppointments = false;
+                        foreach ($data as $appointment):
+                            if (($appointment->session_date <= $currentDate && $appointment->session_time < $currentTime) && ($appointment->is_deleted == 0)):
+                                $haspastAppointments = true;
+                        ?>
+                                <div class="frame">
+
+                                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?> </span>
+                                    <span class="status"> Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
+                                        <div class="appointment">
+                                            <span class="doctor"> <?php echo ($appointment->doctor_name); ?></span>
+                                            <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
+                                            <span  class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                                            <button class="cancel-view-button" data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                                            <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
+                                            <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+
+                                        </div>
                                 </div>
-                            <?php else: ?>
-                                <!-- <p>No Past Appointments found.</p> -->
+
                             <?php endif; ?>
                         <?php endforeach; ?>
+                        <?php if (!$haspastAppointments): ?>
+                            <p>No past Appointments found.</p>
+                        <?php endif; ?>
+
                     <?php else: ?>
                         <p>No Past Appointments found.</p>
                     <?php endif; ?>
@@ -100,26 +158,42 @@
                         document.querySelectorAll('.view-button, .cancel-view-button').forEach(function(button) {
                             button.addEventListener('click', function() {
                                 // Find the closest appointment element and extract its details
-                                const appointmentElement = button.closest('.appointment');
+                                const appointmentElement = button.closest('.frame');
+                                const appointmentId = button.getAttribute('data-appointment-id');
+                                const appointments = <?= json_encode($data); ?>;
+                                const appointment = appointments.find(a => a.appointment_id == appointmentId);
+
                                 const doctor = appointmentElement.querySelector('.doctor').textContent.replace('Doctor:', '').trim();
                                 const appointmentNo = appointmentElement.querySelector('.ref-no').textContent.replace('Appointment No:', '').trim();
-
                                 const time = appointmentElement.querySelector('.time').textContent.trim();
                                 const hospital = appointmentElement.querySelector('.hospital').textContent.trim();
                                 const specialization = appointmentElement.querySelector('.specialization').textContent.trim();
+                                const date = appointmentElement.querySelector('.date')?.textContent?.trim() ;
+                              
 
                                 // Populate the modal with appointment details
                                 const details = `
-                    <p><strong>Doctor:</strong> ${doctor}</p>
-                    <p><strong>Appointment No:</strong> ${appointmentNo}</p>
-                    <p><strong>Time:</strong> ${time}</p>
-                    <p><strong>Hospital:</strong> ${hospital}</p>
-                    <p><strong>Specialization:</strong> ${specialization}</p>
-                `;
+                                        <p><strong>Patient Name:</strong> ${appointment.patient_name || "N/A"}</p>
+                                        <p><strong>Patient Email:</strong> ${appointment.patient_Email || "N/A"}</p>
+                                        <p><strong>Patient Address:</strong> ${appointment.patient_address || "Not entered"}</p>
+                                        <p><strong>Phone Number:</strong> ${appointment.phone_number || "N/A"}</p>            
+                                        <p><strong>Doctor:</strong> ${doctor}</p>
+                                        <p><strong>Specialization:</strong> ${specialization}</p>
+                                        <p><strong>Hospital:</strong> ${hospital}</p>
+                                        <p><strong>Appointment No:</strong> ${appointmentNo}</p>
+                                        <p><strong>Appointment Date:</strong> ${date}</p> 
+                                        <p><strong>Appointment Time:</strong> ${time}</p>
+                                        <p><strong>Appointment Fee:</strong> Rs.${appointment.total_fee || "N/A"}.00</p>
+                                        <p><strong>Payment Status:</strong> ${appointment.payment_status || "N/A"}</p>
+
+                                        
+                                     
+                                                                                                     `;
                                 appointmentDetailsDiv.innerHTML = details;
 
                                 // Show the modal
                                 modal.style.display = "block";
+
                             });
                         });
 
@@ -135,6 +209,29 @@
                             }
                         };
                     });
+
+
+
+                    //script to hide success message after 3 seconds
+
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Auto-hide success message after 3 seconds
+                        const successMessage = document.getElementById("successMessage");
+                        const errorMessage = document.getElementById("errorMessage");
+
+                        if (successMessage) {
+                            setTimeout(() => {
+                                successMessage.style.display = "none";
+
+                            }, 5000); // 4 seconds
+                        }
+
+                        if (errorMessage) {
+                            setTimeout(() => {
+                                errorMessage.style.display = "none";
+                            }, 5000); // 5 seconds (if desired)
+                        }
+                    });
                 </script>
 
 
@@ -149,17 +246,18 @@
                         width: 100%;
                         height: 100%;
                         overflow: auto;
-                        background-color: rgba(0, 0, 0, 0.6);
+                        background-color: rgba(0, 0, 0, 0.9);
                     }
 
 
                     .modal-content {
-                        background-color: white;
+                        background-color: #fefefe;
                         margin: 10% auto;
                         padding: 20px;
                         border-radius: 10px;
                         width: 50%;
                         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        border: solid 1px black;
                     }
 
                     .close {

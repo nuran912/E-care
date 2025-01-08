@@ -7,7 +7,15 @@ class Paymentsuccessfulpage extends Controller
 
 
 
-        sleep(10);
+        
+        $appointment_id = $_GET['order_id'] ?? null;
+if ($appointment_id) {
+    $appointments = new Appointments();
+    $status='completed';
+     $appointments->updatePaymentStatus($appointment_id, $status);
+}
+   
+        
 
 
 

@@ -77,7 +77,6 @@ class Availabletime
       $result = $this->query($query, ['id' => $id]);
       return $result ? $result[0] : null;
    }
-    }
 
     public function update_filled_slots($id)
 {

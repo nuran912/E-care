@@ -24,10 +24,12 @@
             padding: 5%;
         }
 
-        h3 {
+        h2 {
             color: #374151;
-            margin-bottom: 24px;
+            margin-bottom: 40px;
             text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #003366;
         }
 
         .createAppt {
@@ -96,6 +98,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s ease;
+            font-size:medium
         }
 
         button:hover {
@@ -118,23 +121,33 @@
             gap: 3px;
         }
         .date{
+            margin-top: 15px;
             font-weight: bold;
+            font-size: large;
+            color: #003366;
         }
         .apptInfo{
             display: flex;
             flex-direction: row;
             justify-content: space-around;
-            border: 2px solid #ada8a8;
+            /* border: 2px solid #ada8a8; */
+            background-color: #003366;
+            color: white;
             border-radius: 6px;
             padding: 25px  5px;
             width: 100%;
         }
         .item2{
-            border: 2px solid #908585;
+            /* border: 2px solid #908585; */
             border-radius: 4px;
             padding: 4px 10px;
             background-color: #ebe0e0;
             font-weight: bold;
+            color: black;
+        }
+        .item1{
+            display: flex;
+            flex-direction: column;   
         }
         .buttons{
             display: flex;
@@ -150,7 +163,7 @@
             font-size: medium;
         }
         .cancel{
-            background: rgb(250, 65, 65);
+            background: #dc3545;
             padding: 10px;
             margin-top: 8px;
             border: none;
@@ -158,22 +171,33 @@
             font-weight: bold;
             font-size:medium
         }
+        .cancel:hover{
+            background-color: #c82333;
+        }
+
+        .alert {
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
         
     </style>
 </head>
 <body>
     <div class='container'>
-        <h3>Create New Appointment Slot</h3>
+        <h2>Create New Appointment Slot</h2>
         <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create">
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
                     <input type="date" id="date" name="date">
                 </div>
-                <!-- <div class="item">
-                    <label for="time">&nbsp&nbspTime</label>
-                    <input type="time" id="time" name="time">
-                </div> -->
                 <div class="item">
                     <label for="count">&nbsp&nbspNo. of patients</label>
                     <input type="text" id="count" name="count" placeholder="Enter number of patients">
@@ -184,10 +208,6 @@
                     <label for="duration">&nbsp&nbspDuration of slot(hours)</label>
                     <input type="text" id="duration" name="duration">
                 </div>
-                <!-- <div class="item">
-                    <label for="fee">&nbsp&nbspAppointment fee</label>
-                    <input type="text" id="fee" name="fee">
-                </div> -->
                 <div class="item">
                     <label for="time">&nbsp&nbspTime</label>
                     <input type="time" id="time" name="time">
@@ -197,24 +217,33 @@
                 <div class="item">
                     <label for="hospital">&nbsp&nbspHospital</label>
                     <select id="hospital" name="hospital">
-                        <option value="UNION MEDICAL">Union Medical Hospital</option>
-                        <option value="UNION CENTRAL">Union Central Hospital</option>
-                        <option value="UNION SURGICAL">Union Surgical Hospital</option>
+                        <?php
+                            $hospitals = new Hospital;
+                            $hospitals = $hospitals->getAll();
+                            foreach($hospitals as $hospital){
+                                ?>
+                                    <option value="<?=$hospital->id?>"><?=$hospital->name?></option>
+                                <?php
+                            }
+                        ?>
                     </select>
                 </div>
-                <!-- <div class="item">
-                    <label for="count">&nbsp&nbspNo. of patients</label>
-                    <input type="text" id="count" name="count" placeholder="Enter number of patients">
-                </div> -->
+                <div class="item">
+                    <label for="time">&nbsp&nbspRepeat</label>
+                    <select id=repeat name=repeat>
+                        <option value="0">Never</option>
+                        <option value="1">Weekly (For 4 Weeks)</option>
+                        <option value="2">Monthly (For 4 Months)</option>
+                    </select>
+                </div>
             </div>
             <div class="form-footer">
                 <button type="submit">Create Slot</button>
             </div>
         </form>
-        <!-- <h3><a href="./doctorUpcomingAppt">View Upcoming Appointments</a></h3> -->
     </div>
     <div class="container">
-        <h3>Upcoming Appointments</h3>      
+        <h2>Upcoming Appointments</h2>      
         <?php
             usort($data, function($a, $b) {
                 return strtotime($a->date) <=> strtotime($b->date); // Compare dates as timestamps
@@ -229,24 +258,24 @@
                 // show(((new DateTime($appt->date))->format('Y-m-d')));
                 // show(gettype($appt));
                 // show((new DateTime())->format('Y-m-d'));
-                if(((new DateTime($appt->date))->format('Y-m-d')) > (new DateTime())->format('Y-m-d')){  ?>
+                if(((new DateTime($appt->date))->format('Y-m-d')) >= (new DateTime())->format('Y-m-d')){  ?>
                 <!-- show((new DateTime($appt['current_date']))->format('Y-m-d')); -->
             <div class="appointments">
             <div class="date"> &nbsp<?php echo $appt->date ?></div>
             <div class="apptInfo">
-                <div>
+                <div class="item1">
                     <label>hospital</label>
-                    <div class="item2"><?php echo $hospital[0]->name ?></div>
+                    <div class="item2"><?php echo $hospital->name ?></div>
                 </div>
-                <div>
+                <div class="item1">
                     <label>start time</label>
                     <div class="item2"><?php echo $appt->start_time ?></div>
                 </div>
-                <div>
+                <div class="item1">
                     <label>end time</label>
                     <div class="item2"><?php echo (new DateTime($appt->start_time))->modify('+'.$appt->duration.' hours')->format('H:i:s'); ?></div>
                 </div>
-                <div>
+                <div class="item1">
                     <label>total patients</label>
                     <div class="item2"><?php echo $appt->total_slots ?></div>
                 </div>

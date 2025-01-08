@@ -22,11 +22,17 @@ class Hospital
 
     public $order_column = 'name';
 
-    public function getHospitalById($hospitalId)
+    // public function getHospitalById($hospitalId)
+    // {
+    //     $query = "SELECT * FROM $this->table WHERE id = :id";
+    //     $params = ['id' => $hospitalId];
+    //     return $this->query($query, $params, true);
+    // }
+    public function getHospitalById($id)
     {
-        $query = "SELECT * FROM $this->table WHERE id = :id";
-        $params = ['id' => $hospitalId];
-        return $this->query($query, $params, true);
+      $query = "SELECT * FROM $this->table WHERE id = :id ";
+      $result = $this->query($query, ['id' => $id]);
+      return $result ? $result[0] : null;
     }
     public function getAll()
     {

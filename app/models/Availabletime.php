@@ -17,6 +17,7 @@ class Availabletime
         'duration',
         'total_slots',
         'filled_slots',
+        'status',
         // 'doctor_fee'
     ];
 
@@ -69,6 +70,13 @@ class Availabletime
         $params = ['doctor_id' => $doctorId, 'date' => $date, 'hospital_id' => $hospitalId];
         return $this->query($query, $params);
     }
+
+    public function getByScheduleId($id)
+   {
+      $query = "SELECT * FROM $this->table WHERE id = :id ";
+      $result = $this->query($query, ['id' => $id]);
+      return $result ? $result[0] : null;
+   }
 }
 ?>
 

@@ -222,12 +222,7 @@
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
-            <!-- <?php show($data) ?> -->
-            <!-- <?=$data['success']?>
-            <?=$data['passUpdateError']?>
-            <?=$data['passUpdateSuccess']?>  -->
-            <!-- <?php $status = $_SESSION['updateData'] ?> -->
-            <!-- <?= show($status)?> -->
+            
             <?php if (!empty($data['error'])): ?>
                 <div class="error">
                     <?php foreach ($data['error'] as $error): ?>
@@ -296,16 +291,7 @@
                         <button type="reset">Reset</button>
                     </div>
                 </div>
-                <!-- <?php if(!empty($data['error'])): ?>
-                    <div class="alert alert-danger">
-                        <?= $data['error']; ?>
-                    </div>
-                <?php endif; ?>
-                <?php if(!empty($data['success'])): ?>
-                    <div class="alert alert-success">
-                        <?= $data['success']; ?>
-                    </div>
-                <?php endif; ?> -->
+                
             </form>
         </div>
     </div>

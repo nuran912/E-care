@@ -38,8 +38,17 @@
                 <label for="confirmDetails">I confirm that the above details are correct.</label><br><br>
 
                 <button class="edit" type="button" onclick="window.history.back()">Edit Details</button>
+            <?php
+            if ($_SESSION['USER']->role == 'reception_clerk') {
+            ?>
+                <button class="proceed" type="submit" value="Proceed with Payment">Create Appointment</button>
+            <?php
+            } else {
+            ?>
                 <button class="proceed" type="submit" value="Proceed with Payment">Proceed with Payment</button>
-
+            <?php
+            }
+            ?>
 
                 <input type="hidden" name="title" value="<?php echo $_SESSION['appointment']['title']; ?>">
                 <input type="hidden" name="appointmentId" value="<?php echo $_SESSION['appointment']['appointment_number']; ?>">

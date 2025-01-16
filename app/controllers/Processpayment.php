@@ -56,14 +56,10 @@ class ProcessPayment extends Controller
 
             // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
             if($_SESSION['USER']->role=='reception_clerk'){
-            //    if ($appointment_id) {
-                   
-            //         $status='completed';
-            //          $createAppointment->updatePaymentStatus($appointment_id, $status);
-            //     }
+              
                 header('Location: ' . ROOT . '/Appointment_successful_page');
-                //insert a redirect link for appointment succcessful page
-                exit();
+                
+               
             }
             
            else{    

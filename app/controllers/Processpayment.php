@@ -56,10 +56,11 @@ class ProcessPayment extends Controller
 
             // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
             if($_SESSION['USER']->role=='reception_clerk'){
+                $_SESSION['appointment_data'] = $appointmentData;
               
                 header('Location: ' . ROOT . '/Appointment_successful_page');
                 
-               
+                   
             }
             
            else{    

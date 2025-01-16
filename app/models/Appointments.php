@@ -77,6 +77,22 @@ public function updatePaymentStatus($appointment_id, $status) {
     $result = $this->query($query, $params);
     return $result ? $result : null;
 }
+public function updateStatus($appointment_id, $status) {
+    
+    $allowedStatuses = ['completed', 'canceled', 'pending','scheduled'];
+    if (!in_array($status, $allowedStatuses)) {
+        throw new InvalidArgumentException("Invalid payment status: $status");
+    }
+
+    // Prepare and execute the query
+    $query = 'UPDATE appointments SET status = :status WHERE appointment_id = :appointment_id';
+    $params = [
+        'status' => $status,
+        'appointment_id' => $appointment_id
+    ];
+
+    $result = $this->query($query, $params);
+    return $result ? $result : null;}
 
 // public function getAppointmentsByDoctorIdGroupedByDate($doctorId){
     //     $query = "SELECT session_date, COUNT(*) AS total_appointments 

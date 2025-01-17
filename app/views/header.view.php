@@ -61,7 +61,7 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
                <card>
                   <h4>Lab Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Labclerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Clerk/labClerkUploadDoc">Upload Document</a></p>
                   <p><a href="<?php echo ROOT ?>/Clerk/labClerkWorkLog">Work Log</a></p>
 
@@ -72,9 +72,9 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Receptionclerk">Reception Clerk</a></button> -->
                <card>
                   <h4>Reception Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Receptionclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Clerk/receptionClerkUploadDoc">Create Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Clerk/receptionClerkWorkLog">Pending Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/appointmentsearchpage">Create Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/receptionClerkViewPendingAppointments">Pending Appointments</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -83,7 +83,7 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Recordclerk">Record Clerk</a></button> -->
                <card>
                   <h4>Record Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Recordclerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Clerk/recordClerkUploadDoc">Upload Document</a></p>
                   <p><a href="<?php echo ROOT ?>/Clerk/recordClerkWorkLog">Work Log</a></p>
 

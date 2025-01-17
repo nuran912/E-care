@@ -104,7 +104,7 @@ class DoctorModel
             ['doctor_id' => $doctor_id, 'user_id' => $user_id]
         );
     }
-    public function getUserDoctorAppointments( $user_id)
+    public function getUserDoctorAppointments($user_id)
     {
         return $this->query(
             "SELECT 
@@ -128,6 +128,57 @@ class DoctorModel
             WHERE 
                a.user_id = :user_id",
             [ 'user_id' => $user_id]
+        );
+    }
+
+    public function getDoctorAppointments() {
+        return $this->query(
+            "SELECT 
+                a.appointment_id,
+                a.patient_name,
+                a.status,
+                a.appointment_number,
+                a.hospital_name,
+                a.phone_number,
+                a.session_time,
+                a.session_date,
+                a.total_fee,
+                a.payment_status,
+                d.name AS doctor_name,
+                d.specialization
+            FROM 
+              appointments a 
+            JOIN 
+                  doctors d 
+            ON 
+                d.id = a.doctor_id"
+        );
+    }
+
+    public function getDoctorAppointmentsSearch($patient_name,$phone_number) {
+        return $this->query(
+            "SELECT 
+                a.appointment_id,
+                a.patient_name,
+                a.status,
+                a.appointment_number,
+                a.hospital_name,
+                a.phone_number,
+                a.session_time,
+                a.session_date,
+                a.total_fee,
+                a.payment_status,
+                d.name AS doctor_name,
+                d.specialization
+            FROM 
+              appointments a 
+            JOIN 
+                  doctors d 
+            ON 
+                d.id = a.doctor_id
+            WHERE 
+                a.patient_name like :patient_name OR a.phone_number like :phone_number",
+                ['patient_name'=>$patient_name,'phone_number'=>$phone_number]
         );
     }
 

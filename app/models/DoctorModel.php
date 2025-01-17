@@ -151,7 +151,9 @@ class DoctorModel
             JOIN 
                   doctors d 
             ON 
-                d.id = a.doctor_id"
+                d.id = a.doctor_id
+            ORDER BY
+                a.updated_at DESC"
         );
     }
 

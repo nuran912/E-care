@@ -1,6 +1,6 @@
 <?php
 
-if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') ) {
+if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') && ($_SESSION['USER']->role != 'reception_clerk')) {
     redirect('Home');
 }
 
@@ -214,6 +214,27 @@ class Clerk extends Controller {
         ];
 
         $this->view('Clerk/labClerkWorkLog',$data);
+        $this->view('footer');
+    }
+
+    public function receptionClerkViewPendingAppointments() {
+
+        $this->view('header');
+
+        $doctorModel = new DoctorModel;
+
+        $data = $doctorModel->getDoctorAppointments();
+
+        if(isset($_GET['find'])) {
+            $find = '%' . $_GET['find'] . '%';
+            $data = $doctorModel->getDoctorAppointmentsSearch($find,$find);
+        }
+        
+        if (!is_array($data)) {
+            $data = [];
+        }
+
+        $this->view('Clerk/receptionClerkViewPendingAppointments',$data);
         $this->view('footer');
     }
 }

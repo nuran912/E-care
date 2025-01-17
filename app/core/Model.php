@@ -120,7 +120,6 @@ trait Model
       $this->order_type = $order;
    }
 
-
    public function getHospitals()
    {
       $query = "SELECT id, name FROM hospitals";

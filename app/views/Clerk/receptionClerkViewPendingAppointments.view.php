@@ -38,7 +38,7 @@
 
         .content-box h2 {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             color: #1c3a47;
         }
 
@@ -58,9 +58,20 @@
             }
         }
 
+        .appointment-main-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #1c3a47;
+        }
+
         .appointment-date {
             font-size: 16px;
-            color: #1c3a47;
+        }
+
+        .payment-stat {
+            font-size: 14px;
+            margin-right: 20px;
         }
 
         .appointment {
@@ -71,8 +82,8 @@
             padding: 15px;
             border: 1px solid #ccc;
             width: 100%;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 5px;
+            margin-bottom: 30px;
             border-radius: 8px;
             background-color: #f9f9f9;
         }
@@ -164,6 +175,7 @@
             align-items: center;
             z-index: 1000;
             overflow: hidden;
+            backdrop-filter: blur(6px);
         }
 
         .popup-content {
@@ -175,6 +187,12 @@
             box-shadow: 0 2px 16px rgba(0,0,0,0.2);
             overflow-y: auto;
             animation: fadeIn 0.3s ease;
+        }
+
+        .popup-content h4 {
+            color: #1c3a47;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         .popup-content form label {
@@ -214,6 +232,10 @@
             background-color: #17a2b8;
         }
 
+        .popup-content form button.print-button .a {
+            text-decoration: none;
+        }
+
         .popup-content form button:hover {
             opacity: 0.9;
         }
@@ -235,7 +257,7 @@
             width: 300px;
             border: 1px solid #1c3a47;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 50px;
             margin-left: 150px;
         }
 
@@ -246,7 +268,6 @@
             padding: 5px;
             border-radius: 5px;
             font-size: 14px;
-            margin-bottom: 20px;
             cursor: pointer;
             width: 100px;
         }
@@ -278,7 +299,15 @@
 
                             <?php if ($appointment->status == 'scheduled'): ?>
 
-                                <span class="appointment-date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                <div class="appointment-main-info">
+                                    <span class="appointment-date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                    
+                                    <?php if ($appointment->payment_status == "pending"): ?>
+                                        <p class="payment-stat">Payment Status : <span style="color: red; font-weight: bold;">Pending</span></p>
+                                    <?php else:?>
+                                        <p class="payment-stat">Payment Status : <span style="color: green; font-weight: bold;">Completed</span></p>
+                                    <?php endif; ?>
+                                </div>
 
                                 <div class="appointment">
 
@@ -291,6 +320,8 @@
                                         <div class="popup" id="popup-<?= $index ?>" style="display: none;">
                                             <div class="popup-content">
                                                 <form method="POST" action="<?= ROOT; ?>/clerk/receptionClerkViewPendingAppointments">
+
+                                                    <h4>Appointment Details</h4>
 
                                                     <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment->appointment_id) ?>">
                                                     
@@ -320,6 +351,7 @@
                                                 </form>
                                             </div>
                                         </div>
+
                                     <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
                                     <span class="specialization"><?php echo ($appointment->specialization); ?></span>
 

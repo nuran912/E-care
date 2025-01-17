@@ -52,11 +52,17 @@ class ProcessPayment extends Controller
             // Update the database records
             $updateFilledSlots->update($availableTimeId, $updateData, 'id');
             $createAppointment->insert($appointmentData);
+
             $appointment_id=$createAppointment->getById_LatestRow($user_id);
 
+            
+            $_SESSION['appointment_id'] = $appointment_id;
             // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
             if($_SESSION['USER']->role=='reception_clerk'){
                 $_SESSION['appointment_data'] = $appointmentData;
+
+        
+                
               
                 header('Location: ' . ROOT . '/Appointment_successful_page');
                 

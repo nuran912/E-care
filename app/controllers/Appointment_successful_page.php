@@ -4,10 +4,33 @@ class Appointment_successful_page extends Controller
     public function index()
     {
         $this->view('header');
+        $doctor = new DoctorModel();
 
+        if ((isset($_POST['submit']))) {
+            
 
+            $appointments = new Appointments();
+            $status='completed';
+            $_SESSION['appointment_data']['payment_status']='completed';
+            $appointment_id=$_SESSION['appointment_id'] ;
+             $appointments->updatePaymentStatus($appointment_id, $status);
+
+            
+            sleep(5);
+            header('Location: ' . ROOT . '/Paymentsuccessfulpage');
+            exit();
+            
+        }
          
+
+
+
+
+
         $appointmentData = $_SESSION['appointment_data'] ?? [];
+
+
+
 
         $patientName = $appointmentData['patient_name'] ?? '';
         $patientEmail = $appointmentData['patient_Email'] ?? '';
@@ -25,6 +48,9 @@ class Appointment_successful_page extends Controller
 // Use and display the data as needed
 // unset($_SESSION['appointment_data']);
 
+$doctorName = $doctor->getDoctorNameById($doctorId);
+$_SESSION['appointment_data']['doctor_name'] = $doctorName;
+
 
 
 
@@ -39,7 +65,7 @@ $appointmentData = [
     'session_date' => $sessionDate,
     'session_time' => $sessionTime,
     'appointment_number' => $appointmentNumber,
-    'doctor_id' => $doctorId,
+    'doctor_name' => $doctorName,
     'user_id' => $userId,
     'total_fee' => $totalFee,
     'payment_status' => 'pending',

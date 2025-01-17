@@ -9,10 +9,10 @@ class Paymentsuccessfulpage extends Controller
 
         
         $appointment_id = $_GET['order_id'] ?? null;
-if ($appointment_id) {
+if ($appointment_id && $_SESSION['USER']->role != 'reception_clerk') {
     $appointments = new Appointments();
-    $status='completed';
-     $appointments->updatePaymentStatus($appointment_id, $status);
+    $status = 'completed';
+    $appointments->updatePaymentStatus($appointment_id, $status);
 }
    
         

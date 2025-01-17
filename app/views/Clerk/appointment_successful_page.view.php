@@ -31,15 +31,18 @@
             <p><strong>Session Date:</strong> <?php echo $_SESSION['appointment_data']['session_date']; ?></p>
             <p><strong>Session Time:</strong> <?php echo $_SESSION['appointment_data']['session_time']; ?></p>
             <p><strong>Appointment Number:</strong> <?php echo $_SESSION['appointment_data']['appointment_number']; ?></p>
-            <p><strong>Doctor ID:</strong> <?php echo $_SESSION['appointment_data']['doctor_id']; ?></p>
-            <p><strong>Total Fee:</strong><?php echo $_SESSION['appointment_data']['total_fee']; ?></p>
-            <p><strong>Payment Status:</strong> <?php echo $_SESSION['appointment_data']['payment_status']; ?></p>
-            <p><strong>Schedule ID:</strong> <?php echo $_SESSION['appointment_data']['schedule_id']; ?></p>
+            <p><strong>Doctor Name:</strong> <?php echo $_SESSION['appointment_data']['doctor_name'][0]->name; ?></p>
+            <p><strong>Total Fee:</strong> Rs. <?php echo $_SESSION['appointment_data']['total_fee']; ?>.00</p>
+            <p><strong>Payment Status:</strong> <span style="background-color: red; color: black; padding:2px;"><?php echo $_SESSION['appointment_data']['payment_status']; ?></span></p>
+            <!-- <p><strong>Schedule ID:</strong> <?php echo $_SESSION['appointment_data']['schedule_id']; ?></p> -->
         </div>
         <div class="buttons">
+              
             <!-- <button onclick="window.print()">Print Details</button> -->
-            <button onclick="window.location.href='<?php echo ROOT; ?>/ClerkWorkLog'">Work Log</button>
-            <button onclick="window.location.href='payment.html'">Pay Now</button>
+            <button input onclick="window.location.href='<?php echo ROOT; ?>/ClerkWorkLog'">Work Log</button>
+            <form action="<?php echo ROOT; ?>/Appointment_successful_page" method="post">
+            <button type="submit" name="submit" value="">Pay Now</button>
+            </form>
         </div>
     </div>
 </body>

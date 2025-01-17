@@ -234,6 +234,14 @@ class DoctorModel
                 return $dataToUpdate;
             }
     }
+
+    public function getDoctorNameById($doctor_id)
+    {
+        return $this->query(
+            "SELECT name FROM doctors WHERE id = :doctor_id",
+            ['doctor_id' => $doctor_id]
+        );
+    }
 }
 
 

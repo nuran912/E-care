@@ -13,6 +13,7 @@ if ($appointment_id && $_SESSION['USER']->role != 'reception_clerk') {
     $appointments = new Appointments();
     $status = 'completed';
     $appointments->updatePaymentStatus($appointment_id, $status);
+    $appointments->update_is_deletedToZero($appointment_id);
 }
    
         

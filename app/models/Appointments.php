@@ -20,7 +20,8 @@ class Appointments
         'patient_address',
         'total_fee',
         'appointment_number', 
-        'payment_status',    
+        'payment_status', 
+        'service_charge',   
     ];
 
     public $order_column = 'id';
@@ -47,6 +48,12 @@ class Appointments
     $result = $this->query($query, ['appointment_id' => $appointment_id]);
     return $result ? $result : null;
 }
+public function update_is_deletedToZero($appointment_id)
+{
+    $query = 'UPDATE appointments SET is_deleted = 0 WHERE appointment_id = :appointment_id';
+    $result = $this->query($query, ['appointment_id' => $appointment_id]);
+    return $result ? $result : null;
+}
 
 public function getById_LatestRow($user_id){
     $query = "SELECT appointment_id FROM appointments 
@@ -66,6 +73,7 @@ public function updatePaymentStatus($appointment_id, $status) {
     if (!in_array($status, $allowedStatuses)) {
         throw new InvalidArgumentException("Invalid payment status: $status");
     }
+
 
     // Prepare and execute the query
     $query = 'UPDATE appointments SET payment_status = :status WHERE appointment_id = :appointment_id';

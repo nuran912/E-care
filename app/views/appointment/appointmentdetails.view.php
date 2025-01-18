@@ -79,7 +79,7 @@
 
                 <div class="checkbox-section">
                     <div class="checkbox-group">
-                        <input name="serviceCharge" type="checkbox" id="serviceCharge">
+                        <input name="serviceCharge"  type="checkbox" id="serviceCharge">
                         <label for="serviceCharge">Add service charge</label>
                     </div>
 
@@ -159,6 +159,7 @@
         <input type="hidden" name="hospital_fee" value="<?= $hospital_fee ?>">
         <input type="hidden" name="filled_slots" value="<?= $appointmentDetails['filled_slots'] ?>">
         <input type="hidden" name="availableatime_id" value="<?= $appointmentDetails['availableatime_id'] ?>">
+        
         
 
         

@@ -27,6 +27,8 @@ class ProcessPayment extends Controller
             $userId = $_SESSION['USER']->user_id ?? 'NULL';
             $filledSlots = intval($_POST['filled_slots'] ?? 0);
             $availableTimeId = intval($_POST['availableatime_id'] ?? 0);
+            $serviceCharge = floatval($_POST['service_charge'] ?? 0);
+            
 
             // Prepare data for insertion
             $appointmentData = [
@@ -43,7 +45,8 @@ class ProcessPayment extends Controller
                 'user_id' => $userId,
                 'total_fee' => $totalFee,
                 'payment_status' => 'pending',
-                'schedule_id' => $availableTimeId
+                'schedule_id' => $availableTimeId,
+                'service_charge' => $serviceCharge,
             ];
 
             $updateData = ['filled_slots' => $filledSlots + 1];

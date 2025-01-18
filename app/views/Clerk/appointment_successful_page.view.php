@@ -33,16 +33,31 @@
             <p><strong>Appointment Number:</strong> <?php echo $_SESSION['appointment_data']['appointment_number']; ?></p>
             <p><strong>Doctor Name:</strong> <?php echo $_SESSION['appointment_data']['doctor_name'][0]->name; ?></p>
             <p><strong>Total Fee:</strong> Rs. <?php echo $_SESSION['appointment_data']['total_fee']; ?>.00</p>
-            <p><strong>Payment Status:</strong> <span style="background-color: red; color: black; padding:2px;"><?php echo $_SESSION['appointment_data']['payment_status']; ?></span></p>
+            <p><strong>Payment Status:</strong> 
+                <span style="background-color: <?php echo $_SESSION['appointment_data']['payment_status'] == 'completed' ? 'green' : 'red'; ?>; color: white; padding:5px;">
+                    <?php echo $_SESSION['appointment_data']['payment_status']; ?>
+                </span>
+            </p>
             <!-- <p><strong>Schedule ID:</strong> <?php echo $_SESSION['appointment_data']['schedule_id']; ?></p> -->
         </div>
         <div class="buttons">
-              
-            <!-- <button onclick="window.print()">Print Details</button> -->
-            <button input onclick="window.location.href='<?php echo ROOT; ?>/ClerkWorkLog'">Work Log</button>
-            <form action="<?php echo ROOT; ?>/Appointment_successful_page" method="post">
+        <button input onclick="window.location.href='<?php echo ROOT; ?>/ClerkWorkLog'">Work Log</button>
+        <form action="<?php echo ROOT; ?>/Appointment_successful_page" method="post">
             <button type="submit" name="submit" value="">Pay Now</button>
             </form>
+            <!-- <button id="completeAppointmentBtn" input onclick="window.location.href='<?php echo ROOT; ?>/Paymentsuccessfulpage'" >Complete Appointment</button> -->
+            <!-- <script>
+                document.querySelector('form[action="<?php echo ROOT; ?>/Appointment_successful_page"]').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    document.getElementById('completeAppointmentBtn').disabled = false;
+                    document.getElementById('completeAppointmentBtn').style.backgroundColor = '';
+                    this.submit();
+                });
+
+                document.getElementById('completeAppointmentBtn').style.backgroundColor = 'grey';
+            </script>
+            -->
+            
         </div>
     </div>
 </body>

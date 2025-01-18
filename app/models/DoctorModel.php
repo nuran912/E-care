@@ -123,6 +123,7 @@ class DoctorModel
                 a.total_fee,
                 a.is_deleted,
                 a.payment_status,
+                a.service_charge,
                 d.name AS doctor_name,
                 d.specialization
             FROM 

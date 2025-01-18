@@ -14,15 +14,15 @@ class Appointment_successful_page extends Controller
             $_SESSION['appointment_data']['payment_status']='completed';
             $appointment_id=$_SESSION['appointment_id'] ;
              $appointments->updatePaymentStatus($appointment_id, $status);
-
             
-            sleep(5);
-            header('Location: ' . ROOT . '/Paymentsuccessfulpage');
-            exit();
-            
+                
+           
         }
          
-
+ // sleep(5);
+            // header('Location: ' . ROOT . '/Paymentsuccessfulpage');
+            // exit();
+            
 
 
 

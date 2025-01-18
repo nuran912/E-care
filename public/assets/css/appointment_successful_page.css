@@ -48,15 +48,19 @@ h1 {
 strong {
     color: #333333;
 }
-
 .buttons {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 20px;
-    
+}
+
+.buttons form {
+    margin: 0;
 }
 
 button {
-    background-color:#3e64ff;
+    background-color: #3e64ff;
     color: white;
     padding: 10px 20px;
     margin: 10px;

@@ -66,6 +66,7 @@
                 <input type="hidden" name="total_fee" value="<?php echo $total_fee; ?>">
                 <input type="hidden" name="filled_slots" value="<?php echo $_SESSION['appointment']['filled_slots']; ?>">
                 <input type="hidden" name="availableatime_id" value="<?php echo $_SESSION['appointment']['availableatime_id']; ?>">
+                <input type="hidden" name="service_charge" value="<?php echo $_SESSION['appointment']['service_charge']; ?>">
             </form>
           
         <?php endif; ?>

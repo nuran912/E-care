@@ -45,18 +45,10 @@
         <form action="<?php echo ROOT; ?>/Appointment_successful_page" method="post">
             <button type="submit" name="submit" value="">Pay Now</button>
             </form>
-            <!-- <button id="completeAppointmentBtn" input onclick="window.location.href='<?php echo ROOT; ?>/Paymentsuccessfulpage'" >Complete Appointment</button> -->
-            <!-- <script>
-                document.querySelector('form[action="<?php echo ROOT; ?>/Appointment_successful_page"]').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    document.getElementById('completeAppointmentBtn').disabled = false;
-                    document.getElementById('completeAppointmentBtn').style.backgroundColor = '';
-                    this.submit();
-                });
-
-                document.getElementById('completeAppointmentBtn').style.backgroundColor = 'grey';
-            </script>
-            -->
+           
+            <?php if ($_SESSION['appointment_data']['payment_status'] == 'completed'): ?>
+                <button id="completeAppointmentBtn" style="background-color: red;" input onclick="window.location.href='<?php echo ROOT; ?>/Paymentsuccessfulpage'" >Complete Appointment</button>
+            <?php endif; ?>
             
         </div>
     </div>

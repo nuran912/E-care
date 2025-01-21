@@ -55,13 +55,13 @@ public function update_is_deletedToZero($appointment_id)
     return $result ? $result : null;
 }
 
-public function getById_LatestRow($user_id){
+public function getByNIC_LatestRow($nic_passport) {
     $query = "SELECT appointment_id FROM appointments 
-              WHERE user_id = :user_id 
+              WHERE nic_passport = :nic_passport 
               ORDER BY appointment_id DESC 
               LIMIT 1";
     
-    $result = $this->query($query, ['user_id' => $user_id]);
+    $result = $this->query($query, ['nic_passport' => $nic_passport]);
 
     // Access result as an object
     return $result ? $result[0]->appointment_id : null;

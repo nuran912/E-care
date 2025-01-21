@@ -55,7 +55,7 @@ class ProcessPayment extends Controller
             $updateFilledSlots->update($availableTimeId, $updateData, 'id');
             $createAppointment->insert($appointmentData);
 
-            $appointment_id = $createAppointment->getById_LatestRow($user_id);
+            $appointment_id = $createAppointment->getByNIC_LatestRow($nicOrPassport);
 
             $_SESSION['appointment_id'] = $appointment_id;
             // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);

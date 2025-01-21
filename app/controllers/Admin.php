@@ -20,7 +20,54 @@ class Admin extends Controller
    public function profile($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/profile');
+
+      $user = new User;
+      $user = $user->first(['user_id' => $_SESSION['USER']->user_id]);
+      // show($user);
+
+      $data = [
+         'user' => $user
+      ];
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
+      if ($a == 'edit') {
+         $user = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_data = $_POST;
+            $user_data['user_id'] = $_SESSION['USER']->user_id;
+            $user->updateProfile($user_data['user_id'], $user_data, 'user_id');
+            if ($user->errors) {
+               $data['errors'] = $user->errors;
+               // redirect('Admin/profile');
+            } else {
+
+               $_SESSION['edit_success'] = 'Profile updated successfully.';
+               redirect('Admin/profile');
+            }
+         }
+      }
+
+      if ($a == 'change-password') {
+         $user = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_data = $_POST;
+            $user_data['user_id'] = $_SESSION['USER']->user_id;
+            $user->updateProfile($user_data['user_id'], $user_data, 'user_id');
+            if ($user->errors) {
+               $data['errors'] = $user->errors;
+               
+            } else {
+               $_SESSION['edit_success'] = 'Password updated successfully.';
+               redirect('Admin/profile');
+               // redirect('Admin/profile');
+            }
+         }
+      }
+      $this->view('admin/profile', $data);
       $this->view('footer');
    }
 

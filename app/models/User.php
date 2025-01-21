@@ -87,7 +87,7 @@ class User
       return false;
    }
 
-   public function update($id, $data, $id_column = 'id')
+   public function updateProfile($id, $data, $id_column = 'id')
    {
       $password = $data['password'];
       $newPassword = $data['newPassword'];
@@ -201,4 +201,6 @@ class User
       }
       return false;
    }
+
+   
 }

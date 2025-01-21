@@ -9,7 +9,7 @@ class Paymentsuccessfulpage extends Controller
 
         
         $appointment_id = $_GET['order_id'] ?? null;
-if ($appointment_id && $_SESSION['USER']->role != 'reception_clerk') {
+if ($appointment_id && $_SESSION['USER']->role != 'reception_clerk' ) {
     $appointments = new Appointments();
     $status = 'completed';
     $appointments->updatePaymentStatus($appointment_id, $status);
@@ -19,7 +19,7 @@ if ($appointment_id && $_SESSION['USER']->role != 'reception_clerk') {
         
 
 
-
+ 
 
         $this->view('appointment/paymentsuccessfulpage');
     }

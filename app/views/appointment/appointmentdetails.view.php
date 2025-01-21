@@ -15,6 +15,7 @@
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
             <div class="isloggedperson">
+            <?php if (isset($_SESSION['USER']->role)): ?>
                 <input name="isloggedperson" type="checkbox" id="isloggedperson"
                     data-title="<?php echo htmlspecialchars($_SESSION['USER']->title ?? ''); ?>"
                     data-username="<?php echo htmlspecialchars($_SESSION['USER']->name ?? ''); ?>"
@@ -22,9 +23,11 @@
                     data-contact="<?php echo htmlspecialchars($_SESSION['USER']->phone_number ?? ''); ?>"
                     data-idnumber="<?php echo htmlspecialchars($_SESSION['USER']->NIC ?? ''); ?>">
 
-                <label for="serviceCharge">Click here to add the logged person's details <span class="warning-text">
-                        (This feature can use only if the logged person is the patient.. Guest users have to fill the form)
-                    </span></label>
+                     
+                    <label for="serviceCharge">Click here to add the logged person's details <span class="warning-text">
+                            (This feature can use only if the logged person is the patient.. Guest users have to fill the form)
+                        </span></label>
+                <?php endif; ?>
             </div>
             <div id="patientForm">
                 <div class="form-row">
@@ -41,8 +44,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Email <small class="optional-message">(optional)</small></label>
-                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email">
+                    <label>Email <?php echo isset($_SESSION['USER']->role) ? '<small class="optional-message">(optional)</small>' : ''; ?></label>
+                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" <?php echo isset($_SESSION['USER']->role) ? '' : 'required'; ?>>
                     <span id="emailError" class="error-message"></span>
                 </div>
                 <div class="form-group">

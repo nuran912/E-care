@@ -48,20 +48,18 @@ class ProcessPayment extends Controller
                 'schedule_id' => $availableTimeId,
                 'service_charge' => $serviceCharge,
             ];
-
             $updateData = ['filled_slots' => $filledSlots + 1];
-            $user_id=$_SESSION['USER']->user_id;
+            $user_id = $_SESSION['USER']->user_id ?? null;
 
             // Update the database records
             $updateFilledSlots->update($availableTimeId, $updateData, 'id');
             $createAppointment->insert($appointmentData);
 
-            $appointment_id=$createAppointment->getById_LatestRow($user_id);
+            $appointment_id = $createAppointment->getById_LatestRow($user_id);
 
-            
             $_SESSION['appointment_id'] = $appointment_id;
             // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
-            if($_SESSION['USER']->role=='reception_clerk'){
+            if (isset($_SESSION['USER']) && $_SESSION['USER']->role == 'reception_clerk') {
                 $_SESSION['appointment_data'] = $appointmentData;
 
         

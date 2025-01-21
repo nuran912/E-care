@@ -39,7 +39,7 @@
 
                 <button class="edit" type="button" onclick="window.history.back()">Edit Details</button>
             <?php
-            if ($_SESSION['USER']->role == 'reception_clerk') {
+            if (isset($_SESSION['USER']->role) && $_SESSION['USER']->role == 'reception_clerk') {
             ?>
                 <button class="proceed" type="submit" value="Proceed with Payment">Create Appointment</button>
             <?php

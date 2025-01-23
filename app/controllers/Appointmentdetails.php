@@ -11,6 +11,12 @@ class Appointmentdetails extends Controller
         $availableTimes = (new Availabletime())->getAll();
         $doctors = (new DoctorModel())->getAll();
         $hospitals = (new Hospital())->getAll();
+        $documents = new Document();
+        if (isset($_SESSION['USER']->user_id)) {
+            $selectedDocuments = $documents->getDocumentsByUserId($_SESSION['USER']->user_id);
+        } else {
+            $selectedDocuments = [];
+        }
 
         $availableTimeId = isset($_GET['availableTimeId']) ? (int)$_GET['availableTimeId'] : null;
         $appointmentDetails = null;
@@ -23,8 +29,10 @@ class Appointmentdetails extends Controller
 
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
                     $hospitalDetails = findObjectById($hospitals, 'id', $appointment['hospital_id']);
-
-
+                             
+                             echo "<pre>";                     
+                       var_dump($selectedDocuments);
+                          echo "</pre>";
 
                     if ($doctorDetails && $hospitalDetails) {
                         $appointmentDetails = [
@@ -87,6 +95,7 @@ class Appointmentdetails extends Controller
       
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,
+            'selectedDocuments' => $selectedDocuments,
             'formatted_doctor_fee' => $formatted_doctor_fee,
             'formatted_hospital_fee' => $formatted_hospital_fee,
             'formatted_service_charge' => $formatted_service_charge,

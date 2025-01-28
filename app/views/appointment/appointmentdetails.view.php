@@ -79,7 +79,7 @@
                     <input type="text" id="patientAddress" name="patientAddress" placeholder="Enter your address">
                     <span id="addressError" class="error-message"></span>
                 </div>
-                <!-- <div class="form-row">
+                 <div class="form-row">
                 <div class="form-group">
                 <label for="document">Select Documents:</label>
                 <select name="document" id="document">
@@ -91,11 +91,11 @@
         </select>
                 </div>
                     <div class="form-group"></div>
-                        <label for="uploadButton">Upload Documents</label> -->
-                        <!-- <button type="button" id="uploadButton" name="uploadButton">Upload</button>
+                        <label for="uploadButton">Upload Documents</label> 
+                         <button type="button" id="uploadButton" name="uploadButton">Upload</button>
                     </div>
                 </div>
-                 -->
+                 
 
                 <div class="checkbox-section">
                     <div class="checkbox-group">

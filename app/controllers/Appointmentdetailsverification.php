@@ -29,6 +29,8 @@ class Appointmentdetailsverification extends Controller
             $serviceCharge = isset($_POST['serviceCharge']) && $_POST['serviceCharge'] === "on" ? 285 : 0;
             $filledSlots = $_POST['filled_slots'] ?? '';
             $availableatime_id = $_POST['availableatime_id'] ?? '';
+            $selectedfiles = isset($_POST['document']) ? implode(',', $_POST['document']) : '';
+
             
 
             $totalFee = $hospitalFee + $doctorFee + $serviceCharge;
@@ -52,9 +54,10 @@ class Appointmentdetailsverification extends Controller
                 'filled_slots' => $filledSlots,
                 'availableatime_id' => $availableatime_id,
                 'service_charge' => $serviceCharge,
+                'documents'=>$selectedfiles
             ];
 
-           
+            
             $_SESSION['appointment'] = $data;
          
            

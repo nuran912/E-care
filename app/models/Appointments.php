@@ -21,7 +21,8 @@ class Appointments
         'total_fee',
         'appointment_number', 
         'payment_status', 
-        'service_charge',   
+        'service_charge', 
+        'selected_files'  
     ];
 
     public $order_column = 'id';

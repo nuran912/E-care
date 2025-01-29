@@ -46,7 +46,13 @@ class DoctorModel
         return $this->query($query, $data);
     }
      
-
+    //get user details using user id from users table
+    public function getUserDeatils($user_id)
+    {
+        $query = "SELECT * FROM users WHERE id = :user_id ";
+        $result = $this->query($query, ['user_id' => $user_id]);
+        return $result ? $result[0] : null;
+    }
 
     
     //get all specializations
@@ -130,7 +136,27 @@ class DoctorModel
             [ 'user_id' => $user_id]
         );
     }
+
+    public function getDoctorsWithUserDetails()
+    {
+        $query = "
+            SELECT 
+                d.*, 
+                u.email, 
+                u.phone_number, 
+                u.NIC, 
+                u.is_active 
+            FROM 
+                doctors d
+            JOIN 
+                users u 
+            ON 
+                d.user_id = u.user_id
+        ";
+        return $this->query($query);
+    }
+
 }
 
 
-  
+

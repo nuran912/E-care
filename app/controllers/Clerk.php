@@ -94,7 +94,6 @@ class Clerk extends Controller {
             $user_id = $_POST['patientID'];
             $uploaded_by = $_POST['uploaded_by'];
             $document_type = 'medical_record';
-            $document_category = $_POST['docCategory'];
             $ref_no = $_POST['ref_no'];
 
             //target directory
@@ -116,7 +115,6 @@ class Clerk extends Controller {
                         'user_id' => $user_id,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
-                        'document_category' => $document_category,
                         'document_name' => $filename,
                         'ref_no' => $ref_no
                     ];
@@ -161,7 +159,6 @@ class Clerk extends Controller {
             $user_id = $_POST['patientID'];
             $uploaded_by = $_POST['uploaded_by'];
             $document_type = 'lab_report';
-            $document_category = $_POST['docCategory'];
             $ref_no = $_POST['ref_no'];
 
             //target directory
@@ -183,7 +180,6 @@ class Clerk extends Controller {
                         'user_id' => $user_id,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
-                        'document_category' => $document_category,
                         'document_name' => $filename,
                         'ref_no' => $ref_no
                     ];

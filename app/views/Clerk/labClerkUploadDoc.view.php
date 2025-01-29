@@ -145,12 +145,8 @@
 
             <div class="section">
                 <div class="item">
-                    <label for="docName">Document Name</label>
-                    <input type="text" id="docName" name="docName" placeholder="Enter document name" required />
-                </div>
-                <div class="item">
-                    <label for="patientID">Patient ID</label>
-                    <input type="text" id="patientID" name="patientID" placeholder="Enter patient ID" required />
+                    <label for="patientEmail">Patient Email</label>
+                    <input type="text" id="patientID" name="patientID" placeholder="Enter patient email address" required />
                 </div>
 
                 <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
@@ -160,14 +156,6 @@
                 <div class="item">
                     <label for="refNumber">Reference Number</label>
                     <input type="text" id="refNumber" name="ref_no" placeholder="Enter reference number" required />
-                </div>
-                <div class="item">
-                    <label for="docCategory">Document Category</label>
-                    <select id="docCategory" name="docCategory" required>
-                        <option value="" disabled selected>Select category</option>
-                        <option value="blood">Blood Report</option>
-                        <option value="urine">Urine Report</option>
-                    </select>
                 </div>
             </div>
 

@@ -135,7 +135,7 @@ class Patient extends Controller
         //retrieve the documents from the database
         $document->setLimit(50);
         $document->setOrder('desc');
-        $documents = $document->findAll();
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
         $data = [
             'documents' => $documents
@@ -155,7 +155,7 @@ class Patient extends Controller
         //retrieve the documents from the database
         $document->setLimit(50);
         $document->setOrder('desc');
-        $documents = $document->findAll();
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
         $data = [
             'documents' => $documents
@@ -257,7 +257,7 @@ class Patient extends Controller
         //retrieve the documents from the database
         $document->setLimit(50);
         $document->setOrder('desc');
-        $documents = $document->findAll();
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
         $data = [
             'documents' => $documents

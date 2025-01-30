@@ -147,7 +147,7 @@
             gap: 50px;
         }
 
-        .alert {
+        /* .alert {
             padding: 16px;
             margin-bottom: 16px;
             border-radius: 4px;
@@ -162,12 +162,12 @@
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
-        }
+        } */
         .error {
             position:relative;
             /* background-color: darkred; */
             /* border-color: #c82333; */
-            color: white;
+            /* color: white; */
             border: 3px red solid;
             padding: 5px;
             border-radius: 10px;
@@ -188,7 +188,7 @@
             position:relative;
             /* background-color: green; */
             /* border-color: lightgreen; */
-            color: white;
+            /* color: white; */
             border: 3px lightgreen solid;
             padding: 5px;
             border-radius: 10px;
@@ -245,6 +245,7 @@
                         <p><?=$data['passUpdateSuccess']?></p>
                 </div>
             <?php endif; ?> 
+            
             <form method="POST" action="<?= ROOT?>/Doctor/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>

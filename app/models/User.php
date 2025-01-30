@@ -145,6 +145,7 @@ class User
       $this->query($query, $data);
       return false;
    }
+   
    public function updateClerkDetails($id, $data, $id_column = 'id'){
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 

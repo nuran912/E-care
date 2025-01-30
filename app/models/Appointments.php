@@ -20,7 +20,8 @@ class Appointments
         'patient_address',
         'total_fee',
         'appointment_number', 
-        'payment_status',    
+        'payment_status',
+        'doctor_notes',    
     ];
 
     public $order_column = 'id';
@@ -37,7 +38,7 @@ class Appointments
     }
 
     public function getByAppointmentId($appointment_id){
-        $query = 'SELECT schedule_id ,session_time,session_date FROM appointments WHERE appointment_id = :appointment_id';
+        $query = 'SELECT * FROM appointments WHERE appointment_id = :appointment_id';
         $result = $this->query($query, ['appointment_id'=> $appointment_id]);
         return $result ? $result : null;
     }
@@ -119,6 +120,38 @@ public function updatePaymentStatus($appointment_id, $status) {
         }
     
         return $grouped; // Return the grouped array
+    }
+    public function getAppointmentsByScheduleId($scheduleId){
+        $query = "SELECT * FROM $this->table WHERE schedule_id = :schedule_id ";
+        $result = $this->query($query, ['schedule_id' => $scheduleId]);
+        return $result ? $result : null;
+    }
+
+    public function update_status($apptId, $newStatus){
+        
+        $query = "UPDATE $this->table SET status = :status WHERE appointment_id = :appointment_id";
+        $params = [
+            'status' => $newStatus,
+            'appointment_id' => $apptId
+        ];
+        $result = $this->query($query, $params);
+        return $result ? $result : null;
+    }
+    public function updateDoctorNotes($apptId, $newNotes){
+        
+        $query = "UPDATE $this->table SET doctor_notes = :doctor_notes WHERE appointment_id = :appointment_id";
+        $params = [
+            'doctor_notes' => $newNotes,
+            'appointment_id' => $apptId
+        ];
+        $result = $this->query($query, $params);
+        return $result ? $result : null;
+    }
+
+    public function getAppointmentById($appointment_id){
+        $query = 'SELECT * FROM appointments WHERE appointment_id = :appointment_id';
+        $result = $this->query($query, ['appointment_id'=> $appointment_id]);
+        return $result ? $result[0] : null;
     }
 
 }

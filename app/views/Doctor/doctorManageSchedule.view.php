@@ -6,11 +6,10 @@
     <title>Manage Appointment Schedule</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #f3f6fa;
             margin: 0;
             padding: 0;
-            height: 100vh;
         }
 
         .container {
@@ -175,24 +174,67 @@
             background-color: #c82333;
         }
 
-        .alert {
-            padding: 16px;
-            margin-bottom: 16px;
-            border-radius: 4px;
-            font-family: Arial, sans-serif;
+        .error {
+            position:relative;
+            /* background-color: darkred; */
+            /* border-color: #c82333; */
+            color: #0E2F56;
+            border: 3px red solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            /* z-index: 1000; */
         }
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+
+        .success {
+            position:relative;
+            /* background-color: green; */
+            /* border-color: lightgreen; */
+            color: #0E2F56;
+            border: 3px lightgreen solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            /* z-index: 1000; */
         }
         
     </style>
 </head>
 <body>
+
     <div class='container'>
         <h2>Create New Appointment Slot</h2>
-        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create">
+
+        <?php if($data[1]['createError'] != ""){ ?>
+            <div class="error">
+                <p> <?= $data[1]['createError']; ?> </p>
+            </div>
+        <?php } ?>
+        <?php if($data[1]['createSuccess'] != ""){ ?>
+            <div class="success">
+                <p> <?= $data[1]['createSuccess']; ?> </p>
+            </div>
+        <?php } ?>
+
+        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create" >
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
@@ -243,12 +285,25 @@
         </form>
     </div>
     <div class="container">
-        <h2>Upcoming Appointments</h2>      
+        <h2>Upcoming Appointment Slots</h2> 
+
+        <?php if($data[1]['cancelError'] != ""){ ?>
+            <div class="error">
+                <p> <?= $data[1]['cancelError']; ?> </p>
+            </div>
+        <?php } ?>
+        <?php if($data[1]['cancelSuccess'] != ""){ ?>
+            <div class="success">
+                <p> <?= $data[1]['cancelSuccess']; ?> </p>
+            </div>
+        <?php } ?>
+
         <?php
-            usort($data, function($a, $b) {
+
+            usort($data[0], function($a, $b) {
                 return strtotime($a->date) <=> strtotime($b->date); // Compare dates as timestamps
             });
-            foreach($data as $appt) :
+            foreach($data[0] as $appt) :
                 $hospital = new Hospital;
                 $hospital = $hospital->getHospitalById($appt->hospital_id);
                 // show($hospital);
@@ -279,9 +334,18 @@
                     <label>total patients</label>
                     <div class="item2"><?php echo $appt->total_slots ?></div>
                 </div>
-                <form class="buttons" method="GET" action="<?= ROOT?>/Doctor/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
-                    <button class="cancel" >Cancel</button>
-                </form>
+                <div class="item1">
+                    <label>status</label>
+                    <div class="item2"><?php echo $appt->status ?></div>
+                </div>
+                <?php 
+                    if($appt->status != "cancelled"){   ?>
+                        <form class="buttons" method="GET" action="<?= ROOT?>/Doctor/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
+                            <button class="cancel" >Cancel</button>
+                        </form>
+                <?php        
+                        }
+                ?>
             </div>
         </div>
             <br/>

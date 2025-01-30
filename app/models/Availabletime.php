@@ -22,7 +22,7 @@ class Availabletime
     ];
 
     public $order_column = 'date';
-
+    
 
     public function getByDoctorId($doctorId, $date = null, $hospitalId = null)
     {
@@ -78,12 +78,22 @@ class Availabletime
       return $result ? $result[0] : null;
    }
 
-    public function update_filled_slots($id)
-{
-    $query = 'UPDATE availabletimes SET filled_slots =filled_slots - 1 WHERE id = :id';
-    $result = $this->query($query, ['id' => $id]);
-    return $result ? $result : null;
-}
+    public function update_filled_slots($id){
+        $query = 'UPDATE availabletimes SET filled_slots =filled_slots - 1 WHERE id = :id';
+        $result = $this->query($query, ['id' => $id]);
+        return $result ? $result : null;
+    }
+
+    public function update_status($id, $newStatus){
+        
+        $query = 'UPDATE availabletimes SET status = :status WHERE id = :id';
+        $params = [
+            'status' => $newStatus,
+            'id' => $id
+        ];
+        $result = $this->query($query, $params);
+        return $result ? $result : null;
+    }
 
 }
 ?>

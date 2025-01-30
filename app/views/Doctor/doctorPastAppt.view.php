@@ -156,11 +156,12 @@
                                         <label>Time</label>
                                         <div class="item"><?=$appt->session_time?></div>
                                     </div>
-                                    <!-- <div class="buttons">
+                                    <div>
+                                        <label>Status</label>
+                                        <div class="item"><?=$appt->status?></div>
+                                    </div>
+                                    <form class="buttons" method="GET" action="<?=ROOT?>/Doctor/doctorViewAppt/<?=$appt->appointment_id?>">
                                         <button class="view">View</button>
-                                    </div> -->
-                                    <form class="buttons" method="GET" action="">
-                                        <button class="view" >View</button>
                                     </form>
                                 </div>
                                 <?php

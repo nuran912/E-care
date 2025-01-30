@@ -119,4 +119,28 @@ document.getElementById('edit-article-image').addEventListener('change', functio
     }
 });
 
+function toggleStatus(button) {
+    const form = button.closest('form');
+    const isActive = button.classList.contains('btn-active');
+
+    // Toggle button text and class
+    button.textContent = isActive ? 'Disabled' : 'Active';
+    button.classList.toggle('btn-active');
+    button.classList.toggle('btn-disable');
+
+    // Submit the form
+    form.submit();
+}
+
+function resetPassword(button) {
+    const form = button.closest('form');
+    const name = form.querySelector('input[name="name"]').value;
+    const nic = form.querySelector('input[name="nic"]').value;
+    const confirmation = confirm(`Are you sure you want to change the password to the NIC (${nic}) of ${name}?`);
+
+    if (confirmation) {
+        form.submit();
+    }
+}
+
 

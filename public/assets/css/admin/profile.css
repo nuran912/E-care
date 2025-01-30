@@ -111,3 +111,43 @@ body {
 .profile-section .form-actions .btn-reset:hover {
     background-color: #174ea6;
 }
+
+.success {
+    position:relative;
+    background-color: green;
+    color: white;
+    border: 3px lightgreen solid;
+    padding: 20px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    /* z-index: 1000; */
+ }
+
+ .error {
+    position:relative;
+    background-color: darkred;
+    color: white;
+    border: 3px red solid;
+    padding: 20px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    /* z-index: 1000; */
+ }

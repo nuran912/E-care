@@ -20,7 +20,54 @@ class Admin extends Controller
    public function profile($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/profile');
+
+      $user = new User;
+      $user = $user->first(['user_id' => $_SESSION['USER']->user_id]);
+      // show($user);
+
+      $data = [
+         'user' => $user
+      ];
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
+      if ($a == 'edit') {
+         $user = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_data = $_POST;
+            $user_data['user_id'] = $_SESSION['USER']->user_id;
+            $user->updateProfile($user_data['user_id'], $user_data, 'user_id');
+            if ($user->errors) {
+               $data['errors'] = $user->errors;
+               // redirect('Admin/profile');
+            } else {
+
+               $_SESSION['edit_success'] = 'Profile updated successfully.';
+               redirect('Admin/profile');
+            }
+         }
+      }
+
+      if ($a == 'change-password') {
+         $user = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_data = $_POST;
+            $user_data['user_id'] = $_SESSION['USER']->user_id;
+            $user->updateProfile($user_data['user_id'], $user_data, 'user_id');
+            if ($user->errors) {
+               $data['errors'] = $user->errors;
+               
+            } else {
+               $_SESSION['edit_success'] = 'Password updated successfully.';
+               redirect('Admin/profile');
+               // redirect('Admin/profile');
+            }
+         }
+      }
+      $this->view('admin/profile', $data);
       $this->view('footer');
    }
 
@@ -34,7 +81,41 @@ class Admin extends Controller
    public function doctor($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/doctor');
+
+      $doctorsModel = new DoctorModel;
+      $doctors = $doctorsModel->getDoctorsWithUserDetails();
+      // show($doctors);
+
+      $data = [
+         'doctors' => $doctors
+      ];
+
+      if($a == 'toggleStatus'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $userModel = new User;
+            $user = $userModel->first(['user_id' => $userId]);
+   
+            if ($user) {
+               $newStatus = $user->is_active ? 0 : 1;
+               $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+            }
+         }
+         redirect('Admin/doctor');
+      }
+
+      if($a == 'resetPassword'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $nic = $_POST['nic'];
+            $userModel = new User;
+            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
+         }
+         redirect('Admin/doctor');
+      }
+
+      $this->view('admin/doctor', $data);
       $this->view('footer');
    }
 
@@ -164,4 +245,5 @@ class Admin extends Controller
       $this->view('admin/articles', $data);
       $this->view('footer');
    }
+
 }

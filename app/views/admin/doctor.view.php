@@ -13,10 +13,15 @@
       <header>
          <p>Doctors</p>
          <div class="user-info">
-            <span>Admin Jane</span>
+            <span><?php echo (ucwords($_SESSION['USER']->name)); ?></span>
             <span class="role-badge">ADMIN</span>
          </div>
       </header>
+
+      <?php if (isset($_SESSION['reset_success'])): ?>
+         <div class="success"><?php echo $_SESSION['reset_success']; ?></div>
+         <?php unset($_SESSION['reset_success']); ?>
+      <?php endif; ?>
 
       <section class="main-div">
          <div class="search">
@@ -36,11 +41,11 @@
             <table>
                <thead>
                   <tr>
-                     <th>Doctor Number</th>
+                     <th>Register Number</th>
                      <th>Full Name</th>
-                     <th>Speacilization</th>
+                     <th>Specialization</th>
                      <th>Email</th>
-                     <th>Phone</th>
+                     <th>Contact_No</th>
                      <th>NIC</th>
                      <th>Status</th>
                      <th>Password</th>
@@ -48,50 +53,38 @@
                   </tr>
                </thead>
                <tbody>
-                  <tr>
-                     <td>D001</td>
-                     <td>Mohamed Athhar</td>
-                     <td>General</td>
-                     <td>athhar@gmail.com</td>
-                     <td>0761234567</td>
-                     <td>200212345678</td>
-                     <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
-                  </tr>
-                  <tr>
-                     <td>D001</td>
-                     <td>Nuran Alwis</td>
-                     <td>General</td>
-                     <td>nuran@gmail.com</td>
-                     <td>0761985642</td>
-                     <td>200254268791</td>
-                     <td><button class="btn-disable">Disabled</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
-                  </tr>
-                  <tr>
-                     <td>D001</td>
-                     <td>Manusha Ranaweera</td>
-                     <td>General</td>
-                     <td>manusha@gmail.com</td>
-                     <td>0763259465</td>
-                     <td>200265894154</td>
-                     <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></td>
-                  </tr>
-                  <tr>
-                     <td>D001</td>
-                     <td>Okadini KDI</td>
-                     <td>General</td>
-                     <td>okadini@gmail.com</td>
-                     <td>0761234567</td>
-                     <td>200212345678</td>
-                     <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></td>
-                  </tr>
+                  <?php if (isset($doctors) && is_array($doctors)): ?>
+                     <?php foreach ($doctors as $doctor) : ?>
+                        <tr>
+                           <td><?php echo $doctor->registration_number; ?></td>
+                           <td><?php echo $doctor->name; ?></td>
+                           <td><?php echo $doctor->specialization; ?></td>
+                           <td><?php echo $doctor->email; ?></td>
+                           <td><?php echo $doctor->phone_number; ?></td>
+                           <td><?php echo $doctor->NIC; ?></td>
+                           <td>
+                              <form method="post" action="<?= ROOT ?>/admin/doctor/toggleStatus" class="status-form">
+                                 <input type="hidden" name="user_id" value="<?php echo $doctor->user_id; ?>">
+                                 <button type="button" class="btn-<?php echo $doctor->is_active ? 'active' : 'disable'; ?>" onclick="toggleStatus(this)">
+                                    <?php echo $doctor->is_active ? 'Active' : 'Disabled'; ?>
+                                 </button>
+                              </form>
+                           </td>
+                           <td>
+                              <form method="post" action="<?= ROOT ?>/admin/doctor/resetPassword" class="reset-form">
+                                 <input type="hidden" name="user_id" value="<?php echo $doctor->user_id; ?>">
+                                 <input type="hidden" name="nic" value="<?php echo $doctor->NIC; ?>">
+                                 <input type="hidden" name="name" value="<?php echo $doctor->name; ?>">
+                                 <button type="button" class="btn-reset" onclick="resetPassword(this)">Reset</button>
+                              </form>
+                           </td>
+                           <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                        </tr>
+                     <?php endforeach; ?>
+
+                  <?php else: ?>
+                     <p>No Doctors found.</p>
+                  <?php endif; ?>
 
                </tbody>
             </table>
@@ -194,17 +187,17 @@
                <div class="form-group">
                   <input type="text" name="doctor-number" placeholder=" " value="D001" style="width: 300px;" required>
                   <label>Doctor Number</label>
-                  
+
                </div>
                <lable><input type="checkbox" name="active" checked="true">Active</lable>
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <textarea name="qualifications" rows="4" >MBBS, MD (General Medicine) - 2010 
+                  <textarea name="qualifications" rows="4">MBBS, MD (General Medicine) - 2010 
                   </textarea>
                   <label>Qualifications</label>
                </div>
-                  
+
             </div>
             <div class="form-row">
                <button type="button" class="btn-create">Update</button>

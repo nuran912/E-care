@@ -49,7 +49,7 @@
                                     <span class="label"><?php echo htmlspecialchars($document['document_name']) ?></span>
 
                                     <div class="button-group">
-                                        <button class="private-view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
+                                        <button class="private-view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
                                         
                                         <button class="private-edit-button" data-index="<?= $index ?>">Edit</button>
                                         <div class="popup" id="popup-<?= $index ?>" style="display: none;">

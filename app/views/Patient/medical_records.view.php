@@ -29,13 +29,12 @@
 
                                 <div class="record-date-time-category">
                                     <?php echo htmlspecialchars($document['uploaded_at']) ?>
-                                    <span class="document-category"><?php echo htmlspecialchars($document['document_category']) ?></span>
                                 </div>
 
                                 <div class="record">
                                     <span class="label"><p><?php echo htmlspecialchars($document['document_name']) ?></p></span>
                                     <span class="ref-no"><p>Ref No: <?php echo htmlspecialchars($document['ref_no']) ?></p></span>
-                                    <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
+                                    <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
                                 </div>
         
                             <?php endif; ?>

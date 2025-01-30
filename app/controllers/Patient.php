@@ -113,6 +113,21 @@ class Patient extends Controller
 
 
 
+        foreach ($data as $item) {
+            if (!empty($item->selected_files)) {
+            $selectedFiles = explode(',', $item->selected_files);
+            echo "<pre>";
+            var_dump($selectedFiles);
+            echo "</pre>";
+            } else {
+            var_dump("No selected files");
+            }
+        }
+
+  echo "<pre>";
+         var_dump($data);
+       echo "</pre>";
+
         if (isset($_POST['appointment_id'])) {
 
             $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);

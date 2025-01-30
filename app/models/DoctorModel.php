@@ -124,6 +124,7 @@ class DoctorModel
                 a.is_deleted,
                 a.payment_status,
                 a.service_charge,
+                a.selected_files,
                 d.name AS doctor_name,
                 d.specialization
             FROM 

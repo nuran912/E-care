@@ -138,7 +138,8 @@ class Patient extends Controller
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }
-            $updateFilledSlots->update_filled_slots($schedule_id);
+            // $updateFilledSlots->update_filled_slots($schedule_id);
+            $appointmentsModel->updateStatus($appointment_id, 'canceled');
             header('location: ' . ROOT . '/Patient/appointments');
            
             exit; 

@@ -54,6 +54,20 @@ class ProcessPayment extends Controller
             $createAppointment->insert($appointmentData);
             $appointment_id=$createAppointment->getById_LatestRow($user_id);
 
+            // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
+            if($_SESSION['USER']->role=='reception_clerk'){
+            //    if ($appointment_id) {
+                   
+            //         $status='completed';
+            //          $createAppointment->updatePaymentStatus($appointment_id, $status);
+            //     }
+                header('Location: ' . ROOT . '/Appointment_successful_page');
+                //insert a redirect link for appointment succcessful page
+                exit();
+            }
+            
+           else{    
+
             // Redirect to PayHere
             $merchantId = '1228671';
             $returnUrl = ROOT . '/Paymentsuccessfulpage';
@@ -101,6 +115,7 @@ class ProcessPayment extends Controller
 
             </script>
             ';
+           }
         }
 
         // $this->view('appointment/processpayment', []);

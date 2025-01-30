@@ -6,11 +6,10 @@
     <title>Manage Appointment Schedule</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            background-color: #f3f6fa;
             margin: 0;
             padding: 0;
-            height: 100vh;
         }
 
         .container {
@@ -24,10 +23,12 @@
             padding: 5%;
         }
 
-        h3 {
+        h2 {
             color: #374151;
-            margin-bottom: 24px;
+            margin-bottom: 40px;
             text-align: center;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #003366;
         }
 
         .createAppt {
@@ -96,6 +97,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: background-color 0.3s ease;
+            font-size:medium
         }
 
         button:hover {
@@ -118,23 +120,33 @@
             gap: 3px;
         }
         .date{
+            margin-top: 15px;
             font-weight: bold;
+            font-size: large;
+            color: #003366;
         }
         .apptInfo{
             display: flex;
             flex-direction: row;
             justify-content: space-around;
-            border: 2px solid #ada8a8;
+            /* border: 2px solid #ada8a8; */
+            background-color: #003366;
+            color: white;
             border-radius: 6px;
             padding: 25px  5px;
             width: 100%;
         }
         .item2{
-            border: 2px solid #908585;
+            /* border: 2px solid #908585; */
             border-radius: 4px;
             padding: 4px 10px;
             background-color: #ebe0e0;
             font-weight: bold;
+            color: black;
+        }
+        .item1{
+            display: flex;
+            flex-direction: column;   
         }
         .buttons{
             display: flex;
@@ -150,7 +162,7 @@
             font-size: medium;
         }
         .cancel{
-            background: rgb(250, 65, 65);
+            background: #dc3545;
             padding: 10px;
             margin-top: 8px;
             border: none;
@@ -158,22 +170,76 @@
             font-weight: bold;
             font-size:medium
         }
+        .cancel:hover{
+            background-color: #c82333;
+        }
+
+        .error {
+            position:relative;
+            /* background-color: darkred; */
+            /* border-color: #c82333; */
+            color: #0E2F56;
+            border: 3px red solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            /* z-index: 1000; */
+        }
+
+        .success {
+            position:relative;
+            /* background-color: green; */
+            /* border-color: lightgreen; */
+            color: #0E2F56;
+            border: 3px lightgreen solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            /* z-index: 1000; */
+        }
         
     </style>
 </head>
 <body>
+
     <div class='container'>
-        <h3>Create New Appointment Slot</h3>
-        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create">
+        <h2>Create New Appointment Slot</h2>
+
+        <?php if($data[1]['createError'] != ""){ ?>
+            <div class="error">
+                <p> <?= $data[1]['createError']; ?> </p>
+            </div>
+        <?php } ?>
+        <?php if($data[1]['createSuccess'] != ""){ ?>
+            <div class="success">
+                <p> <?= $data[1]['createSuccess']; ?> </p>
+            </div>
+        <?php } ?>
+
+        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create" >
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
                     <input type="date" id="date" name="date">
                 </div>
-                <!-- <div class="item">
-                    <label for="time">&nbsp&nbspTime</label>
-                    <input type="time" id="time" name="time">
-                </div> -->
                 <div class="item">
                     <label for="count">&nbsp&nbspNo. of patients</label>
                     <input type="text" id="count" name="count" placeholder="Enter number of patients">
@@ -184,10 +250,6 @@
                     <label for="duration">&nbsp&nbspDuration of slot(hours)</label>
                     <input type="text" id="duration" name="duration">
                 </div>
-                <!-- <div class="item">
-                    <label for="fee">&nbsp&nbspAppointment fee</label>
-                    <input type="text" id="fee" name="fee">
-                </div> -->
                 <div class="item">
                     <label for="time">&nbsp&nbspTime</label>
                     <input type="time" id="time" name="time">
@@ -197,29 +259,51 @@
                 <div class="item">
                     <label for="hospital">&nbsp&nbspHospital</label>
                     <select id="hospital" name="hospital">
-                        <option value="UNION MEDICAL">Union Medical Hospital</option>
-                        <option value="UNION CENTRAL">Union Central Hospital</option>
-                        <option value="UNION SURGICAL">Union Surgical Hospital</option>
+                        <?php
+                            $hospitals = new Hospital;
+                            $hospitals = $hospitals->getAll();
+                            foreach($hospitals as $hospital){
+                                ?>
+                                    <option value="<?=$hospital->id?>"><?=$hospital->name?></option>
+                                <?php
+                            }
+                        ?>
                     </select>
                 </div>
-                <!-- <div class="item">
-                    <label for="count">&nbsp&nbspNo. of patients</label>
-                    <input type="text" id="count" name="count" placeholder="Enter number of patients">
-                </div> -->
+                <div class="item">
+                    <label for="time">&nbsp&nbspRepeat</label>
+                    <select id=repeat name=repeat>
+                        <option value="0">Never</option>
+                        <option value="1">Weekly (For 4 Weeks)</option>
+                        <option value="2">Monthly (For 4 Months)</option>
+                    </select>
+                </div>
             </div>
             <div class="form-footer">
                 <button type="submit">Create Slot</button>
             </div>
         </form>
-        <!-- <h3><a href="./doctorUpcomingAppt">View Upcoming Appointments</a></h3> -->
     </div>
     <div class="container">
-        <h3>Upcoming Appointments</h3>      
+        <h2>Upcoming Appointment Slots</h2> 
+
+        <?php if($data[1]['cancelError'] != ""){ ?>
+            <div class="error">
+                <p> <?= $data[1]['cancelError']; ?> </p>
+            </div>
+        <?php } ?>
+        <?php if($data[1]['cancelSuccess'] != ""){ ?>
+            <div class="success">
+                <p> <?= $data[1]['cancelSuccess']; ?> </p>
+            </div>
+        <?php } ?>
+
         <?php
-            usort($data, function($a, $b) {
+
+            usort($data[0], function($a, $b) {
                 return strtotime($a->date) <=> strtotime($b->date); // Compare dates as timestamps
             });
-            foreach($data as $appt) :
+            foreach($data[0] as $appt) :
                 $hospital = new Hospital;
                 $hospital = $hospital->getHospitalById($appt->hospital_id);
                 // show($hospital);
@@ -229,30 +313,39 @@
                 // show(((new DateTime($appt->date))->format('Y-m-d')));
                 // show(gettype($appt));
                 // show((new DateTime())->format('Y-m-d'));
-                if(((new DateTime($appt->date))->format('Y-m-d')) > (new DateTime())->format('Y-m-d')){  ?>
+                if(((new DateTime($appt->date))->format('Y-m-d')) >= (new DateTime())->format('Y-m-d')){  ?>
                 <!-- show((new DateTime($appt['current_date']))->format('Y-m-d')); -->
             <div class="appointments">
             <div class="date"> &nbsp<?php echo $appt->date ?></div>
             <div class="apptInfo">
-                <div>
+                <div class="item1">
                     <label>hospital</label>
-                    <div class="item2"><?php echo $hospital[0]->name ?></div>
+                    <div class="item2"><?php echo $hospital->name ?></div>
                 </div>
-                <div>
+                <div class="item1">
                     <label>start time</label>
                     <div class="item2"><?php echo $appt->start_time ?></div>
                 </div>
-                <div>
+                <div class="item1">
                     <label>end time</label>
                     <div class="item2"><?php echo (new DateTime($appt->start_time))->modify('+'.$appt->duration.' hours')->format('H:i:s'); ?></div>
                 </div>
-                <div>
+                <div class="item1">
                     <label>total patients</label>
                     <div class="item2"><?php echo $appt->total_slots ?></div>
                 </div>
-                <form class="buttons" method="GET" action="<?= ROOT?>/Doctor/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
-                    <button class="cancel" >Cancel</button>
-                </form>
+                <div class="item1">
+                    <label>status</label>
+                    <div class="item2"><?php echo $appt->status ?></div>
+                </div>
+                <?php 
+                    if($appt->status != "cancelled"){   ?>
+                        <form class="buttons" method="GET" action="<?= ROOT?>/Doctor/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
+                            <button class="cancel" >Cancel</button>
+                        </form>
+                <?php        
+                        }
+                ?>
             </div>
         </div>
             <br/>

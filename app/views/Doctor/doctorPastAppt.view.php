@@ -27,20 +27,20 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            border-bottom: 2px solid #d1c9c9;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             width: 100%;
         }
         .tab{
             padding: 10px 20px;
             display: flex;
             justify-content: center;
+            border-bottom: 4px solid #d1c9c9;
             flex-grow: 1;
-            font-size: 1.17em;
+            font-size: x-large;
         }
         .tab.active{
             color: #003366;
-            border-bottom: 3px solid #0E2F56;
+            border-bottom: 4px solid #003366;
             font-weight: bold;
         }
         .tab a{
@@ -54,37 +54,53 @@
             gap: 3px;
         }
         .date{
+            margin-top: 30px;
             font-weight: bold;
+            font-size: large;
+            color: #003366;
         }
         .apptInfo{
             display: flex;
             flex-direction: row;
             justify-content: space-around;
-            border: 2px solid #ada8a8;
+            justify-items: center;
+            align-items: center;
+            /* border: 2px solid #ada8a8; */
+            background-color: #003366;
+            color: white;
             border-radius: 6px;
             padding: 25px  5px;
+            margin-bottom: 10px;
             width: 100%;
         }
         .item{
             border: 2px solid #908585;
             border-radius: 4px;
             padding: 4px 10px;
+            color: black;
             background-color: #ebe0e0;
             font-weight: bold;
             width: 150px;
         }
         .buttons{
             display: flex;
+
             flex-direction: row;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
         }
         .view{
             background: rgb(88, 223, 250);
+            cursor: pointer;
+            padding: 10px;
+            margin-top: 8px;
             border: none;
             border-radius: 4px;
             font-weight: bold;
-            font-size: medium;
+            font-size:medium;
+        }
+        .view:hover{
+            background: rgb(70, 178, 250)
         }
         
     </style>
@@ -95,44 +111,69 @@
             <div class="tab"><a href="./doctorPendingAppt">Pending Appointments</a></div>
             <div class="tab active">Past Appointments</div>
         </div>
+        <div class="appointments">
         <?php 
             $pastApptCount = 0;
-            foreach($data as $appt){
-                if((new DateTime($appt->session_date)) < (new DateTime())){
+            foreach(array_keys($data) as $date){
+                if((new DateTime($date)) < (new DateTime())){
                     $pastApptCount++;
                 }
             }
-            // show($pastApptCount);
             if($pastApptCount == 0){
                 echo "<h3>No past appointments found.</h3>";
             }else{
-            usort($data, function($a, $b) {
-                    return strtotime($a->session_date) <=> strtotime($b->session_date); // Compare dates as timestamps
-                });
-            foreach($data as $appt) : { 
-                if ((new DateTime($appt->session_date)) < new DateTime()){
+                foreach(array_keys($data) as $date){
+                    
+                    if((new DateTime($date)) < (new DateTime())){   
+                        ?>
+                        <div class="date"> &nbsp&nbsp<?=$date?></div>
+                        <div style="border: 3.5px solid #ada8a8; border-radius: 6px; padding: 25px  15px; display: flex; flex-direction: column; align-items: center;">
+                        <?php
+                        foreach(array_keys($data[$date]) as $apptSlot){
+                            $slot = new Availabletime;
+                            $hospital = new Hospital;
+                            $slot = $slot->getByScheduleId($apptSlot);
+                            $hospital = $hospital->getHospitalById($slot->hospital_id);
+                            ?>
+                            <div style="width:100%; display: flex; flex-direction: row; justify-content:space-between">
+                                <div class="date"> &nbsp&nbsp<?=$slot->start_time?></div>
+                                <div class="date"> &nbsp&nbsp<?=$hospital->name?></div>
+                            </div>
+                            <?php
+                    
+                            foreach($data[$date][$apptSlot] as $appt){
+                                ?>
+                                <div class="apptInfo">
+                                    <div style="align-self: center;">
+                                        <label>Patient Name</label>
+                                        <div class="item"><?=$appt->patient_name?></div>
+                                    </div>
+                                    <div>
+                                        <label>appointment Number</label>
+                                        <div class="item"><?=$appt->appointment_number?></div>
+                                    </div>
+                                    <div>
+                                        <label>Time</label>
+                                        <div class="item"><?=$appt->session_time?></div>
+                                    </div>
+                                    <div>
+                                        <label>Status</label>
+                                        <div class="item"><?=$appt->status?></div>
+                                    </div>
+                                    <form class="buttons" method="GET" action="<?=ROOT?>/Doctor/doctorViewAppt/<?=$appt->appointment_id?>">
+                                        <button class="view">View</button>
+                                    </form>
+                                </div>
+                                <?php
+                            }   
+                        }   ?>
+                    </div>
+                    <?php
+                    }
+                }
+            }
         ?>
-        <div class="appointments">
-            <div class="date"> &nbsp&nbsp<?=$appt->session_date?></div>
-            <div class="apptInfo">
-                <div>
-                    <label>Patient Name</label>
-                    <div class="item"><?=$appt->patient_name?></div>
-                </div>
-                <div>
-                    <label>reference Number</label>
-                    <div class="item"><?=$appt->appointment_id?></div>
-                </div>
-                <div>
-                    <label>Time</label>
-                    <div class="item"><?=$appt->session_time?></div>
-                </div>
-                <div class="buttons">
-                    <button class="view">View</button>
-                </div>
-            </div>
         </div>
-        <?php }} endforeach; } ?>
     </div>
 </body>
 </html>

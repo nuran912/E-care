@@ -3,7 +3,7 @@
 
 <head>
     <!-- <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/Doctorprofilepage.css"> -->
-    <title>Clerk Profile</title>
+    <title>Patient Profile</title>
     <style>
         body {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -79,7 +79,7 @@
         }
 
         label {
-            width: 150px;
+            width: 160px;
             font-weight: bold;
             color: #0E2F56;
             margin-right: 20px;

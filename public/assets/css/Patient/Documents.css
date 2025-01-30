@@ -1,3 +1,5 @@
+body{
+    font-family: 'Lucida Sans-serif';
 * {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     margin: 0;
@@ -39,30 +41,38 @@ main {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-}
-
-.tab-box .tab-button,
-.tab-box .tab-button a {
-    color: #919191;
-    font-size: 18px;
-    font-weight: bold;
-    text-decoration: none;
+    width: 33.33%;
 }
 
 .tab-box .tab-button.active {
     color: #1c3a47;
 }
 
-.tab-box .tab-button.active::after {
-    content: "";
-    position: absolute;
-    bottom: -3px;
-    left: 0;
-    width: 100%;
+.content-box {
+    padding: 20px;
+}
+
+.content-box .content {
+    display: none;
+    animation: moving 0.5s ease;
+}
+
+@keyframes moving {
+    from{transform: translateX(50px); opacity: 0;}
+    to{transform: translateX(0px); opacity: 1;}
+}
+
+.content-box .content.active {
+    display: block;
+}
+
+.line {
     height: 5px;
+    width: 33.33%;
+    background-color: #1c3a47;
+    position: absolute;
+    top: 55.67px;
+    left: 0px;
     border-radius: 10px;
     background-color: #1c3a47;
     transition: all 0.3s ease-in-out;

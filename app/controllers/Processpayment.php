@@ -1,34 +1,42 @@
 <?php
 
-class Processpayment extends Controller
+class ProcessPayment extends Controller
 {
     use Model;
 
-    public function index($a = '', $b = '', $c = '')
+    public function index()
     {
-        $createappointment = new Appointments;
+        $createAppointment = new Appointments;
+        $updateFilledSlots = new AvailableTime;
+        
+        
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $patientName = $_POST['patientName'] ?? '';
-            $patientEmail = $_POST['patientEmail'] ?? '';
-            $patientPhone = $_POST['patientPhone'] ?? '';
-            $NicOrPassport = $_POST['NicOrPassport'] ?? '';
-            $patientAddress = $_POST['patientAddress'] ?? '';
-            $hospitalName = $_POST['hospital_name'] ?? '';
-            $sessionDate = $_POST['session_date'] ?? '';
-            $sessionTime = $_POST['session_time'] ?? '';
-            $appointmentNumber = $_POST['appointment_number'] ?? '';
-            $doctorId = $_POST['doctor_id'] ?? '';
-            $totalFee = $_POST['total_fee'] ?? '';
+            // Collect and sanitize form data
+            $patientName = htmlspecialchars($_POST['patientName'] ?? '');
+            $patientEmail = htmlspecialchars($_POST['patientEmail'] ?? '');
+            $patientPhone = htmlspecialchars($_POST['patientPhone'] ?? '');
+            $nicOrPassport = htmlspecialchars($_POST['NicOrPassport'] ?? '');
+            $patientAddress = htmlspecialchars($_POST['patientAddress'] ?? '');
+            $hospitalName = htmlspecialchars($_POST['hospital_name'] ?? '');
+            $sessionDate = htmlspecialchars($_POST['session_date'] ?? '');
+            $sessionTime = htmlspecialchars($_POST['session_time'] ?? '');
+            $appointmentNumber = htmlspecialchars($_POST['appointment_number'] ?? '');
+            $doctorId = htmlspecialchars($_POST['doctor_id'] ?? '');
+            $totalFee = floatval($_POST['total_fee'] ?? 0);
             $userId = $_SESSION['USER']->user_id ?? 'NULL';
+            $filledSlots = intval($_POST['filled_slots'] ?? 0);
+            $availableTimeId = intval($_POST['availableatime_id'] ?? 0);
+            $serviceCharge = floatval($_POST['service_charge'] ?? 0);
+            $selectedfiles = $_POST['document'] ?? '';
+            
 
-            // Data array for insertion
-            $data = [
-
+            // Prepare data for insertion
+            $appointmentData = [
                 'patient_name' => $patientName,
                 'patient_Email' => $patientEmail,
                 'phone_number' => $patientPhone,
-                'nic_passport' => $NicOrPassport,
+                'nic_passport' => $nicOrPassport,
                 'patient_address' => $patientAddress,
                 'hospital_name' => $hospitalName,
                 'session_date' => $sessionDate,
@@ -37,36 +45,85 @@ class Processpayment extends Controller
                 'doctor_id' => $doctorId,
                 'user_id' => $userId,
                 'total_fee' => $totalFee,
-                'paymentstatus' => 'pending'
+                'payment_status' => 'pending',
+                'schedule_id' => $availableTimeId,
+                'service_charge' => $serviceCharge,
+                'selected_files' => $selectedfiles
             ];
+            $updateData = ['filled_slots' => $filledSlots + 1];
+            $user_id = $_SESSION['USER']->user_id ?? null;
 
-            // Insert data into the database
-            $createappointment->insert($data);
+            // Update the database records
+            $updateFilledSlots->update($availableTimeId, $updateData, 'id');
+            $createAppointment->insert($appointmentData);
 
-            // Redirect to PayHere for payment
-            $merchantId = '1228671'; 
-            $returnUrl = ROOT . '/Paymentsuccessfulpage';  
-            $cancelUrl = ROOT . '/paymenterrorpage';   
-            $notifyUrl = ROOT . '/Paymentnotify';   
-            $redirectUrl = "https://sandbox.payhere.lk/pay/checkout?" . http_build_query([
-                'merchant_id' => $merchantId,
-                'return_url' => $returnUrl,
-                'cancel_url' => $cancelUrl,
-                'notify_url' => $notifyUrl,
-                'order_id' => $appointmentNumber,
-                'items' => 'Appointment Payment',
-                'currency' => 'LKR',
-                'amount' => $totalFee,
-                'first_name' => $patientName,
-                'email' => $patientEmail,
-                'phone' => $patientPhone,
-                'address' => $patientAddress
-            ]);
+            $appointment_id = $createAppointment->getByNIC_LatestRow($nicOrPassport);
 
-            header("Location: $redirectUrl");
-            exit();
+            $_SESSION['appointment_id'] = $appointment_id;
+            // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
+            if (isset($_SESSION['USER']) && $_SESSION['USER']->role == 'reception_clerk') {
+                $_SESSION['appointment_data'] = $appointmentData;
+
+        
+                
+              
+                header('Location: ' . ROOT . '/Appointment_successful_page');
+                
+                   
+            }
+            
+           else{    
+
+            // Redirect to PayHere
+            $merchantId = '1228671';
+            $returnUrl = ROOT . '/Paymentsuccessfulpage';
+            $cancelUrl = ROOT . '/PaymentErrorPage';
+            $notifyUrl = ROOT . '/PaymentNotify';
+            $merchant_secret='MjQwOTcyNzAzMjM0ODk4MTYwNDQ0Mzc1NjQ3OTQ5MTM5ODYx';
+            $currency = "LKR";
+            // $order_id = random_int(10000,999999);
+            $order_id = $appointment_id;
+
+            $hash = strtoupper(
+                md5(
+                    $merchantId . 
+                     $order_id. 
+                    number_format($appointmentData['total_fee'], 2, '.', '') . 
+                    $currency .  
+                    strtoupper(md5($merchant_secret)) 
+                ) 
+            );
+
+
+            echo '<form id="paymentForm" method="POST" action="https://sandbox.payhere.lk/pay/checkout">
+                <input type="hidden" name="merchant_id" value="' . $merchantId . '">
+                <input type="hidden" name="return_url" value="' . $returnUrl . '">
+                <input type="hidden" name="cancel_url" value="' . $cancelUrl . '">
+                <input type="hidden" name="notify_url" value="' . $notifyUrl . '">
+                <input type="hidden" name="first_name" value="' . $patientName . '">
+                <input type="hidden" name="last_name" value="">
+                <input type="hidden" name="email" value="' . $patientEmail . '">
+                <input type="hidden" name="phone" value="' . $patientPhone . '">
+                <input type="hidden" name="address" value="' . (!empty($patientAddress) ? $patientAddress : 'Not entered') . '">
+                <input type="hidden" name="city" value=" Colombo "> 
+                <input type="hidden" name="country" value="LK">
+                <input type="hidden" name="order_id" value="' . $order_id . '">
+                <input type="hidden" name="items" value="Appointment Payment">
+                <input type="hidden" name="currency" value="'.$currency.'">
+                <input type="hidden" name="amount" value="' . $totalFee . '">
+                <input type="hidden" name="hash" value="' . $hash . '">
+                <!-- <button type="submit">Pay now</button> -->
+            </form>
+            <script>
+              
+            
+    document.getElementById("paymentForm").submit();
+
+            </script>
+            ';
+           }
         }
 
-        $this->view('appointment/processpayment', []);
+        // $this->view('appointment/processpayment', []);
     }
 }

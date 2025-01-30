@@ -18,6 +18,13 @@ function redirect($path)
     die;
 }
 
+// this function redirects to the specified page after a delay of 3s
+function delayedRedirect($path)
+{
+    header("refresh:4; url= " . ROOT . "/$path");
+    die;
+}
+
 function findObjectById($array, $key, $value)
 {
     foreach ($array as $element) {

@@ -111,23 +111,33 @@ class DoctorModel
                 a.appointment_id,
                 a.user_id,
                 a.status,
+                a.schedule_id,
+                a.patient_name,
+                a.patient_Email,
+                a.patient_address,
                 a.appointment_number,
                 a.hospital_name,
                 a.phone_number,
                 a.session_time,
                 a.session_date,
                 a.total_fee,
+                a.is_deleted,
+                a.payment_status,
+                a.service_charge,
+                a.selected_files,
                 d.name AS doctor_name,
                 d.specialization
             FROM 
-              appointments a 
+                appointments a 
             JOIN 
-                  doctors d 
+                doctors d 
             ON 
                 d.id = a.doctor_id
             WHERE 
-               a.user_id = :user_id",
-            [ 'user_id' => $user_id]
+                a.user_id = :user_id
+            ORDER BY 
+                a.session_date ASC",
+            ['user_id' => $user_id]
         );
     }
 
@@ -279,7 +289,16 @@ class DoctorModel
                 return $dataToUpdate;
             }
     }
+
+    public function getDoctorNameById($doctor_id)
+    {
+        return $this->query(
+            "SELECT name FROM doctors WHERE id = :doctor_id",
+            ['doctor_id' => $doctor_id]
+        );
+    }
 }
+
 
 
   

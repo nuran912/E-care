@@ -11,10 +11,16 @@ class Appointmentdetails extends Controller
         $availableTimes = (new Availabletime())->getAll();
         $doctors = (new DoctorModel())->getAll();
         $hospitals = (new Hospital())->getAll();
+        $documents = new Document();
+        if (isset($_SESSION['USER']->user_id)) {
+            $selectedDocuments = $documents->getDocumentsByUserId($_SESSION['USER']->user_id);
+        } else {
+            $selectedDocuments = [];
+        }
 
         $availableTimeId = isset($_GET['availableTimeId']) ? (int)$_GET['availableTimeId'] : null;
         $appointmentDetails = null;
-
+         
         if ($availableTimeId) {
 
 
@@ -23,9 +29,8 @@ class Appointmentdetails extends Controller
 
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
                     $hospitalDetails = findObjectById($hospitals, 'id', $appointment['hospital_id']);
-
-
-
+                             
+                        
                     if ($doctorDetails && $hospitalDetails) {
                         $appointmentDetails = [
                             'hospital_name' => $hospitalDetails->name,
@@ -36,13 +41,17 @@ class Appointmentdetails extends Controller
                             'doctor_specialization' => $doctorDetails['specialization'],
                             'doctor_id' => $doctorDetails['id'],
                             'hospital_fee' => $hospitalDetails->hospital_fee,
-                            'appointment_number' => ($appointment['total_slots'] - $appointment['filled_slots'] + 1),
+                            'appointment_number' => $appointment['filled_slots'] + 1,
+                            'filled_slots' => $appointment['filled_slots'],
+                            'availableatime_id' => $appointment['id'],
+                           
                         ];
+                        
 
                         $appointmentDurationMinutes = $appointment['duration'] * 60;
 
                         if ($appointment['total_slots'] > 0) {
-                            $appointmentDetails['appointment_number'] = ($appointment['total_slots'] - $appointment['filled_slots'] + 1);
+                            $appointmentDetails['appointment_number'] =  $appointment['filled_slots'] + 1;
                             $sessionStartTime = new DateTime($appointmentDetails['session_time']);
                             $patientAppointmentOffsetMinutes = ($appointmentDurationMinutes / $appointment['total_slots']) * ($appointmentDetails['appointment_number'] - 1);
                             $sessionStartTime->add(new DateInterval("PT{$patientAppointmentOffsetMinutes}M"));
@@ -66,7 +75,6 @@ class Appointmentdetails extends Controller
             echo "Appointment ID not provided.";
             exit;
         }
-var_dump($_SESSION);
 
         $service_charge = 285;
 
@@ -80,20 +88,19 @@ var_dump($_SESSION);
 
         $totalWithoutServiceCharge = $doctor_fee + $hospital_fee;
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
-
-      
-
-
+  
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,
+            'selectedDocuments' => $selectedDocuments,
             'formatted_doctor_fee' => $formatted_doctor_fee,
             'formatted_hospital_fee' => $formatted_hospital_fee,
             'formatted_service_charge' => $formatted_service_charge,
             'hospital_fee' => $hospital_fee,
             'doctor_fee' => $doctor_fee,
             'totalWithoutServiceCharge' => $formatted_totalWithoutServiceCharge,
+        
         ]);
-
+    
         $this->view('footer');
     }
 }

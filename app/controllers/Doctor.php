@@ -123,9 +123,21 @@ class Doctor extends Controller{
         $this->view('header');
 
         $hospital = new Hospital;
+        $apptSlot = new Availabletime;
+        $appt = new Appointments;
+        $doctor = new DoctorModel;
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $slotData = $apptSlot->getByDoctorId($doctorData->id);
+
+        $alerts = [
+            'cancelSuccess' => "",
+            'cancelError' => "",
+            'createSuccess' => "",
+            'createError' => "",
+        ];
 
         if( $a == 'create'){
-            $data['name'] = $_POST['hospital'];
+            // $data['name'] = $_POST['hospital'];
             // $hospital = $hospital->first($data);
 
 
@@ -139,75 +151,141 @@ class Doctor extends Controller{
             // $date->modify('+28 days');
             // show($date->format('Y-m-d'));
 
+            $date = new DateTime($_POST['date']);
 
+            $data['date'] = $_POST['date'];
             $data['start_time'] = $_POST['time'];
             $data['duration'] = $_POST['duration'];
-            // $data['hospital_id'] = $hospital->id;
             $data['hospital_id'] = $_POST['hospital'];
             $data['total_slots'] = $_POST['count'];
-            $repeat = $_POST['repeat'];
-            // show($repeat);
+            $data['repeat'] = $_POST['repeat'];
 
-            $doctor = new DoctorModel;
-            $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-            $data['doctor_id'] = $doctor->id;
+            // $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+            $data['doctor_id'] = $doctorData->id;
 
-            $apptSlot = new Availabletime;
+            // $apptSlot = new Availabletime;
+            // $appt = new Appointments;
             // $apptSlot->insert($data);
-            switch($repeat){
-                case "0":
-                    //No repeat
-                    // show("no repeat");
-                    $data['date'] = $date->format('Y-m-d');
-                    $apptSlot->insert($data);
-                    $data['slotSuccess'] = "New appointment slot added successfully";
-                    break;
-                case "1":
-                    //Repeat for 4 weeks
-                    // show("weekly repeat");
-                    $data['date'] = $date->format('Y-m-d');
-                    $apptSlot->insert($data);
-                    for($i=0;$i<3;$i++){
-                        // $r = 7 * $i;
-                        $date->modify("+7 days");
-                        $data['date'] = $date->format('Y-m-d');
-                        $apptSlot->insert($data);
-                    }
-                    $data['slotSuccess'] = "New appointment slots added successfully";
-                    break;
-                case "2":
-                    //Repeat for 4 months
-                    // show("monthly repeat");
-                    $data['date'] = $date->format('Y-m-d');
-                    $apptSlot->insert($data);
-                    for($i=0;$i<3;$i++){
-                        // $r = 28 * $i;
-                        $date->modify("+28 days");
-                        $data['date'] = $date->format('Y-m-d');
-                        $apptSlot->insert($data);
-                    }
-                    $data['slotSuccess'] = "New appointment slots added successfully";
-                    break;
+
+            // show($data);
+            $allFieldsEntered = true;
+            if($data['date']=="" || $data['start_time']=="" || $data['duration']=="" || $data['total_slots']==""){
+                $alerts['createError'] = "Please fill all fields to create a new slot";
+                $allFieldsEntered = false;
             }
 
-            redirect('Doctor/doctorManageSchedule');
+            if($allFieldsEntered){
+                switch($data['repeat']){
+                    case "0":
+                        //No repeat
+                        // show("no repeat");
+                        $data['date'] = $date->format('Y-m-d');
+                        $apptSlot->insert($data);
+                        $alerts['createSuccess'] = "New appointment slot added successfully";
+                        break;
+                    case "1":
+                        //Repeat for 4 weeks
+                        // show("weekly repeat");
+                        $data['date'] = $date->format('Y-m-d');
+                        $apptSlot->insert($data);
+                        for($i=0;$i<3;$i++){
+                            // $r = 7 * $i;
+                            $date->modify("+7 days");
+                            $data['date'] = $date->format('Y-m-d');
+                            $apptSlot->insert($data);
+                        }
+                        $alerts['createSuccess'] = "New appointment slots added successfully";
+                        break;
+                    case "2":
+                        //Repeat for 4 months
+                        // show("monthly repeat");
+                        $data['date'] = $date->format('Y-m-d');
+                        $apptSlot->insert($data);
+                        for($i=0;$i<3;$i++){
+                            // $r = 28 * $i;
+                            $date->modify("+28 days");
+                            $data['date'] = $date->format('Y-m-d');
+                            $apptSlot->insert($data);
+                        }
+                        $alerts['createSuccess'] = "New appointment slots added successfully";
+                        break;
+                }
+            }
+
+
+            // delayedRedirect('Doctor/doctorManageSchedule');
         }
 
         if( $a == 'cancelAppointment'){
-            $apptId = $b;
-            $apptSlot = new Availabletime;
-            if(!empty($apptId)){
-                $apptSlot->delete($apptId);
-            }
-            redirect('Doctor/doctorManageSchedule');
+            $apptSlotId = $b;
+
+                $slot = $apptSlot->getByScheduleId($apptSlotId);
+
+                $currentDate = new DateTime('now', new DateTimeZone('Asia/Colombo'));
+                $currentDate = $currentDate->format('Y-m-d H:i:s');
+                $slotTime = $slot->date . ' ' . $slot->start_time;
+                $slotTime = new DateTime($slotTime);
+
+                $timeToCancel = $slotTime->modify('-48 hours');
+                $timeToCancel = $timeToCancel->format('Y-m-d H:i:s');
+
+                // appointments can only be cancelled 48h before the start time
+                if($currentDate < $timeToCancel){
+                    $alerts['cancelSuccess'] = "Appointment slot has been cancelled successfully";
+                    // update appointment status in the availabletimes table
+                    $apptSlot->update_status($apptSlotId, "cancelled");
+                    $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
+                    // update corresponding appointment statuses in the appointments table for each relavant patient
+                    foreach($apptData as $patientAppt){
+                        $appt->update_status($patientAppt->appointment_id, "cancelled");
+                    }
+                    show($apptData);
+                }else{
+                    $alerts['cancelError'] = "You can only cancel an appointment before 48h";
+                }
+            // redirect('Doctor/doctorManageSchedule');
         }
 
-        $apptSlot = new Availabletime;
-        $doctor = new DoctorModel;
-        $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-        $data = $apptSlot->getByDoctorId($doctor->id);
 
-        $this->view('Doctor/doctorManageSchedule', $data);
+        $passedData = [$slotData, $alerts];
+
+        $this->view('Doctor/doctorManageSchedule', $passedData);
+        $this->view('footer');
+    }
+
+    public function doctorViewAppt($a = '', $b = '', $c = ''){
+        $this->view('header');
+
+        $apptId = $a;
+        $appt = new Appointments;
+        $apptData = $appt->getAppointmentById($apptId);
+        $patient = new User;
+        $patientData = $patient->getById($apptData->user_id);
+
+        $document = new Document;
+        $docs = $apptData->shared_docs;
+        $sharedDocIds = explode(',', $docs);
+        $sharedDocs = [];
+        foreach($sharedDocIds as $docId){
+            $docData = $document->getDocumentById($docId);
+            $sharedDocs[] = $docData->document_name;
+        }
+
+        $data = [$apptData, $patientData, $sharedDocs];
+
+        if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+            $doctorNotes = $_POST['noteBox'];
+            $appt->updateDoctorNotes($apptId, $doctorNotes);
+
+            $updatedStatus = $_POST['status'];
+            $appt->update_status($apptId, $updatedStatus);
+
+            redirect('/Doctor/doctorPendingAppt');
+
+        }
+
+        $this->view('Doctor/doctorViewAppt', $data);
         $this->view('footer');
     }
 }

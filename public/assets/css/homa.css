@@ -1,0 +1,345 @@
+body {
+   font-family: 'Lucida Sans';
+   margin: 0;
+   padding: 0;
+   background-color: #ffffff;
+}
+
+section {
+   padding: 2em;
+   text-align: center;
+}
+
+.cards {
+   display: flex;
+   justify-content: center;
+   flex-wrap: wrap;
+   gap: 1em;
+}
+
+.card {
+   background-color: #f4f4f4;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   padding: 1em;
+   width: 200px;
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-10px); /* Slightly lift the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow for depth */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* welcome section */
+
+.welcome {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 10px;
+   height: 500px;
+   background-color: white;
+}
+
+.welcome .welcome-content {
+   flex: 1;
+   text-align: center;
+}
+
+.welcome .welcome-content img {
+   max-width: 1000px; /* Increase the size of the E-care logo */
+   height: auto;
+   margin-bottom: 20px;
+}
+
+.welcome img {
+   max-width: auto;
+   height: auto;
+}
+
+/* why choose us section */
+
+.choose {
+    background-color: #93DEFF;
+    padding: 2em;
+    text-align: center;
+}
+
+.choose h1 {
+    text-align: center;
+    font-weight: bold;
+    color: #0E2F56;
+}
+
+.choose-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+}
+
+.choose .card {
+    background-color: #0E2F56;
+    color: white;
+    display: flex;
+    width: 40%;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.choose .card img {
+    flex: 1;
+    max-width: 100px;
+    height: auto;
+}
+
+.choose .card div {
+    flex: 2;
+    padding-left: 1em;
+}
+
+/* Our Services section */
+
+.service {
+    background-color: #5FBDB0;
+    padding: 2em;
+    text-align: center;
+}
+
+.service h1 {
+    color: white;
+}
+
+.service-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3em;
+}
+
+.service .card {
+    background-color: white;
+    color: #0E2F56;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    padding: 2em;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+}
+
+.service .card img {
+    flex: 1;
+    max-width: 150px;
+    height: 150px;
+    margin-right: 1em;
+}
+
+.service .card h2 {
+    flex: 2;
+    margin: 0;
+}
+
+.service .card div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.service .card .header {
+      display: flex;
+    flex-direction:row;
+    margin-bottom: 20px;
+}
+
+.service .card button {
+    background-color: #0E2F56;
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    margin: 0.5em;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+   width: 100%;
+}
+
+.service .card button a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Channel section */
+
+.channel {
+    background-color: white;
+    padding: 6em;
+    text-align: center;
+    justify-content: center;
+}
+
+.channel h1, .channel h3 {
+    color: #0E2F56;
+}
+
+.channel button {
+    background-color: #0d62cb;
+    color: white;
+    border: none;
+    padding: 1em 2em;
+    margin: 0.5em;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Insurance section */
+.insurance {
+    background-color: #93DEFF;
+    padding: 2em;
+    text-align: center;
+    text-decoration: none;
+}
+
+.insurance h1 {
+    color: #0E2F56;
+    margin-bottom: 1em;
+    
+}
+
+.insurance .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3em;
+    text-decoration: none;
+}
+
+.insurance .card {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1em;
+    width: auto;
+    min-width: 250px;
+    height: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    text-decoration: none;
+}
+
+.insurance .card .insurance-img {
+    height: 170px;
+    width: auto;
+    border: 3px solid black;
+    /* padding: 5px; */
+    /* padding-top: 10px;
+    padding-bottom: 10px; */
+    padding: 10px;
+    border-radius: 10px;
+    
+}
+
+
+.insurance .card h3 {
+    text-decoration: none;
+    color: #0E2F56;
+    margin-bottom: 0.5em;
+}
+
+.insurance .card p {
+    color: #333;
+    margin: 0.5em 0;
+}
+
+.insurance .card a {
+    color: #0d62cb;
+    text-decoration: none;
+}
+
+.insurance .card a:hover {
+    text-decoration: underline;
+}
+
+/* Articles section */
+.articles {
+    background-color: #f9f9f9;
+    padding: 2em;
+    text-align: center;
+}
+
+.articles h1 {
+    color: #0E2F56;
+    margin-bottom: 1em;
+}
+
+.articles .cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2em;
+}
+
+.articles .card {
+    background-color: #5FBDB0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0; /* Remove padding to merge image and card border */
+    width: 400px;
+    height: 600px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.articles .card p {
+    /* color: #666; */
+    font-size: 0.9em;
+    margin: 1em;
+}
+
+.articles .card .article-img {
+    height: 300px;
+    width: 100%;
+    margin-bottom: 0; /* Remove margin to merge image and card border */
+}
+
+.articles .card .article-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0; /* Remove border radius to merge image and card border */
+}
+
+.articles .card h3 {
+    color: #0E2F56;
+    margin: 10px;
+    padding: 30px;
+    text-align: center; /* Center the title */
+}
+
+.articles .card a {
+    color: white; 
+    text-decoration: none;
+    background-color: #0d62cb; 
+    display: block; /* Ensure the button takes full width */
+    text-align: center; 
+    margin: 1em auto; /* Center the button horizontally */
+    padding: 1em 2em; 
+    border-radius: 20px; 
+    cursor: pointer; 
+    font-size: 1em; 
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.articles .card a:hover {
+    background-color: #0E2F56;
+}
+
+

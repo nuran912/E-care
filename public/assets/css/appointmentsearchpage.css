@@ -1,0 +1,201 @@
+body {
+  font-family: 'Lucida Sans-serif';
+  margin: 0px;
+  padding: 0px;
+ 
+}
+
+.maincontent{
+ justify-items: center;
+  margin: 10px;
+  color: #264161;
+  font-size: 20px;
+}
+.maincontent h6{
+margin: 5px;
+font-size: 20px;
+}
+.maincontent h5{
+
+  margin: 5px;
+  font-size: 30px;
+  }
+  .maincontent h5 {
+    display: inline-block;
+    overflow: hidden;
+  }
+  
+  .maincontent h5 span {
+    display: inline-block;
+    opacity: 0;
+    animation: wordSlideIn 10s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--i) * 1s);
+  }
+  
+  @keyframes wordSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  
+.searchform {
+  max-width: 600px;
+  margin: 30px auto;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border: 2px solid #0e2f56;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
+}
+.searchform h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.searchform .form-group {
+  margin-bottom: 15px;
+}
+
+.searchform label {
+  font-weight: bold;
+  color: #666;
+}
+
+.searchform input[type="text"],
+.searchform select,
+.searchform input[type="date"] 
+
+{
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.searchform .button-container {
+  text-align: center;
+}
+
+.searchform button {
+  background-color: #93deff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.searchform button:hover {
+  background-color: #0056b3;
+}
+
+form {
+  margin-bottom: 0.5rem;
+}
+
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+  
+}
+
+@media (max-width: 1279px) {
+  .card-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1023px) {
+  .card-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 639px) {
+  .card-list {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
+/* Doctor Card Styling */
+.card {
+  background-color: #0e2f56;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.card h3 {
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 16px;
+  color: #fff;
+  margin: 5px 0;
+}
+
+/* Button Styling */
+.card a {
+  text-decoration: none;
+}
+
+.card button {
+  background-color: #93deff;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px 5px; /* Add margin between buttons */
+  width: 50%;
+}
+
+.card button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}
+.profimg{
+  margin-bottom: 15px;
+  height: 120px;
+}
+select,#date{
+  color: grey;
+}
+button[value="reset"] {
+  background-color: rgb(224, 108, 108);
+}
+button[value="reset"]:hover {
+  background-color: rgb(199, 55, 55);
+}

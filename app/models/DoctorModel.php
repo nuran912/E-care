@@ -250,7 +250,27 @@ class DoctorModel
             ['doctor_id' => $doctor_id]
         );
     }
+
+    public function getDoctorsWithUserDetails()
+    {
+        $query = "
+            SELECT 
+                d.*, 
+                u.email, 
+                u.phone_number, 
+                u.NIC, 
+                u.is_active 
+            FROM 
+                doctors d
+            JOIN 
+                users u 
+            ON 
+                d.user_id = u.user_id
+        ";
+        return $this->query($query);
+    }
 }
+
 
 
 

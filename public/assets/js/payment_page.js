@@ -99,3 +99,20 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add event listener for changes
   loggedpersonCheckbox.addEventListener("change", updateFormFields);
 });
+
+
+
+                    document.getElementById('selectDocumentsBtn').addEventListener('click', function() {
+                        document.getElementById('documentsPopup').style.display = 'block';
+                    });
+
+                    document.getElementById('closePopup').addEventListener('click', function() {
+                        document.getElementById('documentsPopup').style.display = 'none';
+                    });
+
+                    window.addEventListener('click', function(event) {
+                        if (event.target == document.getElementById('documentsPopup')) {
+                            document.getElementById('documentsPopup').style.display = 'none';
+                        }
+                    });
+                

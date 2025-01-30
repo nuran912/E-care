@@ -38,8 +38,17 @@
                 <label for="confirmDetails">I confirm that the above details are correct.</label><br><br>
 
                 <button class="edit" type="button" onclick="window.history.back()">Edit Details</button>
+            <?php
+            if (isset($_SESSION['USER']->role) && $_SESSION['USER']->role == 'reception_clerk') {
+            ?>
+                <button class="proceed" type="submit" value="Proceed with Payment">Create Appointment</button>
+            <?php
+            } else {
+            ?>
                 <button class="proceed" type="submit" value="Proceed with Payment">Proceed with Payment</button>
-
+            <?php
+            }
+            ?>
 
                 <input type="hidden" name="title" value="<?php echo $_SESSION['appointment']['title']; ?>">
                 <input type="hidden" name="appointmentId" value="<?php echo $_SESSION['appointment']['appointment_number']; ?>">
@@ -57,6 +66,8 @@
                 <input type="hidden" name="total_fee" value="<?php echo $total_fee; ?>">
                 <input type="hidden" name="filled_slots" value="<?php echo $_SESSION['appointment']['filled_slots']; ?>">
                 <input type="hidden" name="availableatime_id" value="<?php echo $_SESSION['appointment']['availableatime_id']; ?>">
+                <input type="hidden" name="service_charge" value="<?php echo $_SESSION['appointment']['service_charge'];?>">
+                <input type="hidden" name="document" value="<?php echo $_SESSION['appointment']['documents']; ?>"> 
             </form>
           
         <?php endif; ?>

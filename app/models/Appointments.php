@@ -20,6 +20,9 @@ class Appointments
         'patient_address',
         'total_fee',
         'appointment_number', 
+        'payment_status', 
+        'service_charge', 
+        'selected_files' , 
         'payment_status',
         'doctor_notes',    
     ];
@@ -48,14 +51,20 @@ class Appointments
     $result = $this->query($query, ['appointment_id' => $appointment_id]);
     return $result ? $result : null;
 }
+public function update_is_deletedToZero($appointment_id)
+{
+    $query = 'UPDATE appointments SET is_deleted = 0 WHERE appointment_id = :appointment_id';
+    $result = $this->query($query, ['appointment_id' => $appointment_id]);
+    return $result ? $result : null;
+}
 
-public function getById_LatestRow($user_id){
+public function getByNIC_LatestRow($nic_passport) {
     $query = "SELECT appointment_id FROM appointments 
-              WHERE user_id = :user_id 
+              WHERE nic_passport = :nic_passport 
               ORDER BY appointment_id DESC 
               LIMIT 1";
     
-    $result = $this->query($query, ['user_id' => $user_id]);
+    $result = $this->query($query, ['nic_passport' => $nic_passport]);
 
     // Access result as an object
     return $result ? $result[0]->appointment_id : null;
@@ -67,6 +76,7 @@ public function updatePaymentStatus($appointment_id, $status) {
     if (!in_array($status, $allowedStatuses)) {
         throw new InvalidArgumentException("Invalid payment status: $status");
     }
+
 
     // Prepare and execute the query
     $query = 'UPDATE appointments SET payment_status = :status WHERE appointment_id = :appointment_id';

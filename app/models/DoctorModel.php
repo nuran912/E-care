@@ -123,6 +123,8 @@ class DoctorModel
                 a.total_fee,
                 a.is_deleted,
                 a.payment_status,
+                a.service_charge,
+                a.selected_files,
                 d.name AS doctor_name,
                 d.specialization
             FROM 
@@ -233,6 +235,14 @@ class DoctorModel
                 $dataToUpdate['passUpdateStatus'] = "Enter both current and new passwords to update password";
                 return $dataToUpdate;
             }
+    }
+
+    public function getDoctorNameById($doctor_id)
+    {
+        return $this->query(
+            "SELECT name FROM doctors WHERE id = :doctor_id",
+            ['doctor_id' => $doctor_id]
+        );
     }
 }
 

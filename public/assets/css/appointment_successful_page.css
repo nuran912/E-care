@@ -1,4 +1,87 @@
-body{
+body {
     margin: 0;
     padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
 }
+
+.container {
+    width: 60%;
+    margin: 10% auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.main {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.content {
+    padding: 20px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 2px 2px 5px grey;
+    background: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 10%;
+}
+
+p {
+    margin: 10px 0;
+    line-height: 1.6;
+}
+
+.heading {
+    text-align: center;
+    color: #333333;
+    border-bottom: 2px solid #e6e6e6;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color:#e94a5c;
+}
+
+strong {
+    color: #333333;
+}
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.buttons form {
+    margin: 0;
+}
+
+button {
+    background-color: #3e64ff;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #1632a2;
+}
+@media print {
+    /* Hide elements like buttons when printing */
+    .buttons {
+        display: none;
+    }
+    /* Customize styles for printing */
+    .container {
+        width: 100%;
+       
+    }
+}
+

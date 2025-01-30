@@ -27,6 +27,9 @@ class ProcessPayment extends Controller
             $userId = $_SESSION['USER']->user_id ?? 'NULL';
             $filledSlots = intval($_POST['filled_slots'] ?? 0);
             $availableTimeId = intval($_POST['availableatime_id'] ?? 0);
+            $serviceCharge = floatval($_POST['service_charge'] ?? 0);
+            $selectedfiles = $_POST['document'] ?? '';
+            
 
             // Prepare data for insertion
             $appointmentData = [
@@ -43,27 +46,30 @@ class ProcessPayment extends Controller
                 'user_id' => $userId,
                 'total_fee' => $totalFee,
                 'payment_status' => 'pending',
-                'schedule_id' => $availableTimeId
+                'schedule_id' => $availableTimeId,
+                'service_charge' => $serviceCharge,
+                'selected_files' => $selectedfiles
             ];
-
             $updateData = ['filled_slots' => $filledSlots + 1];
-            $user_id=$_SESSION['USER']->user_id;
+            $user_id = $_SESSION['USER']->user_id ?? null;
 
             // Update the database records
             $updateFilledSlots->update($availableTimeId, $updateData, 'id');
             $createAppointment->insert($appointmentData);
-            $appointment_id=$createAppointment->getById_LatestRow($user_id);
 
+            $appointment_id = $createAppointment->getByNIC_LatestRow($nicOrPassport);
+
+            $_SESSION['appointment_id'] = $appointment_id;
             // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
-            if($_SESSION['USER']->role=='reception_clerk'){
-            //    if ($appointment_id) {
-                   
-            //         $status='completed';
-            //          $createAppointment->updatePaymentStatus($appointment_id, $status);
-            //     }
+            if (isset($_SESSION['USER']) && $_SESSION['USER']->role == 'reception_clerk') {
+                $_SESSION['appointment_data'] = $appointmentData;
+
+        
+                
+              
                 header('Location: ' . ROOT . '/Appointment_successful_page');
-                //insert a redirect link for appointment succcessful page
-                exit();
+                
+                   
             }
             
            else{    

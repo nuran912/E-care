@@ -254,7 +254,7 @@ class Patient extends Controller
                     ];
 
                     $document->insert($data);
-                    redirect('patient/documents');
+                    redirect('patient/private_files');
                 }
             }
         }
@@ -286,7 +286,7 @@ class Patient extends Controller
                 }
             }
 
-            redirect('Patient/documents');
+            redirect('patient/private_files');
         }
 
         //delete a private file
@@ -304,19 +304,19 @@ class Patient extends Controller
                 }
             }
 
-            redirect('patient/documents');
+            redirect('patient/private_files');
         }
 
         //retrieve the documents from the database
         $document->setLimit(50);
         $document->setOrder('desc');
-        $documents = $document->findAll();
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
         $data = [
             'documents' => $documents
         ];
 
-        $this->view('Patient/documents', $data);
+        $this->view('patient/private_files', $data);
 
         $this->view('footer');
     }

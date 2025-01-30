@@ -1,10 +1,10 @@
 <?php
 
-if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') ) {
+if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') && ($_SESSION['USER']->role != 'reception_clerk')) {
     redirect('Home');
 }
 
-class Clerk extends Controller{
+class Clerk extends Controller {
 
     public function index($a = '', $b = '', $c = ''){
         $this->profile();
@@ -26,72 +26,213 @@ class Clerk extends Controller{
         
         $this->view('header');
 
-          if( $a == 'update'){
+        if( $a == 'update'){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               
-              $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
-              $userData = $user->getById($_SESSION['USER']->user_id);
+                $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
+                $userData = $user->getById($_SESSION['USER']->user_id);
   
-              $originalProfileInfo = [
-                  'name' => $userData->name,
-                  'empId' => $clerkData->emp_id,
-                  'NIC' => $userData->NIC,
-                  'phone_number' => $userData->phone_number,
-                  'email' => $userData->email,
-              ];
+                $originalProfileInfo = [
+                    'name' => $userData->name,
+                    'empId' => $clerkData->emp_id,
+                    'NIC' => $userData->NIC,
+                    'phone_number' => $userData->phone_number,
+                    'email' => $userData->email,
+                ];
   
-              $dataToUpdate = $_POST;
-              $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
+                $dataToUpdate = $_POST;
+                $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
+                
+                $data['status'] = $clerk->profileValidation($dataToUpdate, $originalProfileInfo);
               
-              $data['status'] = $clerk->profileValidation($dataToUpdate, $originalProfileInfo);
-              
-              if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
-                  if($data['status'] === true){
-                      $clerk->update($clerkData->id, $dataToUpdate, 'emp_id');
-                      $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
-                      $data['success'] = "Profile information updated successfully";
-                  }else{
-                      $data['error'] = $data['status'];
-                  }
-              }else{
-                  $passswordToUpdate = $clerk->passwordValidation($passswordToUpdate, $userData->password);
-                  unset($dataToUpdate['password']);
-                  unset($dataToUpdate['newpassword']);
-                  if($data['status'] === true){
-                      $clerk->update($clerkData->id, $dataToUpdate, 'emp_id');
-                      $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
-                      $data['success'] = "Profile information updated successfully";
-                  }else{
-                      $data['error'] = $data['status'];
-                  }
-                  if($passswordToUpdate['passUpdateStatus'] === true){
-                      $user->updateclerkDetails($userData->user_id, $passswordToUpdate, 'user_id');
-                      $_SESSION['USER']->password = $passswordToUpdate['password'];
-                      $data['passUpdateSuccess'] = "Password updated successfully";
-                  }else{
-                      $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
-                  }
-              }
-              // show($data);
-              // redirect('clerk/profile');
-              
-              }
-          }
+                if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                    if($data['status'] === true){
+                        $clerk->update($clerkData->id, $dataToUpdate, 'emp_id');
+                        $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
+                        $data['success'] = "Profile information updated successfully";
+                    }else{
+                        $data['error'] = $data['status'];
+                    }
+                }
+                
+                else{
+                    $passswordToUpdate = $clerk->passwordValidation($passswordToUpdate, $userData->password);
+                    unset($dataToUpdate['password']);
+                    unset($dataToUpdate['newpassword']);
+                    if($data['status'] === true){
+                        $clerk->update($clerkData->id, $dataToUpdate, 'emp_id');
+                        $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
+                        $data['success'] = "Profile information updated successfully";
+                    }else{
+                        $data['error'] = $data['status'];
+                    }
+                    if($passswordToUpdate['passUpdateStatus'] === true){
+                        $user->updateclerkDetails($userData->user_id, $passswordToUpdate, 'user_id');
+                        $_SESSION['USER']->password = $passswordToUpdate['password'];
+                        $data['passUpdateSuccess'] = "Password updated successfully";
+                    }else{
+                        $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
+                    }
+                }
+                // show($data);
+                // redirect('clerk/profile');
+            }
+        }
 
         $this->view('Clerk/clerkProfile', $data);
         $this->view('footer');
+    }
+
+    public function recordClerkUploadDoc() {
+
+        $this->view('header');
+
+        $document = new Document;
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
+
+            $user_id = $_POST['patientID'];
+            $uploaded_by = $_POST['uploaded_by'];
+            $document_type = 'medical_record';
+            $ref_no = $_POST['ref_no'];
+
+            //target directory
+            $targetDir = "assets/documents/";
+
+            //check if the file was uploaded
+            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+                $filename = basename($_FILES['file']['name']);
+                $targetPath = $targetDir . $filename;
+
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                //moving the file to the target path
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+                    //moved successfully
+                    $data = [
+                        'user_id' => $user_id,
+                        'uploaded_by' => $uploaded_by,
+                        'document_type' => $document_type,
+                        'document_name' => $filename,
+                        'ref_no' => $ref_no
+                    ];
+
+                    $document->insert($data);
+
+                    redirect('Clerk/recordClerkWorkLog');
+                }
+            }
         }
 
-        public function clerkUploadDoc(){
-            $this->view('header');
-            $this->view('Clerk/clerkUploadDoc');
-            $this->view('footer');
+        $this->view('Clerk/recordClerkUploadDoc');
+        $this->view('footer');
+    }
+
+    public function recordClerkWorkLog() {
+
+        $this->view('header');
+
+        $document = new Document;
+
+        $document->setLimit(50);
+        $document->setOrder('desc');
+        $documents = $document->findAll();
+
+        $data = [
+            'documents' => $documents
+        ];
+
+        $this->view('Clerk/recordClerkWorkLog',$data);
+        $this->view('footer');
+    }
+
+    public function labClerkUploadDoc() {
+
+        $this->view('header');
+
+        $document = new Document;
+
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
+
+            $user_id = $_POST['patientID'];
+            $uploaded_by = $_POST['uploaded_by'];
+            $document_type = 'lab_report';
+            $ref_no = $_POST['ref_no'];
+
+            //target directory
+            $targetDir = "assets/documents/";
+
+            //check if the file was uploaded
+            if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
+                $filename = basename($_FILES['file']['name']);
+                $targetPath = $targetDir . $filename;
+
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                //moving the file to the target path
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+                    //moved successfully
+                    $data = [
+                        'user_id' => $user_id,
+                        'uploaded_by' => $uploaded_by,
+                        'document_type' => $document_type,
+                        'document_name' => $filename,
+                        'ref_no' => $ref_no
+                    ];
+
+                    $document->insert($data);
+
+                    redirect('Clerk/labClerkWorkLog');
+                }
+            }
         }
 
-        public function clerkWorkLog(){
-            $this->view('header');
-            $this->view('Clerk/clerkWorkLog');
-            $this->view('footer');
+        $this->view('Clerk/labClerkUploadDoc');
+        $this->view('footer');
+    }
+
+    public function labClerkWorkLog() {
+        
+        $this->view('header');
+
+        $document = new Document;
+
+        $document->setLimit(50);
+        $document->setOrder('desc');
+        $documents = $document->findAll();
+
+        $data = [
+            'documents' => $documents
+        ];
+
+        $this->view('Clerk/labClerkWorkLog',$data);
+        $this->view('footer');
+    }
+
+    public function receptionClerkViewPendingAppointments() {
+
+        $this->view('header');
+
+        $doctorModel = new DoctorModel;
+
+        $data = $doctorModel->getDoctorAppointments();
+
+        if(isset($_GET['find'])) {
+            $find = '%' . $_GET['find'] . '%';
+            $data = $doctorModel->getDoctorAppointmentsSearch($find,$find);
+        }
+        
+        if (!is_array($data)) {
+            $data = [];
         }
 
+        $this->view('Clerk/receptionClerkViewPendingAppointments',$data);
+        $this->view('footer');
+    }
 }
+
+?>

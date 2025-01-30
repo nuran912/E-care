@@ -1,20 +1,36 @@
 //tab sections
-const tabs = document.querySelectorAll('.tab-button');
-const all_content = document.querySelectorAll('.content');
+// document.addEventListener("DOMContentLoaded",() => {
+//     const activeTab = document.querySelector('.tab-button.active');
+//     const line = document.querySelector('.line');
 
-tabs.forEach((tab,index) => {
-    tab.addEventListener('click',(e) => {
-        tabs.forEach(tab => {tab.classList.remove('active')});
-        tab.classList.add('active');
+//     if(activeTab && line) {
+//         line.style.width = activeTab.offsetWidth + "px";
+//         line.style.left = activeTab.offsetLeft + "px";
+//     }
+// })
 
-        var line = document.querySelector('.line');
-        line.style.width = e.target.offsetWidth + "px";
-        line.style.left = e.target.offsetLeft + "px";
+// document.addEventListener("DOMContentLoaded",() => {
+//     const tabs = document.querySelectorAll('.tab-button');
+//     const line = document.querySelector('.line');
 
-        all_content.forEach(content => {content.classList.remove('active')});
-        all_content[index].classList.add('active');
-    });
-});
+//     const updateLinePosition = (tab) => {
+//         line.style.width = tab.offsetWidth + "px";
+//         line.style.left = tab.offsetLeft + "px";
+//     };
+
+//     const activeTab = document.querySelector('.tab-button.active');
+//     if(activeTab) {
+//         updateLinePosition(activeTab);
+//     }
+
+//     tabs.forEach((tab) => {
+//         tab.addEventListener('click',(event) => {
+//             tabs.forEach((t) => t.classList.remove('active'));
+//             tab.classList.add('active');
+//             updateLinePosition(tab);
+//         });
+//     });
+// });
 
 //file upload
 const realFileButton = document.getElementById('real-file');

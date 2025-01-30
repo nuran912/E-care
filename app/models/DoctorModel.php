@@ -147,6 +147,59 @@ class DoctorModel
         );
     }
 
+    public function getDoctorAppointments() {
+        return $this->query(
+            "SELECT 
+                a.appointment_id,
+                a.patient_name,
+                a.status,
+                a.appointment_number,
+                a.hospital_name,
+                a.phone_number,
+                a.session_time,
+                a.session_date,
+                a.total_fee,
+                a.payment_status,
+                d.name AS doctor_name,
+                d.specialization
+            FROM 
+              appointments a 
+            JOIN 
+                  doctors d 
+            ON 
+                d.id = a.doctor_id
+            ORDER BY
+                a.updated_at DESC"
+        );
+    }
+
+    public function getDoctorAppointmentsSearch($patient_name,$phone_number) {
+        return $this->query(
+            "SELECT 
+                a.appointment_id,
+                a.patient_name,
+                a.status,
+                a.appointment_number,
+                a.hospital_name,
+                a.phone_number,
+                a.session_time,
+                a.session_date,
+                a.total_fee,
+                a.payment_status,
+                d.name AS doctor_name,
+                d.specialization
+            FROM 
+              appointments a 
+            JOIN 
+                  doctors d 
+            ON 
+                d.id = a.doctor_id
+            WHERE 
+                a.patient_name like :patient_name OR a.phone_number like :phone_number",
+                ['patient_name'=>$patient_name,'phone_number'=>$phone_number]
+        );
+    }
+
     public function profileValidation($data, $originalData)
     {
         

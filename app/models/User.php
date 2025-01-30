@@ -87,7 +87,7 @@ class User
       return false;
    }
 
-   public function updateProfile($id, $data, $id_column = 'id')
+   public function updateUser($id, $data, $id_column = 'id')
    {
       $password = $data['password'];
       $newPassword = $data['newPassword'];
@@ -131,6 +131,22 @@ class User
 
    public function updateDoctorDetails($id, $data, $id_column = 'id'){
       // remove unvalid columns
+      $data = array_intersect_key($data, array_flip($this->allowedColumns));
+
+      $keys = array_keys($data);
+      $query = "UPDATE $this->table SET ";
+      foreach ($keys as $key) {
+         $query .= "$key = :$key, ";
+      }
+      $query = rtrim($query, ", ");
+      $query .= " WHERE $id_column = :$id_column";
+      $data[$id_column] = $id;
+      // echo $query;
+      $this->query($query, $data);
+      return false;
+   }
+   
+   public function updateClerkDetails($id, $data, $id_column = 'id'){
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 
       $keys = array_keys($data);
@@ -202,5 +218,74 @@ class User
       return false;
    }
 
-   
+   // ⬇️Nuran
+   public function profileValidation($data, $originalData)
+    {
+        unset($originalData['password']);
+        unset($originalData['newpassword']);
+        unset($data['password']);
+        unset($data['newpassword']);
+
+        if($data === $originalData){
+            return ["No changes made"];
+        }
+
+       $this->errors = [];
+ 
+       //check email (validity)
+       if (empty($data['email'])) {
+          $this->errors['email'] = "Email is required";
+       } else {
+          $email = $data['email'];
+          if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+             $this->errors['email'] = 'Email must be a valid email address';
+          }
+       }
+ 
+       if (empty($data['phone_number'])) {
+          $this->errors['phone_number'] = "Phone number is required";
+       } else {
+          $phone_number = $data['phone_number'];
+          if (!preg_match('/^\d{10}$/', $phone_number)) {
+             $this->errors['phone_number'] = "Phone number must be 10 digits long";
+          }
+       }
+ 
+       if (empty($data['NIC'])) {
+          $this->errors['NIC'] = "NIC number is required";
+       } else {
+          $NIC = $data['NIC'];
+          if (!preg_match('/^\d{9}[vVxX]$|^\d{12}$/', $NIC)) {
+             $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits";
+          }
+       }
+       if (empty($this->errors)) {
+          return true;
+       }
+       return $this->errors;
+    }
+    //⬇️Nuran
+    public function passwordValidation($dataToUpdate, $existingPass){
+
+        $dataToUpdate['passUpdateSuccess'] = "";
+        
+        if(!empty($dataToUpdate['password']) && !empty($dataToUpdate['newpassword'])){
+            if($dataToUpdate['password'] == $existingPass){
+                $dataToUpdate['password'] = $dataToUpdate['newpassword'];
+                unset($dataToUpdate['newpassword']);
+                $dataToUpdate['passUpdateStatus'] = true;
+                return $dataToUpdate;
+            }else{
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                $dataToUpdate['passUpdateStatus'] = "Current password doesn't match";
+                return $dataToUpdate;
+            }
+          }else{
+                unset($dataToUpdate['password']);
+                unset($dataToUpdate['newpassword']);
+                $dataToUpdate['passUpdateStatus'] = "Enter both current and new passwords to update password";
+                return $dataToUpdate;
+            }
+    }
 }

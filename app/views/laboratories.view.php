@@ -94,95 +94,33 @@
                 <h2 style="font-size: 2.5em;">Your Health, Our Science</h2>
             </div>
             <div class="background">
-                <div class="laboratory-container">
+                <?php foreach($data as $lab) : { ?>
+                    <div class="laboratory-container">
                     <div class="laboratory-top">
                         <div class="laboratory-desc">
-                            <h1 style="margin-bottom: 30px;">Union Laboratories - Rajagiriya</h1>
-                            <p>We are a Paediatrics centered laboratory, complete with <br>Operating Theaters and 
-                                Intensive & Critical Care Wards. <br>Reputed for dengue and medical patient management.</p>
+                            <h1 style="margin-bottom: 30px;"><?=$lab['name']?></h1></h1>
+                            <p><?=$lab['description']?></p>
                         </div>                            
                         <div class="laboratory-services">
                             <h2>Services</h2>
                             <ul class="services">
-                                <li>Blood Tests</li>
-                                <li>Urine Tests</li>
-                                <li>Genetic Tests</li>
-                                <li>Pathology / Immunology</li>
-                                <li>STD Tests</li>
+                                <?=$lab['services']?>
                             </ul>
                         </div>
                     </div>
                     <div class="laboratory-bottom">
                         <div class="laboratory-info">
                             <ul>
-                                <li>Contact nuber: 011-297 2343</li>
-                                <li>Address: 181 Bernard Soysa Mawatha, Colombo 5</li>
-                                <li>Working hours: 24h</li>
+                                <li>Contact number: 0<?=$lab['contact']?></li>
+                                <li>Address: <?=$lab['address']?></li>
+                                <li>Working hours: <?=$lab['working_hours']?>h</li>
                             </ul>
                         </div>
                         <div><img src="<?php echo ROOT ?>/assets/img/Lab-map.png"></div>
                     </div>
-                </div>   
-                <div class="laboratory-container">
-                    <div class="laboratory-top">
-                        <div class="laboratory-desc">
-                            <h1 style="margin-bottom: 30px;">Union Laboratories - Bambalapitiya</h1>
-                            <p>We deliver international standard healthcare, in multi-specialty <br>
-                            general laboratory,which is a one-stop facility for high end <br>
-                            diagnostic, therapeutic and intensive care services.</p>
-                        </div>                            
-                        <div class="laboratory-services">
-                            <h2>Services</h2>
-                            <ul class="services">
-                                <li>Blood Tests</li>
-                                <li>Urine Tests</li>
-                                <li>Genetic Tests</li>
-                                <li>Pathology / Immunology</li>
-                                <li>STD Tests</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="laboratory-bottom">
-                        <div class="laboratory-info">
-                            <ul>
-                                <li>Contact nuber: 011-297 2344</li>
-                                <li>Address: 114 Norris Canal Rd, Colombo 10</li>
-                                <li>Working hours: 24h</li>
-                            </ul>
-                        </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Lab-map.png"></div>
-                    </div>
-                </div>   
-                <div class="laboratory-container">
-                    <div class="laboratory-top">
-                        <div class="laboratory-desc">
-                            <h1 style="margin-bottom: 30px;">Union Laboratories - Dehiwala</h1>
-                            <p>We deliver a comprehensive menu of world-class surgical care, <br>
-                                in a high-end facility with support from diagnosis through to<br>
-                                intensive care and rehabilitation services.</p>
-                        </div>                            
-                        <div class="laboratory-services">
-                            <h2>Services</h2>
-                            <ul class="services">
-                                <li>Blood Tests</li>
-                                <li>Urine Tests</li>
-                                <li>Genetic Tests</li>
-                                <li>Pathology / Immunology</li>
-                                <li>STD Tests</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="laboratory-bottom">
-                        <div class="laboratory-info">
-                            <ul>
-                                <li>Contact nuber: 011-297 2345</li>
-                                <li>Address: 21 Kirimandala Mawatha, Colombo 5</li>
-                                <li>Working hours: 24h</li>
-                            </ul>
-                        </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Lab-map.png"></div>
-                    </div>
-                </div>   
+                </div> 
+                <?php } endforeach; ?>  
+                
             </div>
         </div>
 

@@ -1,5 +1,4 @@
 <?php
-
 trait Model
 {
    use Database;
@@ -136,8 +135,10 @@ trait Model
 
    public function getById($id)
    {
-      $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
+      $query = "SELECT * FROM users WHERE user_id = :user_id ";
       $result = $this->query($query, ['user_id' => $id]);
       return $result ? $result[0] : null;
    }
+   
 }
+

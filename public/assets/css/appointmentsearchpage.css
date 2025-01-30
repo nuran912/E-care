@@ -1,17 +1,65 @@
-* {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body {
+  font-family: 'Lucida Sans-serif';
+  margin: 0px;
+  padding: 0px;
+ 
 }
+
+.maincontent{
+ justify-items: center;
+  margin: 10px;
+  color: #264161;
+  font-size: 20px;
+}
+.maincontent h6{
+margin: 5px;
+font-size: 20px;
+}
+.maincontent h5{
+
+  margin: 5px;
+  font-size: 30px;
+  }
+  .maincontent h5 {
+    display: inline-block;
+    overflow: hidden;
+  }
+  
+  .maincontent h5 span {
+    display: inline-block;
+    opacity: 0;
+    animation: wordSlideIn 10s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--i) * 1s);
+  }
+  
+  @keyframes wordSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  
 .searchform {
   max-width: 600px;
-  margin: 50px auto;
+  margin: 30px auto;
   background-color: #f8f8f8;
   padding: 20px;
   border: 2px solid #0e2f56;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
 }
 .searchform h2 {
   font-size: 24px;
@@ -69,6 +117,7 @@ form {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 2rem;
+  
 }
 
 @media (max-width: 1279px) {
@@ -126,6 +175,7 @@ form {
   font-size: 14px;
   cursor: pointer;
   margin: 10px 5px; /* Add margin between buttons */
+  width: 50%;
 }
 
 .card button:hover {
@@ -136,8 +186,9 @@ form {
   color: red;
   margin-bottom: 1rem;
 }
-img{
+.profimg{
   margin-bottom: 15px;
+  height: 120px;
 }
 select,#date{
   color: grey;

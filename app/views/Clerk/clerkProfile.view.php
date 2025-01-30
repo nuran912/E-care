@@ -3,7 +3,7 @@
 
 <head>
     <!-- <link rel="stylesheet" href="<?php echo ROOT; ?>/assets/css/Doctorprofilepage.css"> -->
-    <title>Patient Profile</title>
+    <title>Clerk Profile</title>
     <style>
         body {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -79,7 +79,7 @@
         }
 
         label {
-            width: 160px;
+            width: 150px;
             font-weight: bold;
             color: #0E2F56;
             margin-right: 20px;
@@ -215,7 +215,7 @@
             </div>
             <div class="profileDesc">
                 <h3><?=$data[0]->name?></h3>
-                <h4><?=$data[0]->email?></h4>
+                <h4><?=$data[1]->type?></h4>
             </div>
         </div>
 
@@ -244,10 +244,14 @@
                         <p><?=$data['passUpdateSuccess']?></p>
                 </div>
             <?php endif; ?> 
-            <form method="POST" action="<?= ROOT?>/Patient/profile/update">
+            <form method="POST" action="<?= ROOT?>/Clerk/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
                     <input type="text" name="name" id="name" value="<?=$data[0]->name?>">
+                </div>
+                <div class="info">
+                    <label for="empId">Employee ID:</label>
+                    <input type="text" name="empId" id="empId" placeholder="Enter your employee ID" value="<?=$data[1]->emp_id?>">
                 </div>
                 <div class="info">
                     <label for="id">NIC : </label>

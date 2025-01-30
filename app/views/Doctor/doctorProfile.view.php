@@ -86,6 +86,15 @@
             text-align: left;
         }
 
+        .pw-desc{
+            color: #0E2F56;
+            margin-top: 0;
+        }
+        p {
+            color: #0E2F56;
+            /* margin-top: 0; */
+        }
+
         input {
             flex: 1;
             padding: 10px;
@@ -105,7 +114,7 @@
             color: #bbb;
         }
 
-        input[type="submit"] {
+        button {
             background-color: #0E2F56;
             color: white;
             border: none;
@@ -115,10 +124,85 @@
             padding: 12px;
             border-radius: 8px;
             margin-top: 20px;
+            width: 35%;
+            font-size:medium;
         }
 
-        input[type="submit"]:hover {
+        button:hover {
             background-color: #0a2340;
+        }
+
+        button[type="reset"]{
+            background-color: #dc3545;
+        }
+        button[type="reset"]:hover{
+            background-color: #c82333;
+        }
+
+        .buttons {
+            display: flex;
+            flex-grow: 1;
+            flex-direction: row;
+            justify-content: center;
+            gap: 50px;
+        }
+
+        /* .alert {
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        } */
+        .error {
+            position:relative;
+            /* background-color: darkred; */
+            /* border-color: #c82333; */
+            /* color: white; */
+            border: 3px red solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            /* z-index: 1000; */
+        }
+
+        .success {
+            position:relative;
+            /* background-color: green; */
+            /* border-color: lightgreen; */
+            /* color: white; */
+            border: 3px lightgreen solid;
+            padding: 5px;
+            border-radius: 10px;
+            font-size: 14px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* width: 200px; */
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            margin: auto;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+            /* z-index: 1000; */
         }
     </style>
 </head>
@@ -130,14 +214,38 @@
                 <img src="" alt="Profile Picture">
             </div>
             <div class="profileDesc">
-                <h3>Dr. John Doe</h3>
-                <h3>Cardiologist</h3>
+                <h3>Dr. <?= $data[1]->name ?></h3>
+                <h3><?= $data[0]->specialization ?></h3>
                 <h4>Specialist</h4>
             </div>
         </div>
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
+            
+            <?php if (!empty($data['error'])): ?>
+                <div class="error">
+                    <?php foreach ($data['error'] as $error): ?>
+                        <p><?=$error?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['success'] != "" ): ?>
+                <div class="success">
+                        <p><?=$data['success']?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['passUpdateError'] != "" ): ?>
+                <div class="error">
+                        <p><?=$data['passUpdateError']?></p>
+                </div>
+            <?php endif; ?>
+            <?php if ($data['passUpdateSuccess'] != "" ): ?>
+                <div class="success">
+                        <p><?=$data['passUpdateSuccess']?></p>
+                </div>
+            <?php endif; ?> 
+            
             <form method="POST" action="<?= ROOT?>/Doctor/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
@@ -167,20 +275,26 @@
                     <label for="email">Email :</label>
                     <input type="email" name="email" id="email" placeholder="johndoe@example.com" value="<?= $data[1]->email ?>">
                 </div>
+                <br/>
                 <div class="info">
-                    <label for="password">Password :</label>
-                    <input type="password" name="password" id="password" placeholder="**" value="<?= $data[1]->password ?>">
+                    <label for="password">Current Password :</label>
+                    <input type="password" name="password" id="password" placeholder="Enter your current password">
                 </div>
-                <div class="info">
+                <div class="info" style="margin-bottom: 0;">
                     <label for="newpassword">New Password :</label>
                     <input type="password" name="newpassword" id="newpassword" placeholder="Enter your new password">
                 </div>
+                <p class="pw-desc">(Enter current password to change the password)</p>
                 <div class="info">
-                    <input type="submit" value="Save Changes">
+                    <!-- <input type="submit" value="Save Changes"> -->
+                    <div class="buttons">
+                        <button type="submit">Save Changes</button>
+                        <button type="reset">Reset</button>
+                    </div>
                 </div>
+                
             </form>
         </div>
     </div>
 </body>
 </html>
-<!-- new doc profile -->

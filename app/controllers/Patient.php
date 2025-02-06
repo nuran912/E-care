@@ -84,15 +84,6 @@ class Patient extends Controller
         $this->view('footer');
     }
 
-
-
-
-
-
-
-
-
-
     public function appointments()
     {
 
@@ -324,6 +315,11 @@ class Patient extends Controller
     public function insuranceclaims($a = '', $b = '', $c = '')
     {
         $this->view('header');
+
+        if($a == "submit"){
+            
+        }
+
         $this->view('Patient/insurance_claim');
         $this->view('footer');
     }

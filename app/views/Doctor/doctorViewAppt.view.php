@@ -171,15 +171,35 @@
             <label for="docs">Documents shared by the patient:</label>
             <div class="docs">
                 <?php 
-                    foreach($data[2] as $doc){
-                        show($doc);
-                    }
+                    if(!empty($data[2])){
+                        foreach($data[2] as $doc){  ?>
+                            <p>
+                                &nbsp;&nbsp;
+                                <!-- the document path is appended according to pateint,doc id,doc type, doc name -->
+                                <a href="<?=ROOT?>/assets/documents/<?=$data[1]->user_id?>/<?=$doc[2]?>/<?=$doc[0]?>.pdf">
+                                    <?=$doc[1]?>
+                                </a></br>
+                            </p>
+                        
+                <?php    }
+                }else{ ?>
+                    <p style="color:rgb(123, 119, 119);">No documents have been shared by the patient</p>
+                <?php   }
                 ?>
             </div>
         </div>
         <div class="info2">
             <label for="noteBox">Notes:</label>
-            <textarea id="noteBox" name="noteBox" placeholder="Type your notes here...."  class="noteBox" style="border: 1px solid #ccc; padding: 10px; min-height: 150px; border-radius: 5px;">
+            <!-- Notes are not editable if the appointment is a past appointment⬇️ -->
+            <?php 
+                $isReadonly = false;
+                $currentDate = new DateTime();
+                $sessionDate = new DateTime($data[0]->session_date);
+                if($sessionDate->format('Y-m-d') < $currentDate->format('Y-m-d')){
+                    $isReadonly = true;
+                }
+            ?>
+            <textarea id="noteBox" name="noteBox" <?php echo $isReadonly ? 'readonly' : ''; ?> placeholder="Type your notes here...."  class="noteBox" style="border: 1px solid #ccc; padding: 10px; min-height: 150px; border-radius: 5px;">
                 <?=$data[0]->doctor_notes?>
             </textarea>
         </div>
@@ -193,6 +213,7 @@
                 </select>
             </div>
             <?php 
+                //finish appointment option is only there for pending appointments⬇️
                 $currentDate = new DateTime();
                 $sessionDate = new DateTime($data[0]->session_date);
                 if($sessionDate->format('Y-m-d') >= $currentDate->format('Y-m-d')){ ?>

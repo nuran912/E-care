@@ -101,7 +101,7 @@
         }
 
         button:hover {
-            background-color: #2563eb;
+            background-color: #0a2340;
         }
         a{
             text-decoration: none;

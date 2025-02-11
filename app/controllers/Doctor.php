@@ -97,7 +97,30 @@ class Doctor extends Controller{
             $appointmentsData[$date] = $appointments->groupByScheduleId($slot, $appointmentsData, $date);
         }
 
-        $this->view('Doctor/doctorPastAppt', $appointmentsData);
+        $defaultdate = ((new DateTime(date('Y-m-d')))->modify('-1 day')->format('Y-m-d'));
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            if($b){
+                //when user clicks prev or next button to navigate through dates for appointments
+                $date = $b;
+            }else{
+                //when users uses filter by date to check appointments
+                $date = $_POST["filteredDate"];
+            }
+
+            if(array_key_exists($date, $appointmentsData)){
+                //appointments exist for this date
+                $data = [$date, $appointmentsData[$date]];
+            }else{
+                //no appointments for this date
+                $data = [$date, []];
+            }
+
+        }else{
+            $data = [$defaultdate, $appointmentsData[$date]]; 
+        }
+        $this->view('Doctor/doctorPastAppt', $data);
         $this->view('footer');
     }
 
@@ -113,8 +136,31 @@ class Doctor extends Controller{
         foreach( array_keys($appointmentsData) as $date){
             $appointmentsData[$date] = $appointments->groupByScheduleId($slot, $appointmentsData, $date);
         }
+
+        $date = date('Y-m-d');
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            if($b){
+                //when user clicks prev or next button to navigate through dates for appointments
+                $date = $b;
+            }else{
+                //when users uses filter by date to check appointments
+                $date = $_POST["filteredDate"];
+            }
+
+            if(array_key_exists($date, $appointmentsData)){
+                //appointments exist for this date
+                $data = [$date, $appointmentsData[$date]];
+            }else{
+                //no appointments for this date
+                $data = [$date, []];
+            }
+
+        }else{
+            $data = [$date, $appointmentsData[$date]]; 
+        }
         
-        $this->view('Doctor/doctorPendingAppt', $appointmentsData);
+        $this->view('Doctor/doctorPendingAppt', $data);
         $this->view('footer');
     }
 
@@ -264,18 +310,21 @@ class Doctor extends Controller{
 
         $document = new Document;
         $docs = $apptData->shared_docs;
-        $sharedDocIds = explode(',', $docs);
         $sharedDocs = [];
-        foreach($sharedDocIds as $docId){
+        if($docs != ""){
+            $sharedDocIds = explode(',', $docs);
+            foreach($sharedDocIds as $docId){
             $docData = $document->getDocumentById($docId);
-            $sharedDocs[] = $docData->document_name;
+            $sharedDocs[] = [$docData->document_id, $docData->document_name, $docData->document_type];
+        }
         }
 
         $data = [$apptData, $patientData, $sharedDocs];
 
+
         if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-            $doctorNotes = $_POST['noteBox'];
+            $doctorNotes = trim($_POST['noteBox']); //trim used to remove default leading whitespace
             $appt->updateDoctorNotes($apptId, $doctorNotes);
 
             $updatedStatus = $_POST['status'];

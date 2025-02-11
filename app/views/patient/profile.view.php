@@ -244,7 +244,8 @@
                         <p><?=$data['passUpdateSuccess']?></p>
                 </div>
             <?php endif; ?> 
-            <form method="POST" action="<?= ROOT?>/Patient/profile/update">
+
+            <form method="POST" action="<?= ROOT?>/Patient/insuranceclaims/submit">
                 <div class="info">
                     <label for="name">Name :</label>
                     <input type="text" name="name" id="name" value="<?=$data[0]->name?>">

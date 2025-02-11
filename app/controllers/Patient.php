@@ -84,15 +84,6 @@ class Patient extends Controller
         $this->view('footer');
     }
 
-
-
-
-
-
-
-
-
-
     public function appointments()
     {
 
@@ -116,18 +107,10 @@ class Patient extends Controller
         foreach ($data as $item) {
             if (!empty($item->selected_files)) {
             $selectedFiles = explode(',', $item->selected_files);
-            echo "<pre>";
-            var_dump($selectedFiles);
-            echo "</pre>";
-            } else {
-            var_dump("No selected files");
-            }
+           
         }
-
-  echo "<pre>";
-         var_dump($data);
-       echo "</pre>";
-
+    }
+  
         if (isset($_POST['appointment_id'])) {
 
             $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
@@ -148,13 +131,14 @@ class Patient extends Controller
 
             if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
                 $appointmentsModel->update_is_deleted($appointment_id);
+                $appointmentsModel->updateStatus($appointment_id, 'canceled');
 
                 $_SESSION['success'] = 'Appointment canceled successfully.';
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }
             // $updateFilledSlots->update_filled_slots($schedule_id);
-            $appointmentsModel->updateStatus($appointment_id, 'canceled');
+            
             header('location: ' . ROOT . '/Patient/appointments');
            
             exit; 
@@ -324,6 +308,11 @@ class Patient extends Controller
     public function insuranceclaims($a = '', $b = '', $c = '')
     {
         $this->view('header');
+
+        if($a == "submit"){
+            
+        }
+
         $this->view('Patient/insurance_claim');
         $this->view('footer');
     }

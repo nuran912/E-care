@@ -86,7 +86,7 @@ class Patient extends Controller
 
     public function appointments()
     {
-
+        require_once dirname(__DIR__) . '/core/EmailHelper.php';
 
         $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
         $appointmentsModel = new Appointments;
@@ -101,6 +101,7 @@ class Patient extends Controller
             exit;
            
         }
+        
 
 
 
@@ -134,6 +135,49 @@ class Patient extends Controller
                 $appointmentsModel->updateStatus($appointment_id, 'canceled');
 
                 $_SESSION['success'] = 'Appointment canceled successfully.';
+                foreach ($appoitmentDetails as $appoitment) {
+                    $patientname = $appoitment->patient_name;
+                    $doctor_id = $appoitment->doctor_id;
+                    $appointmentnumber = $appoitment->appointment_number;
+                    $appointmentdate = $appoitment->session_date;
+                    $appointmenttime = $appoitment->session_time;
+                    $hospitalname = $appoitment->hospital_name;
+                    $patientemail = $appoitment->patient_Email;
+
+                }
+                $doctorDetails=$doctorModel->getDoctorDetails($doctor_id);
+                $doctorname = $doctorDetails[0]->name;
+               
+                $subject = "Appointment Cancellation Confirmation  $hospitalname";
+                $body = "
+                    <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>
+                        <p>Dear <b>$patientname</b>,</p>
+                        <p>Your appointment at <b>$hospitalname</b> has been successfully canceled as per your request.</p>
+                        <p><b>Appointment Details:</b></p>
+                        <ul>
+                            <li><b>Patient Name:</b> $patientname</li>
+                            <li><b>Doctor:</b> $doctorname</li>
+                            <li><b>Appointment Number:</b> $appointmentnumber</li>
+                            <li><b>Scheduled Date:</b> " . date('Y F d l', strtotime($appointmentdate)) . "</li>
+                            <li><b>Scheduled Time:</b> " . date('h:i A', strtotime($appointmenttime)) . "</li>
+                            <li><b>Hospital:</b> $hospitalname</li>
+                        </ul>
+                        <p>If you require a new appointment, please visit our website or contact us.</p>
+                        <p>Best regards,</p>
+                        <p><b>$hospitalname</b><br>Your trusted healthcare provider</p>
+                        <div style='margin-top: 20px; font-size: 12px; color: #777;'>
+                            <p>&copy; " . date('Y') . " $hospitalname. All rights reserved.</p>
+                        </div>
+                    </div>
+                ";
+                EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
+                
+
+
+
+
+
+
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }

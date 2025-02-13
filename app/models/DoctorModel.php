@@ -269,6 +269,7 @@ class DoctorModel
         ";
         return $this->query($query);
     }
+    
 }
 
 

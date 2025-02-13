@@ -83,7 +83,7 @@ class Paymentsuccessfulpage extends Controller
             $emailSent = false;
         }
 
-        
+            
         $this->view('appointment/paymentsuccessfulpage', ['emailSent' => $emailSent]);
     }
 }

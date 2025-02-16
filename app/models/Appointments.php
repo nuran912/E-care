@@ -25,7 +25,10 @@ class Appointments
         'selected_files' , 
         'payment_status',
         'doctor_notes',  
-        'email_sent',  
+        'email_sent',
+        'is_deleted'
+
+
     ];
 
     public $order_column = 'id';

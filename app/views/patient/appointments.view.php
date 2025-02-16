@@ -185,6 +185,7 @@
                                         <p><strong>Appointment Time:</strong> ${time}</p>
                                         <p><strong>Appointment Fee:</strong> Rs.${appointment.total_fee || "N/A"}.00</p>
                                         <p><strong>Payment Status:</strong> ${appointment.payment_status || "N/A"}</p>
+                                        <p><strong>Selected files:</strong> ${appointment.selected_files || "No Documents to show"}</p>
 
                                         
                                      

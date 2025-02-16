@@ -91,6 +91,7 @@ class Patient extends Controller
         $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
         $appointmentsModel = new Appointments;
         $updateFilledSlots=new  Availabletime;
+       
 
         //get details of the appointments of a patient
         $doctorModel = new DoctorModel;
@@ -119,9 +120,11 @@ class Patient extends Controller
                 $schedule_id = $appoitment->schedule_id;
                 $session_time = $appoitment->session_time;
                 $session_date = $appoitment->session_date;
+                $document_id = $appoitment->selected_files;
             }
              
-            
+            $Document = new Document;
+            $documentName=$Document->getDocumentNamebyId($document_id);
 
 
             // $appointmentsModel->delete($appointment_id, 'appointment_id');

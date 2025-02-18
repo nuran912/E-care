@@ -143,4 +143,26 @@ function resetPassword(button) {
     }
 }
 
+function doctorEditPopup(doctor) {
+    document.getElementById('edit-doctor-id').value = doctor.id;
+    document.getElementById('edit-user-id').value = doctor.user_id;
+    document.getElementById('edit-doctor-name').value = doctor.name;
+    document.getElementById('edit-doctor-nic').value = doctor.NIC;
+    document.getElementById('edit-doctor-email').value = doctor.email;
+    document.getElementById('edit-doctor-phone').value = doctor.phone_number;
+    document.getElementById('edit-doctor-specialization').value = doctor.specialization;
+    document.getElementById('edit-doctor-qualifications').value = doctor.other_qualifications;
+    document.getElementById('edit-doctor-registration-number').value = doctor.registration_number;
+    document.getElementById('edit-doctor-fee').value = doctor.Doctor_fee;
+    document.getElementById('edit-doctor-note').value = doctor.special_note;
+    document.getElementById('edit-doctor-government').checked = doctor.practicing_government_hospitals == 1;
+
+    // document.getElementById('edit-doctor-hospital').value = doctor.hospital;
+    
+    // document.getElementById('edit-doctor-active').checked = doctor.is_active == 1;
+    document.getElementById('edit-image-preview').src = doctor.image_url;
+    document.querySelector('.popup-edit').style.display = 'block';
+    document.querySelector('.overlay').style.display = 'block';
+}
+
 

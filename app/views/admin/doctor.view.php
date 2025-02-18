@@ -22,6 +22,10 @@
          <div class="success"><?php echo $_SESSION['reset_success']; ?></div>
          <?php unset($_SESSION['reset_success']); ?>
       <?php endif; ?>
+      <?php if (isset($_SESSION['edit_success'])): ?>
+         <div class="success"><?php echo $_SESSION['edit_success']; ?></div>
+         <?php unset($_SESSION['edit_success']); ?>
+      <?php endif; ?>
 
       <section class="main-div">
          <div class="search">
@@ -56,29 +60,29 @@
                   <?php if (isset($doctors) && is_array($doctors)): ?>
                      <?php foreach ($doctors as $doctor) : ?>
                         <tr>
-                           <td><?php echo $doctor->registration_number; ?></td>
-                           <td><?php echo $doctor->name; ?></td>
-                           <td><?php echo $doctor->specialization; ?></td>
-                           <td><?php echo $doctor->email; ?></td>
-                           <td><?php echo $doctor->phone_number; ?></td>
-                           <td><?php echo $doctor->NIC; ?></td>
+                           <td><?php echo $doctor['registration_number']; ?></td>
+                           <td><?php echo $doctor['name']; ?></td>
+                           <td><?php echo $doctor['specialization']; ?></td>
+                           <td><?php echo $doctor['email']; ?></td>
+                           <td><?php echo $doctor['phone_number']; ?></td>
+                           <td><?php echo $doctor['NIC']; ?></td>
                            <td>
                               <form method="post" action="<?= ROOT ?>/admin/doctor/toggleStatus" class="status-form">
-                                 <input type="hidden" name="user_id" value="<?php echo $doctor->user_id; ?>">
-                                 <button type="button" class="btn-<?php echo $doctor->is_active ? 'active' : 'disable'; ?>" onclick="toggleStatus(this)">
-                                    <?php echo $doctor->is_active ? 'Active' : 'Disabled'; ?>
+                                 <input type="hidden" name="user_id" value="<?php echo $doctor['user_id']; ?>">
+                                 <button type="button" class="btn-<?php echo $doctor['is_active'] ? 'active' : 'disable'; ?>" onclick="toggleStatus(this)">
+                                    <?php echo $doctor['is_active'] ? 'Active' : 'Disabled'; ?>
                                  </button>
                               </form>
                            </td>
                            <td>
                               <form method="post" action="<?= ROOT ?>/admin/doctor/resetPassword" class="reset-form">
-                                 <input type="hidden" name="user_id" value="<?php echo $doctor->user_id; ?>">
-                                 <input type="hidden" name="nic" value="<?php echo $doctor->NIC; ?>">
-                                 <input type="hidden" name="name" value="<?php echo $doctor->name; ?>">
+                                 <input type="hidden" name="user_id" value="<?php echo $doctor['user_id']; ?>">
+                                 <input type="hidden" name="nic" value="<?php echo $doctor['NIC']; ?>">
+                                 <input type="hidden" name="name" value="<?php echo $doctor['name']; ?>">
                                  <button type="button" class="btn-reset" onclick="resetPassword(this)">Reset</button>
                               </form>
                            </td>
-                           <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                           <td><button class="btn-edit" onclick="doctorEditPopup(<?php echo htmlspecialchars(json_encode($doctor)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                         </tr>
                      <?php endforeach; ?>
 
@@ -152,28 +156,30 @@
       <!-- Edit Card -->
       <div class="popup-edit">
          <h2>Edit Doctor</h2>
-         <form>
+         <form id="edit-doctor-form" action="<?= ROOT ?>/Admin/doctor/edit" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="doctor_id" id="edit-doctor-id">
+            <input type="hidden" name="user_id" id="edit-user-id">
             <div class="form-row">
                <input type="file" id="edit-doctor-image" name="doctor-image" accept="image/*" hidden>
                <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="full-name" placeholder=" " value="Mohamed Athhar" required>
+                        <input type="text" name="name" placeholder=" " id="edit-doctor-name" required>
                         <label>Full Name</label>
                      </div>
                      <div class="form-group">
-                        <input type="email" name="email" placeholder=" " value="athhar@gamil.com" required>
+                        <input type="email" name="email" placeholder=" " id="edit-doctor-email" required>
                         <label>Email</label>
                      </div>
                   </div>
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " value="200210544893" required>
+                        <input type="text" name="nic" placeholder=" " id="edit-doctor-nic" required>
                         <label>NIC</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone" placeholder=" " value="0755428964" required>
+                        <input type="text" name="phone_number" placeholder=" " id="edit-doctor-phone" required>
                         <label>Phone Number</label>
                      </div>
                   </div>
@@ -181,27 +187,47 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <input type="text" name="specialization" placeholder=" " value="General" required>
+                  <input type="text" name="specialization" placeholder=" " id="edit-doctor-specialization" required>
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="doctor-number" placeholder=" " value="D001" style="width: 300px;" required>
-                  <label>Doctor Number</label>
+                  <input type="text" name="registration_number" placeholder=" " id="edit-doctor-registration-number" required disabled>
+                  <label>Registration Number</label>
 
                </div>
-               <lable><input type="checkbox" name="active" checked="true">Active</lable>
+               
+               <div class="form-group">
+                  <input type="text" name="doctor_fee" placeholder=" " id="edit-doctor-fee" style="width: 150px;" required>
+                  <label>Doctor Fee(Rs.)</label>
+               </div>
+               <div class="form-group">
+                  <input type="hidden" name="">
+                  <label>Practicing Government_Hospitals</label>
+               </div>
+               <div class="form-group">
+                     <input type="checkbox" name="government_hospital" id="edit-doctor-government" >
+                     <!-- <label>Practicing Government Hospitals</label> -->
+               </div>
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <textarea name="qualifications" rows="4">MBBS, MD (General Medicine) - 2010 
+                  <textarea name="other_qualifications" rows="2" placeholder=" " id="edit-doctor-qualifications">
                   </textarea>
                   <label>Qualifications</label>
                </div>
 
             </div>
             <div class="form-row">
-               <button type="button" class="btn-create">Update</button>
-               <button type="button" class="btn-cancel">Cancel</button>
+               <div class="form-group">
+                  <textarea name="special_note" rows="2" placeholder=" " id="edit-doctor-note">
+                  </textarea>
+                  <label>Special Notes</label>
+               </div>
+
+            </div>
+            <div class="form-row">
+               <button type="submit" class="btn-create">Update</button>
+               <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
             </div>
          </form>
       </div>

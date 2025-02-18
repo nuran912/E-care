@@ -115,6 +115,32 @@ class Admin extends Controller
          redirect('Admin/doctor');
       }
 
+      if($a == 'edit'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $doctorModel = new DoctorModel;
+            $doctorData = [
+               'name' => $_POST['name'],
+               'specialization' => $_POST['specialization'],
+               // 'hospital' => $_POST['hospital'],
+               'registration_number' => $_POST['registration_number'],
+               'other_qualifications' => $_POST['other_qualifications'],
+               'Doctor_fee' => $_POST['doctor_fee'],
+               'special_note' => $_POST['special_note'],
+               'id' => $_POST['doctor_id']
+           ];
+           $userData = [
+            'email' => $_POST['email'],
+            'phone_number' => $_POST['phone_number'],
+            'NIC' => $_POST['nic'],
+            // 'is_active' => $_POST['is_active'],
+            'user_id' => $_POST['user_id']
+        ];
+            $doctorModel->updateDoctorsWithUserDetails($doctorData, $userData);
+            $_SESSION['edit_success'] = 'Doctor details updated successfully.';
+            redirect('Admin/doctor');
+         }
+      }
+
       $this->view('admin/doctor', $data);
       $this->view('footer');
    }

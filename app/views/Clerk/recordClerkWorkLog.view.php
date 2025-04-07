@@ -77,49 +77,60 @@
         }
 
         .date{
+            margin-top: 30px;
             font-weight: bold;
-            color: #1c3a47;
-            margin: 20px 0 10px;
-            letter-spacing: 0.1em;
+            font-size: large;
+            color: #003366;
         }
 
         .uploadedInfo{
             display: flex;
             flex-direction: row;
             justify-content: space-around;
+            justify-items: center;
             align-items: center;
-            padding: 10px 20px;
-            border: 1px solid #ccc;
-            width: 100%;
-            max-width: 750px;
-            margin: 0 0 10px 0;
+            /* border: 2px solid #ada8a8; */
+            background-color: #003366;
+            color: white;
+            border-radius: 6px;
+            padding: 25px  5px;
             margin-bottom: 10px;
+            width: 100%;
         }
 
         .item{
-            padding: 8px;
-            background-color: #d3d3d3;
-            text-align: center;
+            border: 2px solid #908585;
             border-radius: 4px;
-            border: 1px solid #888;
+            padding: 4px 10px;
+            color: black;
+            background-color: #ebe0e0;
+            font-weight: bold;
+            width: 150px;
+        }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-weight: bold;
         }
         
         .view{
-            background-color: #0059FF;
-            font-weight: bold;
-            align-self: center;
-            padding: 8px;
-            font-size: 14px;
-            border: none;
+            background: rgb(88, 223, 250);
             cursor: pointer;
+            padding: 10px;
+            border: none;
             border-radius: 4px;
-            text-align: center;
-            min-width: 100px;
+            font-weight: bold;
+            font-size:medium;
+        }
+
+        .view:hover {
+            background: rgb(70, 178, 250);
         }
 
         .view a {
             text-decoration: none;
-            color: white;
+            color: black;
         }
 
         .set {
@@ -161,18 +172,18 @@
                         <div class="uploadedInfo">
 
                             <div class="set">
-                                <h4>Patient ID</h4>
+                                <label>Patient ID</label>
                                 <div class="item"><?php echo htmlspecialchars($document['user_id']) ?></div>
                             </div>
 
                             <div class="set">
-                                <h4>Reference Number</h4>
+                                <label>Reference Number</label>
                                 <div class="item"><?php echo htmlspecialchars($document['ref_no']) ?></div>
                             </div>
 
                             <div class="set">
-                                <h4>Category</h4>
-                                <div class="item"><?php echo htmlspecialchars($document['document_type']) ?></div>
+                                <label>Category</label>
+                                <div class="item"><?php echo htmlspecialchars($document['document_category']) ?></div>
                             </div>
 
                             <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>

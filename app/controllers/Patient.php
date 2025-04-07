@@ -201,8 +201,45 @@ class Patient extends Controller
     //     }
     // }
 
+    public function medical_records($a = '') {
+        $this->view('header');
 
-    public function documents($a = '')
+        $document = new Document;
+
+        //retrieve the documents from the database
+        $document->setLimit(50);
+        $document->setOrder('desc');
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
+
+        $data = [
+            'documents' => $documents
+        ];
+
+        $this->view('Patient/medical_records', $data);
+
+        $this->view('footer');
+    }
+
+    public function lab_reports($a = '') {
+        $this->view('header');
+
+        $document = new Document;
+
+        //retrieve the documents from the database
+        $document->setLimit(50);
+        $document->setOrder('desc');
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
+
+        $data = [
+            'documents' => $documents
+        ];
+
+        $this->view('Patient/lab_reports', $data);
+
+        $this->view('footer');
+    }
+
+    public function private_files($a = '')
     {
 
         $this->view('header');
@@ -238,7 +275,7 @@ class Patient extends Controller
                     ];
 
                     $document->insert($data);
-                    redirect('patient/private_files');
+                    redirect('Patient/private_files');
                 }
             }
         }
@@ -270,7 +307,7 @@ class Patient extends Controller
                 }
             }
 
-            redirect('patient/private_files');
+            redirect('Patient/private_files');
         }
 
         //delete a private file
@@ -288,7 +325,7 @@ class Patient extends Controller
                 }
             }
 
-            redirect('patient/private_files');
+            redirect('Patient/private_files');
         }
 
         //retrieve the documents from the database
@@ -300,7 +337,7 @@ class Patient extends Controller
             'documents' => $documents
         ];
 
-        $this->view('patient/private_files', $data);
+        $this->view('Patient/private_files', $data);
 
         $this->view('footer');
     }

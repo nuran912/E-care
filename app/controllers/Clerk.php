@@ -91,9 +91,10 @@ class Clerk extends Controller {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
 
-            $user_id = $_POST['patientID'];
+            $user_id = $_POST['patient_email'];
             $uploaded_by = $_POST['uploaded_by'];
             $document_type = 'medical_record';
+            $document_category = $_POST['document_category'];
             $ref_no = $_POST['ref_no'];
 
             //target directory
@@ -156,10 +157,14 @@ class Clerk extends Controller {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
 
-            $user_id = $_POST['patientID'];
+            $patient_email = $_POST['patient_email'];
             $uploaded_by = $_POST['uploaded_by'];
             $document_type = 'lab_report';
+            $document_category = $_POST['document_category'];
             $ref_no = $_POST['ref_no'];
+
+            $user = new User;
+            $user_id = $user->getUserIDByEmail($patient_email);
 
             //target directory
             $targetDir = "assets/documents/";
@@ -180,6 +185,7 @@ class Clerk extends Controller {
                         'user_id' => $user_id,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
+                        'document_category' => $document_category,
                         'document_name' => $filename,
                         'ref_no' => $ref_no
                     ];

@@ -150,4 +150,16 @@ trait Model
       
       return json_decode(json_encode($result), true); // Convert object to array
    }
+
+   public function getUserIDByEmail($email) {
+      if(empty($email)) {
+         return null;
+      }
+
+      $query = "SELECT user_id from users WHERE email = :email";
+
+      $result = $this->query($query,['email' => $email]);
+
+      return json_decode(json_encode($result), true);
+   }
 }

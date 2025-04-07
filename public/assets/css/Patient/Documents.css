@@ -33,17 +33,36 @@ main {
     position: relative;
 }
 
-.tab-box .tab-button {
-    position: relative;
+.tab-button{
     padding: 10px 20px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    position: relative;
 }
 
-.tab-box .tab-button.active {
+.tab-button.active{
     color: #1c3a47;
+    font-weight: bold;
+}
+
+.tab-button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-radius: 10px;
+    background-color: #1c3a47;
+    transition: all 0.3s ease-in-out;
+}
+
+.tab-button, .tab-button a{
+    color: #919191;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .content-box {
@@ -77,18 +96,17 @@ main {
 }
 
 .content-box {
-    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 }
 
 .record-date-time-category {
+    margin-top: 30px;
     font-weight: bold;
-    color: #1c3a47;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    letter-spacing: 0.05em;
+    font-size: large;
+    color: #003366;
 }
 
 .document-category {
@@ -105,39 +123,30 @@ main {
     margin: 0;
 }
 
-.record {
-    display: grid;
-    grid-template-columns: 2fr 1.5fr 1fr;
-    gap: 10px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    width: 700px;
-    margin: auto;
-    margin-bottom: 10px;
-}
-
-.private-record {
+.record, .private-record {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    grid-template-columns: 1fr 100px 100px 100px;
-    gap: 10px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    width: 700px;
-    margin: auto;
-    margin-bottom: 15px;
-    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-around;
+    justify-items: center;
+    align-items: center;
+    background-color: #003366;
+    color: white;
+    border-radius: 6px;
+    padding: 25px  5px;
+    margin-bottom: 10px;
+    width: 100%;
 }
 
 .record .label,
 .record .ref-no,
 .private-record .label {
     padding: 8px;
-    background-color: #d3d3d3;
     text-align: center;
     border-radius: 4px;
-    border: 1px solid #888;
+    border: 2px solid #908585;
+    color: black;
+    background-color: #ebe0e0;
+    font-weight: bold;
 }
 
 .record .ref-no {
@@ -155,6 +164,12 @@ main {
     word-wrap: break-word;
     white-space: pre-wrap;
     overflow: hidden;
+    background-color: #ebe0e0;
+    color: black;
+    border: 2px solid #908585;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px;
 }
 
 .button-group {
@@ -165,7 +180,7 @@ main {
     justify-content: flex-end;
 }
 
-.view-button, .private-view-button, .private-edit-button, .private-delete-button {
+.view-button, .private-view-button, .private-edit-button, .private-delete-button, .view-button, .private-view-button {
     padding: 8px;
     font-size: 14px;
     border: none;
@@ -175,28 +190,18 @@ main {
     text-align: center;
     min-width: 100px;
     font-weight: bold;
+    background: rgb(88, 223, 250);
+    font-size:medium;
+    color: black;
 }
 
-.view-button, .private-view-button {
-    background-color: #0059FF;
-}
-
-.view-button:hover, .private-view-button:hover {
-    background-color: #3366cc;
+.view-button:hover, .private-view-button:hover, .private-edit-button:hover, .private-delete-button:hover, .view-button:hover, .private-view-button:hover {
+    background: rgb(70, 178, 250);
 }
 
 .view-button a, .private-view-button a {
     text-decoration: none;
-    color: white;
-}
-
-.private-edit-button {
-    background-color: #ffc107;
-    text-decoration: none;
-}
-
-.private-edit-button:hover {
-    background-color: #ff8c00;
+    color: black;
 }
 
 .popup {
@@ -235,14 +240,6 @@ main {
     word-wrap: break-word;
 }
 
-.private-delete-button {
-    background-color: #dc3545;
-}
-
-.private-delete-button:hover {
-    background-color: #c82333;
-}
-
 .upload-container {
     display: flex;
     justify-content: center;
@@ -258,7 +255,7 @@ main {
 #custom-button {
     padding: 10px;
     color: white;
-    background-color: #3b83ff;
+    background-color: #3E64FF;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -277,7 +274,7 @@ main {
 }
 
 #private-submit-button, .submit {
-    background-color: #4caf50;
+    background-color: #0E2F56;
     border: none;
     color: white;
     font-weight: bold;

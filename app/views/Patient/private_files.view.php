@@ -14,9 +14,9 @@
             <div class="container">
 
                 <div class="tab-box">
-                    <button class="tab-button"><a href="./medical_records">Medical Records</a></button>
-                    <button class="tab-button"><a href="./lab_reports">Lab Reports</a></button>
-                    <button class="tab-button active">Private Files</button>
+                    <div class="tab-button"><a href="./medical_records">Medical Records</a></div>
+                    <div class="tab-button"><a href="./lab_reports">Lab Reports</a></div>
+                    <div class="tab-button active">Private Files</div>
                 </div>
 
                 <div class="content-box">
@@ -38,12 +38,22 @@
 
                     <?php if(isset($documents) && is_array($documents)): ?>
 
-                        <?php foreach($documents as $index => $document): ?>
+                        <?php
+                            $groupedByDate = [];
 
-                            <?php if($document['document_type'] == 'private'): ?>
+                            foreach($documents as $index => $document):
+                                if($document['document_type'] == 'private'):
+                                    $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
+                                    $groupedByDate[$dateOnly][] = $document;
+                                endif;
+                            endforeach;
+                        ?>
 
-                                <div class="record-date-time"><p><?php echo htmlspecialchars($document['uploaded_at']) ?></p></div>
+                        <?php foreach($groupedByDate as $date => $dailyDocuments): ?>
 
+                            <div class="record-date-time-category"><p><?php echo htmlspecialchars($date); ?></p></div>
+
+                            <?php foreach($dailyDocuments as $document): ?>
                                 <div class="private-record">
 
                                     <span class="label"><?php echo htmlspecialchars($document['document_name']) ?></span>
@@ -71,9 +81,8 @@
                                     </div>
 
                                 </div>
-                                    
-                            <?php endif; ?>
-                                    
+                            <?php endforeach; ?>    
+                              
                         <?php endforeach; ?>
 
                     <?php else: ?>

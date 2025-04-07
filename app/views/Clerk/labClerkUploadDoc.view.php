@@ -30,6 +30,7 @@
         form.documentInfo {
             width: 100%;
             max-width: 600px;
+            margin-top: 20px;
         }
 
         .tabs{
@@ -146,22 +147,39 @@
             <div class="section">
                 <div class="item">
                     <label for="patientEmail">Patient Email</label>
-                    <input type="text" id="patientID" name="patientID" placeholder="Enter patient email address" required />
+                    <input type="text" id="patientEmail" name="patient_email" placeholder="Enter patient email address" required />
                 </div>
 
-                <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
-            </div>
-
-            <div class="section">
                 <div class="item">
                     <label for="refNumber">Reference Number</label>
                     <input type="text" id="refNumber" name="ref_no" placeholder="Enter reference number" required />
                 </div>
             </div>
 
-            <div class="item">
-                <label for="file">Choose File</label>
-                <input type="file" id="file" name="file" accept=".pdf,.png,.jpeg,.jpg" required />
+            <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
+
+            <div class="section">
+                <div class="item">
+                    <label for="document_category">Document Category</label>
+                    <select id="documentCategory" name="document_category" required>
+                        <option value="" disabled selected>Select a document category</option>
+                        <option value="blood_report">Blood Report</option>
+                        <option value="urine_report">Urine Report</option>
+                        <option value="stool_report">Stool Report</option>
+                        <option value="biospy_report">Biopsy Report</option>
+                        <option value="pathology_report">Pathology Report</option>
+                        <option value="histology_report">Histology Report</option>
+                        <option value="serology_report">Serology Report</option>
+                        <option value="microbiology_report">Microbiology Report</option>
+                        <option value="genetic_test">Genetic Test Report</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="item">
+                    <label for="file">Choose File</label>
+                    <input type="file" id="file" name="file" accept=".pdf,.png,.jpeg,.jpg" required />
+                </div>
             </div>
 
             <div class="buttons">

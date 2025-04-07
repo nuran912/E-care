@@ -30,6 +30,7 @@
         form.documentInfo {
             width: 100%;
             max-width: 600px;
+            margin-top: 20px;
         }
 
         .tabs{
@@ -146,22 +147,41 @@
             <div class="section">
                 <div class="item">
                     <label for="patientEmail">Patient Email</label>
-                    <input type="text" id="patientID" name="patientID" placeholder="Enter patient email address" required />
+                    <input type="text" id="patientEmail" name="patient_email" placeholder="Enter patient email address" required />
                 </div>
 
-                <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
-            </div>
-
-            <div class="section">
                 <div class="item">
                     <label for="refNumber">Reference Number</label>
                     <input type="text" id="refNumber" name="ref_no" placeholder="Enter reference number" required />
                 </div>
             </div>
 
-            <div class="item">
-                <label for="file">Choose File</label>
-                <input type="file" id="file" name="file" accept=".pdf,.png,.jpeg,.jpg" required />
+            <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
+
+            <div class="section">
+                <div class="item">
+                    <label for="document_category">Document Category</label>
+                    <select id="documentCategory" name="document_category" required>
+                        <option value="" disabled selected>Select a document category</option>
+                        <option value="prescription">Prescription</option>
+                        <option value="diagnosis_card">Diagnosis Card</option>
+                        <option value="medical_bill">Medical Bill/Invoice</option>
+                        <option value="discharge_summary">Discharge Summary</option>
+                        <option value="admission_note">Admission Note</option>
+                        <option value="treatment_plan">Treatment Plan</option>
+                        <option value="operative_report">Operative Report</option>
+                        <option value="progress_notes">Progress Notes</option>
+                        <option value="referral_letter">Referral Letter</option>
+                        <option value="immunizatiob_record">Immunization Record</option>
+                        <option value="allergy_record">Allery Record</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="item">
+                    <label for="file">Choose File</label>
+                    <input type="file" id="file" name="file" accept=".pdf,.png,.jpeg,.jpg" required />
+                </div>
             </div>
 
             <div class="buttons">

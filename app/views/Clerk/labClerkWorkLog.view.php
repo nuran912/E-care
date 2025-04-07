@@ -142,11 +142,21 @@
 
             <?php if(isset($documents) && is_array($documents)): ?>
 
-                <?php foreach($documents as $index => $document): ?>
+                <?php
+                    $groupedByDate = [];
+                    foreach($documents as $index => $document):
+                        if($document['document_type'] == 'lab_report'):
+                            $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
+                            $groupedByDate[$dateOnly][] = $document;
+                        endif;
+                    endforeach;
+                ?>
+                    
+                <?php foreach($groupedByDate as $date => $dailyDocuments): ?>
 
-                    <?php if($document['document_type'] == 'lab_report'): ?>
-                        
-                        <div class="date"><p><?php echo htmlspecialchars($document['uploaded_at']) ?></p></div>
+                    <div class="date"><p><?php echo htmlspecialchars($date); ?></p></div>
+
+                    <?php foreach($dailyDocuments as $document): ?>
 
                         <div class="uploadedInfo">
 
@@ -169,7 +179,7 @@
 
                         </div>
                     
-                    <?php endif; ?>
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>

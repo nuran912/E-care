@@ -159,8 +159,6 @@
                 </div>
             </div>
 
-            <!-- Add a document category -->
-
             <div class="item">
                 <label for="file">Choose File</label>
                 <input type="file" id="file" name="file" accept=".pdf,.png,.jpeg,.jpg" required />

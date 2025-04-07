@@ -142,11 +142,21 @@
 
             <?php if(isset($documents) && is_array($documents)): ?>
 
-                <?php foreach($documents as $index => $document): ?>
+                <?php
+                    $groupedByDate = [];
+                    foreach($documents as $index => $document):
+                        if($document['document_type'] == 'medical_record'):
+                            $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
+                            $groupedByDate[$dateOnly][] = $document;
+                        endif;
+                    endforeach;
+                ?>
+    
+                <?php foreach($groupedByDate as $date => $dailyDocuments): ?>
 
-                    <?php if($document['document_type'] == 'medical_record'): ?>
-                        
-                        <div class="date"><p><?php echo htmlspecialchars($document['uploaded_at']) ?></p></div>
+                    <div class="date"><p><?php echo htmlspecialchars($date); ?></p></div>
+
+                    <?php foreach($dailyDocuments as $document): ?>
 
                         <div class="uploadedInfo">
 
@@ -162,14 +172,14 @@
 
                             <div class="set">
                                 <h4>Category</h4>
-                                <div class="item"><?php echo htmlspecialchars($document['document_category']) ?></div>
+                                <div class="item"><?php echo htmlspecialchars($document['document_type']) ?></div>
                             </div>
 
                             <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
 
                         </div>
-                    
-                    <?php endif; ?>
+                
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
             <?php endif; ?>
         </div>

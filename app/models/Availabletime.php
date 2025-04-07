@@ -77,6 +77,11 @@ class Availabletime
       $result = $this->query($query, ['id' => $id]);
       return $result ? $result[0] : null;
    }
+    public function getScheduleByDateA($date, $possibleNewTimeCheck){
+      $query = "SELECT * FROM $this->table WHERE date = :date AND start_time = :start_time < $possibleNewTimeCheck";
+      $result = $this->query($query, ['date' => $date]);
+      return $result ? $result[0] : null;
+   }
 
     public function update_filled_slots($id){
         $query = 'UPDATE availabletimes SET filled_slots =filled_slots - 1 WHERE id = :id';
@@ -95,6 +100,7 @@ class Availabletime
         return $result ? $result : null;
     }
 
+    
 }
 ?>
 

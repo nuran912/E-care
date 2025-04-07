@@ -9,6 +9,7 @@ if($_SERVER['SERVER_NAME'] == 'localhost'){
    define('DBNAME', 'e_care');
    
    define('ROOT', 'http://localhost/E-care/public');
+   // define('ROOT2', 'http://localhost/E-care/app');
 }else{
 
    // database config

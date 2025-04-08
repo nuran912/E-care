@@ -295,4 +295,12 @@ class User
        $result = $this->query($query, ['role' => 'doctor']);
        return $result ? $result[0]->user_id : null;
    }
+
+   public function getAllPatients()
+   {
+       $query = "SELECT * FROM $this->table WHERE role = :role";
+       $result = $this->query($query, ['role' => 'patient']);
+       return json_decode(json_encode($result), true);
+   }
+   
 }

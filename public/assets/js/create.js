@@ -179,4 +179,17 @@ function filterDoctors() {
     });
 }
 
+function filterUsers() {
+    const searchInput = document.getElementById('search-users').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#user-table-body tr');
+
+    tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td[data-search]');
+        const matches = Array.from(cells).some(cell => 
+            cell.getAttribute('data-search').toLowerCase().includes(searchInput)
+        );
+        row.style.display = matches ? '' : 'none';
+    });
+}
+
 

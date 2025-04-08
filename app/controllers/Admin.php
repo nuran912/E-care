@@ -74,7 +74,41 @@ class Admin extends Controller
    public function user($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/user');
+
+      $userModel = new User;
+      $userModel->setLimit(100);
+      $users = $userModel->getAllPatients();
+      // show($users);
+      $data = [
+         'users' => $users
+      ];
+
+      if($a == 'toggleStatus'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $userModel = new User;
+            $user = $userModel->first(['user_id' => $userId]);
+   
+            if ($user) {
+               $newStatus = $user->is_active ? 0 : 1;
+               $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+            }
+         }
+         redirect('Admin/user');
+      }
+
+      if($a == 'resetPassword'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $nic = $_POST['nic'];
+            $userModel = new User;
+            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
+         }
+         redirect('Admin/user');
+      }
+
+      $this->view('admin/user', $data);
       $this->view('footer');
    }
 
@@ -171,7 +205,6 @@ class Admin extends Controller
             $userId = $userModel->getLastInsertedDoctorId();
             $doctorData['user_id'] = $userId;
             $doctorModel->insert($doctorData);
-            var_dump($doctorData);
             $_SESSION['create_success'] = 'Doctor created successfully.';
             redirect('Admin/doctor');
          }

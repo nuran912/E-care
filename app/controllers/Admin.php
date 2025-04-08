@@ -141,6 +141,42 @@ class Admin extends Controller
          }
       }
 
+      if ($a == 'create') {
+         $doctorModel = new DoctorModel;
+         $userModel = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $doctorData = [
+               'name' => $_POST['name'],
+               'specialization' => $_POST['specialization'],
+               'hospital' => rand(1, 3),
+               'registration_number' => $_POST['registration_number'],
+               'other_qualifications' => $_POST['other_qualifications'],
+               'Doctor_fee' => $_POST['doctor_fee'],
+               'special_note' => $_POST['special_note'],
+               'gender' => $_POST['gender']
+            ];
+            $userData = [
+               'email' => $_POST['email'],
+               'role' => 'doctor',
+               'title' => 'Dr.',
+               'name' => $_POST['name'],
+               'password' => $_POST['nic'],
+               'phone_number' => $_POST['phone_number'],
+               'NIC' => $_POST['nic'],
+               'is_active' => 1,
+               'created_at' => date('Y-m-d H:i:s'),
+               'updated_at' => date('Y-m-d H:i:s')
+            ];
+            $userModel->insert($userData);
+            $userId = $userModel->getLastInsertedDoctorId();
+            $doctorData['user_id'] = $userId;
+            $doctorModel->insert($doctorData);
+            var_dump($doctorData);
+            $_SESSION['create_success'] = 'Doctor created successfully.';
+            redirect('Admin/doctor');
+         }
+      }
+
       $this->view('admin/doctor', $data);
       $this->view('footer');
    }

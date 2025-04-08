@@ -288,4 +288,11 @@ class User
                 return $dataToUpdate;
             }
     }
+
+   public function getLastInsertedDoctorId()
+   {
+       $query = "SELECT user_id FROM $this->table WHERE role = :role ORDER BY created_at DESC LIMIT 1";
+       $result = $this->query($query, ['role' => 'doctor']);
+       return $result ? $result[0]->user_id : null;
+   }
 }

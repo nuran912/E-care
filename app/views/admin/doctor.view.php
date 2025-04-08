@@ -118,6 +118,14 @@
                      </div>
                   </div>
                   <div class="form-row">
+                  <div class="form-group">
+                        <!-- <input type="radio" value="Male" name="gender" placeholder=" " id="create-doctor-gender" required>Male -->
+                        <select name="gender" id="create-doctor-gender">
+                           <option value="Male" selected>Male</option>
+                           <option value="Female">Female</option>
+                        </select>
+                        <label>Gender</label>
+                     </div>
                      <div class="form-group">
                         <input type="text" name="nic" placeholder=" " id="create-doctor-nic" required>
                         <label>NIC</label>
@@ -135,7 +143,13 @@
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="registration_number" placeholder=" " id="create-doctor-registration-number" required disabled>
+                  <input type="text" name="registration_number" 
+                     value="<?php 
+                        $lastRegNum = end($doctors)['registration_number'];
+                        $numericPart = intval(substr($lastRegNum, 3));
+                        echo ('REG' . str_pad($numericPart + 1, 3, '0', STR_PAD_LEFT)); 
+                     ?>" 
+                     id="create-doctor-registration-number" required >
                   <label>Registration Number</label>
 
                </div>
@@ -155,16 +169,16 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <textarea name="other_qualifications" rows="2" placeholder=" " id="create-doctor-qualifications">
-                  </textarea>
+                  <textarea name="other_qualifications" rows="2" placeholder=" " id="create-doctor-qualifications"></textarea>
+                  
                   <label>Qualifications</label>
                </div>
 
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <textarea name="special_note" rows="2" placeholder=" " id="create-doctor-note">
-                  </textarea>
+                  <textarea name="special_note" rows="2" placeholder=" " id="create-doctor-note"></textarea>
+                  
                   <label>Special Notes</label>
                </div>
 

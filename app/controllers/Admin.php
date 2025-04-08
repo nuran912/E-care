@@ -122,7 +122,7 @@ class Admin extends Controller
                'name' => $_POST['name'],
                'specialization' => $_POST['specialization'],
                // 'hospital' => $_POST['hospital'],
-               'registration_number' => $_POST['registration_number'],
+               // 'registration_number' => $_POST['registration_number'],
                'other_qualifications' => $_POST['other_qualifications'],
                'Doctor_fee' => $_POST['doctor_fee'],
                'special_note' => $_POST['special_note'],

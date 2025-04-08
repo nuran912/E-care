@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const popup = document.querySelector('.popup');
     const closePopupBtn = document.querySelector('.popup .btn-cancel');
     const overlay = document.querySelector('.overlay');
-    const doctorImageInput = document.getElementById('doctor-image');
+    const doctorImageInput = document.getElementById('create-doctor-image');
     const imagePreview = document.getElementById('image-preview');
 
     createDoctorBtn.addEventListener('click', function () {
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const reader = new FileReader();
             reader.onload = function (e) {
                 imagePreview.src = e.target.result;
-            }
+            };
             reader.readAsDataURL(file);
         }
     });
@@ -66,13 +66,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-document.getElementById('doctor-image').addEventListener('change', function (event) {
+document.getElementById('create-doctor-image').addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function (e) {
             document.getElementById('image-preview').src = e.target.result;
-        }
+        };
         reader.readAsDataURL(file);
     }
 });
@@ -83,7 +83,7 @@ document.getElementById('edit-doctor-image').addEventListener('change', function
         const reader = new FileReader();
         reader.onload = function (e) {
             document.getElementById('edit-image-preview').src = e.target.result;
-        }
+        };
         reader.readAsDataURL(file);
     }
 });

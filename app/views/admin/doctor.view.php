@@ -100,28 +100,30 @@
       <div class="overlay"></div>
       <div class="popup">
          <h2>Add A New Doctor</h2>
-         <form>
+         <form id="create-doctor-form" action="<?= ROOT ?>/Admin/doctor/create" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="doctor_id" id="create-doctor-id">
+            <input type="hidden" name="user_id" id="create-user-id">
             <div class="form-row">
-               <input type="file" id="doctor-image" name="doctor-image" accept="image/*" hidden>
-               <img src="" alt="Image Preview" class="image-preview" id="image-preview" onclick="document.getElementById('doctor-image').click();">
+               <input type="file" id="create-doctor-image" name="doctor-image" accept="image/*" hidden>
+               <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="image-preview" onclick="document.getElementById('create-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="full-name" placeholder=" " required>
+                        <input type="text" name="name" placeholder=" " id="create-doctor-name" required>
                         <label>Full Name</label>
                      </div>
                      <div class="form-group">
-                        <input type="email" name="email" placeholder=" " required>
+                        <input type="email" name="email" placeholder=" " id="create-doctor-email" required>
                         <label>Email</label>
                      </div>
                   </div>
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " required>
+                        <input type="text" name="nic" placeholder=" " id="create-doctor-nic" required>
                         <label>NIC</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone" placeholder=" " required>
+                        <input type="text" name="phone_number" placeholder=" " id="create-doctor-phone" required>
                         <label>Phone Number</label>
                      </div>
                   </div>
@@ -129,24 +131,47 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <input type="text" name="specialization" placeholder=" " required>
+                  <input type="text" name="specialization" placeholder=" " id="create-doctor-specialization" required>
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="doctor-number" placeholder=" " style="width: 300px;" required>
-                  <label>Doctor Number</label>
+                  <input type="text" name="registration_number" placeholder=" " id="create-doctor-registration-number" required disabled>
+                  <label>Registration Number</label>
+
                </div>
-               <lable><input type="checkbox" name="active">Active</lable>
+               
+               <div class="form-group">
+                  <input type="text" name="doctor_fee" placeholder=" " id="create-doctor-fee" style="width: 150px;" required>
+                  <label>Doctor Fee(Rs.)</label>
+               </div>
+               <div class="form-group">
+                  <input type="hidden" name="">
+                  <label>Practicing Government_Hospitals</label>
+               </div>
+               <div class="form-group">
+                     <input type="checkbox" name="government_hospital" id="create-doctor-government" >
+                     <!-- <label>Practicing Government Hospitals</label> -->
+               </div>
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <textarea name="qualifications" rows="4" placeholder=" "></textarea>
+                  <textarea name="other_qualifications" rows="2" placeholder=" " id="create-doctor-qualifications">
+                  </textarea>
                   <label>Qualifications</label>
                </div>
+
             </div>
             <div class="form-row">
-               <button type="button" class="btn-create">Create</button>
-               <button type="button" class="btn-cancel">Cancel</button>
+               <div class="form-group">
+                  <textarea name="special_note" rows="2" placeholder=" " id="create-doctor-note">
+                  </textarea>
+                  <label>Special Notes</label>
+               </div>
+
+            </div>
+            <div class="form-row">
+               <button type="submit" class="btn-create">Create</button>
+               <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
             </div>
          </form>
       </div>

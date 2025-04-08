@@ -165,4 +165,18 @@ function doctorEditPopup(doctor) {
     document.querySelector('.overlay').style.display = 'block';
 }
 
+// search functionality for doctors
+function filterDoctors() {
+    const searchInput = document.getElementById('search-doctor').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#doctor-table-body tr');
+
+    tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td[data-search]');
+        const matches = Array.from(cells).some(cell => 
+            cell.getAttribute('data-search').toLowerCase().includes(searchInput)
+        );
+        row.style.display = matches ? '' : 'none';
+    });
+}
+
 

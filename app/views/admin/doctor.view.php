@@ -30,7 +30,7 @@
       <section class="main-div">
          <div class="search">
             <h2>Find Doctor</h2>
-            <input type="search" class="search-bar" placeholder="Search doctor here...">
+            <input type="search" class="search-bar" id="search-doctor" name="search-doctor" placeholder="Search doctor here..." oninput="filterDoctors()">
             <button type="submit" class="btn-search">Search</button>
          </div>
 
@@ -56,17 +56,17 @@
                      <th>Edit</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody id="doctor-table-body">
                   <?php if (isset($doctors) && is_array($doctors)): ?>
                      <?php foreach ($doctors as $doctor) : ?>
                         <tr>
-                           <td><?php echo $doctor['registration_number']; ?></td>
-                           <td><?php echo $doctor['name']; ?></td>
-                           <td><?php echo $doctor['specialization']; ?></td>
-                           <td><?php echo $doctor['email']; ?></td>
-                           <td><?php echo $doctor['phone_number']; ?></td>
-                           <td><?php echo $doctor['NIC']; ?></td>
-                           <td>
+                           <td data-search="<?php echo $doctor['registration_number']; ?>"><?php echo $doctor['registration_number']; ?></td>
+                           <td data-search="<?php echo $doctor['name']; ?>"><?php echo $doctor['name']; ?></td>
+                           <td data-search="<?php echo $doctor['specialization']; ?>"><?php echo $doctor['specialization']; ?></td>
+                           <td data-search="<?php echo $doctor['email']; ?>"><?php echo $doctor['email']; ?></td>
+                           <td data-search="<?php echo $doctor['phone_number']; ?>"><?php echo $doctor['phone_number']; ?></td>
+                           <td data-search="<?php echo $doctor['NIC']; ?>"><?php echo $doctor['NIC']; ?></td>
+                           <td data-search="<?php echo $doctor['is_active'] ? 'Active' : 'Disabled'; ?>">
                               <form method="post" action="<?= ROOT ?>/admin/doctor/toggleStatus" class="status-form">
                                  <input type="hidden" name="user_id" value="<?php echo $doctor['user_id']; ?>">
                                  <button type="button" class="btn-<?php echo $doctor['is_active'] ? 'active' : 'disable'; ?>" onclick="toggleStatus(this)">

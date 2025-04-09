@@ -6,21 +6,23 @@ class ClerkModel
     protected $table = 'clerks';
 
     protected $allowedColumns = [
-        'id',
+        'emp_id',
+        'title',
         'name',
+        'user_id',
+        'type',
+         'email',
+         'lab',
         'specialization',
         'hospital',
         'gender',
-        'registration_number',
-        'other_qualifications',
-        'special_note',
-        'practicing_government_hospitals',
-        'Doctor_fee',
-        'created_at',
-        'updated_at'
+         'phone_number',
+         'is_active',
+         'created_at',
+         'updated_at'
     ];
 
-    public $order_column = 'name';
+    public $order_column = 'emp_id';
 
     public function getClerkById($emp_id)
     {
@@ -106,8 +108,24 @@ class ClerkModel
                 return $dataToUpdate;
             }
     }
+
+    public function getAllClerksWithUserDetails($user_id = null)
+    {
+        $query = "SELECT clerks.*, users.*, hospitals.name AS hospital, laboratories.name AS lab 
+                  FROM $this->table 
+                  INNER JOIN users ON clerks.user_id = users.user_id
+                  LEFT JOIN hospitals ON clerks.hospital = hospitals.id
+                  LEFT JOIN laboratories ON clerks.lab = laboratories.id";
+        if ($user_id) {
+            $query .= " WHERE clerks.user_id = :user_id";
+            $result = $this->query($query, ['user_id' => $user_id]);
+        } else {
+            $result = $this->query($query);
+        }
+        return json_decode(json_encode($result), true);
+    }
    
 }
 
 
-  
+

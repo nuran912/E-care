@@ -13,10 +13,19 @@
         <header>
             <p>Users</p>
             <div class="user-info">
-                <span>Admin Jane</span>
+                <span><?php echo (ucwords($_SESSION['USER']->name)); ?></span>
                 <span class="role-badge">ADMIN</span>
             </div>
         </header>
+
+        <?php if (isset($_SESSION['reset_success'])): ?>
+            <div class="success"><?php echo $_SESSION['reset_success']; ?></div>
+            <?php unset($_SESSION['reset_success']); ?>
+        <?php endif; ?>
+        <?php if (isset($_SESSION['edit_success'])): ?>
+            <div class="success"><?php echo $_SESSION['edit_success']; ?></div>
+            <?php unset($_SESSION['edit_success']); ?>
+        <?php endif; ?>
 
         <section class="search">
             <h2>Find User</h2>

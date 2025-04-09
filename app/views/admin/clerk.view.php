@@ -13,15 +13,24 @@
       <header>
          <p>Clerks</p>
          <div class="user-info">
-            <span>Admin Jane</span>
+            <span><?php echo (ucwords($_SESSION['USER']->name)); ?></span>
             <span class="role-badge">ADMIN</span>
          </div>
       </header>
 
+      <?php if (isset($_SESSION['reset_success'])): ?>
+         <div class="success"><?php echo $_SESSION['reset_success']; ?></div>
+         <?php unset($_SESSION['reset_success']); ?>
+      <?php endif; ?>
+      <?php if (isset($_SESSION['edit_success'])): ?>
+         <div class="success"><?php echo $_SESSION['edit_success']; ?></div>
+         <?php unset($_SESSION['edit_success']); ?>
+      <?php endif; ?>
+
       <section class="main-div">
          <div class="search">
             <h2>Find Clerk</h2>
-            <input type="search" class="search-bar" placeholder="Search clerk here...">
+            <input type="search" class="search-bar" id="search-clerks" name="search-clerks" placeholder="Search Clerk here..." oninput="filterClerks()">
             <button type="submit" class="btn-search">Search</button>
          </div>
 
@@ -37,61 +46,56 @@
                <thead>
                   <tr>
                      <th>Employee Number</th>
-                     <th>Role</th>
+                     <th>Type</th>
                      <th>Full Name</th>
                      <th>Email</th>
                      <th>Phone</th>
                      <th>NIC</th>
+                     <th>Hospital/Lab</th>
                      <th>Status</th>
                      <th>Password</th>
                      <th>Edit</th>
                   </tr>
                </thead>
-               <tbody>
-                  <tr>
-                     <td>L001</td>
-                     <td>Lab</td>
-                     <td>Doctor Strange</td>
-                     <td>athhar@gmail.com</td>
-                     <td>0761234567</td>
-                     <td>200212345678</td>
-                     <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
-                  </tr>
-                  <tr>
-                     <td>R002</td>
-                     <td>Record</td>
-                     <td>Peter Parker</td>
-                     <td>nuran@gmail.com</td>
-                     <td>0761985642</td>
-                     <td>200254268791</td>
-                     <td><button class="btn-disable">Disabled</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
-                  </tr>
-                  <tr>
-                     <td>B003</td>
-                     <td>Reception</td>
-                     <td>Octo Octevia</td>
-                     <td>manusha@gmail.com</td>
-                     <td>0763259465</td>
-                     <td>200265894154</td>
-                     <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></td>
-                  </tr>
-                  <tr>
-                     <td>L004</td>
-                     <td>Report</td>
-                     <td>Green Goblin</td>
-                     <td>okadini@gmail.com</td>
-                     <td>0761234567</td>
-                     <td>200212345678</td>
-                     <td><button class="btn-active">Active</button></td>
-                     <td><button class="btn-reset">Reset</button></td>
-                     <td><button class="btn-edit"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></td>
-                  </tr>
+               <tbody id="clerk-table-body">
+                  <?php if (isset($clerks) && is_array($clerks)): ?>
+                     <?php foreach ($clerks as $clerk) : ?>
+                        <tr>
+                           <td data-search="<?php echo $clerk['emp_id']; ?>"><?php echo $clerk['emp_id']; ?></td>
+                           <td data-search="<?php echo $clerk['type']; ?>"><?php echo $clerk['type']; ?></td>
+                           <td data-search="<?php echo $clerk['name']; ?>"><?php echo $clerk['name']; ?></td>
+                           <td data-search="<?php echo $clerk['email']; ?>"><?php echo $clerk['email']; ?></td>
+                           <td data-search="<?php echo $clerk['phone_number']; ?>"><?php echo $clerk['phone_number']; ?></td>
+                           <td data-search="<?php echo $clerk['NIC']; ?>"><?php echo $clerk['NIC']; ?></td>
+                           <td data-search="<?php echo $clerk['lab'] ? $clerk['lab'] : $clerk['hospital']; ?>">
+                              <?php if($clerk['lab'] == null){
+                                 echo $clerk['hospital'];
+                              } else{
+                                 echo $clerk['lab'];
+                              } ?></td>
+                           <td data-search="<?php echo $clerk['is_active'] ? 'Active' : 'Disabled'; ?>">
+                              <form method="post" action="<?= ROOT ?>/admin/clerk/toggleStatus" class="status-form">
+                                 <input type="hidden" name="user_id" value="<?php echo $clerk['user_id']; ?>">
+                                 <button type="button" class="btn-<?php echo $clerk['is_active'] ? 'active' : 'disable'; ?>" onclick="toggleStatus(this)">
+                                    <?php echo $clerk['is_active'] ? 'Active' : 'Disabled'; ?>
+                                 </button>
+                              </form>
+                           </td>
+                           <td>
+                              <form method="post" action="<?= ROOT ?>/admin/clerk/resetPassword" class="reset-form">
+                                 <input type="hidden" name="user_id" value="<?php echo $clerk['user_id']; ?>">
+                                 <input type="hidden" name="nic" value="<?php echo $clerk['NIC']; ?>">
+                                 <input type="hidden" name="name" value="<?php echo $clerk['name']; ?>">
+                                 <button type="button" class="btn-reset" onclick="resetPassword(this)">Reset</button>
+                              </form>
+                           </td>
+                           <td><button class="btn-edit" onclick="doctorEditPopup(<?php echo htmlspecialchars(json_encode($doctor)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                        </tr>
+                     <?php endforeach; ?>
+
+                  <?php else: ?>
+                     <p>No Doctors found.</p>
+                  <?php endif; ?>
 
                </tbody>
             </table>
@@ -145,10 +149,10 @@
                   <label>Employee Number</label>
 
                </div>
-               
+
                <lable><input type="checkbox" name="active" checked>Active</lable>
             </div>
-            
+
             <div class="form-row">
                <button type="button" class="btn-create">Create</button>
                <button type="button" class="btn-cancel">Cancel</button>
@@ -190,7 +194,7 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-               <select name="role" id="role">
+                  <select name="role" id="role">
                      <option value="lab" selected>Lab clerk</option>
                      <option value="record">Record clek</option>
                      <option value="reception">Reception clerk</option>

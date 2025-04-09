@@ -76,7 +76,7 @@ class Admin extends Controller
       $this->view('header');
 
       $userModel = new User;
-      $userModel->setLimit(100);
+      // $userModel->setLimit(100);
       $users = $userModel->getAllPatients();
       // show($users);
       $data = [
@@ -217,7 +217,45 @@ class Admin extends Controller
    public function clerk($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/clerk');
+
+      $clerkModel = new ClerkModel;
+      // $clerkModel->setLimit(100);
+      $clerks = $clerkModel->getAllClerksWithUserDetails();
+      // show($clerks);
+      $data = [
+         'clerks' => $clerks
+      ];
+
+      if($a == 'toggleStatus'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $userModel = new User;
+            $user = $userModel->first(['user_id' => $userId]);
+   
+            if ($user) {
+               $newStatus = $user->is_active ? 0 : 1;
+               $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+            }
+         }
+         redirect('Admin/clerk');
+      }
+
+      if($a == 'resetPassword'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $nic = $_POST['nic'];
+            $userModel = new User;
+            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
+         }
+         redirect('Admin/clerk');
+      }
+
+
+
+
+
+      $this->view('admin/clerk', $data);
       $this->view('footer');
    }
 

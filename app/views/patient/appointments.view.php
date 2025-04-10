@@ -49,7 +49,7 @@
 
 
                <!-- Pending Appointments Section -->
-<div class="content active">
+<div class="content active" >
     <?php if (isset($data) && is_array($data) && !empty($data)): ?>
 
         <?php
@@ -86,6 +86,11 @@
 
                 <?php foreach ($appointments as $appointment): ?>
                     <div class="frame">
+                    <?php
+                                       
+                                        $appointmentDate = date("Y, F j, l", strtotime($appointment->session_date));
+                                        ?>
+                                        <span class="appointmentDate" style="display:none;"><?php echo $appointmentDate; ?></span>
                         <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
 
                         <div class="appointment">
@@ -157,7 +162,11 @@
                                 <?php echo $date; ?>
                                 <?php foreach ($appointments as $appointment): ?>
                                     <div class="frame">
-                                        <!-- <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span> -->
+                                        <?php
+                                        // Store the date in a variable for further processing
+                                        $appointmentDate = date("Y, F j, l", strtotime($appointment->session_date));
+                                        ?>
+                                        <span class="appointmentDate" style="display:none;"><?php echo $appointmentDate; ?></span>
                                         <span class="status">Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
                                         <div class="appointment">
                                             <span class="doctor"><?php echo htmlspecialchars($appointment->doctor_name); ?></span>
@@ -216,7 +225,7 @@
                                 const time = appointmentElement.querySelector('.time').textContent.trim();
                                 const hospital = appointmentElement.querySelector('.hospital').textContent.trim();
                                 const specialization = appointmentElement.querySelector('.specialization').textContent.trim();
-                                const date = appointmentElement.querySelector('.date')?.textContent?.trim() ;
+                                const date = appointmentElement.querySelector('.appointmentDate')?.textContent?.trim() ;
                               
 
                                 // Populate the modal with appointment details

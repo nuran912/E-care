@@ -207,7 +207,9 @@ main {
 .view-button:hover {
   background-color: #3366cc;
 }
-
+.cancel-view-button:hover {
+  background-color: #3366cc;
+}
 .cancel-button:hover {
   background-color: #b71c1c;
 }

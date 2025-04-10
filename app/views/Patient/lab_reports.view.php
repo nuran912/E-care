@@ -40,8 +40,9 @@
                             
                             <?php foreach($dailyDocuments as $document): ?>
                                 <div class="record">
+                                    <span class="ref-no"><p><?php echo htmlspecialchars($document['ref_no']) ?></p></span>
                                     <span class="label"><p><?php echo htmlspecialchars($document['document_name']) ?></p></span>
-                                    <span class="ref-no"><p>Ref No: <?php echo htmlspecialchars($document['ref_no']) ?></p></span>
+                                    <span class="doc-category"><p><?php echo htmlspecialchars($document['document_category'])?></p></span>
                                     <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
                                 </div>
                             <?php endforeach; ?>

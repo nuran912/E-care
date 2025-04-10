@@ -124,7 +124,7 @@
         input[type="date"]:focus,
         select:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: #111827;
             background-color: #ffffff;
         }
 

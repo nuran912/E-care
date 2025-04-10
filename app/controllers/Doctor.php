@@ -98,7 +98,7 @@ class Doctor extends Controller{
         }
 
         $defaultdate = ((new DateTime(date('Y-m-d')))->modify('-1 day')->format('Y-m-d'));
-        
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if($b){
@@ -164,7 +164,7 @@ class Doctor extends Controller{
         $this->view('footer');
     }
 
-    public function doctorManageSchedule($a = '', $b = '', $c = ''){
+    public function doctorCreateApptSlot($a = '', $b = '', $c = ''){
 
         $this->view('header');
 
@@ -183,19 +183,9 @@ class Doctor extends Controller{
         ];
 
         if( $a == 'create'){
-            // $data['name'] = $_POST['hospital'];
-            // $hospital = $hospital->first($data);
 
 
             $date = new DateTime($_POST['date']);
-            // show($date);
-            // // $date->format('Y-m-d');
-            // $date->modify('+0 days');
-            // show($date->format('Y-m-d'));
-            // $date->modify('+7 days');
-            // show($date->format('Y-m-d'));
-            // $date->modify('+28 days');
-            // show($date->format('Y-m-d'));
 
             $date = new DateTime($_POST['date']);
 
@@ -209,15 +199,13 @@ class Doctor extends Controller{
             // $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
             $data['doctor_id'] = $doctorData->id;
 
-            // $apptSlot = new Availabletime;
-            // $appt = new Appointments;
-            // $apptSlot->insert($data);
-
-            // show($data);
             $allFieldsEntered = true;
             if($data['date']=="" || $data['start_time']=="" || $data['duration']=="" || $data['total_slots']==""){
                 $alerts['createError'] = "Please fill all fields to create a new slot";
                 $allFieldsEntered = false;
+            }
+            if($data['start_time']){
+
             }
 
             if($allFieldsEntered){
@@ -258,11 +246,33 @@ class Doctor extends Controller{
                 }
             }
 
-
             // delayedRedirect('Doctor/doctorManageSchedule');
         }
+        
+
+        $this->view('Doctor/doctorCreateApptSlot', $alerts);
+        $this->view('footer');
+    }
+
+    public function doctorApptSlots($a = '', $b = '', $c = ''){
+        $this->view('header');
+
+        $hospital = new Hospital;
+        $apptSlot = new Availabletime;
+        $appt = new Appointments;
+        $doctor = new DoctorModel;
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $slotData = $apptSlot->getByDoctorId($doctorData->id);
+
+        $alerts = [
+            'cancelSuccess' => "",
+            'cancelError' => "",
+            'createSuccess' => "",
+            'createError' => "",
+        ];
 
         if( $a == 'cancelAppointment'){
+            
             $apptSlotId = $b;
 
                 $slot = $apptSlot->getByScheduleId($apptSlotId);
@@ -275,27 +285,79 @@ class Doctor extends Controller{
                 $timeToCancel = $slotTime->modify('-48 hours');
                 $timeToCancel = $timeToCancel->format('Y-m-d H:i:s');
 
+                $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
                 // appointments can only be cancelled 48h before the start time
                 if($currentDate < $timeToCancel){
                     $alerts['cancelSuccess'] = "Appointment slot has been cancelled successfully";
                     // update appointment status in the availabletimes table
-                    $apptSlot->update_status($apptSlotId, "cancelled");
                     $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
+                    $apptSlot->update_status($apptSlotId, "cancelled");
                     // update corresponding appointment statuses in the appointments table for each relavant patient
-                    foreach($apptData as $patientAppt){
-                        $appt->update_status($patientAppt->appointment_id, "cancelled");
+                    // patients' appointments process will only happen if there are filled slots
+                    if($slot->filled_slots != 0){
+                        foreach($apptData as $patientAppt){
+                            $appt->update_status($patientAppt->appointment_id, "cancelled");
+                        }
                     }
-                    show($apptData);
                 }else{
                     $alerts['cancelError'] = "You can only cancel an appointment before 48h";
                 }
             // redirect('Doctor/doctorManageSchedule');
         }
+        
+        $filteredSlotData = [];
+        $groupedFilteredSlotData = [];
+        $slotFilter = 'Week';   //default filter
+        
+        if($a == 'filter'){
+            //if somebody used the filter option, update filter type
+            $slotFilter = $_POST['filter'];            
+        }
+        // $navdate initially has the current date. but when a navigation option is used it is updated accordingly
+        $navDate = date('Y-m-d');   //used for prev/next navigation
+        if($a == "navs"){
+            $navDate = $b;
+            //when navigation is used, current filter is also maintained. eg: click next while filter is month => go to next month(28 days)
+            $slotFilter = $c;   
+        }
+        switch ($slotFilter){
+            case 'Week':
+                $sevenDaysLater = ((new DateTime($navDate))->modify('+7 days'))->format('Y-m-d');
+                foreach($slotData as $slot){
+                    $slotDate = (new DateTime($slot->date))->format('Y-m-d');
+                    if($slotDate >= $navDate && $slotDate < $sevenDaysLater){
+                        $filteredSlotData[] = $slot; 
+                    }
+                }
+                break;
+            case 'Date':
+                foreach($slotData as $slot){
+                    $slotDate = (new DateTime($slot->date))->format('Y-m-d');
+                    if($slotDate == $navDate){
+                        $filteredSlotData[] = $slot; 
+                    }
+                }
+                break;
+            case 'Month':
+                $oneMonthLater = ((new DateTime($navDate))->modify('+28 days'))->format('Y-m-d');
+                foreach($slotData as $slot){
+                    $slotDate = (new DateTime($slot->date))->format('Y-m-d');
+                    if($slotDate >= $navDate && $slotDate < $oneMonthLater){
+                        $filteredSlotData[] = $slot; 
+                    }
+                }
+                break;
+        }
+        foreach ($filteredSlotData as $entry) {
+            $groupedFilteredSlotData[$entry->date][] = $entry;
+        }
+        // redirect('Doctor/doctorManageSchedule');
+        
+        $filterAndNavs = [$slotFilter, $navDate];
+        
+        $passedData = [[$filterAndNavs,$groupedFilteredSlotData], $alerts];
 
-
-        $passedData = [$slotData, $alerts];
-
-        $this->view('Doctor/doctorManageSchedule', $passedData);
+        $this->view('Doctor/doctorApptSlots', $passedData);
         $this->view('footer');
     }
 

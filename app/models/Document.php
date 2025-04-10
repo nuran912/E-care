@@ -12,6 +12,7 @@
             'user_id',
             'uploaded_by',
             'document_type',
+            'document_category',
             'document_name',
             'ref_no',
             'uploaded_at'
@@ -26,5 +27,17 @@
             $result = $this->query($query, ['document_id'=> $document_id]);
             return $result ? $result[0] : null;
         }
+
+        public function getDocuments($user_id) {
+            if(empty($user_id)) {
+               return [];
+            }
+      
+            $query = "SELECT * FROM $this->table WHERE user_id = :user_id ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
+      
+            $result = $this->query($query,['user_id' => $user_id]);
+            
+            return json_decode(json_encode($result), true); // Convert object to array
+         }
     }
 

@@ -49,7 +49,10 @@
                             endforeach;
                         ?>
 
-                        <?php foreach($groupedByDate as $date => $dailyDocuments): ?>
+                        <?php 
+                            $popupIndex = 0;
+                            foreach($groupedByDate as $date => $dailyDocuments): 
+                        ?>
 
                             <div class="record-date-time-category"><p><?php echo htmlspecialchars($date); ?></p></div>
 
@@ -61,8 +64,8 @@
                                     <div class="button-group">
                                         <button class="private-view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
                                         
-                                        <button class="private-edit-button" data-index="<?= $index ?>">Edit</button>
-                                        <div class="popup" id="popup-<?= $index ?>" style="display: none;">
+                                        <button class="private-edit-button" data-index="<?= $popupIndex ?>">Edit</button>
+                                        <div class="popup" id="popup-<?= $popupIndex ?>" style="display: none;">
                                             <div class="popup-content">
                                                 <form method="POST" action="<?= ROOT; ?>/patient/private_files">
                                                     <input type="hidden" name="document_id" value="<?php echo htmlspecialchars($document['document_id']) ?>">
@@ -72,6 +75,7 @@
                                                 </form>
                                             </div>
                                         </div>
+                                        <?php $popupIndex++; ?>
                                     
                                         <form method="POST" onsubmit="return confirmDelete();">
                                             <input type="hidden" name="document_id" value="<?php echo htmlspecialchars($document['document_id']) ?>">
@@ -99,7 +103,7 @@
                 }
             </script>
 
-            <script src="<?= ROOT; ?>/assets/js/Patient/Documents.js"></script>
+            <script src="<?= ROOT ?>/assets/js/Patient/Documents.js"></script>
         </main>
     </body>
 </html>

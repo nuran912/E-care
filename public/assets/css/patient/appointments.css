@@ -104,6 +104,7 @@ main {
   max-width: 730px;
   margin: auto;
   margin-bottom: 20px;
+  background-color: #1c3a47;
 }
 .content-box{
   margin-left: 0;
@@ -129,7 +130,7 @@ main {
 .appointment .hospital,
 .appointment .specialization {
   padding: 8px;
-  background-color: #d3d3d3;
+  background-color: #ebe0e0;
   text-align: center;
   border-radius: 4px;
   border: 1px solid #888;
@@ -152,7 +153,7 @@ main {
   align-self: center;
   text-align: center;
   padding: 8px;
-  background-color: #d3d3d3;
+  background-color:#ebe0e0;
   text-align: center;
   border-radius: 4px;
   border: 1px solid #888;
@@ -160,7 +161,7 @@ main {
 }
 
 .view-button {
-  background-color: #add8e6;
+  background-color: rgb(88, 223, 250);
   color: black;
   border: 1px solid #007bff;
   padding: 8px;
@@ -181,7 +182,7 @@ main {
     padding: 8px;
     text-align: center;
     border-radius: 4px;
-    background-color: #add8e6;
+    background-color: rgb(88, 223, 250);
     color: black;
     cursor: pointer;
     border: 1px solid #007bff;
@@ -252,5 +253,6 @@ main {
   margin-left: 20%;
  
 }
+
 
 /* this is for popup  tab */

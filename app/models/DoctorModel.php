@@ -132,7 +132,8 @@ class DoctorModel
                 a.service_charge,
                 a.selected_files,
                 d.name AS doctor_name,
-                d.specialization
+                d.specialization,
+                a.selected_files
             FROM 
                 appointments a 
             JOIN 
@@ -269,6 +270,7 @@ class DoctorModel
         ";
         return $this->query($query);
     }
+    
 }
 
 

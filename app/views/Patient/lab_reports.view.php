@@ -36,7 +36,7 @@
 
                         <?php foreach($groupedByDate as $date => $dailyDocuments): ?>
 
-                            <div class="record-date-time-category"><p><?php echo htmlspecialchars($date); ?></p></div>
+                            <div class="record-date-time-category"><p><?php echo date('Y, F j, l',strtotime($date)); ?></p></div>
                             
                             <?php foreach($dailyDocuments as $document): ?>
                                 <div class="record">

@@ -54,7 +54,7 @@
                             foreach($groupedByDate as $date => $dailyDocuments): 
                         ?>
 
-                            <div class="record-date-time-category"><p><?php echo htmlspecialchars($date); ?></p></div>
+                            <div class="record-date-time-category"><p><?php echo date('Y, F j, l',strtotime($date)); ?></p></div>
 
                             <?php foreach($dailyDocuments as $document): ?>
                                 <div class="private-record">
@@ -71,7 +71,7 @@
                                                     <input type="hidden" name="document_id" value="<?php echo htmlspecialchars($document['document_id']) ?>">
                                                     <label for="document_name">Update Document Name:</label><br>
                                                     <input type="text" name="document_name" class="document-name" value="<?php echo htmlspecialchars($document['document_name']) ?>">
-                                                    <button type="submit" name="submit" class="submit">Submit</button>
+                                                    <button type="submit" name="update" class="update">Update</button>
                                                 </form>
                                             </div>
                                         </div>

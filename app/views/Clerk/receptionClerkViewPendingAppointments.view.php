@@ -47,6 +47,13 @@
             animation: moving 0.5s ease;
         }
 
+        .content {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
         @keyframes moving {
             from {
                 transform: translateX(50px);
@@ -66,11 +73,17 @@
         }
 
         .appointment-date {
-            font-size: 16px;
+            margin-top: 30px;
+            font-weight: bold;
+            font-size: large;
+            color: #003366;
         }
 
         .payment-stat {
-            font-size: 14px;
+            margin-top: 30px;
+            font-weight: bold;
+            font-size: large;
+            color: #003366;
             margin-right: 20px;
         }
 
@@ -79,38 +92,63 @@
             grid-template-columns: 1fr 1fr auto auto;
             grid-template-rows: auto auto;
             gap: 10px;
-            padding: 15px;
+            padding: 20px;
             border: 1px solid #ccc;
             width: 100%;
             margin-top: 5px;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            background-color: #003366;
         }
 
         .appointment span, .appointment button {
-            font-size: 14px;
             text-align: center;
+            padding: 8px;
         }
 
         .appointment .doctor,
         .appointment .hospital,
         .appointment .specialization {
+            align-self: center;
+            text-align: center;
             padding: 6px;
-            background-color: #e0e0e0;
             text-align: center;
             border-radius: 4px;
-            border: 1px solid #bbb;
+            width: auto;
+            border: 2px solid #908585;
+            color: black;
+            background-color: #ebe0e0;
+            font-weight: bold;
         }
 
         .appointment .hospital {
             grid-column: 1;
             grid-row: 2;
+            align-self: center;
+            text-align: center;
+            padding: 6px;
+            text-align: center;
+            border-radius: 4px;
+            width: auto;
+            border: 2px solid #908585;
+            color: black;
+            background-color: #ebe0e0;
+            font-weight: bold;
         }
 
         .appointment .specialization {
             grid-column: 2;
             grid-row: 2;
+            align-self: center;
+            text-align: center;
+            padding: 6px;
+            text-align: center;
+            border-radius: 4px;
+            width: auto;
+            border: 2px solid #908585;
+            color: black;
+            background-color: #ebe0e0;
+            font-weight: bold;
         }
 
         .appointment .ref-no, .appointment .time {
@@ -119,11 +157,13 @@
             align-self: center;
             text-align: center;
             padding: 6px;
-            background-color: #e0e0e0;
             text-align: center;
             border-radius: 4px;
-            border: 1px solid #bbb;
             width: auto;
+            border: 2px solid #908585;
+            color: black;
+            background-color: #ebe0e0;
+            font-weight: bold;
         }
 
         .appointment .ref-no {
@@ -131,10 +171,8 @@
         }
 
         .view-button {
-            background-color: #add8e6;
             color: black;
-            border: 1px solid #007bff;
-            padding: 8px 20px;
+            padding: 8px;
             text-align: center;
             border-radius: 4px;
             cursor: pointer;
@@ -142,20 +180,11 @@
             grid-row: 1 / span 2;
             align-self: center;
             justify-self: center;
-            width: 120px;
-        }
-
-        .cancel-view-button {
-                background-color: #add8e6;
-                color: black;
-                border: 1px solid #007bff;
-                padding: 8px;
-                text-align: center;
-                border-radius: 4px;
-                cursor: pointer;
-                grid-column: 4;
-                grid-row: 1;
-                margin-left: 25px;
+            border: none;
+            min-width: 90px;
+            font-weight: bold;
+            background: rgb(88, 223, 250);
+            font-size:medium;
         }
             
         .view-button:hover {
@@ -224,20 +253,19 @@
             margin-top: 10px;
         }
 
-        .popup-content form button.pay-button {
-            background-color: #28a745;
-        }
-
-        .popup-content form button.print-button {
-            background-color: #17a2b8;
+        .popup-content form button.pay-button, .popup-content form button.print-button {
+            background-color: #0E2F56;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
         }
 
         .popup-content form button.print-button .a {
             text-decoration: none;
-        }
-
-        .popup-content form button:hover {
-            opacity: 0.9;
         }
 
         @keyframes fadeIn {
@@ -262,14 +290,14 @@
         }
 
         .search-button {
-            background-color: #1c3a47;
             color: white;
             font-weight: bold;
-            padding: 5px;
+            padding: 6px;
             border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
             width: 100px;
+            background-color: #0E2F56;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>

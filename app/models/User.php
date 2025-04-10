@@ -303,4 +303,10 @@ class User
        return json_decode(json_encode($result), true);
    }
    
+   public function getLastInsertedClerkId()
+   {
+       $query = "SELECT user_id FROM $this->table WHERE role LIKE '%clerk%' ORDER BY created_at DESC LIMIT 1";
+       $result = $this->query($query);
+       return $result ? $result[0]->user_id : null;
+   }
 }

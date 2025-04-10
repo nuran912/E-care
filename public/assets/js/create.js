@@ -205,4 +205,21 @@ function filterClerks() {
     });
 }
 
+function toggleDropdowns() {
+    const hospitalDropdown = document.getElementById('create-clerk-hospital');
+    const labDropdown = document.getElementById('create-clerk-lab');
+
+    if (hospitalDropdown.value) {
+       labDropdown.disabled = true;
+    } else {
+       labDropdown.disabled = false;
+    }
+
+    if (labDropdown.value) {
+       hospitalDropdown.disabled = true;
+    } else {
+       hospitalDropdown.disabled = false;
+    }
+ }
+
 

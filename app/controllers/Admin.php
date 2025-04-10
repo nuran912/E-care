@@ -80,7 +80,7 @@ class Admin extends Controller
       $users = $userModel->getAllPatients();
       // show($users);
       $data = [
-         'users' => $users
+         'users' => $users,
       ];
 
       if($a == 'toggleStatus'){
@@ -222,8 +222,17 @@ class Admin extends Controller
       // $clerkModel->setLimit(100);
       $clerks = $clerkModel->getAllClerksWithUserDetails();
       // show($clerks);
+      $hospitalModel = new Hospital;
+      $hospitals = $hospitalModel->getAllHospitals();
+
+      $labModel = new Laboratory;
+      $labs = $labModel->getAllLabs();
+      // show($labs);
+     
       $data = [
-         'clerks' => $clerks
+         'clerks' => $clerks,
+         'hospitals' => $hospitals,
+         'labs' => $labs
       ];
 
       if($a == 'toggleStatus'){
@@ -250,6 +259,38 @@ class Admin extends Controller
          }
          redirect('Admin/clerk');
       }
+
+      if($a == 'create'){
+         $clerkModel = new ClerkModel;;
+         $userModel = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $clerkData = [
+               'name' => $_POST['name'],
+               'type' => $_POST['type'],
+               'hospital' => $_POST['hospital'],
+               'lab' => $_POST['lab'],
+               'emp_id' => $_POST['emp_id']
+               // 'gender' => $_POST['gender']
+            ];
+            $userData = [
+               'email' => $_POST['email'],
+               'role' => $_POST['type'].'_clerk',
+               // 'title' => 'Dr.',
+               'name' => $_POST['name'],
+               'password' => $_POST['nic'],
+               'phone_number' => $_POST['phone_number'],
+               'NIC' => $_POST['nic'],
+               'is_active' => 1,
+               'created_at' => date('Y-m-d H:i:s'),
+               'updated_at' => date('Y-m-d H:i:s')
+            ];
+            $userModel->insert($userData);
+            $userId = $userModel->getLastInsertedClerkId();
+            $clerkData['user_id'] = $userId;
+            $clerkModel->insert($clerkData);
+            $_SESSION['create_success'] = 'Clerk created successfully.';
+            redirect('Admin/clerk');
+      }}
 
 
 

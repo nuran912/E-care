@@ -39,4 +39,10 @@ class Hospital
         $query = "SELECT * FROM $this->table";
         return $this->query($query);
     }
+    public function getAllHospitals()
+    {
+        $query = "SELECT * FROM $this->table";
+        $result = $this->query($query);
+        return json_decode(json_encode($result), true);
+    }
 }

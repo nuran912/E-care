@@ -109,7 +109,7 @@ main {
     color: #003366;
 }
 
-.document-category {
+/* .document-category {
     font-size: 14px;
     font-weight: 600;
     padding: 5px 10px;
@@ -121,7 +121,7 @@ main {
     width: fit-content;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 0;
-}
+} */
 
 .record, .private-record {
     display: flex;
@@ -279,7 +279,7 @@ main {
     color: #aaa;
 }
 
-#private-submit-button, .submit {
+#private-submit-button, .submit, .update{
     background-color: #0E2F56;
     border: none;
     color: white;

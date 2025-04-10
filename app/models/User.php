@@ -289,4 +289,16 @@ class User
                 return $dataToUpdate;
             }
     }
+
+   public function getUserIDByEmail($email) {
+      if(empty($email)) {
+         return null;
+      }
+
+      $query = "SELECT user_id from $this->table WHERE email = :email";
+
+      $result = $this->query($query,['email' => $email]);
+
+      return json_decode(json_encode($result), true);
+   }
 }

@@ -138,8 +138,8 @@ main {
 }
 
 .record .label,
-.record .ref-no,
-.private-record .label {
+.record .doc-category,
+.record .ref-no {
     padding: 8px;
     text-align: center;
     border-radius: 4px;
@@ -228,6 +228,12 @@ main {
     position: relative;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+}
+
+.popup-content label {
+    display: block;
+    color: black;
+    font-weight: bold;
 }
 
 .document-name {

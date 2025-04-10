@@ -281,7 +281,7 @@ class Patient extends Controller
         }
 
         //update the name of a private file
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
 
             $document_id = htmlspecialchars($_POST['document_id']);
             $new_document_name = htmlspecialchars($_POST['document_name']);

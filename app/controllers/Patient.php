@@ -87,57 +87,67 @@ class Patient extends Controller
     public function appointments()
     {
         require_once dirname(__DIR__) . '/core/EmailHelper.php';
-
-        $appointment_id = isset($_POST['appointment_id']) ? $_POST['appointment_id'] : null;
+    
         $appointmentsModel = new Appointments;
-        $updateFilledSlots=new  Availabletime;
-       
-
-        //get details of the appointments of a patient
+        $updateFilledSlots = new Availabletime;
         $doctorModel = new DoctorModel;
-        $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
+    
         // Ensure user role validation happens first
         if ($_SESSION['USER']->role !== 'patient') {
             header('location: ' . ROOT . '/Home');
             exit;
-           
         }
-        
-
-
-
-        foreach ($data as $item) {
-            if (!empty($item->selected_files)) {
-            $selectedFiles = explode(',', $item->selected_files);
-           
+    
+        // Fetch all appointments for the logged-in patient
+        $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
+    
+        // Attach document names to each appointment
+        if (is_array($data)) {
+            $Document = new Document;
+    
+            foreach ($data as $appointment) {
+                $documentNames = [];
+    
+                if (!empty($appointment->selected_files)) {
+                    $documentIds = explode(',', $appointment->selected_files);
+    
+                    foreach ($documentIds as $document_id) {
+                        $document_id = trim($document_id);
+                        $name = $Document->getDocumentNamebyId($document_id);
+                        if (!empty($name)) {
+                            $documentNames[] = isset($name->document_name) ? $name->document_name : 'Unknown Document';
+                        }
+                    }
+                }
+    
+                // Attach document names to the appointment object
+                $appointment->documentNames = implode(', ', $documentNames);
+            }
+        } else {
+            $data = [];
         }
-    }
-  
-        if (isset($_POST['appointment_id'])) {
-
+    
+        // Cancel Appointment Logic
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'])) {
+            $appointment_id = $_POST['appointment_id'];
             $appoitmentDetails = $appointmentsModel->getByAppointmentId($appointment_id);
+    
             foreach ($appoitmentDetails as $appoitment) {
                 $schedule_id = $appoitment->schedule_id;
                 $session_time = $appoitment->session_time;
                 $session_date = $appoitment->session_date;
-                $document_id = $appoitment->selected_files;
+                $document_ids_csv = $appoitment->selected_files;
             }
-             
-            $Document = new Document;
-            $documentName=$Document->getDocumentNamebyId($document_id);
-
-
-            // $appointmentsModel->delete($appointment_id, 'appointment_id');
-            // $updateData=['is_deleted' => 1];
+    
             date_default_timezone_set('Asia/Colombo');
-
-            $current_date = date("Y-m-d ");
-
+            $current_date = date("Y-m-d");
+    
             if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
                 $appointmentsModel->update_is_deleted($appointment_id);
                 $appointmentsModel->updateStatus($appointment_id, 'canceled');
-
+    
                 $_SESSION['success'] = 'Appointment canceled successfully.';
+    
                 foreach ($appoitmentDetails as $appoitment) {
                     $patientname = $appoitment->patient_name;
                     $doctor_id = $appoitment->doctor_id;
@@ -146,12 +156,12 @@ class Patient extends Controller
                     $appointmenttime = $appoitment->session_time;
                     $hospitalname = $appoitment->hospital_name;
                     $patientemail = $appoitment->patient_Email;
-
                 }
-                $doctorDetails=$doctorModel->getDoctorDetails($doctor_id);
+    
+                $doctorDetails = $doctorModel->getDoctorDetails($doctor_id);
                 $doctorname = $doctorDetails[0]->name;
-               
-                $subject = "Appointment Cancellation Confirmation  $hospitalname";
+    
+                $subject = "Appointment Cancellation Confirmation $hospitalname";
                 $body = "
                     <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>
                         <p>Dear <b>$patientname</b>,</p>
@@ -173,42 +183,27 @@ class Patient extends Controller
                         </div>
                     </div>
                 ";
+    
                 EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
-                
-
-
-
-
-
-
+    
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }
-            // $updateFilledSlots->update_filled_slots($schedule_id);
-            
+    
             header('location: ' . ROOT . '/Patient/appointments');
-           
-            exit; 
-
-
+            exit;
         }
-
-
-        // Error handling if no appointment_id is set
+    
+        // Error handling if POST with no appointment_id
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
             $_SESSION['error'] = 'Failed to cancel the appointment.';
         }
-
-
+    
         $this->view('header');
-        if (!is_array($data)) {
-            $data = [];
-        }
-
-
         $this->view('patient/appointments', $data);
         $this->view('footer');
     }
+    
 
 
 

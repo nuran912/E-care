@@ -172,7 +172,7 @@
                         <option value="operative_report">Operative Report</option>
                         <option value="progress_notes">Progress Notes</option>
                         <option value="referral_letter">Referral Letter</option>
-                        <option value="immunizatiob_record">Immunization Record</option>
+                        <option value="immunization_record">Immunization Record</option>
                         <option value="allergy_record">Allery Record</option>
                         <option value="other">Other</option>
                     </select>

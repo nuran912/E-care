@@ -105,7 +105,7 @@
             color: black;
             background-color: #ebe0e0;
             font-weight: bold;
-            width: 150px;
+            width: 170px;
         }
 
         label {

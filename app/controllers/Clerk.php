@@ -91,11 +91,15 @@ class Clerk extends Controller {
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
 
-            $user_id = $_POST['patient_email'];
+            $patient_email = $_POST['patient_email'];
             $uploaded_by = $_POST['uploaded_by'];
             $document_type = 'medical_record';
             $document_category = $_POST['document_category'];
             $ref_no = $_POST['ref_no'];
+
+            $user = new User;
+
+            $user_id = $user->getUserIDByEmail($patient_email);
 
             //target directory
             $targetDir = "assets/documents/";
@@ -113,9 +117,10 @@ class Clerk extends Controller {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
                     //moved successfully
                     $data = [
-                        'user_id' => $user_id,
+                        'user_id' => $user_id[0]['user_id'],
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
+                        'document_category' => $document_category,
                         'document_name' => $filename,
                         'ref_no' => $ref_no
                     ];
@@ -164,6 +169,7 @@ class Clerk extends Controller {
             $ref_no = $_POST['ref_no'];
 
             $user = new User;
+
             $user_id = $user->getUserIDByEmail($patient_email);
 
             //target directory
@@ -182,7 +188,7 @@ class Clerk extends Controller {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
                     //moved successfully
                     $data = [
-                        'user_id' => $user_id,
+                        'user_id' => $user_id[0]['user_id'],
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
                         'document_category' => $document_category,

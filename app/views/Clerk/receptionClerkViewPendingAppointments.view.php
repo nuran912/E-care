@@ -24,7 +24,7 @@
         }
 
         .container {
-            margin: 50px auto;
+            margin: 50px 50px;
             width: 800px;
             background-color: white;
             padding: 30px;
@@ -106,6 +106,7 @@
             padding: 8px;
         }
 
+        .appointment .patient,
         .appointment .doctor,
         .appointment .hospital,
         .appointment .specialization {
@@ -119,6 +120,8 @@
             color: black;
             background-color: #ebe0e0;
             font-weight: bold;
+            white-space: nowrap;
+            display: inline-block;
         }
 
         .appointment .hospital {
@@ -164,6 +167,8 @@
             color: black;
             background-color: #ebe0e0;
             font-weight: bold;
+            white-space: nowrap;
+            display: inline-block;
         }
 
         .appointment .ref-no {
@@ -339,7 +344,7 @@
 
                                 <div class="appointment">
 
-                                    <span class="doctor"><?php echo ($appointment->patient_name); ?></span>
+                                    <span class="patient"><?php echo ($appointment->patient_name); ?></span>
                                     <span class="doctor"><?php echo ($appointment->doctor_name); ?></span>
                                     <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
                                     <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>

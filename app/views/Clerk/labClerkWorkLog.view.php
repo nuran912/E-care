@@ -88,7 +88,6 @@
             justify-content: space-around;
             justify-items: center;
             align-items: center;
-            /* border: 2px solid #ada8a8; */
             background-color: #003366;
             color: white;
             border-radius: 6px;
@@ -105,6 +104,7 @@
             background-color: #ebe0e0;
             font-weight: bold;
             width: 170px;
+            text-align: center;
         }
 
         label {
@@ -117,7 +117,6 @@
             background: rgb(88, 223, 250);
             cursor: pointer;
             padding: 10px;
-            /* margin-top: 18px; */
             border: none;
             border-radius: 4px;
             font-weight: bold;
@@ -139,6 +138,32 @@
             align-items: center;
             margin-bottom: 10px;
         }
+
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pagination a,
+        .pagination span {
+            margin: 0 8px;
+            padding: 6px 12px;
+            text-decoration: none;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            color: #333;
+        }
+
+        .pagination a:hover {
+            background-color: #3366cc;
+            color: white;
+        }
+
+        .pagination .current-page {
+            font-weight: bold;
+            background-color: #3b83ff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -154,6 +179,9 @@
             <?php if(isset($documents) && is_array($documents)): ?>
 
                 <?php
+
+                    //group documents by date
+
                     $groupedByDate = [];
                     foreach($documents as $index => $document):
                         if($document['document_type'] == 'lab_report'):
@@ -162,36 +190,69 @@
                         endif;
                     endforeach;
                 ?>
-                    
-                <?php foreach($groupedByDate as $date => $dailyDocuments): ?>
 
-                    <div class="date"><p><?php echo htmlspecialchars($date); ?></p></div>
+                <?php
 
-                    <?php foreach($dailyDocuments as $document): ?>
+                    //sort by date descending
+                    krsort($groupedByDate);  
 
-                        <div class="uploadedInfo">
+                    //pagination
+                    $dates = array_keys($groupedByDate);
+                    $totalPages = count($dates);
+                    $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'],$totalPages)) : 1;
 
-                            <div class="set">
-                                <label>Patient ID</label>
-                                <div class="item"><?php echo htmlspecialchars($document['user_id']) ?></div>
-                            </div>
+                    $selectedDate = $dates[$currentPage - 1];
+                    $dailyDocuments = $groupedByDate[$selectedDate];
+                ?>
 
-                            <div class="set">
-                                <label>Reference Number</label>
-                                <div class="item"><?php echo htmlspecialchars($document['ref_no']) ?></div>
-                            </div>
+                <div class="date"><p><?php echo date('Y, F j, l',strtotime($selectedDate)) ?></p></div>
 
-                            <div class="set">
-                                <label>Category</label>
-                                <div class="item"><?php echo htmlspecialchars($document['document_category']) ?></div>
-                            </div>
+                <?php foreach($dailyDocuments as $document): ?>
 
-                            <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
+                    <div class="uploadedInfo">
 
+                        <div class="set">
+                            <label>Patient ID</label>
+                            <div class="item"><?php echo htmlspecialchars($document['user_id']) ?></div>
                         </div>
+
+                        <div class="set">
+                            <label>Reference Number</label>
+                            <div class="item"><?php echo htmlspecialchars($document['ref_no']) ?></div>
+                        </div>
+
+                        <div class="set">
+                            <label>Category</label>
+                            <div class="item"><?php echo htmlspecialchars($document['document_category']) ?></div>
+                        </div>
+
+                        <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
+
+                    </div>
                     
-                    <?php endforeach; ?>
                 <?php endforeach; ?>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination">
+                    <?php if($currentPage > 1): ?>
+                        <a href="?page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
+                    <?php else: ?>
+                        <span class="prev-disabled">Prev</span>
+                    <?php endif; ?>
+
+                    <?php for($i = 1; $i <= $totalPages; $i++): ?>
+                        <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
+                    <?php endfor; ?>
+                            
+                    <?php if($currentPage < $totalPages): ?>
+                        <a href="?page=<?= $currentPage + 1?>" class="next">Next</a>
+                    <?php else: ?>
+                        <span class="next-disabled">Next</span>
+                    <?php endif; ?>
+                </div>
+             
+            <?php else: ?>
+                <p>No uploaded lab reports.</p>
             <?php endif; ?>
         </div>
     </div>

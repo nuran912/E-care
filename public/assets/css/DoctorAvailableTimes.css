@@ -170,10 +170,11 @@ body {
 
 .pagination a:hover {
   background-color: #f0f0f0;
+  color: #0e2f56;
 }
 
 .pagination .active-page {
-  background-color: #007bff;
+  background-color: #0e2f56;
   color: white;
   border-color: #007bff;
 }

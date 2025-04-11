@@ -50,7 +50,6 @@ class Appointmentsearchpage extends Controller
             'doctorNames' => $doctorNames
         ];
 
-
         //currently empty queries are  $hospitalQuery        
         $this->view('appointment/appointmentsearchpage', $data);
 

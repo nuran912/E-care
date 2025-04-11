@@ -32,8 +32,11 @@ class DoctorModel
             $data['name'] = "%$nameQuery%";
         }
         if (!empty($hospitalQuery)) {
-            $query .= " AND hospital = :hospital";
+            // $query .= " AND hospital = :hospital";
+            $query .= " AND id IN (SELECT doctor_id FROM availabletimes WHERE hospital_id = :hospital)";
             $data['hospital'] = $hospitalQuery;
+            // Filter doctors based on hospital using the availabletimes table instead of the doctors table.
+           // This ensures we only return doctors who are actually scheduled to work at the selected hospital,
         }
         if (!empty($specializationQuery)) {
             $query .= " AND specialization = :specialization";

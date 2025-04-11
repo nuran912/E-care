@@ -43,6 +43,10 @@ class DoctorAvailableTimes extends Controller
         date_default_timezone_set(timezoneId: 'Asia/Colombo');
              $CurrentDate = date('Y-m-d');
              $CurrentTime = date('H:i:s');
+
+             usort($getAppointmentdetails, function($a, $b) {
+                return strtotime($a->appointment_date) - strtotime($b->appointment_date);
+            });
             /**
              * There is a problem when two or more appointment dates are equal to the current date.
              * If the end time of these appointments is higher than the current time, 

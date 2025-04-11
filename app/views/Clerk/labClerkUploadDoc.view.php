@@ -163,16 +163,16 @@
                     <label for="document_category">Document Category</label>
                     <select id="documentCategory" name="document_category" required>
                         <option value="" disabled selected>Select a document category</option>
-                        <option value="blood_report">Blood Report</option>
-                        <option value="urine_report">Urine Report</option>
-                        <option value="stool_report">Stool Report</option>
-                        <option value="biospy_report">Biopsy Report</option>
-                        <option value="pathology_report">Pathology Report</option>
-                        <option value="histology_report">Histology Report</option>
-                        <option value="serology_report">Serology Report</option>
-                        <option value="microbiology_report">Microbiology Report</option>
-                        <option value="genetic_test">Genetic Test Report</option>
-                        <option value="other">Other</option>
+                        <option value="Blood report">Blood Report</option>
+                        <option value="Urine report">Urine Report</option>
+                        <option value="Stool report">Stool Report</option>
+                        <option value="Biospy report">Biopsy Report</option>
+                        <option value="Pathology report">Pathology Report</option>
+                        <option value="Histology report">Histology Report</option>
+                        <option value="Serology report">Serology Report</option>
+                        <option value="Microbiology report">Microbiology Report</option>
+                        <option value="Genetic test">Genetic Test Report</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
 

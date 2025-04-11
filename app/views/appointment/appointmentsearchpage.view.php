@@ -94,7 +94,7 @@
 
 
         <div class="results">
-            <h2><?php echo empty($doctorResults) ? "No" : count($doctorResults) ?> Doctor(s) found!</h2>
+            <h2><?php echo empty($doctorResults) ? "No" : $totalResults ?> Doctor(s) found!</h2>
             <div class="card-list">
 
                 <?php if (isset($doctorResults) && is_array($doctorResults)): ?>
@@ -129,6 +129,45 @@
                 <?php endif; ?>
 
             </div>
+            <?php if ($totalPages > 1): ?>
+    <div class="pagination">
+
+        <!-- Previous Button -->
+        <?php
+        $baseParams = $_GET;
+        if ($currentPage > 1):
+            $baseParams['page'] = $currentPage - 1;
+            ?>
+            <a href="?<?= http_build_query($baseParams); ?>" class="prev-btn">⟨ Prev</a>
+        <?php else: ?>
+            <span class="disabled prev-btn">⟨ Prev</span>
+        <?php endif; ?>
+
+        <!-- Page Numbers -->
+        <div class="page-numbers">
+            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                <?php
+                $baseParams['page'] = $i;
+                $isActive = ($i == $currentPage) ? 'active-page' : '';
+                ?>
+                <a href="?<?= http_build_query($baseParams); ?>" class="<?= $isActive ?>"><?= $i ?></a>
+            <?php endfor; ?>
+        </div>
+
+        <!-- Next Button -->
+        <?php
+        if ($currentPage < $totalPages):
+            $baseParams['page'] = $currentPage + 1;
+            ?>
+            <a href="?<?= http_build_query($baseParams); ?>" class="next-btn">Next ⟩</a>
+        <?php else: ?>
+            <span class="disabled next-btn">Next ⟩</span>
+        <?php endif; ?>
+
+    </div>
+<?php endif; ?>
+
+
         </div>
     <?php endif; ?>
 </body>

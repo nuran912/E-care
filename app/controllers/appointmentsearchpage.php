@@ -37,9 +37,24 @@ class Appointmentsearchpage extends Controller
                 }
             }
         }
+        
+        $limit = 8;
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $currentPage = $currentPage < 1 ? 1 : $currentPage;
 
+        $totalPages = 1;
+
+        if (!$error && $doctorResults !== null) {
+            $totalResults = count($doctorResults);
+            $totalPages = ceil($totalResults / $limit);
+            $offset = ($currentPage - 1) * $limit;
+            $doctorResults = array_slice($doctorResults, $offset, $limit);
+        }
         $data = [
             'doctorResults' => $doctorResults,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
+            'totalResults' => $totalResults,
             'hospitals' => $hospitals,
             'specializations' => $specializations,
             'nameQuery' => $nameQuery,
@@ -56,4 +71,4 @@ class Appointmentsearchpage extends Controller
 
         $this->view('footer');
     }
-}
+    }

@@ -1,6 +1,8 @@
 <?php
 
 $appointments = $data['appointments'];
+$totalpages=$data['totalPages'];
+$currentPage=$data['currentPage'];
 $doctor_name = $data['doctor_name'];
 $doctor_specialization = $data['doctor_specialization'];
 $doctorId = $data['doctorId'];
@@ -59,6 +61,37 @@ $doctorId = $data['doctorId'];
                         </div>
                     </div>
                 <?php endforeach ?>
+                <!-- Pagination -->
+                <?php if ($totalPages > 1): ?>
+    <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+
+        <!-- Previous Button -->
+        <?php if ($currentPage > 1): ?>
+            <a href="?doctor_id=<?= $_GET['doctor_id'] ?>&page=<?= $currentPage - 1 ?>" class="prev-btn">⟨ Prev</a>
+        <?php else: ?>
+            <span class="disabled prev-btn">⟨ Prev</span>
+        <?php endif; ?>
+
+        <!-- Page Numbers -->
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?doctor_id=<?= $_GET['doctor_id'] ?>&page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active-page' : '' ?>">
+                <?= $i ?>
+            </a>
+        <?php endfor; ?>
+
+        <!-- Next Button -->
+        <?php if ($currentPage < $totalPages): ?>
+            <a href="?doctor_id=<?= $_GET['doctor_id'] ?>&page=<?= $currentPage + 1 ?>" class="next-btn">Next ⟩</a>
+        <?php else: ?>
+            <span class="disabled next-btn">Next ⟩</span>
+        <?php endif; ?>
+
+    </div>
+<?php endif; ?>
+
+
+
+
             <?php endif; ?>
         </div>
     </div>

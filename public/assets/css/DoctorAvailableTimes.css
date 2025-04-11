@@ -160,6 +160,31 @@ body {
   background-color: #fff0f0;
   border-radius: 5px;
 }
+.pagination a, .pagination span {
+  padding: 8px 14px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 5px;
+}
+
+.pagination a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .active-page {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination .disabled {
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+
+
 
 /* Responsive Layout */
 @media (max-width: 768px) {

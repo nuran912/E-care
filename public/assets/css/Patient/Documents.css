@@ -15,7 +15,7 @@ main {
 }
 
 .container {
-    width: 800px;
+    width: 900px;
     background-color: white;
     padding: 30px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
@@ -96,7 +96,7 @@ main {
 }
 
 .content-box {
-    width: 100%;
+    width: 900px;
     display: flex;
     flex-direction: column;
     gap: 3px;
@@ -109,20 +109,6 @@ main {
     color: #003366;
 }
 
-/* .document-category {
-    font-size: 14px;
-    font-weight: 600;
-    padding: 5px 10px;
-    background-color: #f5f5f5;
-    color: #555;
-    text-align: center;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    width: fit-content;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 0;
-} */
-
 .record, .private-record {
     display: flex;
     flex-direction: row;
@@ -134,7 +120,7 @@ main {
     border-radius: 6px;
     padding: 25px  5px;
     margin-bottom: 10px;
-    width: 100%;
+    width: 800px;
 }
 
 .record .label,
@@ -147,23 +133,21 @@ main {
     color: black;
     background-color: #ebe0e0;
     font-weight: bold;
+    white-space: nowrap;
+    display: inline-block;
 }
 
 .record .ref-no {
     white-space: nowrap;
+    display: inline-block;
 }
 
 .private-record .label {
-    word-wrap: break-word;
     width: 320px;
-    white-space: normal;
     margin-bottom: 0;
-    display: inline-block;
     padding: 5px;
     box-sizing: border-box;
     word-wrap: break-word;
-    white-space: pre-wrap;
-    overflow: hidden;
     background-color: #ebe0e0;
     color: black;
     border: 2px solid #908585;
@@ -290,4 +274,30 @@ main {
     transition: background-color 0.3s ease, transform 0.3s ease;
     width: 100px;
     margin-top: 20px;
+}
+
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination a,
+.pagination span {
+    margin: 0 8px;
+    padding: 6px 12px;
+    text-decoration: none;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #3366cc;
+    color: white;
+}
+
+.pagination .current-page {
+    font-weight: bold;
+    background-color: #3b83ff;
+    color: white;
 }

@@ -163,18 +163,18 @@
                     <label for="document_category">Document Category</label>
                     <select id="documentCategory" name="document_category" required>
                         <option value="" disabled selected>Select a document category</option>
-                        <option value="prescription">Prescription</option>
-                        <option value="diagnosis_card">Diagnosis Card</option>
-                        <option value="medical_bill">Medical Bill/Invoice</option>
-                        <option value="discharge_summary">Discharge Summary</option>
-                        <option value="admission_note">Admission Note</option>
-                        <option value="treatment_plan">Treatment Plan</option>
-                        <option value="operative_report">Operative Report</option>
-                        <option value="progress_notes">Progress Notes</option>
-                        <option value="referral_letter">Referral Letter</option>
-                        <option value="immunization_record">Immunization Record</option>
-                        <option value="allergy_record">Allery Record</option>
-                        <option value="other">Other</option>
+                        <option value="Prescription">Prescription</option>
+                        <option value="Diagnosis card">Diagnosis Card</option>
+                        <option value="Medical bill">Medical Bill/Invoice</option>
+                        <option value="Discharge summary">Discharge Summary</option>
+                        <option value="Admission note">Admission Note</option>
+                        <option value="Treatment plan">Treatment Plan</option>
+                        <option value="Operative report">Operative Report</option>
+                        <option value="Progress notes">Progress Notes</option>
+                        <option value="Referral letter">Referral Letter</option>
+                        <option value="Immunization record">Immunization Record</option>
+                        <option value="Allergy record">Allery Record</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
 

@@ -39,6 +39,8 @@
                     <?php if(isset($documents) && is_array($documents)): ?>
 
                         <?php
+
+                            //group documents by date
                             $groupedByDate = [];
 
                             foreach($documents as $index => $document):

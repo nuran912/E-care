@@ -19,6 +19,7 @@ class Appointmentsearchpage extends Controller
         $dateQuery = "";
         $error = false;
         $doctorResults = null;
+        $totalResults = 0;
 
         if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['submit'])) {
             if ($_GET['submit'] === 'reset') {

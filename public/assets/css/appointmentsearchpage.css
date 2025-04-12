@@ -45,7 +45,7 @@ font-size: 20px;
     padding: 8px 14px;
     text-decoration: none;
     border: 1px solid #ddd;
-    color: #007bff;
+    color: #264161;
     border-radius: 5px;
     font-weight: bold;
     transition: all 0.3s;
@@ -53,6 +53,7 @@ font-size: 20px;
 
 .pagination .prev-btn:hover, .pagination .next-btn:hover {
     background-color: #264161;
+    color: white;
 }
 
 .pagination .disabled {

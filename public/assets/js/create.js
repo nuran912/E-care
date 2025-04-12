@@ -160,7 +160,31 @@ function doctorEditPopup(doctor) {
     // document.getElementById('edit-doctor-hospital').value = doctor.hospital;
     
     // document.getElementById('edit-doctor-active').checked = doctor.is_active == 1;
-    document.getElementById('edit-image-preview').src = doctor.image_url;
+    // document.getElementById('edit-image-preview').src = doctor.image_url;
+    document.querySelector('.popup-edit').style.display = 'block';
+    document.querySelector('.overlay').style.display = 'block';
+}
+
+function clerkEditPopup(clerk, hospitals, labs) {
+    document.getElementById('edit-clerk-id').value = clerk.emp_id;
+    document.getElementById('edit-user-id').value = clerk.user_id;
+    document.getElementById('edit-clerk-name').value = clerk.name;
+    document.getElementById('edit-clerk-nic').value = clerk.NIC;
+    document.getElementById('edit-clerk-email').value = clerk.email;
+    document.getElementById('edit-clerk-phone').value = clerk.phone_number;
+    document.getElementById('edit-clerk-type').value = clerk.type;
+
+    // Match hospital name with the hospitals list and set the hospital ID
+    const matchedHospital = hospitals.find(hospital => hospital.name === clerk.hospital);
+    document.getElementById('edit-clerk-hospital').value = matchedHospital ? matchedHospital.id : '';
+
+    // Match lab name with the labs list and set the lab ID
+    const matchedLab = labs.find(lab => lab.name === clerk.lab);
+    document.getElementById('edit-clerk-lab').value = matchedLab ? matchedLab.id : '';
+
+    document.getElementById('edit-clerk-emp-id').value = clerk.emp_id;
+    // document.getElementById('edit-image-preview').src = clerk.image_url;
+
     document.querySelector('.popup-edit').style.display = 'block';
     document.querySelector('.overlay').style.display = 'block';
 }
@@ -211,15 +235,37 @@ function toggleDropdowns() {
 
     if (hospitalDropdown.value) {
        labDropdown.disabled = true;
+       labDropdown.value = "";
     } else {
        labDropdown.disabled = false;
     }
 
     if (labDropdown.value) {
        hospitalDropdown.disabled = true;
+       hospitalDropdown.value = "";
     } else {
        hospitalDropdown.disabled = false;
     }
+ }
+
+ function toggleDropdownsEdit() {
+    const hospitalDropdown = document.getElementById('edit-clerk-hospital');
+    const labDropdown = document.getElementById('edit-clerk-lab');
+
+    if (hospitalDropdown.value) {
+        labDropdown.disabled = true;
+        labDropdown.value = "";
+     } else {
+        labDropdown.disabled = false;
+     }
+ 
+     if (labDropdown.value) {
+        hospitalDropdown.disabled = true;
+        hospitalDropdown.value = "";
+     } else {
+        hospitalDropdown.disabled = false;
+     }
+
  }
 
 

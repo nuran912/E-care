@@ -68,9 +68,9 @@
                            <td data-search="<?php echo $clerk['phone_number']; ?>"><?php echo $clerk['phone_number']; ?></td>
                            <td data-search="<?php echo $clerk['NIC']; ?>"><?php echo $clerk['NIC']; ?></td>
                            <td data-search="<?php echo $clerk['lab'] ? $clerk['lab'] : $clerk['hospital']; ?>">
-                              <?php if($clerk['lab'] == null){
+                              <?php if ($clerk['lab'] == null) {
                                  echo $clerk['hospital'];
-                              } else{
+                              } else {
                                  echo $clerk['lab'];
                               } ?></td>
                            <td data-search="<?php echo $clerk['is_active'] ? 'Active' : 'Disabled'; ?>">
@@ -89,7 +89,7 @@
                                  <button type="button" class="btn-reset" onclick="resetPassword(this)">Reset</button>
                               </form>
                            </td>
-                           <td><button class="btn-edit" onclick="doctorEditPopup(<?php echo htmlspecialchars(json_encode($clerk)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                           <td><button class="btn-edit" onclick="clerkEditPopup(<?php echo htmlspecialchars(json_encode($clerk)); ?>,<?php echo htmlspecialchars(json_encode($hospitals)); ?>,<?php echo htmlspecialchars(json_encode($labs)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                         </tr>
                      <?php endforeach; ?>
 
@@ -125,14 +125,14 @@
                      </div>
                   </div>
                   <div class="form-row">
-                  <div class="form-group">
-                        <!-- <input type="radio" value="Male" name="gender" placeholder=" " id="create-doctor-gender" required>Male -->
+                     <!-- <div class="form-group">
+                        
                         <select name="gender" id="create-clerk-gender">
                            <option value="Male" selected>Male</option>
                            <option value="Female">Female</option>
                         </select>
                         <label>Gender</label>
-                     </div>
+                     </div> -->
                      <div class="form-group">
                         <input type="text" name="nic" placeholder=" " id="create-clerk-nic" required>
                         <label>NIC</label>
@@ -155,16 +155,16 @@
                   </select>
                </div>
                <div class="form-group">
-                  <input type="text" name="emp_id" 
-                     value="<?php 
-                        $lastRegNum = end($clerks)['emp_id'];
-                        $numericPart = intval(substr($lastRegNum, 3));
-                        echo ('EMP' . str_pad($numericPart + 1, 3, '0', STR_PAD_LEFT)); 
-                     ?>" 
-                     id="create-clerk-emp-id" required >
+                  <input type="text" name="emp_id"
+                     value="<?php
+                              $lastRegNum = end($clerks)['emp_id'];
+                              $numericPart = intval(substr($lastRegNum, 3));
+                              echo ('EMP' . str_pad($numericPart + 1, 3, '0', STR_PAD_LEFT));
+                              ?>"
+                     id="create-clerk-emp-id" required>
                   <label>Employee Number</label>
 
-               </div>                                           
+               </div>
             </div>
             <div class="form-row">
                <div class="form-group">
@@ -178,18 +178,18 @@
                   </select>
                </div>
                <div class="form-group">
-               <input type="hidden">
+                  <input type="hidden">
                   <label>Laboratory</label>
                   <select name="lab" id="create-clerk-lab" onchange="toggleDropdowns()">
-                  <option value="" selected>None</option>
+                     <option value="" selected>None</option>
                      <?php foreach ($labs as $lab): ?>
                         <option value="<?php echo $lab['id']; ?>"><?php echo $lab['name']; ?></option>
                      <?php endforeach; ?>
                   </select>
 
-               </div>                                           
+               </div>
             </div>
-            
+
             <div class="form-row">
                <button type="submit" class="btn-create">Create</button>
                <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
@@ -202,28 +202,38 @@
       <!-- Edit Card -->
       <div class="popup-edit">
          <h2>Edit Clerk</h2>
-         <form>
+         <form id="edit-clerk-form" action="<?= ROOT ?>/Admin/clerk /edit" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="emp_id" id="edit-clerk-id">
+            <input type="hidden" name="user_id" id="edit-user-id">
             <div class="form-row">
-               <input type="file" id="edit-doctor-image" name="doctor-image" accept="image/*" hidden>
+               <input type="file" id="edit-doctor-image" name="clerk-image" accept="image/*" hidden>
                <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="full-name" placeholder=" " value="Doctor Strange" required>
+                        <input type="text" name="name" placeholder=" " id="edit-clerk-name" required>
                         <label>Full Name</label>
                      </div>
                      <div class="form-group">
-                        <input type="email" name="email" placeholder=" " value="athhar@gmail.com" required>
+                        <input type="email" name="email" placeholder=" " id="edit-clerk-email" required>
                         <label>Email</label>
                      </div>
                   </div>
                   <div class="form-row">
+                     <!-- <div class="form-group">
+                        
+                        <select name="gender" id="edit-clerk-gender">
+                           <option value="Male" selected>Male</option>
+                           <option value="Female">Female</option>
+                        </select>
+                        <label>Gender</label>
+                     </div> -->
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " value="200212345678" required>
+                        <input type="text" name="nic" placeholder=" " id="edit-clerk-nic" required>
                         <label>NIC</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone" placeholder=" " value="0761234567" required>
+                        <input type="text" name="phone_number" placeholder=" " id="edit-clerk-phone" required>
                         <label>Phone Number</label>
                      </div>
                   </div>
@@ -231,23 +241,46 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <select name="role" id="role">
+                  <input type="hidden">
+                  <label>Type</label>
+                  <select name="type" id="edit-clerk-type">
                      <option value="lab" selected>Lab clerk</option>
-                     <option value="record">Record clek</option>
+                     <option value="record">Record clerk</option>
                      <option value="reception">Reception clerk</option>
                   </select>
-                  <label>Role</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="doctor-number" placeholder=" " value="L001" style="width: 300px;" required>
+                  <input type="text" name="emp_id" id="edit-clerk-emp-id" required disabled>
                   <label>Employee Number</label>
 
                </div>
-               <lable><input type="checkbox" name="active" checked>Active</lable>
             </div>
             <div class="form-row">
-               <button type="button" class="btn-create">Update</button>
-               <button type="button" class="btn-cancel">Cancel</button>
+               <div class="form-group">
+                  <input type="hidden">
+                  <label>Hospital</label>
+                  <select name="hospital" id="edit-clerk-hospital" onchange="toggleDropdownsEdit()">
+                     <option value="" selected>None</option>
+                     <?php foreach ($hospitals as $hospital): ?>
+                        <option value="<?php echo $hospital['id']; ?>"><?php echo $hospital['name']; ?></option>
+                     <?php endforeach; ?>
+                  </select>
+               </div>
+               <div class="form-group">
+                  <input type="hidden">
+                  <label>Laboratory</label>
+                  <select name="lab" id="edit-clerk-lab" onchange="toggleDropdownsEdit()">
+                     <option value="" selected>None</option>
+                     <?php foreach ($labs as $lab): ?>
+                        <option value="<?php echo $lab['id']; ?>"><?php echo $lab['name']; ?></option>
+                     <?php endforeach; ?>
+                  </select>
+
+               </div>
+            </div>
+            <div class="form-row">
+               <button type="submit" class="btn-create">Update</button>
+               <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
             </div>
          </form>
       </div>

@@ -10,6 +10,8 @@ class ClerkModel
         'title',
         'name',
         'user_id',
+        'NIC',
+        'role',
         'type',
          'email',
          'lab',
@@ -123,6 +125,34 @@ class ClerkModel
             $result = $this->query($query);
         }
         return json_decode(json_encode($result), true);
+    }
+
+    public function updateClerksWithUserDetails($clerkData, $userData) {
+        $clerkData = array_intersect_key($clerkData, array_flip($this->allowedColumns));
+        $userData = array_intersect_key($userData, array_flip($this->allowedColumns));
+
+        $clerkData['lab'] = $clerkData['lab'] ?? null;
+        $clerkData['hospital'] = $clerkData['hospital'] ?? null;
+
+        $keys = array_keys($clerkData);
+        $query1 = "UPDATE clerks SET ";
+        foreach ($keys as $key) {
+            $query1 .= "$key = :$key, ";
+        }
+        $query1 = rtrim($query1, ", ");
+        $query1 .= " WHERE emp_id = :emp_id";
+        $this->query($query1, $clerkData);
+
+        $keys = array_keys($userData);
+        $query2 = "UPDATE users SET ";
+        foreach ($keys as $key) {
+            $query2 .= "$key = :$key, ";
+        }
+        $query2 = rtrim($query2, ", ");
+        $query2 .= " WHERE user_id = :user_id";
+        $this->query($query2, $userData);
+
+        return false;
     }
    
 }

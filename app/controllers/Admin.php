@@ -292,9 +292,34 @@ class Admin extends Controller
             redirect('Admin/clerk');
       }}
 
+      if ($a == 'edit') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $clerkModel = new ClerkModel;
 
+            // Set empty 'lab' or 'hospital' values to NULL
+            $lab = empty($_POST['lab']) ? null : $_POST['lab'];
+            $hospital = empty($_POST['hospital']) ? null : $_POST['hospital'];
 
-
+            $clerkData = [
+               'name' => $_POST['name'],
+               'type' => $_POST['type'],
+               'hospital' => $hospital,
+               'lab' => $lab,
+               'emp_id' => $_POST['emp_id']
+           ];
+           $userData = [
+            'email' => $_POST['email'],
+            'name' => $_POST['name'],
+            'phone_number' => $_POST['phone_number'],
+            'NIC' => $_POST['nic'],
+            'role' => $_POST['type'].'_clerk',
+            'user_id' => $_POST['user_id']
+        ];
+            $clerkModel->updateClerksWithUserDetails($clerkData, $userData);
+            $_SESSION['edit_success'] = 'Clerk details updated successfully.';
+            redirect('Admin/clerk');
+         }
+      }
 
       $this->view('admin/clerk', $data);
       $this->view('footer');

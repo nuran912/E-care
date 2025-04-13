@@ -47,149 +47,127 @@
 
                 ?>
 
-
                <!-- Pending Appointments Section -->
-<div class="content active" >
-    <?php if (isset($data) && is_array($data) && !empty($data)): ?>
+               <div class="content active">
+    <?php if (isset($pendingAppointments) && is_array($pendingAppointments) && !empty($pendingAppointments)): ?>
+        
+        <?php foreach ($pendingAppointments as $appointment): ?>
+            <div class="frame"> 
+                <div class="appointment-header">
+                    <span class="date">
+                        <?= date("Y, F j, l", strtotime($appointment->session_date)); ?>
+                    </span>
+                    <span class="status">
+                        Appointment Status: <span class="pending">
+                            <?= htmlspecialchars($appointment->status); ?>
+                        </span>
+                    </span>
+                </div>
 
-        <?php
-        date_default_timezone_set('Asia/Colombo');
-        $currentDate = date("Y-m-d");
-        $currentTime = date("H:i:s");
+                <div class="appointment">
+                    <span class="doctor"><?= htmlspecialchars($appointment->doctor_name); ?></span>
+                    <span class="ref-no">Appointment No: <?= htmlspecialchars($appointment->appointment_number); ?></span>
+                    <span class="time">Time:<?= date("g:i A", strtotime($appointment->session_time)); ?></span>
+                    <button class="view-button" data-appointment-id="<?= $appointment->appointment_id; ?>">View</button>
+                    <span class="hospital"><?= htmlspecialchars($appointment->hospital_name); ?></span>
+                    <span class="specialization"><?= htmlspecialchars($appointment->specialization); ?></span>
 
-        $hasPendingAppointments = false;
-
-        // Group pending appointments by date
-        $groupedAppointments = [];
-
-        foreach ($data as $appointment) {
-            if (
-                ($appointment->session_date > $currentDate ||
-                (strtotime($appointment->session_date) == strtotime($currentDate) &&
-                strtotime($appointment->session_time) > strtotime($currentTime))) &&
-                $appointment->is_deleted == 0
-            ) {
-                $dateKey = date("Y, F j, l", strtotime($appointment->session_date));
-                if (!isset($groupedAppointments[$dateKey])) {
-                    $groupedAppointments[$dateKey] = [];
-                }
-                $groupedAppointments[$dateKey][] = $appointment;
-            }
-        }
-        ?>
-
-        <?php if (!empty($groupedAppointments)): ?>
-            <?php $hasPendingAppointments = true; ?>
-
-            <?php foreach ($groupedAppointments as $date => $appointments): ?>
-                <?php echo $date; ?>
-
-                <?php foreach ($appointments as $appointment): ?>
-                    <div class="frame">
-                    <?php
-                                       
-                                        $appointmentDate = date("Y, F j, l", strtotime($appointment->session_date));
-                                        ?>
-                                        <span class="appointmentDate" style="display:none;"><?php echo $appointmentDate; ?></span>
-                        <span class="status">Appointment Status: <span class="pending"><?php echo htmlspecialchars($appointment->status); ?></span></span>
-
-                        <div class="appointment">
-                            <span class="doctor"> <?php echo htmlspecialchars($appointment->doctor_name); ?></span>
-                            <span class="ref-no">Appointment No:
-                                <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
-                            <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-
-                            <button class="view-button"
-                                data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
-
-                            <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
-                            <span
-                                class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
-
-                            <form method="POST" action="<?= ROOT; ?>/patient/appointments"
-                                onsubmit="return confirmDelete();">
-                                <input type="hidden" name="appointment_id" value="<?= ($appointment->appointment_id); ?>">
-                                <button type="submit" name="cancel" class="cancel-button">Cancel</button>
-                            </form>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-
-        <?php endif; ?>
-
-        <?php if (!$hasPendingAppointments): ?>
-            <p>No Pending Appointments found.</p>
-        <?php endif; ?>
+                    <form method="POST" action="<?= ROOT; ?>/patient/appointments" onsubmit="return confirmDelete();">
+                        <input type="hidden" name="appointment_id" value="<?= $appointment->appointment_id; ?>">
+                        <button type="submit" name="cancel" class="cancel-button">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        <?php endforeach; ?>
 
     <?php else: ?>
         <p>No Pending Appointments found.</p>
     <?php endif; ?>
 </div>
 
+<?php if ($totalPagesPending > 1): ?>
+    <div class="pagination">
+        <?php
+        $queryParams = $_GET;
+        // Previous page link
+        if ($currentPagePending > 1) {
+            $queryParams['page_pending'] = $currentPagePending - 1;
+            echo "<a class='page-link' href='?" . http_build_query($queryParams) . "'>&laquo; Prev</a>";
+        }
 
+        // Page number links
+        for ($page = 1; $page <= $totalPagesPending; $page++) {
+            $queryParams['page_pending'] = $page;
+            $isActive = ($page == $currentPagePending) ? 'active' : '';
+            echo "<a class='page-link $isActive' href='?" . http_build_query($queryParams) . "'>$page</a>";
+        }
 
-                <!-- Past Appointments Section -->
-                <div class="content">
-                    <?php if (isset($data) && is_array($data) && !empty($data)): ?>
+        // Next page link
+        if ($currentPagePending < $totalPagesPending) {
+            $queryParams['page_pending'] = $currentPagePending + 1;
+            echo "<a class='page-link' href='?" . http_build_query($queryParams) . "'>Next &raquo;</a>";
+        }
+        ?>
+    </div>
+<?php endif; ?>
 
-                        <?php
-                        $hasPastAppointments = false;
+                <!-- End of Pending Appointments Section -->
+            
+            
+              <!-- Past Appointments Section -->
+<div class="content">
+    <?php if (isset($pastAppointments) && is_array($pastAppointments) && !empty($pastAppointments)): ?>
 
-                        // Group past appointments by date
-                        $groupedAppointments = [];
-
-                        foreach ($data as $appointment) {
-                            if (
-                                ($appointment->session_date < $currentDate ||
-                                (strtotime($appointment->session_date) == strtotime($currentDate) &&
-                                strtotime($appointment->session_time) < strtotime($currentTime))) &&
-                                $appointment->is_deleted == 0
-                            ) {
-                                $dateKey = date("Y, F j, l", strtotime($appointment->session_date));
-                                if (!isset($groupedAppointments[$dateKey])) {
-                                    $groupedAppointments[$dateKey] = [];
-                                }
-                                $groupedAppointments[$dateKey][] = $appointment;
-                            }
-                        }
-                        ?>
-
-                        <?php if (!empty($groupedAppointments)): ?>
-                            <?php $hasPastAppointments = true; ?>
-
-                            <?php foreach ($groupedAppointments as $date => $appointments): ?>
-                                <?php echo $date; ?>
-                                <?php foreach ($appointments as $appointment): ?>
-                                    <div class="frame">
-                                        <?php
-                                        // Store the date in a variable for further processing
-                                        $appointmentDate = date("Y, F j, l", strtotime($appointment->session_date));
-                                        ?>
-                                        <span class="appointmentDate" style="display:none;"><?php echo $appointmentDate; ?></span>
-                                        <span class="status">Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
-                                        <div class="appointment">
-                                            <span class="doctor"><?php echo htmlspecialchars($appointment->doctor_name); ?></span>
-                                            <span class="ref-no">Appointment No: <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
-                                            <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
-                                            <button class="cancel-view-button" data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
-                                            <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
-                                            <span class="specialization"><?php echo htmlspecialchars($appointment->specialization); ?></span>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php endforeach; ?>
-
-                        <?php endif; ?>
-
-                        <?php if (!$hasPastAppointments): ?>
-                            <p>No Past Appointments found.</p>
-                        <?php endif; ?>
-
-                    <?php else: ?>
-                        <p>No Past Appointments found.</p>
-                    <?php endif; ?>
+        <?php foreach ($pastAppointments as $appointment): ?>
+            <div class="frame">
+                <div class="appointment-header">
+                    <span class="date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                    <span class="status">Appointment Status: <span class="past"><?php echo htmlspecialchars($appointment->status); ?></span></span>
                 </div>
+
+                <div class="appointment">
+                    <span class="doctor"><?php echo htmlspecialchars($appointment->doctor_name); ?></span>
+                    <span class="ref-no">Appointment No: <?php echo htmlspecialchars($appointment->appointment_number); ?></span>
+                    <span class="time">Time:<?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                    <button class="cancel-view-button" data-appointment-id="<?php echo $appointment->appointment_id; ?>">View</button>
+                    <span class="hospital"><?php echo htmlspecialchars($appointment->hospital_name); ?></span>
+                    <span class="specialization" style="display: none;"><?php echo htmlspecialchars($appointment->specialization); ?></span>
+                </div>
+            </div>
+        <?php endforeach; ?>
+
+    <?php else: ?>
+        <p>No Past Appointments found.</p>
+    <?php endif; ?>
+</div>
+<?php if ($totalPagesPast > 1): ?>
+    <div class="pagination">
+        <?php
+        $queryParams = $_GET;
+        // Previous page link
+        if ($currentPagePast > 1) {
+            $queryParams['page_past'] = $currentPagePast - 1;
+            echo "<a class='page-link' href='?" . http_build_query($queryParams) . "'>&laquo; Prev</a>";
+        }
+
+        // Page number links
+        for ($page = 1; $page <= $totalPagesPast; $page++) {
+            $queryParams['page_past'] = $page;
+            $isActive = ($page == $currentPagePast) ? 'active' : '';
+            echo "<a class='page-link $isActive' href='?" . http_build_query($queryParams) . "'>$page</a>";
+        }
+
+        // Next page link
+        if ($currentPagePast < $totalPagesPast) {
+            $queryParams['page_past'] = $currentPagePast + 1;
+            echo "<a class='page-link' href='?" . http_build_query($queryParams) . "'>Next &raquo;</a>";
+        }
+        ?>
+    </div>
+<?php endif; ?>
+
+
+
 
 
                 <!-- Popup Modal -->
@@ -225,7 +203,7 @@
                                 const time = appointmentElement.querySelector('.time').textContent.trim();
                                 const hospital = appointmentElement.querySelector('.hospital').textContent.trim();
                                 const specialization = appointmentElement.querySelector('.specialization').textContent.trim();
-                                const date = appointmentElement.querySelector('.appointmentDate')?.textContent?.trim() ;
+                                const date = appointmentElement.querySelector('.date')?.textContent?.trim() ;
                               
 
                                 // Populate the modal with appointment details
@@ -243,7 +221,7 @@
                                         <p><strong>Appointment Fee:</strong> Rs.${appointment.total_fee || "N/A"}.00</p>
                                         <p><strong>Payment Status:</strong> ${appointment.payment_status || "N/A"}</p>
                                         <!-- <p><strong>Selected files:</strong> ${appointment.selected_files || "No Documents to show"}</p> -->
-                                        <p><strong>Uploaded documents:</strong> ${appointment.documentNames || "No Documents to show"}</p>
+                                        <p><strong>Uploaded documents:</strong> ${formatDocumentsList(appointment.documentNames)}</p>
 
                                         
                                      
@@ -269,7 +247,22 @@
                         };
                     });
 
-
+                              function formatDocumentsList(documentsText) {
+                            if (!documentsText || documentsText.includes("No Documents")) {
+                                return `<div class="documents-list"><div class="document-item">No Documents to show</div></div>`;
+                            }
+                            
+                            // Split the text by commas or newlines
+                            const documents = documentsText.split(/[,\n]/).map(doc => doc.trim()).filter(doc => doc);
+                            
+                            let html = '<div class="documents-list">';
+                            documents.forEach(doc => {
+                                html += `<div class="document-item">${doc}</div>`;
+                            });
+                            html += '</div>';
+                            
+                            return html;
+                            }
 
                     //script to hide success message after 3 seconds
 
@@ -295,41 +288,7 @@
 
 
 
-                <style>
-                    .modal {
-                        display: none;
-                        position: fixed;
-                        z-index: 1000;
-                        left: 0;
-                        top: 0;
-                        width: 100%;
-                        height: 100%;
-                        overflow: auto;
-                        background-color: rgba(0, 0, 0, 0.9);
-                    }
-
-
-                    .modal-content {
-                        background-color: #fefefe;
-                        margin: 10% auto;
-                        padding: 20px;
-                        border-radius: 10px;
-                        width: 50%;
-                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                        border: solid 1px black;
-                    }
-
-                    .close {
-                        color: red;
-                        float: right;
-                        font-size: 28px;
-                        cursor: pointer;
-                    }
-
-                    .close:hover {
-                        color: darkred;
-                    }
-                </style>
+               
     </main>
     <script src="<?= ROOT; ?>/assets/js/patient/appointments.js"></script>
 </body>

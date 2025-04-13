@@ -193,6 +193,37 @@ class Patient extends Controller
             header('location: ' . ROOT . '/Patient/appointments');
             exit;
         }
+        $pendingAppointments =[];
+        $pastAppointments =[];
+        $currentDate = date("Y-m-d");
+        $currentTime = date("g:i A");
+        foreach ($data as $appointment) {
+            $appointmentDate = $appointment->session_date;
+            $appointmentTime = date("g:i A", strtotime($appointment->session_time));
+        
+            if ($appointment->is_deleted == 0) {
+                if (
+                    ($appointmentDate > $currentDate) ||
+                    ($appointmentDate == $currentDate && strtotime($appointmentTime) > strtotime($currentTime))
+                ) {
+                    $pendingAppointments[] = $appointment;
+                } else {
+                    $pastAppointments[] = $appointment;
+                }
+            }
+        }
+         // Pagination Logic for Pending Appointments
+    $limit = 4;
+    $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;
+    $offsetPending = ($currentPagePending - 1) * $limit;
+    $pendingAppointmentsPaginated = array_slice($pendingAppointments, $offsetPending, $limit);
+    $totalPagesPending = ceil(count($pendingAppointments) / $limit);
+
+       // Pagination Logic for Past Appointments
+       $currentPagePast = isset($_GET['page_past']) ? (int)$_GET['page_past'] : 1;
+       $offsetPast = ($currentPagePast - 1) * $limit;
+       $pastAppointmentsPaginated = array_slice($pastAppointments, $offsetPast, $limit);
+       $totalPagesPast = ceil(count($pastAppointments) / $limit);
     
         // Error handling if POST with no appointment_id
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
@@ -200,7 +231,15 @@ class Patient extends Controller
         }
     
         $this->view('header');
-        $this->view('patient/appointments', $data);
+        $this->view('patient/appointments', [
+           'pendingAppointments' => $pendingAppointmentsPaginated,
+        'pastAppointments' => $pastAppointmentsPaginated,
+        'currentPagePending' => $currentPagePending,
+        'totalPagesPending' => $totalPagesPending,
+        'currentPagePast' => $currentPagePast,
+        'totalPagesPast' => $totalPagesPast,
+        'data' => $data,
+        ]);
         $this->view('footer');
     }
     

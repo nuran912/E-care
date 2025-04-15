@@ -17,6 +17,7 @@
             'ref_no',
             'uploaded_at'
         ]; 
+
         public function getDocumentsByUserId($id){
             $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
             $result = $this->query($query, ['user_id' => $id]);
@@ -33,9 +34,18 @@
                return [];
             }
       
-            $query = "SELECT * FROM $this->table WHERE user_id = :user_id ORDER BY $this->order_column $this->order_type LIMIT $this->limit OFFSET $this->offset";
+            $query = "SELECT * FROM $this->table WHERE user_id = :user_id";
       
             $result = $this->query($query,['user_id' => $user_id]);
+            
+            return json_decode(json_encode($result), true); // Convert object to array
+        }
+
+        public function getAllDocuments() {
+      
+            $query = "SELECT * FROM $this->table";
+      
+            $result = $this->query($query);
             
             return json_decode(json_encode($result), true); // Convert object to array
          }

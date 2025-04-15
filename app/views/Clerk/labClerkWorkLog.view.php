@@ -178,36 +178,11 @@
 
             <?php if(isset($documents) && is_array($documents)): ?>
 
-                <?php
+                <div class="date">
+                    <p><?php echo date('Y, F j, l',strtotime($selectedDate)) ?></p>
+                </div>
 
-                    //group documents by date
-
-                    $groupedByDate = [];
-                    foreach($documents as $index => $document):
-                        if($document['document_type'] == 'lab_report'):
-                            $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
-                            $groupedByDate[$dateOnly][] = $document;
-                        endif;
-                    endforeach;
-                ?>
-
-                <?php
-
-                    //sort by date descending
-                    krsort($groupedByDate);  
-
-                    //pagination
-                    $dates = array_keys($groupedByDate);
-                    $totalPages = count($dates);
-                    $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'],$totalPages)) : 1;
-
-                    $selectedDate = $dates[$currentPage - 1];
-                    $dailyDocuments = $groupedByDate[$selectedDate];
-                ?>
-
-                <div class="date"><p><?php echo date('Y, F j, l',strtotime($selectedDate)) ?></p></div>
-
-                <?php foreach($dailyDocuments as $document): ?>
+                <?php foreach($documents as $document): ?>
 
                     <div class="uploadedInfo">
 

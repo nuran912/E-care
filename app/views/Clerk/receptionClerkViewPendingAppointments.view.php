@@ -318,24 +318,24 @@
 
             <h2>Pending Appointments</h2>
 
-                <form action="" id="searchForm" method="GET">
+                <form action="" id="searchForm" method="POST">
                     <input type="text" name="find" class="search" placeholder="Search Appointments...">
                     <button class="search-button" type="submit">Search</button>
                 </form>
 
                 <div class="content">
 
-                    <?php if (isset($data) && is_array($data)): ?>
+                    <?php if (isset($appointments) && is_array($appointments)): ?>
 
                         <?php $index = 0; ?>
-                        <?php foreach ($data as $appointment): ?>
+                        <?php foreach ($appointments as $appointment): ?>
 
-                            <?php if ($appointment->status == 'scheduled'): ?>
+                            <?php if ($appointment['status'] == 'scheduled'): ?>
 
                                 <div class="appointment-main-info">
-                                    <span class="appointment-date"><?php echo date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
+                                    <span class="appointment-date"><?php echo date("Y, F j, l", strtotime($appointment['session_date'])); ?></span>
                                     
-                                    <?php if ($appointment->payment_status == "pending"): ?>
+                                    <?php if ($appointment['payment_status'] == "pending"): ?>
                                         <p class="payment-stat">Payment Status : <span style="color: red; font-weight: bold;">Pending</span></p>
                                     <?php else:?>
                                         <p class="payment-stat">Payment Status : <span style="color: green; font-weight: bold;">Completed</span></p>
@@ -344,10 +344,10 @@
 
                                 <div class="appointment">
 
-                                    <span class="patient"><?php echo ($appointment->patient_name); ?></span>
-                                    <span class="doctor"><?php echo ($appointment->doctor_name); ?></span>
-                                    <span class="ref-no">Appointment No: <?php echo ($appointment->appointment_number); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment->session_time)); ?></span>
+                                    <span class="patient"><?php echo ($appointment['patient_name']); ?></span>
+                                    <span class="doctor"><?php echo ($appointment['doctor_name']); ?></span>
+                                    <span class="ref-no">Appointment No: <?php echo ($appointment['appointment_number']); ?></span>
+                                    <span class="time"><?php echo date("g:i A", strtotime($appointment['session_time'])); ?></span>
 
                                     <button class="view-button" data-index="<?= $index ?>">View</button>
                                         <div class="popup" id="popup-<?= $index ?>" style="display: none;">
@@ -356,24 +356,24 @@
 
                                                     <h4>Appointment Details</h4>
 
-                                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment->appointment_id) ?>">
+                                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment[0]['appointment_id']) ?>">
                                                     
                                                     <label for="patient_name">Date: </label>
-                                                    <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment->session_date) ?>">
+                                                    <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment['session_date']) ?>">
                                                     <label for="patient_name">Patient Name: </label>
-                                                    <input type="text" name="patient_name" class="patient-name" value="<?php echo htmlspecialchars($appointment->patient_name) ?>">
+                                                    <input type="text" name="patient_name" class="patient-name" value="<?php echo htmlspecialchars($appointment['patient_name']) ?>">
                                                     <label for="patient_phone">Contact Number: </label>
-                                                    <input type="text" name="patient_phone" class="patient-phone" value="<?php echo htmlspecialchars($appointment->phone_number) ?>">
+                                                    <input type="text" name="patient_phone" class="patient-phone" value="<?php echo htmlspecialchars($appointment['phone_number']) ?>">
                                                     <label for="doctor_name">Doctor: </label>
-                                                    <input type="text" name="doctor_name" class="doctor-name" value="<?php echo htmlspecialchars($appointment->doctor_name) ?>">
+                                                    <input type="text" name="doctor_name" class="doctor-name" value="<?php echo htmlspecialchars($appointment['doctor_name']) ?>">
                                                     <label for="doctor_specialization">Specialization: </label>
-                                                    <input type="text" name="doctor_specialization" class="doctor-specialization" value="<?php echo htmlspecialchars($appointment->specialization) ?>">
+                                                    <input type="text" name="doctor_specialization" class="doctor-specialization" value="<?php echo htmlspecialchars($appointment['specialization']) ?>">
                                                     <label for="appointment_no">Appointment No.: </label>
-                                                    <input type="text" name="appointment_no" class="appointment_no" value="<?php echo htmlspecialchars($appointment->appointment_number) ?>">
+                                                    <input type="text" name="appointment_no" class="appointment_no" value="<?php echo htmlspecialchars($appointment['appointment_number']) ?>">
                                                     <label for="session_time">Time: </label>
-                                                    <input type="text" name="session_time" class="session_time" value="<?php echo htmlspecialchars($appointment->session_time) ?>">
+                                                    <input type="text" name="session_time" class="session_time" value="<?php echo htmlspecialchars($appointment['session_time']) ?>">
                                                     <label for="total_fee">Amount: </label>
-                                                    <input type="text" name="total_fee" class="total_fee" value="<?php echo htmlspecialchars($appointment->total_fee) ?>">
+                                                    <input type="text" name="total_fee" class="total_fee" value="<?php echo htmlspecialchars($appointment['total_fee']) ?>">
 
                                                     <?php if ($appointment->payment_status == "pending"): ?>
                                                         <button class="pay-button">Proceed to Payment</button>
@@ -385,8 +385,8 @@
                                             </div>
                                         </div>
 
-                                    <span class="hospital"><?php echo ($appointment->hospital_name); ?></span>
-                                    <span class="specialization"><?php echo ($appointment->specialization); ?></span>
+                                    <span class="hospital"><?php echo ($appointment['hospital_name']); ?></span>
+                                    <span class="specialization"><?php echo ($appointment['specialization']); ?></span>
 
                                 </div>
 

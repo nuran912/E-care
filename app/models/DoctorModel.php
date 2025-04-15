@@ -147,8 +147,8 @@ class DoctorModel
         );
     }
 
-    public function getDoctorAppointments() {
-        return $this->query(
+    public function getDoctorAppointments($hospital) {
+        $result = $this->query(
             "SELECT 
                 a.appointment_id,
                 a.patient_name,
@@ -168,13 +168,17 @@ class DoctorModel
                   doctors d 
             ON 
                 d.id = a.doctor_id
+            WHERE
+                a.hospital_name = :hospital
             ORDER BY
                 a.updated_at DESC"
-        );
+        , ['hospital' => $hospital]);
+
+        return json_decode(json_encode($result), true);
     }
 
-    public function getDoctorAppointmentsSearch($patient_name,$phone_number) {
-        return $this->query(
+    public function getDoctorAppointmentsSearch($phone_number,$hospital) {
+        $result = $this->query(
             "SELECT 
                 a.appointment_id,
                 a.patient_name,
@@ -189,15 +193,16 @@ class DoctorModel
                 d.name AS doctor_name,
                 d.specialization
             FROM 
-              appointments a 
+                appointments a 
             JOIN 
-                  doctors d 
+                doctors d 
             ON 
                 d.id = a.doctor_id
             WHERE 
-                a.patient_name like :patient_name OR a.phone_number like :phone_number",
-                ['patient_name'=>$patient_name,'phone_number'=>$phone_number]
-        );
+                a.phone_number = :phone_number AND a.hospital_name = :hospital"
+        ,['phone_number' => $phone_number,'hospital' => $hospital]);
+
+        return json_decode(json_encode($result), true);
     }
 
     public function profileValidation($data, $originalData)

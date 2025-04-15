@@ -207,12 +207,30 @@ class Patient extends Controller
         $document = new Document;
 
         //retrieve the documents from the database
-        $document->setLimit(50);
-        $document->setOrder('desc');
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
+        
+        //filter and sort medical records by uploaded_at descending
+        $medicalRecords = array_filter($documents, function($doc) {
+            return $doc['document_type'] === 'medical_record';
+        });
+
+        usort($medicalRecords, function($a,$b) {
+            return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+        });
+        
+        //pagination
+        $documentsPerPage = 6;
+        $totalDocuments = count($medicalRecords);
+        $totalPages = ceil($totalDocuments / $documentsPerPage);
+        $currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+
+        $startIndex = ($currentPage - 1) * $documentsPerPage;
+        $pagedDocuments = array_slice($medicalRecords,$startIndex,$documentsPerPage);
 
         $data = [
-            'documents' => $documents
+            'documents' => $pagedDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ];
 
         $this->view('Patient/medical_records', $data);
@@ -226,12 +244,30 @@ class Patient extends Controller
         $document = new Document;
 
         //retrieve the documents from the database
-        $document->setLimit(50);
-        $document->setOrder('desc');
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
+        //filter and sort lab reports by uploaded_at descending
+        $labReports = array_filter($documents, function($doc) {
+            return $doc['document_type'] === 'lab_report';
+        });
+
+        usort($labReports, function($a,$b) {
+            return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+        });
+
+        //pagination
+        $documentsPerPage = 6;
+        $totalDocuments = count($labReports);
+        $totalPages = ceil($totalDocuments / $documentsPerPage);
+        $currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+
+        $startIndex = ($currentPage - 1) * $documentsPerPage;
+        $pagedDocuments = array_slice($labReports,$startIndex,$documentsPerPage);
+
         $data = [
-            'documents' => $documents
+            'documents' => $pagedDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ];
 
         $this->view('Patient/lab_reports', $data);
@@ -241,9 +277,6 @@ class Patient extends Controller
 
     public function private_files($a = '')
     {
-
-        $this->view('header');
-
         $document = new Document;
 
         //insert a private file
@@ -275,7 +308,7 @@ class Patient extends Controller
                     ];
 
                     $document->insert($data);
-                    redirect('Patient/private_files');
+                    redirect('Patient/private_files?page=1');
                 }
             }
         }
@@ -307,7 +340,7 @@ class Patient extends Controller
                 }
             }
 
-            redirect('Patient/private_files');
+            redirect('Patient/private_files?page=1');
         }
 
         //delete a private file
@@ -325,16 +358,37 @@ class Patient extends Controller
                 }
             }
 
-            redirect('Patient/private_files');
+            redirect('Patient/private_files?page=1');
         }
 
+        $this->view('header');
+
         //retrieve the documents from the database
-        $document->setLimit(50);
-        $document->setOrder('desc');
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
+        //filtering the private files
+        $privateFiles = array_filter($documents, function($doc) {
+            return $doc['document_type'] === 'private';
+        });
+
+        //sort by uploaded_at descending
+        usort($privateFiles, function($a,$b) {
+            return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+        });
+        
+        //pagination
+        $documentsPerPage = 6;
+        $totalDocuments = count($privateFiles);
+        $totalPages = ceil($totalDocuments / $documentsPerPage);
+        $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'], $totalPages)) : 1;
+
+        $startIndex = ($currentPage - 1) * $documentsPerPage;
+        $pagedDocuments = array_slice($privateFiles, $startIndex, $documentsPerPage);
+
         $data = [
-            'documents' => $documents
+            'documents' => $pagedDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ];
 
         $this->view('Patient/private_files', $data);

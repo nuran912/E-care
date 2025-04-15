@@ -23,28 +23,7 @@
 
                     <?php if(isset($documents) && is_array($documents)): ?>
 
-                        <?php
-
-                            //filter and sort medical records by uploaded_at descending
-                            $medicalRecords = array_filter($documents, function($doc) {
-                                return $doc['document_type'] === 'medical_record';
-                            });
-
-                            usort($medicalRecords, function($a,$b) {
-                                return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
-                            });
-                            
-                            //pagination
-                            $documentsPerPage = 6;
-                            $totalDocuments = count($medicalRecords);
-                            $totalPages = ceil($totalDocuments / $documentsPerPage);
-                            $currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
-
-                            $startIndex = ($currentPage - 1) * $documentsPerPage;
-                            $pagedDocuments = array_slice($medicalRecords,$startIndex,$documentsPerPage);
-                        ?>
-
-                        <?php foreach($pagedDocuments as $document): ?>
+                        <?php foreach($documents as $document): ?>
 
                             <div class="record-date-time-category">
                                 <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
@@ -61,8 +40,6 @@
                         <div class="pagination">
                             <?php if($currentPage > 1): ?>
                                 <a href="?page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
-                            <?php else: ?>
-                                <span class="prev-disabled">Prev</span>
                             <?php endif; ?>
 
                             <?php for($i = 1; $i <= $totalPages; $i++): ?>
@@ -71,8 +48,6 @@
                             
                             <?php if($currentPage < $totalPages): ?>
                                 <a href="?page=<?= $currentPage + 1?>" class="next">Next</a>
-                            <?php else: ?>
-                                <span class="next-disabled">Next</span>
                             <?php endif; ?>
                         </div>
 

@@ -142,12 +142,64 @@ class Clerk extends Controller {
 
         $document = new Document;
 
-        $document->setLimit(50);
-        $document->setOrder('desc');
-        $documents = $document->findAll();
+        //retrieve the documents
+        $documents = $document->getAllDocuments();
+
+        //searching process
+        $searchDate = isset($_GET['search_date']) ? $_GET['search_date'] : null;
+        
+        $filteredDocuments = [];
+
+        //filter documents by search date if provided
+        if($searchDate) {
+            foreach($documents as $doc) {
+                if($doc['document_type'] == 'medical_record' && date('Y-m-d',strtotime($doc['uploaded_at'])) == $searchDate) {
+                    $filteredDocuments[] = $doc;
+                }
+            }
+
+            //pagination
+            $perPage = 5;
+            $total = count($filteredDocuments);
+            $pages = ceil($total / $perPage);
+            $page = isset($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+            $start = ($page - 1) * $perPage;
+            $pagedDocuments = array_slice($filteredDocuments, $start, $perPage);
+
+            //group paginated documents by date
+            $groupedByDate = [];
+            foreach($pagedDocuments as $doc):
+                $dateOnly = date('Y-m-d',strtotime($doc['uploaded_at']));
+                $groupedByDate[$dateOnly][] = $doc;
+            endforeach;
+
+            //sort by date descending
+            krsort($groupedByDate);
+        }
+        else {
+            //default: if search date is not provided
+            foreach($documents as $doc) {
+                if($doc['document_type'] == 'medical_record') {
+                    $filteredDocuments[] = $doc;
+                }
+            }
+
+            //group documents by date
+            $groupedByDate = [];
+            foreach($filteredDocuments as $doc):
+                $dateOnly = date('Y-m-d',strtotime($doc['uploaded_at']));
+                $groupedByDate[$dateOnly][] = $doc;
+            endforeach;
+
+            //sort by date descending
+            krsort($groupedByDate);
+        }  
 
         $data = [
-            'documents' => $documents
+            'documents' => $groupedByDate,
+            'pages' => isset($pages) ? $pages : 0,
+            'current_page' => isset($page) ? $page : 1,
+            'search_date' => $searchDate
         ];
 
         $this->view('Clerk/recordClerkWorkLog',$data);
@@ -213,12 +265,33 @@ class Clerk extends Controller {
 
         $document = new Document;
 
-        $document->setLimit(50);
-        $document->setOrder('desc');
-        $documents = $document->findAll();
+        $documents = $document->getAllDocuments();
+
+        //group documents by date
+        $groupedByDate = [];
+        foreach($documents as $index => $document):
+            if($document['document_type'] == 'lab_report'):
+                $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
+                $groupedByDate[$dateOnly][] = $document;
+            endif;
+        endforeach;
+
+        //sort by date descending
+        krsort($groupedByDate);  
+
+        //pagination
+        $dates = array_keys($groupedByDate);
+        $totalPages = count($dates);
+        $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'],$totalPages)) : 1;
+
+        $selectedDate = $dates[$currentPage - 1];
+        $dailyDocuments = $groupedByDate[$selectedDate];
 
         $data = [
-            'documents' => $documents
+            'selectedDate' => $selectedDate,
+            'documents' => $dailyDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ];
 
         $this->view('Clerk/labClerkWorkLog',$data);
@@ -230,17 +303,28 @@ class Clerk extends Controller {
         $this->view('header');
 
         $doctorModel = new DoctorModel;
+        $clerkModel = new ClerkModel;
 
-        $data = $doctorModel->getDoctorAppointments();
+        $user_id = $_SESSION['USER']->user_id;
 
-        if(isset($_GET['find'])) {
-            $find = '%' . $_GET['find'] . '%';
-            $data = $doctorModel->getDoctorAppointmentsSearch($find,$find);
+        $hospital = $clerkModel->getReceptionClerkHospitalByUserId($user_id);
+
+        //retrieve all the appointments made to all the doctors in the hospital where clerk is working
+        $appointments = $doctorModel->getDoctorAppointments($hospital[0]['name']);
+
+        //search an appointment made by a patient
+        if(isset($_POST['find'])) {
+            $phone_number = $_POST['find'];
+            $appointments = $doctorModel->getDoctorAppointmentsSearch($phone_number,$hospital[0]['name']);
         }
         
-        if (!is_array($data)) {
-            $data = [];
+        if (!is_array($appointments)) {
+            $appointments = [];
         }
+
+        $data = [
+            'appointments' => $appointments
+        ];
 
         $this->view('Clerk/receptionClerkViewPendingAppointments',$data);
         $this->view('footer');

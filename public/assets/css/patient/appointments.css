@@ -425,5 +425,173 @@ main {
           border-radius: 4px;
           border-left: 5px solid #0072bc; 
           font-size: 14px;
+          margin-right: 2px;
         }
-/* this is for popup tab */
+        .pagination {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 20px;
+      }
+      
+      .pagination-left,
+      .pagination-right {
+          flex: 1;
+          text-align: center;
+         
+      }
+      
+      .pagination-center {
+          flex: 2;
+          display: flex;
+          justify-content: center;
+          gap: 10px; /* Space between page numbers */
+      }
+      
+      .page-link {
+          padding: 8px 14px;
+          text-decoration: none;
+          border: 1px solid #ddd;
+          color: #333;
+          border-radius: 5px;
+          transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      
+      .page-link:hover {
+          background-color: #f0f0f0;
+          color: #0e2f56;
+      }
+      
+      .page-link.active-page {
+          background-color: #0e2f56;
+          color: white;
+          border-color: #0e2f56;
+      }
+      
+      .page-link.disabled {
+          color: #aaa;
+          border-color: #ddd;
+          cursor: not-allowed;
+          pointer-events: none;
+          
+      }
+      
+      .ellipsis {
+          display: inline-block;
+          padding: 8px 14px;
+          color: #aaa;
+          cursor: default;
+      }
+      
+      .page-link.prev:hover,
+      .page-link.next:hover {
+          background-color: #0e2f56;
+          color:white;
+        
+      }
+/* Appointment Search Section */
+.appointment_search_section {
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 25px;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Intro Section */
+.appointment_search_section .intro h4 {
+  font-size: 30px;
+  color: #333333;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Search Bar - Main Container */
+.search-bar {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+/* Form styling to ensure inline elements */
+.search-bar form {
+  display: flex;
+  flex-grow: 1;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Input Field */
+.search-bar input[type="date"] {
+  flex-grow: 1;
+  padding: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar input[type="date"]:focus {
+  border-color: #0e2f56;
+  box-shadow: 0 0 5px rgba(14, 47, 86, 0.3);
+  outline: none;
+}
+
+/* Button Styles - Shared properties */
+.search-bar .search-button, 
+.search-bar .clear-button {
+  padding: 12px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  min-width: 100px;
+  text-align: center;
+}
+
+/* Search Button */
+.search-bar .search-button {
+  background-color: #0e2f56;
+}
+
+.search-bar .search-button:hover {
+  background-color: #0b2447;
+  transform: translateY(-2px);
+}
+
+/* Clear Button */
+.search-bar .clear-button {
+  background-color: #e74c3c;
+}
+
+.search-bar .clear-button:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+/* Button active state */
+.search-bar .search-button:active,
+.search-bar .clear-button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-bar form {
+    flex-direction: column;
+  }
+}

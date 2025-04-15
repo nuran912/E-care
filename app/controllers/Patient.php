@@ -97,6 +97,9 @@ class Patient extends Controller
             header('location: ' . ROOT . '/Home');
             exit;
         }
+        if (!isset($_GET['section'])) {
+            header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=1');}
+            
     
         // Fetch all appointments for the logged-in patient
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
@@ -212,6 +215,23 @@ class Patient extends Controller
                 }
             }
         }
+        usort($pendingAppointments, function ($a, $b) {
+            return strtotime($a->session_date) - strtotime($b->session_date);
+        });
+        usort($pastAppointments, function ($a, $b) {
+            return strtotime($b->session_date) - strtotime($a->session_date);
+        });
+
+         // Handle search by date
+    if (isset($_GET['search_date'])) {
+        $searchDate = $_GET['search_date'];
+        $pendingAppointments = array_filter($pendingAppointments, function ($appointment) use ($searchDate) {
+            return $appointment->session_date === $searchDate;
+        });
+        $pastAppointments = array_filter($pastAppointments, function ($appointment) use ($searchDate) {
+            return $appointment->session_date === $searchDate;
+        });
+    }
          // Pagination Logic for Pending Appointments
     $limit = 4;
     $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;
@@ -224,6 +244,9 @@ class Patient extends Controller
        $offsetPast = ($currentPagePast - 1) * $limit;
        $pastAppointmentsPaginated = array_slice($pastAppointments, $offsetPast, $limit);
        $totalPagesPast = ceil(count($pastAppointments) / $limit);
+
+           // Default section to 'pending' if not specified
+    
     
         // Error handling if POST with no appointment_id
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
@@ -232,13 +255,15 @@ class Patient extends Controller
     
         $this->view('header');
         $this->view('patient/appointments', [
-           'pendingAppointments' => $pendingAppointmentsPaginated,
+        'pendingAppointments' => $pendingAppointmentsPaginated,
         'pastAppointments' => $pastAppointmentsPaginated,
         'currentPagePending' => $currentPagePending,
         'totalPagesPending' => $totalPagesPending,
         'currentPagePast' => $currentPagePast,
         'totalPagesPast' => $totalPagesPast,
         'data' => $data,
+        
+        
         ]);
         $this->view('footer');
     }

@@ -16,8 +16,23 @@
                     });
                 });
 
+                document.querySelectorAll('.tab-button').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const section = this.textContent.includes('Pending') ? 'pending' : 'past';
+                        const queryParams = new URLSearchParams(window.location.search);
+                        queryParams.set('section', section); // Set the active section
                 
+                        if (section === 'pending') {
+                            queryParams.set('page_pending', 1); // Reset pagination for Pending
+                            queryParams.delete('page_past');   // Remove pagination for Past
+                        } else if (section === 'past') {
+                            queryParams.set('page_past', 1);   // Reset pagination for Past
+                            queryParams.delete('page_pending'); // Remove pagination for Pending
+                        }
+                
+                        window.location.search = queryParams.toString(); // Update the URL
+                    });
+                });
 
 
                 
-            

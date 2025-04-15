@@ -184,6 +184,11 @@ body {
   border-color: #ddd;
   cursor: not-allowed;
 }
+a.prev-btn:hover,a.next-btn:hover{
+  background-color: #0e2f56;
+  color: white;
+  
+}
 
 
 

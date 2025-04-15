@@ -33,7 +33,7 @@
     <div class="intro"><h4>Search Appointments</h4></div>
     <div class="search-bar">
         <form method="GET" action="<?= ROOT ?>/Patient/appointments">
-            <input type="date" name="search_date" value="<?= isset($_GET['search_date']) ? htmlspecialchars($_GET['search_date']) : ''; ?>" required>
+            <input type="date" name="search_date" value="<?= isset($_GET['search_date']) ? htmlspecialchars($_GET['search_date']) : ''; ?>" >
             <input type="hidden" name="section" value="<?= isset($_GET['section']) ? $_GET['section'] : 'pending'; ?>">
             <button type="submit" class="search-button">Search</button>
         </form>

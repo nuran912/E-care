@@ -24,35 +24,31 @@
                     <?php if(isset($documents) && is_array($documents)): ?>
 
                         <?php
-                        
-                            //group documents by date
-                            $groupedByDate = [];
 
-                            foreach($documents as $index => $document):
-                                if($document['document_type'] == 'medical_record'):
-                                    $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
-                                    $groupedByDate[$dateOnly][] = $document;
-                                endif;
-                            endforeach;
-                        ?>
+                            //filter and sort medical records by uploaded_at descending
+                            $medicalRecords = array_filter($documents, function($doc) {
+                                return $doc['document_type'] === 'medical_record';
+                            });
 
-                        <?php
-
-                            //sort by date descending
-                            krsort($groupedByDate);  
+                            usort($medicalRecords, function($a,$b) {
+                                return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+                            });
                             
                             //pagination
-                            $dates = array_keys($groupedByDate);
-                            $totalPages = count($dates);
-                            $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'],$totalPages)) : 1;
+                            $documentsPerPage = 6;
+                            $totalDocuments = count($medicalRecords);
+                            $totalPages = ceil($totalDocuments / $documentsPerPage);
+                            $currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
 
-                            $selectedDate = $dates[$currentPage - 1];
-                            $dailyDocuments = $groupedByDate[$selectedDate];
+                            $startIndex = ($currentPage - 1) * $documentsPerPage;
+                            $pagedDocuments = array_slice($medicalRecords,$startIndex,$documentsPerPage);
                         ?>
 
-                        <div class="record-date-time-category"><p><?php echo date('Y, F j, l',strtotime($selectedDate)); ?></p></div>
+                        <?php foreach($pagedDocuments as $document): ?>
 
-                        <?php foreach($dailyDocuments as $document): ?>
+                            <div class="record-date-time-category">
+                                <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
+                            </div>
                             <div class="record">
                                 <span class="ref-no"><p><?php echo htmlspecialchars($document['ref_no']); ?></p></span>
                                 <span class="label"><p><?php echo htmlspecialchars($document['document_name']); ?></p></span>

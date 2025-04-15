@@ -498,7 +498,24 @@ class Admin extends Controller
 
       if ($a == 'edit') {
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $hospitalModel->update($_POST['id'], $_POST, 'id');
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $hospitalData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'hospital_fee' => $_POST['hospital_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $hospitalModel->update($_POST['id'], $hospitalData, 'id');
             $_SESSION['edit_success'] = 'Hospital updated successfully.';
             redirect('Admin/hospitals');
          }

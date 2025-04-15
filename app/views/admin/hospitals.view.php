@@ -6,7 +6,6 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Admin - Hospitals</title>
    <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/admin/user.css">
-   <script src="<?php echo ROOT ?>/assets/js/create.js"></script>
 </head>
 
 <body>
@@ -71,7 +70,7 @@
                            <td data-search="<?php echo $hospital['hospital_fee']; ?>">Rs.<?php echo $hospital['hospital_fee']; ?></td>
                            <td data-search="<?php echo $hospital['working_hours']; ?>"><?php echo $hospital['working_hours']; ?></td>
                            <td><a href="<?php echo $hospital['location']; ?>" target="_blank"><img src="<?= ROOT ?>/assets/img/admin/location.svg" height="40px" width="40px"></a></td>
-                           <td><button class="btn-edit" onclick="hospitalEditPopup(<?php echo htmlspecialchars(json_encode($hospital)); ?>"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                           <td><button class="btn-edit" onclick="hospitalEditPopup(<?php echo htmlspecialchars(json_encode($hospital)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                         </tr>
                      <?php endforeach; ?>
 
@@ -175,8 +174,6 @@
                </div>
             </div>
 
-
-
             <div class="form-row">
                <button type="submit" class="btn-create">Create</button>
                <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
@@ -188,91 +185,103 @@
 
       <!-- Edit Card -->
       <div class="popup-edit">
-         <h2>Edit Clerk</h2>
-         <form id="edit-clerk-form" action="<?= ROOT ?>/Admin/clerk /edit" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="emp_id" id="edit-clerk-id">
-            <input type="hidden" name="user_id" id="edit-user-id">
+         <h2>Edit Hospital</h2>
+         <form id="edit-hospital-form" action="<?= ROOT ?>/Admin/hospitals/edit" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" id="edit-hospital-id">
             <div class="form-row">
-               <input type="file" id="edit-doctor-image" name="clerk-image" accept="image/*" hidden>
-               <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="name" placeholder=" " id="edit-clerk-name" required>
-                        <label>Full Name</label>
+                        <input type="text" name="name" placeholder=" " id="edit-hospital-name" required>
+                        <label>Hospital Name</label>
                      </div>
                      <div class="form-group">
-                        <input type="email" name="email" placeholder=" " id="edit-clerk-email" required>
-                        <label>Email</label>
+                        <input type="text" name="address" placeholder=" " id="edit-hospital-address" required>
+                        <label>Address</label>
                      </div>
                   </div>
                   <div class="form-row">
-                     <!-- <div class="form-group">
-                        
-                        <select name="gender" id="edit-clerk-gender">
-                           <option value="Male" selected>Male</option>
-                           <option value="Female">Female</option>
-                        </select>
-                        <label>Gender</label>
-                     </div> -->
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " id="edit-clerk-nic" required>
-                        <label>NIC</label>
+                        <input type="text" name="contact" placeholder=" " id="edit-hospital-contact" required>
+                        <label>Contact Number</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone_number" placeholder=" " id="edit-clerk-phone" required>
-                        <label>Phone Number</label>
+                        <input type="url" name="location" placeholder=" " id="edit-hospital-location" required>
+                        <label>Location (Google Maps)</label>
+                     </div>
+                  </div>
+                  <div class="form-row">
+                     <div class="form-group">
+                        <input type="text" name="hospital_fee" placeholder="" id="edit-hospital-fee" required>
+                        <label>Hospital Fee (Rs.)</label>
+                     </div>
+                     <div class="form-group">
+                        <input type="text" name="working_hours" placeholder="eg: 24h " id="edit-hospital-working" required>
+                        <label>Working Hours</label>
+                     </div>
+                  </div>
+                  <div class="form-row">
+                     <div class="form-group">
+                        <textarea name="description" rows="10" placeholder=" " id="edit-hospital-des"></textarea>
+                        <label>Description</label>
+                     </div>
+
+                     <div class="form-group">
+                        <p style="color:#007bff; margin-top: -1rem; margin-left: 10px;">Services Provided</p>
+                        <div class="form-checkbox">
+                           <div class="form-row">
+                              <input type="checkbox" name="services[]" value="Family Physician" id="edit-hospital-services">
+                              <span>Family Physician</span>
+                              <input type="checkbox" name="services[]" value="Diabetes Centre" id="edit-hospital-services">
+                              <span>Diabetes Centre</span>
+                           </div>
+                           <div class="form-row">
+                              <input type="checkbox" name="services[]" value="Psychiatric Care" id="edit-hospital-services">
+                              <span>Psychiatric Care</span>
+                              <input type="checkbox" name="services[]" value="Radiology" id="edit-hospital-services">
+                              <span>Radiology</span>
+                           </div>
+                           <div class="form-row">
+                              <input type="checkbox" name="services[]" value="Heart Centre" id="edit-hospital-services">
+                              <span>Heart Centre</span>
+                              <input type="checkbox" name="services[]" value="General Surgery" id="edit-hospital-services">
+                              <span>General Surgery</span>
+                           </div>
+                           <div class="form-row">
+                              <input type="checkbox" name="services[]" value="Orthopedics" id="edit-hospital-services">
+                              <span>Orthopedics</span>
+                              <input type="checkbox" name="services[]" value="Cancer Care" id="edit-hospital-services">
+                              <span>Cancer Care</span>
+                           </div>
+                           <div class="form-row">
+                              <input type="checkbox" name="services[]" value="Neonatal Care" id="edit-hospital-services">
+                              <span>Neonatal Care</span>
+                              <input type="checkbox" name="services[]" value="Intensive Care" id="edit-hospital-services">
+                              <span>Intensive Care</span>
+                           </div>
+                           <div class="form-row">
+                              <input type="checkbox" name="services[]" value="Cosmetic Centre" id="edit-hospital-services">
+                              <span>Cosmetic Centre</span>
+                              <input type="checkbox" name="services[]" value="Urology" id="edit-hospital-services">
+                              <span>Urology</span>
+                           </div>
+
+                        </div>
                      </div>
                   </div>
                </div>
             </div>
-            <div class="form-row">
-               <div class="form-group">
-                  <input type="hidden">
-                  <label>Type</label>
-                  <select name="type" id="edit-clerk-type">
-                     <option value="lab" selected>Lab clerk</option>
-                     <option value="record">Record clerk</option>
-                     <option value="reception">Reception clerk</option>
-                  </select>
-               </div>
-               <div class="form-group">
-                  <input type="text" name="emp_id" id="edit-clerk-emp-id" required disabled>
-                  <label>Employee Number</label>
 
-               </div>
-            </div>
             <div class="form-row">
-               <div class="form-group">
-                  <input type="hidden">
-                  <label>Hospital</label>
-                  <select name="hospital" id="edit-clerk-hospital" onchange="toggleDropdownsEdit()">
-                     <option value="" selected>None</option>
-                     <?php foreach ($hospitals as $hospital): ?>
-                        <option value="<?php echo $hospital['id']; ?>"><?php echo $hospital['name']; ?></option>
-                     <?php endforeach; ?>
-                  </select>
-               </div>
-               <div class="form-group">
-                  <input type="hidden">
-                  <label>Laboratory</label>
-                  <select name="lab" id="edit-clerk-lab" onchange="toggleDropdownsEdit()">
-                     <option value="" selected>None</option>
-                     <?php foreach ($labs as $lab): ?>
-                        <option value="<?php echo $lab['id']; ?>"><?php echo $lab['name']; ?></option>
-                     <?php endforeach; ?>
-                  </select>
-
-               </div>
-            </div>
-            <div class="form-row">
-               <button type="submit" class="btn-create">Update</button>
+               <button type="submit" class="btn-create">Create</button>
                <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
             </div>
          </form>
       </div>
 
    </div>
+   <script src="<?php echo ROOT ?>/assets/js/create.js"></script>
+
 </body>
 
 </html>

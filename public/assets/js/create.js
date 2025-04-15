@@ -189,6 +189,27 @@ function clerkEditPopup(clerk, hospitals, labs) {
     document.querySelector('.overlay').style.display = 'block';
 }
 
+function hospitalEditPopup(hospital) {
+    document.getElementById('edit-hospital-id').value = hospital.id;
+    document.getElementById('edit-hospital-name').value = hospital.name;
+    document.getElementById('edit-hospital-address').value = hospital.address;
+    document.getElementById('edit-hospital-contact').value = hospital.contact;
+    document.getElementById('edit-hospital-location').value = hospital.location;
+    document.getElementById('edit-hospital-fee').value = hospital.hospital_fee;
+    document.getElementById('edit-hospital-working').value = hospital.working_hours;
+    document.getElementById('edit-hospital-des').value = hospital.description;
+
+    // Extract services from <li> tags and match with checkbox values
+    const services = hospital.services.match(/<li>(.*?)<\/li>/g)?.map(li => li.replace(/<\/?li>/g, '').trim()) || [];
+    const serviceCheckboxes = document.querySelectorAll('.popup-edit input[type="checkbox"][name="services[]"]');
+    serviceCheckboxes.forEach(checkbox => {
+        checkbox.checked = services.includes(checkbox.value);
+    });
+
+    document.querySelector('.popup-edit').style.display = 'block';
+    document.querySelector('.overlay').style.display = 'block';
+}
+
 // search functionality for doctors
 function filterDoctors() {
     const searchInput = document.getElementById('search-doctor').value.toLowerCase();

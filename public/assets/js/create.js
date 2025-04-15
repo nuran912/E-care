@@ -228,6 +228,18 @@ function filterClerks() {
         row.style.display = matches ? '' : 'none';
     });
 }
+function filterHospitals() {
+    const searchInput = document.getElementById('search-hospitals').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#hospitals-table-body tr');
+
+    tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td[data-search]');
+        const matches = Array.from(cells).some(cell => 
+            cell.getAttribute('data-search').toLowerCase().includes(searchInput)
+        );
+        row.style.display = matches ? '' : 'none';
+    });
+}
 
 function toggleDropdowns() {
     const hospitalDropdown = document.getElementById('create-clerk-hospital');
@@ -267,5 +279,6 @@ function toggleDropdowns() {
      }
 
  }
+
 
 

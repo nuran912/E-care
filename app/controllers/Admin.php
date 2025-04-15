@@ -445,4 +445,109 @@ class Admin extends Controller
       $this->view('footer');
    }
 
+   public function hospitals($a = '', $b = '', $c = '')
+   {
+      $this->view('header');
+      $hospitalModel = new Hospital;
+      $hospitals = $hospitalModel->getAllHospitals();
+      // show($hospitals);
+      $data = [
+         'hospitals' => $hospitals
+      ];
+
+      
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
+      if ($a == 'create') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $hospitalData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'hospital_fee' => $_POST['hospital_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $hospitalModel->insert($hospitalData);
+            $_SESSION['create_success'] = 'Hospital created successfully.';
+            redirect('Admin/hospitals');
+         }
+      }
+
+      if ($a == 'edit') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $hospitalModel->update($_POST['id'], $_POST, 'id');
+            $_SESSION['edit_success'] = 'Hospital updated successfully.';
+            redirect('Admin/hospitals');
+         }
+      }
+
+      if ($a == 'delete' && !empty($b)) {
+         $hospitalModel->delete($b, 'id');
+         $_SESSION['delete_success'] = 'Hospital deleted successfully.';
+         redirect('Admin/hospitals');
+      }
+
+      $this->view('admin/hospitals', $data);
+      $this->view('footer');
+   }
+   
+   public function labs($a = '', $b = '', $c = '')
+   {
+      $this->view('header');
+      $labModel = new Laboratory;
+      $labs = $labModel->getAllLabs();
+      // show($labs);
+      $data = [
+         'labs' => $labs
+      ];
+
+      if ($a == 'create') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $labModel->insert($_POST);
+            $_SESSION['create_success'] = 'Laboratory created successfully.';
+            redirect('Admin/labs');
+         }
+      }
+
+      if ($a == 'edit') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $labModel->update($_POST['id'], $_POST, 'id');
+            $_SESSION['edit_success'] = 'Laboratory updated successfully.';
+            redirect('Admin/labs');
+         }
+      }
+
+      if ($a == 'delete' && !empty($b)) {
+         $labModel->delete($b, 'id');
+         $_SESSION['delete_success'] = 'Laboratory deleted successfully.';
+         redirect('Admin/labs');
+      }
+
+      $this->view('admin/labs', $data);
+      $this->view('footer');
+   }
+
 }

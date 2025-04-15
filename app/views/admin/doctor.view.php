@@ -26,6 +26,10 @@
          <div class="success"><?php echo $_SESSION['edit_success']; ?></div>
          <?php unset($_SESSION['edit_success']); ?>
       <?php endif; ?>
+      <?php if (isset($_SESSION['create_success'])): ?>
+         <div class="success"><?php echo $_SESSION['create_success']; ?></div>
+         <?php unset($_SESSION['create_success']); ?>
+      <?php endif; ?>
 
       <section class="main-div">
          <div class="search">

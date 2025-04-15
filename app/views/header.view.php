@@ -30,6 +30,8 @@
                   <p><a href="<?php echo ROOT ?>/Admin/user">User</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/doctor">Doctor</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/clerk">Clerk</a></p>
+                  <p><a href="<?php echo ROOT ?>/Admin/hospitals">Hospitals</a></p>
+                  <p><a href="<?php echo ROOT ?>/Admin/labs">Laboratories</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/articles">Articles</a></p>
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>

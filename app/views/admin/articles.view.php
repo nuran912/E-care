@@ -13,7 +13,7 @@
       <header>
          <p>Articles</p>
          <div class="user-info">
-            <span>Admin Jane</span>
+            <span><?php echo (ucwords($_SESSION['USER']->name)); ?></span>
             <span class="role-badge">ADMIN</span>
          </div>
 

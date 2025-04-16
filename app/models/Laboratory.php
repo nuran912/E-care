@@ -15,7 +15,8 @@ class Laboratory
         'address',
         'contact',
         'location',
-        'working_hours'
+        'working_hours',
+        'lab_fee'
     ];
 
     public $order_column = 'name';

@@ -273,7 +273,7 @@
             </div>
 
             <div class="form-row">
-               <button type="submit" class="btn-create">Create</button>
+               <button type="submit" class="btn-create">Update</button>
                <button type="button" class="btn-cancel" onclick="closeEditPopup()">Cancel</button>
             </div>
          </form>

@@ -210,6 +210,25 @@ function hospitalEditPopup(hospital) {
     document.querySelector('.overlay').style.display = 'block';
 }
 
+function labEditPopup(lab) {
+    document.getElementById('edit-lab-id').value = lab.id;
+    document.getElementById('edit-lab-name').value = lab.name;
+    document.getElementById('edit-lab-address').value = lab.address;
+    document.getElementById('edit-lab-contact').value = lab.contact;
+    document.getElementById('edit-lab-location').value = lab.location;
+    document.getElementById('edit-lab-fee').value = lab.lab_fee;
+    document.getElementById('edit-lab-working').value = lab.working_hours;
+    document.getElementById('edit-lab-des').value = lab.description;
+
+    const services = lab.services.match(/<li>(.*?)<\/li>/g)?.map(li => li.replace(/<\/?li>/g, '').trim()) || [];
+    const serviceCheckboxes = document.querySelectorAll('.popup-edit input[type="checkbox"][name="services[]"]');
+    serviceCheckboxes.forEach(checkbox => {
+        checkbox.checked = services.includes(checkbox.value);
+    });
+    document.querySelector('.popup-edit').style.display = 'block';
+    document.querySelector('.overlay').style.display = 'block';
+}
+
 // search functionality for doctors
 function filterDoctors() {
     const searchInput = document.getElementById('search-doctor').value.toLowerCase();
@@ -252,6 +271,19 @@ function filterClerks() {
 function filterHospitals() {
     const searchInput = document.getElementById('search-hospitals').value.toLowerCase();
     const tableRows = document.querySelectorAll('#hospitals-table-body tr');
+
+    tableRows.forEach(row => {
+        const cells = row.querySelectorAll('td[data-search]');
+        const matches = Array.from(cells).some(cell => 
+            cell.getAttribute('data-search').toLowerCase().includes(searchInput)
+        );
+        row.style.display = matches ? '' : 'none';
+    });
+}
+
+function filterLabs() {
+    const searchInput = document.getElementById('search-labs').value.toLowerCase();
+    const tableRows = document.querySelectorAll('#labs-table-body tr');
 
     tableRows.forEach(row => {
         const cells = row.querySelectorAll('td[data-search]');

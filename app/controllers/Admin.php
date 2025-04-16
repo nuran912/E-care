@@ -521,12 +521,6 @@ class Admin extends Controller
          }
       }
 
-      if ($a == 'delete' && !empty($b)) {
-         $hospitalModel->delete($b, 'id');
-         $_SESSION['delete_success'] = 'Hospital deleted successfully.';
-         redirect('Admin/hospitals');
-      }
-
       $this->view('admin/hospitals', $data);
       $this->view('footer');
    }
@@ -541,9 +535,41 @@ class Admin extends Controller
          'labs' => $labs
       ];
 
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
       if ($a == 'create') {
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $labModel->insert($_POST);
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $labData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'lab_fee' => $_POST['lab_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $labModel->insert($labData);
             $_SESSION['create_success'] = 'Laboratory created successfully.';
             redirect('Admin/labs');
          }
@@ -551,16 +577,27 @@ class Admin extends Controller
 
       if ($a == 'edit') {
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $labModel->update($_POST['id'], $_POST, 'id');
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $labData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'lab_fee' => $_POST['lab_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $labModel->update($_POST['id'], $labData, 'id');
             $_SESSION['edit_success'] = 'Laboratory updated successfully.';
             redirect('Admin/labs');
          }
-      }
-
-      if ($a == 'delete' && !empty($b)) {
-         $labModel->delete($b, 'id');
-         $_SESSION['delete_success'] = 'Laboratory deleted successfully.';
-         redirect('Admin/labs');
       }
 
       $this->view('admin/labs', $data);

@@ -101,8 +101,10 @@ class Clerk extends Controller {
 
             $user_id = $user->getUserIDByEmail($patient_email);
 
+            $user_id_extracted = $user_id[0]['user_id'];
+
             //target directory
-            $targetDir = "assets/documents/";
+            $targetDir = "assets/documents/$user_id_extracted/medical_records/";
 
             //check if the file was uploaded
             if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
@@ -117,7 +119,7 @@ class Clerk extends Controller {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
                     //moved successfully
                     $data = [
-                        'user_id' => $user_id[0]['user_id'],
+                        'user_id' => $user_id_extracted,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
                         'document_category' => $document_category,
@@ -158,13 +160,18 @@ class Clerk extends Controller {
                 }
             }
 
+            //sort by time descending
+            usort($filteredDocuments, function($a,$b) {
+                return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+            });
+
             //pagination
-            $perPage = 5;
-            $total = count($filteredDocuments);
-            $pages = ceil($total / $perPage);
-            $page = isset($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
-            $start = ($page - 1) * $perPage;
-            $pagedDocuments = array_slice($filteredDocuments, $start, $perPage);
+            $documentsPerPage = 5;
+            $totalDocuments = count($filteredDocuments);
+            $totalPages = ceil($totalDocuments / $documentsPerPage);
+            $currentPage = isset($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+            $start = ($currentPage - 1) * $documentsPerPage;
+            $pagedDocuments = array_slice($filteredDocuments, $start, $documentsPerPage);
 
             //group paginated documents by date
             $groupedByDate = [];
@@ -184,6 +191,11 @@ class Clerk extends Controller {
                 }
             }
 
+            //sort by time descending
+            usort($filteredDocuments, function($a,$b) {
+                return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+            });
+
             //group documents by date
             $groupedByDate = [];
             foreach($filteredDocuments as $doc):
@@ -197,8 +209,8 @@ class Clerk extends Controller {
 
         $data = [
             'documents' => $groupedByDate,
-            'pages' => isset($pages) ? $pages : 0,
-            'current_page' => isset($page) ? $page : 1,
+            'totalPages' => isset($totalPages) ? $totalPages : 0,
+            'currentPage' => isset($currentPage) ? $currentPage : 1,
             'search_date' => $searchDate
         ];
 
@@ -224,8 +236,10 @@ class Clerk extends Controller {
 
             $user_id = $user->getUserIDByEmail($patient_email);
 
+            $user_id_extracted = $user_id[0]['user_id'];
+
             //target directory
-            $targetDir = "assets/documents/";
+            $targetDir = "assets/documents/$user_id_extracted/lab_reports/";
 
             //check if the file was uploaded
             if (isset($_FILES['file']) && $_FILES['file']['error'] == 0) {
@@ -240,7 +254,7 @@ class Clerk extends Controller {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
                     //moved successfully
                     $data = [
-                        'user_id' => $user_id[0]['user_id'],
+                        'user_id' => $user_id_extracted,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
                         'document_category' => $document_category,
@@ -260,43 +274,86 @@ class Clerk extends Controller {
     }
 
     public function labClerkWorkLog() {
-        
-        $this->view('header');
 
-        $document = new Document;
+            $this->view('header');
+    
+            $document = new Document;
+    
+            //retrieve the documents
+            $documents = $document->getAllDocuments();
+    
+            //searching process
+            $searchDate = isset($_GET['search_date']) ? $_GET['search_date'] : null;
+            
+            $filteredDocuments = [];
+    
+            //filter documents by search date if provided
+            if($searchDate) {
+                foreach($documents as $doc) {
+                    if($doc['document_type'] == 'lab_report' && date('Y-m-d',strtotime($doc['uploaded_at'])) == $searchDate) {
+                        $filteredDocuments[] = $doc;
+                    }
+                }
 
-        $documents = $document->getAllDocuments();
+                //sort by time descending
+                usort($filteredDocuments, function($a,$b) {
+                    return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+                });
+    
+                //pagination
+                $documentsPerPage = 5;
+                $totalDocuments = count($filteredDocuments);
+                $totalPages = ceil($totalDocuments / $documentsPerPage);
+                $currentPage = isset($_GET['page']) && $_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+                $start = ($currentPage - 1) * $documentsPerPage;
+                $pagedDocuments = array_slice($filteredDocuments, $start, $documentsPerPage);
+    
+                //group paginated documents by date
+                $groupedByDate = [];
+                foreach($pagedDocuments as $doc):
+                    $dateOnly = date('Y-m-d',strtotime($doc['uploaded_at']));
+                    $groupedByDate[$dateOnly][] = $doc;
+                endforeach;
+    
+                //sort by date descending
+                krsort($groupedByDate);
+            }
+            else {
+                //default: if search date is not provided
+                foreach($documents as $doc) {
+                    if($doc['document_type'] == 'lab_report') {
+                        $filteredDocuments[] = $doc;
+                    }
+                }
 
-        //group documents by date
-        $groupedByDate = [];
-        foreach($documents as $index => $document):
-            if($document['document_type'] == 'lab_report'):
-                $dateOnly = date('Y-m-d',strtotime($document['uploaded_at']));
-                $groupedByDate[$dateOnly][] = $document;
-            endif;
-        endforeach;
-
-        //sort by date descending
-        krsort($groupedByDate);  
-
-        //pagination
-        $dates = array_keys($groupedByDate);
-        $totalPages = count($dates);
-        $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'],$totalPages)) : 1;
-
-        $selectedDate = $dates[$currentPage - 1];
-        $dailyDocuments = $groupedByDate[$selectedDate];
-
-        $data = [
-            'selectedDate' => $selectedDate,
-            'documents' => $dailyDocuments,
-            'currentPage' => $currentPage,
-            'totalPages' => $totalPages
-        ];
-
-        $this->view('Clerk/labClerkWorkLog',$data);
-        $this->view('footer');
+                //sort by time descending
+                usort($filteredDocuments, function($a,$b) {
+                    return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+                });
+    
+                //group documents by date
+                $groupedByDate = [];
+                foreach($filteredDocuments as $doc):
+                    $dateOnly = date('Y-m-d',strtotime($doc['uploaded_at']));
+                    $groupedByDate[$dateOnly][] = $doc;
+                endforeach;
+    
+                //sort by date descending
+                krsort($groupedByDate);
+            }  
+    
+            $data = [
+                'documents' => $groupedByDate,
+                'totalPages' => isset($totalPages) ? $totalPages : 0,
+                'currentPage' => isset($currentPage) ? $currentPage : 1,
+                'search_date' => $searchDate
+            ];
+    
+            $this->view('Clerk/labClerkWorkLog',$data);
+            $this->view('footer');
     }
+        
+        
 
     public function receptionClerkViewPendingAppointments() {
 

@@ -180,4 +180,11 @@ public function updateStatus($appointment_id, $status) {
         return $result ? $result[0] : null;
     }
 
+    public function countAllAppointmentsLastMonth(){
+        // $sql = "SELECT COUNT(*) as total FROM $this->table WHERE MONTH(session_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(session_date) = YEAR(CURRENT_DATE)";
+        $sql = "SELECT COUNT(*) as total FROM $this->table";
+        $result = $this->query($sql);
+        return $result ? $result[0]->total : 0;
+    }
+        
 }

@@ -13,7 +13,52 @@ class Admin extends Controller
    public function dashboard($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/dashboard');
+
+      $userModel = new User;
+      $userCount = $userModel->countAllUsers();
+      $doctorCount = $userModel->countAllDoctors();
+      $clerkCount = $userModel->countAllClerks();
+
+      $insuranceModel = new InsuranceCompany;
+      $insuranceCount = $insuranceModel->countAllInsuranceCompanies();
+
+      $appointmentModel = new Appointments;
+      $appointmentCount = $appointmentModel->countAllAppointmentsLastMonth();
+
+      $articleModel = new Article;
+      $articleCount = $articleModel->countAllArticlesLastMonth();
+
+      $hospitalModel = new Hospital;
+      $hospitalCount = $hospitalModel->countAllHospitals();
+      $labModel = new Laboratory;
+      $labCount = $labModel->countAllLabs();
+
+      $doctorModel = new DoctorModel;
+      $doctors = $doctorModel->getRecent4Doctors();
+
+      $clerkModel = new ClerkModel;
+      $clerks = $clerkModel->getRecent4Clerks();
+
+      $users = $userModel->getRecent4Patients();
+      $hospitals = $hospitalModel->getRecent4Hospitals();
+
+      $data = [
+         'userCount' => $userCount,
+         'doctorCount' => $doctorCount,
+         'clerkCount' => $clerkCount,
+         'insuranceCount' => $insuranceCount,
+         'articleCount' => $articleCount,
+         'hospitalCount' => $hospitalCount,
+         'labCount' => $labCount,
+         'appointmentCount' => $appointmentCount,
+         'users' => $users,
+         'doctors' => $doctors,
+         'clerks' => $clerks,
+         'hospitals' => $hospitals,
+
+      ];
+
+      $this->view('admin/dashboard', $data);
       $this->view('footer');
    }
 

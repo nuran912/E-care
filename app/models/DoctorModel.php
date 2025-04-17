@@ -301,6 +301,13 @@ class DoctorModel
         return false;
     }
 
+    public function getRecent4Doctors()
+   {
+       $query = "SELECT * FROM $this->table ORDER BY created_at DESC LIMIT 4";
+       $result = $this->query($query);
+       return json_decode(json_encode($result), true);
+   }
+
 }
 
 

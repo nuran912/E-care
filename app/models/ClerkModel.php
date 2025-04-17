@@ -154,6 +154,13 @@ class ClerkModel
 
         return false;
     }
+
+    public function getRecent4Clerks()
+   {
+       $query = "SELECT * FROM $this->table ORDER BY user_id DESC LIMIT 4";
+       $result = $this->query($query);
+       return json_decode(json_encode($result), true);
+   }
    
 }
 

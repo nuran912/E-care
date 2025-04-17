@@ -38,4 +38,11 @@ class Laboratory
         $result = $this->query($query);
         return json_decode(json_encode($result), true);
     }
+
+    public function countAllLabs()
+    {
+        $sql = "SELECT COUNT(*) as total FROM $this->table";
+        $result = $this->query($sql);
+        return $result ? $result[0]->total : 0;
+    }
 }

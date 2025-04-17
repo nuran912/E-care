@@ -49,5 +49,10 @@
             
             return json_decode(json_encode($result), true); // Convert object to array
          }
+        public function getDocumentNamebyId($id){
+            $query="SELECT document_name FROM $this->table WHERE document_id=:document_id";
+            $result=$this->query($query,['document_id'=>$id]);
+            return $result ? $result[0] :null;
+        }
     }
 

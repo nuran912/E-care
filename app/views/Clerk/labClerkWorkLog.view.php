@@ -139,6 +139,24 @@
             margin-bottom: 10px;
         }
 
+        .search {
+            background-color: #0E2F56;
+            border: none;
+            color: white;
+            font-weight: bold;
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            width: 100px;
+            margin-top: 20px;
+        }
+
+        .search_date {
+            width: 120px;
+            margin: 20px 20px 20px 10px;
+        }
+
         .pagination {
             margin-top: 20px;
             text-align: center;
@@ -174,57 +192,64 @@
             <div class="tab active">Work Log</div>
         </div>
 
+        <form method="get" style="margin-bottom: 20px; text-align: center;">
+            <label for="search-date">Search by date:</label>
+            <input type="date" name="search_date" class="search_date" value="<?= isset($search_date) ? htmlspecialchars($search_date) : '' ?>" >
+            <button type="submit" class="search">Search</button>
+        </form>
+
         <div class="uploadedDocuments">
 
             <?php if(isset($documents) && is_array($documents)): ?>
 
-                <div class="date">
-                    <p><?php echo date('Y, F j, l',strtotime($selectedDate)) ?></p>
-                </div>
-
-                <?php foreach($documents as $document): ?>
-
-                    <div class="uploadedInfo">
-
-                        <div class="set">
-                            <label>Patient ID</label>
-                            <div class="item"><?php echo htmlspecialchars($document['user_id']) ?></div>
-                        </div>
-
-                        <div class="set">
-                            <label>Reference Number</label>
-                            <div class="item"><?php echo htmlspecialchars($document['ref_no']) ?></div>
-                        </div>
-
-                        <div class="set">
-                            <label>Category</label>
-                            <div class="item"><?php echo htmlspecialchars($document['document_category']) ?></div>
-                        </div>
-
-                        <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
-
+                <?php foreach($documents as $date => $docsForDate): ?>
+                    <div class="date">
+                        <p><?php echo date('Y, F j, l',strtotime($date)) ?></p>
                     </div>
-                    
+
+                    <?php foreach($docsForDate as $document): ?>
+
+                        <div class="uploadedInfo">
+
+                            <div class="set">
+                                <label>Patient ID</label>
+                                <div class="item"><?= htmlspecialchars($document['user_id']) ?></div>
+                            </div>
+
+                            <div class="set">
+                                <label>Reference Number</label>
+                                <div class="item"><?= htmlspecialchars($document['ref_no']) ?></div>
+                            </div>
+
+                            <div class="set">
+                                <label>Category</label>
+                                <div class="item"><?= htmlspecialchars($document['document_category']) ?></div>
+                            </div>
+
+                            <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($document['user_id']) ?>/lab_reports/<?= htmlspecialchars($document['document_name']) ?>">View</a></button>
+
+                        </div>
+                        
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
                 
-                <!-- Pagination Controls -->
-                <div class="pagination">
-                    <?php if($currentPage > 1): ?>
-                        <a href="?page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
-                    <?php else: ?>
-                        <span class="prev-disabled">Prev</span>
-                    <?php endif; ?>
+                <!-- pagination setup -->
+                <?php if($search_date && $totalPages > 1): ?>
+                    <div class="pagination">
 
-                    <?php for($i = 1; $i <= $totalPages; $i++): ?>
-                        <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
-                    <?php endfor; ?>
-                            
-                    <?php if($currentPage < $totalPages): ?>
-                        <a href="?page=<?= $currentPage + 1?>" class="next">Next</a>
-                    <?php else: ?>
-                        <span class="next-disabled">Next</span>
-                    <?php endif; ?>
-                </div>
+                        <?php if($currentPage > 1): ?>
+                            <a href="?search_date=<?= urlencode($search_date) ?>&page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
+                        <?php endif; ?>
+
+                        <?php for($i = 1; $i <= $totalPages; $i++): ?>
+                            <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
+                        <?php endfor; ?>
+
+                        <?php if($currentPage < $totalPages): ?>
+                            <a href="?search_date=<?= urlencode($search_date)?>&page=<?= $currentPage + 1?>" class="next">Next</a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
              
             <?php else: ?>
                 <p>No uploaded lab reports.</p>

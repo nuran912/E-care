@@ -14,11 +14,7 @@
     </div>
     <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
-    <?php
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-?>
+
 
 
     <!-- Error Message -->

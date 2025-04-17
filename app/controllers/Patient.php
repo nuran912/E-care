@@ -141,15 +141,17 @@ class Patient extends Controller
                 $session_date = $appoitment->session_date;
                 $document_ids_csv = $appoitment->selected_files;
             }
-    
+     
+            $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;
+
             date_default_timezone_set('Asia/Colombo');
             $current_date = date("Y-m-d");
     
             if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
                 $appointmentsModel->update_is_deleted($appointment_id);
                 $appointmentsModel->updateStatus($appointment_id, 'canceled');
-    
-                $_SESSION['success'] = 'Appointment canceled successfully.';
+                
+                
     
                 foreach ($appoitmentDetails as $appoitment) {
                     $patientname = $appoitment->patient_name;
@@ -188,12 +190,16 @@ class Patient extends Controller
                 ";
     
                 EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
-    
+                $_SESSION['success'] = 'Appointment canceled successfully.';
+                header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=' . $currentPagePending);  
+                exit;
+
+
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }
     
-            header('location: ' . ROOT . '/Patient/appointments');
+            header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=' . $currentPagePending);
             exit;
         }
         $pendingAppointments =[];

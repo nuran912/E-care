@@ -29,10 +29,10 @@
                                 <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
                             </div>
                             <div class="record">
-                                <span class="ref-no"><p><?php echo htmlspecialchars($document['ref_no']) ?></p></span>
-                                <span class="label"><p><?php echo htmlspecialchars($document['document_name']) ?></p></span>
-                                <span class="doc-category"><p><?php echo htmlspecialchars($document['document_category'])?></p></span>
-                                <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
+                                <span class="ref-no"><p><?= htmlspecialchars($document['ref_no']) ?></p></span>
+                                <span class="label"><p><?= htmlspecialchars($document['document_name']) ?></p></span>
+                                <span class="doc-category"><p><?= htmlspecialchars($document['document_category'])?></p></span>
+                                <button class="view-button"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($_SESSION['USER']->user_id)?>/lab_reports/<?= htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
                             </div>
                         <?php endforeach; ?>
                         

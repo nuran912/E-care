@@ -215,7 +215,7 @@ class Patient extends Controller
         });
 
         usort($medicalRecords, function($a,$b) {
-            return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+            return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
         });
         
         //pagination
@@ -252,7 +252,7 @@ class Patient extends Controller
         });
 
         usort($labReports, function($a,$b) {
-            return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+            return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
         });
 
         //pagination
@@ -286,7 +286,7 @@ class Patient extends Controller
             $document_type = $_POST['document_type'];
 
             //target directory
-            $targetDir = "assets/documents/";
+            $targetDir = "assets/documents/$user_id/private_files/";
 
             //check if the file was uploaded
             if (isset($_FILES['real-file']) && $_FILES['real-file']['error'] == 0) {
@@ -316,6 +316,7 @@ class Patient extends Controller
         //update the name of a private file
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
 
+            $user_id = $_POST['user_id'];
             $document_id = htmlspecialchars($_POST['document_id']);
             $new_document_name = htmlspecialchars($_POST['document_name']);
 
@@ -325,7 +326,7 @@ class Patient extends Controller
 
             $current_document_name = $current_document->document_name;
 
-            $targetDir = "assets/documents/";
+            $targetDir = "assets/documents/$user_id/private_files/";
 
             $old_path = $targetDir . $current_document_name;
             $new_path = $targetDir . $new_document_name;
@@ -346,10 +347,11 @@ class Patient extends Controller
         //delete a private file
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])) {
 
+            $user_id = $_POST['user_id'];
             $document_id = htmlspecialchars($_POST['document_id']);
             $document_name = htmlspecialchars($_POST['document_name']);
 
-            $document_path = "assets/documents/" . $document_name;
+            $document_path = "assets/documents/$user_id/private_files/" . $document_name;
 
             if (file_exists($document_path)) {
                 if (unlink($document_path)) {
@@ -373,7 +375,7 @@ class Patient extends Controller
 
         //sort by uploaded_at descending
         usort($privateFiles, function($a,$b) {
-            return strtotime($b['uploaded_at']) - strtotime($a['uploaded_at']);
+            return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
         });
         
         //pagination

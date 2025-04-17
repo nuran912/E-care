@@ -214,20 +214,20 @@
 
                             <div class="set">
                                 <label>Patient ID</label>
-                                <div class="item"><?php echo htmlspecialchars($document['user_id']) ?></div>
+                                <div class="item"><?= htmlspecialchars($document['user_id']) ?></div>
                             </div>
 
                             <div class="set">
                                 <label>Reference Number</label>
-                                <div class="item"><?php echo htmlspecialchars($document['ref_no']) ?></div>
+                                <div class="item"><?= htmlspecialchars($document['ref_no']) ?></div>
                             </div>
 
                             <div class="set">
                                 <label>Category</label>
-                                <div class="item"><?php echo htmlspecialchars($document['document_category']) ?></div>
+                                <div class="item"><?= htmlspecialchars($document['document_category']) ?></div>
                             </div>
 
-                            <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?php echo htmlspecialchars($document['document_name']) ?>">View</a></button>
+                            <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($document['user_id']) ?>/medical_records/<?= htmlspecialchars($document['document_name']) ?>">View</a></button>
 
                         </div>
                     <?php endforeach; ?>

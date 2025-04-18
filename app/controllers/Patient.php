@@ -252,9 +252,9 @@ class Patient extends Controller
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
         
         //filter and sort medical records by uploaded_at descending
-        $medicalRecords = array_filter($documents, function($doc) {
+        $medicalRecords = is_array($documents) ? array_filter($documents, function($doc) {
             return $doc['document_type'] === 'medical_record';
-        });
+        }) : [];
 
         usort($medicalRecords, function($a,$b) {
             return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
@@ -289,9 +289,9 @@ class Patient extends Controller
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
         //filter and sort lab reports by uploaded_at descending
-        $labReports = array_filter($documents, function($doc) {
+        $labReports = is_array($documents) ? array_filter($documents, function($doc) {
             return $doc['document_type'] === 'lab_report';
-        });
+        }) : [];
 
         usort($labReports, function($a,$b) {
             return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
@@ -411,9 +411,9 @@ class Patient extends Controller
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
         //filtering the private files
-        $privateFiles = array_filter($documents, function($doc) {
+        $privateFiles = is_array($documents) ? array_filter($documents, function($doc) {
             return $doc['document_type'] === 'private';
-        });
+        }) : [];
 
         //sort by uploaded_at descending
         usort($privateFiles, function($a,$b) {

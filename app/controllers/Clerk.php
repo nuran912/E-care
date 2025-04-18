@@ -99,9 +99,11 @@ class Clerk extends Controller {
 
             $user = new User;
 
-            $user_id = $user->getUserIDByEmail($patient_email);
+            $user_id = $user->getUserIDByEmail($patient_email); //patient id
+            $user_name = $user->getUserNameByEmail($patient_email); //patient name
 
             $user_id_extracted = $user_id[0]['user_id'];
+            $user_name_extracted = $user_name[0]['name'];
 
             //target directory
             $targetDir = "assets/documents/$user_id_extracted/medical_records/";
@@ -117,6 +119,7 @@ class Clerk extends Controller {
 
                 //moving the file to the target path
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+
                     //moved successfully
                     $data = [
                         'user_id' => $user_id_extracted,
@@ -129,9 +132,45 @@ class Clerk extends Controller {
 
                     $document->insert($data);
 
-                    redirect('Clerk/recordClerkWorkLog');
+                    // require_once __DIR__ . '\..\core\EmailHelper.php';
+                    // require_once dirname(__DIR__) . '\core\EmailHelper.php';
+                    // show(dirname(__DIR__));
+                    
+                    //uploaded date and time
+                    $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
+
+                    //send the email
+                    // $subject = "New {$document_category}" . ucfirst(str_replace('_', ' ', $document_type)) . "Uploaded to Your E-care Account";
+                    // $body = "
+                    // <html>
+                    // <body>
+                    //     <p>Dear {$user_name_extracted},</p>
+                    //     <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
+                    //     <strong>Catgeory:</strong> {$document_category}<br>
+                    //     <strong>Reference No:</strong> {$ref_no}
+                    //     <strong>Uploaded On:</strong> {$uploadDateTime}</p>
+                    //     <p>You can log in to your account to view and download the document.</p>
+                    //     <p>Thank you,<br>The E-care Team</p>
+                    // </body>
+                    // </html>
+                    // ";
+
+                    // $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
+
+                    // if($emailSent) {
+                    //     redirect('Clerk/recordClerkWorkLog');
+                    // }
+                    // else {
+                    //     echo "There was an issue sending the email";
+                    // }
                 }
+                // else {
+                //     echo "There was an issue uploading the file";
+                // } 
             }
+            // else {
+            //     echo "No file was uploaded or there was an error with the file";
+            // }
         }
 
         $this->view('Clerk/recordClerkUploadDoc');

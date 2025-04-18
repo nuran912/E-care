@@ -301,4 +301,16 @@ class User
 
       return json_decode(json_encode($result), true);
    }
+
+   public function getUserNameByEmail($email) {
+      if(empty($email)) {
+         return null;
+      }
+
+      $query = "SELECT name from $this->table WHERE email = :email";
+
+      $result = $this->query($query,['email' => $email]);
+
+      return json_decode(json_encode($result), true);
+   }
 }

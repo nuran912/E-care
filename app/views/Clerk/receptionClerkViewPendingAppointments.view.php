@@ -213,8 +213,8 @@
         }
 
         .popup-content {
-            background-color: #fff;
             width: 40%;
+            background-color: #fff;
             max-width: 300px;
             padding: 10px;
             border-radius: 10px;
@@ -375,10 +375,10 @@
                                                     <label for="total_fee">Amount: </label>
                                                     <input type="text" name="total_fee" class="total_fee" value="<?php echo htmlspecialchars($appointment['total_fee']) ?>">
 
-                                                    <?php if ($appointment->payment_status == "pending"): ?>
+                                                    <?php if ($appointment["payment_status"] == "pending"): ?>
                                                         <button class="pay-button">Proceed to Payment</button>
                                                     <?php else: ?>
-                                                        <button class="print-button">Print</button>
+                                                        <button class="print-button" onclick="handlePrint()">Print</button>
                                                     <?php endif; ?>
 
                                                 </form>
@@ -403,5 +403,10 @@
             </div>
         </div>
         <script src="<?= ROOT; ?>/assets/js/Clerk/PendingAppointments.js"></script>
+        <script>
+            function handlePrint() {
+                window.print();
+            }
+        </script>
     </main>
 </body>

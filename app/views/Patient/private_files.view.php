@@ -34,68 +34,70 @@
                         </div>
                     </div>
 
-                    <?php if(isset($documents) && is_array($documents)): ?>
-
-                        <?php $popupIndex = 0; ?>
-
-                        <?php foreach($documents as $document): ?>
-
-                            <div class="record-date-time-category">
-                                <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
-                            </div>
-
-                            <div class="private-record">
-
-                                <span class="label"><?php echo htmlspecialchars($document['document_name']) ?></span>
-
-                                <div class="button-group">
-                                    
-                                    <button class="private-view-button"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($_SESSION['USER']->user_id)?>/private_files/<?= htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
-                                        
-                                    <button class="private-edit-button" data-index="<?= $popupIndex ?>">Edit</button>
-                                    <div class="popup" id="popup-<?= $popupIndex ?>" style="display: none;">
-                                        <div class="popup-content">
-                                            <form method="POST" action="<?= ROOT; ?>/patient/private_files">
-                                                <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
-                                                <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
-                                                <label for="document_name">Update Document Name:</label><br>
-                                                <input type="text" name="document_name" class="document-name" value="<?= htmlspecialchars($document['document_name']) ?>">
-                                                <button type="submit" name="update" class="update">Update</button>
-                                            </form>
-                                        </div>
-                                    </div>
-
-                                    <?php $popupIndex++; ?>
-                                    
-                                    <form method="POST" onsubmit="return confirmDelete();">
-                                        <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
-                                        <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
-                                        <input type="hidden" name="document_name" value="<?= htmlspecialchars($document['document_name']) ?>">
-                                        <button type="submit" name="delete" class="private-delete-button">Delete</button>
-                                    </form>
-                                </div>
-                            </div>   
-                              
-                        <?php endforeach; ?>
-
-                        <!-- Pagination Control -->
-                         <div class="pagination">
-
-                            <?php if($currentPage > 1): ?>
-                                <a href="?page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
-                            <?php endif; ?>
-
-                            <?php for($i = 1; $i <= $totalPages; $i++): ?>
-                                <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
-                            <?php endfor; ?>
-
-                            <?php if($currentPage < $totalPages): ?>
-                                <a href="?page=<?= $currentPage + 1 ?>" class="next">Next</a>
-                            <?php endif; ?>
-                         </div>
+                    <?php if (empty($documents)): ?>
+                        <p style="margin-top: 30px; text-align: center;">No private files available.</p>
 
                     <?php else: ?>
-                        <p>No private files found.</p>
+                        <?php if(isset($documents) && is_array($documents)): ?>
+
+                            <?php $popupIndex = 0; ?>
+
+                            <?php foreach($documents as $document): ?>
+
+                                <div class="record-date-time-category">
+                                    <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
+                                </div>
+
+                                <div class="private-record">
+
+                                    <span class="label"><?php echo htmlspecialchars($document['document_name']) ?></span>
+
+                                    <div class="button-group">
+                                        
+                                        <button class="private-view-button"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($_SESSION['USER']->user_id)?>/private_files/<?= htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
+                                            
+                                        <button class="private-edit-button" data-index="<?= $popupIndex ?>">Edit</button>
+                                        <div class="popup" id="popup-<?= $popupIndex ?>" style="display: none;">
+                                            <div class="popup-content">
+                                                <form method="POST" action="<?= ROOT; ?>/patient/private_files">
+                                                    <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
+                                                    <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
+                                                    <label for="document_name">Update Document Name:</label><br>
+                                                    <input type="text" name="document_name" class="document-name" value="<?= htmlspecialchars($document['document_name']) ?>">
+                                                    <button type="submit" name="update" class="update">Update</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <?php $popupIndex++; ?>
+                                        
+                                        <form method="POST" onsubmit="return confirmDelete();">
+                                            <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
+                                            <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
+                                            <input type="hidden" name="document_name" value="<?= htmlspecialchars($document['document_name']) ?>">
+                                            <button type="submit" name="delete" class="private-delete-button">Delete</button>
+                                        </form>
+                                    </div>
+                                </div>   
+                                
+                            <?php endforeach; ?>
+
+                            <!-- Pagination Control -->
+                            <div class="pagination">
+
+                                <?php if($currentPage > 1): ?>
+                                    <a href="?page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
+                                <?php endif; ?>
+
+                                <?php for($i = 1; $i <= $totalPages; $i++): ?>
+                                    <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
+                                <?php endfor; ?>
+
+                                <?php if($currentPage < $totalPages): ?>
+                                    <a href="?page=<?= $currentPage + 1 ?>" class="next">Next</a>
+                                <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                 </div>

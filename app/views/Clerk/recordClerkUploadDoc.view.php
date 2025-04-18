@@ -173,7 +173,7 @@
                         <option value="Progress notes">Progress Notes</option>
                         <option value="Referral letter">Referral Letter</option>
                         <option value="Immunization record">Immunization Record</option>
-                        <option value="Allergy record">Allery Record</option>
+                        <option value="Allergy record">Allergy Record</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>

@@ -236,11 +236,6 @@
             background-color: #0a2340;
         }
 
-        .navButton.active {
-            background-color: #0d62cb;
-            text-decoration: underline;
-        }
-
         .pageNav{
             display: flex;
             flex-direction: row;
@@ -251,7 +246,8 @@
 </head>
 <body>
 
-    <!-- <?php show($data); ?> -->
+    <?php show($data); ?>
+    <?php show(count($data[0][1])); ?>
 
     <div class="container">
         <div class="tabs">
@@ -268,25 +264,6 @@
                 <p> <?= $data[1]['cancelSuccess']; ?> </p>
             </div>
         <?php } ?>
-
-        <?php 
-            $currentFilter = $data[0][0][0];
-            $navStartDate = $data[0][0][1]; //filter start date
-            switch ($currentFilter){
-                case "Week":
-                    $mod = "7 days";
-                    break;
-                case "Date":
-                    $mod = "1 day";
-                    break;
-                case "Month":
-                    $mod = "28 days";
-                    break;
-            }
-            $prev = ((new DateTime($data[0][0][1]))->modify('-'.$mod)->format('Y-m-d'));
-            $next = ((new DateTime($data[0][0][1]))->modify('+'.$mod)->format('Y-m-d'));
-            $navEndDate = ((new DateTime($next))->modify("-1 day")->format('Y-m-d'));   //filter end date
-        ?>
         <form method="post" class="filters" action="<?=ROOT?>/Doctor/doctorApptSlots/filter">
             <label for="filteredDate">Filter By :</label>
             <select id="filter" name="filter">
@@ -297,44 +274,9 @@
             </select>
             <button class="filterButton" type="submit">Search</button>
         </form>
-            
-        <?php 
-            if($currentFilter != "Date"){   ?>
-                <h2 style="text-align: center;">From &nbsp; <?=(new DateTime($navStartDate))->format('F d, Y')?> &nbsp; to &nbsp;<?=(new DateTime($navEndDate))->format('F d, Y')?></h2>
-            <?php   }
-        ?>
-
-        <!-- pagination attempt-->
-        <?php
-            $appointments = $data[0][1];  // all appointments grouped by date
-            //This gets a flat list of the date keys, to render the appointment headers
-            $allDates = array_keys($appointments);
-            $daysPerPage = 3;   //will display 3 days worth of appointments, regardless of the no. of appointments
-
-            //get the page number from the url. if none , default to 1. else retrieve from url.
-            $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;   
-            $currentPage = max($currentPage, 1);    //Just a safety check: makes sure page number isn't less than 1 (eg: if someone types ?page=0).
-
-            $totalPages = ceil(count($allDates) / $daysPerPage);    //Calculate how many pages of 3-day chunks are needed.
-            $startIndex = ($currentPage - 1) * $daysPerPage;    //calculate the starting index for slicing the dates.
-            //array_slice takes only the relevant 3 date keys for the current page. keeps "2025-04-01" as the key instead of reindexing to 0, 1, 2
-            $pageDates = array_slice($allDates, $startIndex, $daysPerPage, true);
-        ?>
-
-
         <div class="appointments">
-        <?php
-        if(empty($data[0][1])){   ?>
-        <!-- <h2 style="text-align: center;">No appointments scheduled.</h2> -->
-            <?php if($currentFilter == 'Date'){ ?>
-                <h2 style="text-align: center;">No appointment slots found for <?=(new DateTime($navStartDate))->format('F d, Y')?></h2>
-            <?php }  
-                if($currentFilter != 'Date'){?>
-                <h2 style="text-align: center;">No appointment slots found for this <?=$currentFilter?></h2>
-            <?php }}else{  ?>
-        <?php // foreach(array_keys($data[0][1]) as $dateSlot) : ?>
-        <?php foreach($pageDates as $dateSlot) : ?>
-            <div class="date"> &nbsp<?php echo (new DateTime($dateSlot))->format('F d, Y') ?></div>
+        <?php foreach(array_keys($data[0][1]) as $dateSlot) : ?>
+            <div class="date"> &nbsp<?php echo $dateSlot ?></div>
             <?php foreach($data[0][1][$dateSlot] as $appt) :
                 $hospital = new Hospital;
                 $hospital = $hospital->getHospitalById($appt->hospital_id);
@@ -367,33 +309,53 @@
                     <?php } ?>
                 </div>
             <?php endforeach; ?>
-        <?php endforeach; }?>
-            
+        <?php endforeach; ?>
         </div>
         <div class="navs">
-                
+                <?php 
+
+                    $currentFilter = $data[0][0][0];
+                    $navStartDate = $data[0][0][1];
+                    switch ($currentFilter){
+                        case "Week":
+                            $mod = "7 days";
+                            break;
+                        case "Date":
+                            $mod = "1 day";
+                            break;
+                        case "Month":
+                            $mod = "28 days";
+                            break;
+                    }
+
+                    $prev = ((new DateTime($data[0][0][1]))->modify('-'.$mod)->format('Y-m-d'));
+                    $next = ((new DateTime($data[0][0][1]))->modify('+'.$mod)->format('Y-m-d'));
+                ?>
                 <form method="post" action="<?=ROOT?>/Doctor/doctorApptSlots/navs/<?=$prev?>/<?=$currentFilter?>">
                     <div>
                         <button type="submit" class="navButton">Prev <?=$currentFilter?></button>
                     </div>
                 </form>
 
-                <!-- new method -->
                 <div class="pageNav">
-                    <?php if ($currentPage > 1): ?>
-                        <a href="?page=<?= $currentPage - 1 ?>"><button class="navButton">Prev Page</button></a>
-                    <?php endif; ?>
+                    <?php 
+                        $appt_count = count($data[0][1]);
+                        $pages = ceil($appt_count/3);
+                        $page = 1;
 
-                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                        <a href="?page=<?= $i ?>"><button class="navButton <?= $i == $currentPage ? 'active' : '' ?>"><?= $i ?></button></a>
+                        ?> <button class='navButton'>Prev Page</button>   <?php
 
-                    <?php endfor; ?>
+                        for ($i = 1; $i <= $pages; $i++) {
+                            if ($i == $page) {
+                                ?> <button class='navButton'><?=$i?></button>   <?php
+                                } else {
+                                    ?> <button class='navButton'><?=$i?></button>   <?php
+                                    }
+                                    }
 
-                    <?php if ($currentPage < $totalPages): ?>
-                        <a href="?page=<?= $currentPage + 1 ?>"><button class="navButton">Next Page</button></a>
-                    <?php endif; ?>
+                        ?> <button class='navButton'>Next Page</button>   <?php
+                    ?>
                 </div>
-
 
                 <form method="post" action="<?=ROOT?>/Doctor/doctorApptSlots/navs/<?=$next?>/<?=$currentFilter?>">
                     <div>

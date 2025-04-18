@@ -3,6 +3,7 @@
 if ($_SESSION['USER']->role != 'doctor') {
     redirect('Home');
 }
+require_once dirname(__DIR__) . '/core/EmailHelper.php';
 
 class Doctor extends Controller{
 
@@ -86,7 +87,7 @@ class Doctor extends Controller{
 
     public function doctorPastAppt($a = '', $b = '', $c = ''){
         $slot = new AvailableTime;
-
+        
         $this->view('header');
 
         $appointments = new Appointments;
@@ -97,7 +98,7 @@ class Doctor extends Controller{
             $appointmentsData[$date] = $appointments->groupByScheduleId($slot, $appointmentsData, $date);
         }
 
-        $defaultdate = ((new DateTime(date('Y-m-d')))->modify('-1 day')->format('Y-m-d'));
+        $date = $_SESSION['filteredPastDate'] ?? ((new DateTime(date('Y-m-d')))->modify('-1 day')->format('Y-m-d'));
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -106,8 +107,10 @@ class Doctor extends Controller{
                 $date = $b;
             }else{
                 //when users uses filter by date to check appointments
-                $date = $_POST["filteredDate"];
+                $date = $_POST["filteredPastDate"];
             }
+
+            $_SESSION['filteredPastDate'] = $date;
 
             if(array_key_exists($date, $appointmentsData)){
                 //appointments exist for this date
@@ -118,7 +121,8 @@ class Doctor extends Controller{
             }
 
         }else{
-            $data = [$defaultdate, $appointmentsData[$date]]; 
+            // $data = [$date, $appointmentsData[$date]]; 
+            $data = [$date, isset($appointmentsData[$date]) ? $appointmentsData[$date] : []]; 
         }
         $this->view('Doctor/doctorPastAppt', $data);
         $this->view('footer');
@@ -137,17 +141,20 @@ class Doctor extends Controller{
             $appointmentsData[$date] = $appointments->groupByScheduleId($slot, $appointmentsData, $date);
         }
 
-        $date = date('Y-m-d');
+        $date = $_SESSION['filteredDate'] ?? date('Y-m-d');
+        // $date = date('Y-m-d');
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if($b){
                 //when user clicks prev or next button to navigate through dates for appointments
                 $date = $b;
+                $_SESSION['filteredDate'] = $date;
             }else{
                 //when users uses filter by date to check appointments
                 $date = $_POST["filteredDate"];
+                $_SESSION['filteredDate'] = $date;
             }
-
+            
             if(array_key_exists($date, $appointmentsData)){
                 //appointments exist for this date
                 $data = [$date, $appointmentsData[$date]];
@@ -157,9 +164,9 @@ class Doctor extends Controller{
             }
 
         }else{
-            $data = [$date, $appointmentsData[$date]]; 
+            $data = [$date, isset($appointmentsData[$date]) ? $appointmentsData[$date] : [] ];
         }
-        
+        // show($data);
         $this->view('Doctor/doctorPendingAppt', $data);
         $this->view('footer');
     }
@@ -285,18 +292,50 @@ class Doctor extends Controller{
                 $timeToCancel = $slotTime->modify('-48 hours');
                 $timeToCancel = $timeToCancel->format('Y-m-d H:i:s');
 
+                //Email info
+                $subject = "Appointment Cancellation";   
+                $doctorInfo = $doctor->getDoctorById($slot->doctor_id); 
+                $hospitalInfo = $hospital->getHospitalById($slot->hospital_id);   
+                $slotDate = (new DateTime($slot->date))->format('F d, Y');
+                $slotSessionTime = (new DateTime($slot->start_time))->format("g:i A");
+
                 $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
                 // appointments can only be cancelled 48h before the start time
                 if($currentDate < $timeToCancel){
                     $alerts['cancelSuccess'] = "Appointment slot has been cancelled successfully";
                     // update appointment status in the availabletimes table
                     $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
+                    // show($apptData);
                     $apptSlot->update_status($apptSlotId, "cancelled");
                     // update corresponding appointment statuses in the appointments table for each relavant patient
                     // patients' appointments process will only happen if there are filled slots
                     if($slot->filled_slots != 0){
                         foreach($apptData as $patientAppt){
                             $appt->update_status($patientAppt->appointment_id, "cancelled");
+                            
+                            EmailHelper::sendEmail($patientAppt->patient_Email, $patientAppt->patient_name, $subject,
+                            "<p>Dear {$patientAppt->patient_name},</p>
+                
+                            <p>We are writing to inform you that your appointment has been canceled. Below are the details of the canceled appointment:</p>
+                        
+                            <ul>
+                                <li><strong>Date:</strong> {$slotDate}</li>
+                                <li><strong>Time:</strong> {$slotSessionTime}</li>
+                                <li><strong>Doctor:</strong> Dr. {$doctorInfo->name}</li>
+                                <li><strong>Hospital:</strong> {$hospitalInfo->name}</li>
+                            </ul>
+                        
+                            <p>Your payment has been refunded to your original method of payment. Refunds are typically processed within 3–5 business days depending on your bank or card issuer.</p>
+                        
+                            <p>If you have any questions or need further assistance, please don’t hesitate to contact our support team at 011 245 9989.</p>
+                        
+                            <p>We’re here to support your healthcare needs whenever you need us.</p>
+                        
+                            <br>
+                            <p>Best regards,<br>
+                            The Ecare Team<br></p>"
+            
+                        );
                         }
                     }
                 }else{
@@ -307,16 +346,22 @@ class Doctor extends Controller{
         
         $filteredSlotData = [];
         $groupedFilteredSlotData = [];
-        $slotFilter = 'Week';   //default filter
+
+        // $slotFilter = 'Week';   //default filter
+        // $_SESSION['filter'] = $_POST['filter'];
+        $slotFilter = $_SESSION['filter'] ?? 'Week';    //filter should be by deafult week unless a filter is already saved in the session
+        
         
         if($a == 'filter'){
-            //if somebody used the filter option, update filter type
-            $slotFilter = $_POST['filter'];            
+            //if somebody used the filter option, update filter type with the type sent in the form. else use filter value saved in the session
+            $_SESSION['filter'] =  $_POST['filter'] ?? $_SESSION['filter'];
+            $slotFilter = $_SESSION['filter'];            
         }
+
         // $navdate initially has the current date. but when a navigation option is used it is updated accordingly
         $navDate = date('Y-m-d');   //used for prev/next navigation
         if($a == "navs"){
-            $navDate = $b;
+            $navDate = $b;  //navigation start date
             //when navigation is used, current filter is also maintained. eg: click next while filter is month => go to next month(28 days)
             $slotFilter = $c;   
         }
@@ -351,6 +396,7 @@ class Doctor extends Controller{
         foreach ($filteredSlotData as $entry) {
             $groupedFilteredSlotData[$entry->date][] = $entry;
         }
+        ksort($groupedFilteredSlotData);    // Sort by keys (dates) in ascending order
         // redirect('Doctor/doctorManageSchedule');
         
         $filterAndNavs = [$slotFilter, $navDate];

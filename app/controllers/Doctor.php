@@ -3,6 +3,7 @@
 if ($_SESSION['USER']->role != 'doctor') {
     redirect('Home');
 }
+require_once dirname(__DIR__) . '/core/EmailHelper.php';
 
 class Doctor extends Controller{
 
@@ -291,18 +292,50 @@ class Doctor extends Controller{
                 $timeToCancel = $slotTime->modify('-48 hours');
                 $timeToCancel = $timeToCancel->format('Y-m-d H:i:s');
 
+                //Email info
+                $subject = "Appointment Cancellation";   
+                $doctorInfo = $doctor->getDoctorById($slot->doctor_id); 
+                $hospitalInfo = $hospital->getHospitalById($slot->hospital_id);   
+                $slotDate = (new DateTime($slot->date))->format('F d, Y');
+                $slotSessionTime = (new DateTime($slot->start_time))->format("g:i A");
+
                 $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
                 // appointments can only be cancelled 48h before the start time
                 if($currentDate < $timeToCancel){
                     $alerts['cancelSuccess'] = "Appointment slot has been cancelled successfully";
                     // update appointment status in the availabletimes table
                     $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
+                    // show($apptData);
                     $apptSlot->update_status($apptSlotId, "cancelled");
                     // update corresponding appointment statuses in the appointments table for each relavant patient
                     // patients' appointments process will only happen if there are filled slots
                     if($slot->filled_slots != 0){
                         foreach($apptData as $patientAppt){
                             $appt->update_status($patientAppt->appointment_id, "cancelled");
+                            
+                            EmailHelper::sendEmail($patientAppt->patient_Email, $patientAppt->patient_name, $subject,
+                            "<p>Dear {$patientAppt->patient_name},</p>
+                
+                            <p>We are writing to inform you that your appointment has been canceled. Below are the details of the canceled appointment:</p>
+                        
+                            <ul>
+                                <li><strong>Date:</strong> {$slotDate}</li>
+                                <li><strong>Time:</strong> {$slotSessionTime}</li>
+                                <li><strong>Doctor:</strong> Dr. {$doctorInfo->name}</li>
+                                <li><strong>Hospital:</strong> {$hospitalInfo->name}</li>
+                            </ul>
+                        
+                            <p>Your payment has been refunded to your original method of payment. Refunds are typically processed within 3–5 business days depending on your bank or card issuer.</p>
+                        
+                            <p>If you have any questions or need further assistance, please don’t hesitate to contact our support team at 011 245 9989.</p>
+                        
+                            <p>We’re here to support your healthcare needs whenever you need us.</p>
+                        
+                            <br>
+                            <p>Best regards,<br>
+                            The Ecare Team<br></p>"
+            
+                        );
                         }
                     }
                 }else{

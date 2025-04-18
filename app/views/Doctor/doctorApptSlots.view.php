@@ -325,12 +325,13 @@
         <div class="appointments">
         <?php
         if(empty($data[0][1])){   ?>
-        <h2 style="text-align: center;">No appointments scheduled.</h2>
+        <!-- <h2 style="text-align: center;">No appointments scheduled.</h2> -->
             <?php if($currentFilter == 'Date'){ ?>
-                <h3 style="text-align: center;">No appointment slots found for<?=$navStartDate?></h3>
-            <?php }  ?>
-                <h3 style="text-align: center;">No appointment slots found for this <?=$currentFilter?></h3>
-            <?php }else{  ?>
+                <h2 style="text-align: center;">No appointment slots found for <?=(new DateTime($navStartDate))->format('F d, Y')?></h2>
+            <?php }  
+                if($currentFilter != 'Date'){?>
+                <h2 style="text-align: center;">No appointment slots found for this <?=$currentFilter?></h2>
+            <?php }}else{  ?>
         <?php // foreach(array_keys($data[0][1]) as $dateSlot) : ?>
         <?php foreach($pageDates as $dateSlot) : ?>
             <div class="date"> &nbsp<?php echo (new DateTime($dateSlot))->format('F d, Y') ?></div>

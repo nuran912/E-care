@@ -21,8 +21,8 @@ class EmailHelper
             $mail->Port = 587;
 
             // Recipients
-            $mail->setFrom('ecare2digital@gmail.com', 'Ecare Union');
-            $mail->addAddress($recipientEmail, $recipientName);
+            $mail->setFrom('ecare2digital@gmail.com', 'Ecare Union');   //sender
+            $mail->addAddress($recipientEmail, $recipientName);     //recipient
 
             // Email Content
             $mail->isHTML(true);

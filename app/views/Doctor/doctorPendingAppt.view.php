@@ -210,6 +210,7 @@
 
         <!-- pagination attempt-->
         <?php
+        //pages are seperated according to slot times
             $appointments = $data[1];
             
             if(!empty($appointments)){

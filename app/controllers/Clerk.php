@@ -4,6 +4,8 @@ if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'rec
     redirect('Home');
 }
 
+require_once dirname(__DIR__) . '/core/EmailHelper.php';
+
 class Clerk extends Controller {
 
     public function index($a = '', $b = '', $c = ''){
@@ -131,46 +133,37 @@ class Clerk extends Controller {
                     ];
 
                     $document->insert($data);
-
-                    // require_once __DIR__ . '\..\core\EmailHelper.php';
-                    // require_once dirname(__DIR__) . '\core\EmailHelper.php';
-                    // show(dirname(__DIR__));
                     
                     //uploaded date and time
                     $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
 
                     //send the email
-                    // $subject = "New {$document_category}" . ucfirst(str_replace('_', ' ', $document_type)) . "Uploaded to Your E-care Account";
-                    // $body = "
-                    // <html>
-                    // <body>
-                    //     <p>Dear {$user_name_extracted},</p>
-                    //     <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
-                    //     <strong>Catgeory:</strong> {$document_category}<br>
-                    //     <strong>Reference No:</strong> {$ref_no}
-                    //     <strong>Uploaded On:</strong> {$uploadDateTime}</p>
-                    //     <p>You can log in to your account to view and download the document.</p>
-                    //     <p>Thank you,<br>The E-care Team</p>
-                    // </body>
-                    // </html>
-                    // ";
+                    $subject = "New " . ucfirst(str_replace('_', ' ', $document_type)) . " - {$document_category} Uploaded to Your E-care Account";
+                    $body = "
+                    <html>
+                    <body>
+                        <p>Dear {$user_name_extracted},</p>
+                        <p>This is to inform you that a new medical document has been successfully uploaded tou your e-care profile.
+                        You may now log in to the system to view or download it at your convenience.</p>
+                        <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
+                        <strong>Catgeory:</strong> {$document_category}<br>
+                        <strong>Reference No:</strong> {$ref_no}<br>
+                        <strong>Uploaded On:</strong> {$uploadDateTime}</p>
+                        <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
+                        <p>Thank you for using E-care Digital Health Management System.</p>
+                        <p>Best regards,<br>
+                        E-care Support Team<br>
+                        Hotline - 011 245 9989<br>
+                        Email - ecare2digital@gmail.com</p>
+                    </body>
+                    </html>
+                    ";
 
-                    // $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
+                    EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
 
-                    // if($emailSent) {
-                    //     redirect('Clerk/recordClerkWorkLog');
-                    // }
-                    // else {
-                    //     echo "There was an issue sending the email";
-                    // }
+                    redirect('Clerk/recordClerkWorkLog');
                 }
-                // else {
-                //     echo "There was an issue uploading the file";
-                // } 
             }
-            // else {
-            //     echo "No file was uploaded or there was an error with the file";
-            // }
         }
 
         $this->view('Clerk/recordClerkUploadDoc');
@@ -273,9 +266,11 @@ class Clerk extends Controller {
 
             $user = new User;
 
-            $user_id = $user->getUserIDByEmail($patient_email);
+            $user_id = $user->getUserIDByEmail($patient_email); //patient id
+            $user_name = $user->getUserNameByEmail($patient_email); //patient name
 
             $user_id_extracted = $user_id[0]['user_id'];
+            $user_name_extracted = $user_name[0]['name'];
 
             //target directory
             $targetDir = "assets/documents/$user_id_extracted/lab_reports/";
@@ -302,6 +297,33 @@ class Clerk extends Controller {
                     ];
 
                     $document->insert($data);
+
+                    //uploaded date and time
+                    $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
+
+                    //send the email
+                    $subject = "New " . ucfirst(str_replace('_', ' ', $document_type)) . " - {$document_category} Uploaded to Your E-care Account";
+                    $body = "
+                    <html>
+                    <body>
+                        <p>Dear {$user_name_extracted},</p>
+                        <p>This is to inform you that a new medical document has been successfully uploaded tou your e-care profile.
+                        You may now log in to the system to view or download it at your convenience.</p>
+                        <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
+                        <strong>Catgeory:</strong> {$document_category}<br>
+                        <strong>Reference No:</strong> {$ref_no}<br>
+                        <strong>Uploaded On:</strong> {$uploadDateTime}</p>
+                        <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
+                        <p>Thank you for using E-care Digital Health Management System.</p>
+                        <p>Best regards,<br>
+                        E-care Support Team<br>
+                        Hotline - 011 245 9989<br>
+                        Email - ecare2digital@gmail.com</p>
+                    </body>
+                    </html>
+                    ";
+
+                    EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
 
                     redirect('Clerk/labClerkWorkLog');
                 }

@@ -171,10 +171,30 @@
         .navButton:hover {
             background-color: #0a2340;
         }
+
+        .navButton.active {
+            background-color: #0d62cb;
+            text-decoration: underline;
+        }
+
+        .navButton:disabled {
+            background-color: #d1d1d1;
+            cursor: not-allowed;
+            color: #9e9e9e; 
+        }
+
+        .pageNav{
+            display: flex;
+            flex-direction: row;
+            gap: 3px;
+        }
         
     </style>
 </head>
 <body>
+    <?php
+        // show($data);
+    ?>
     <div class="container">
         <div class="tabs">
             <div class="tab active">Pending Appointments</div>
@@ -187,18 +207,40 @@
                 Search
             </button>
         </form>
+
+        <!-- pagination attempt-->
+        <?php
+            $appointments = $data[1];
+            
+            if(!empty($appointments)){
+                $allSlots = array_keys($appointments);
+                $slotsPerPage = 1;
+    
+                //get the page number from the url. if none , default to 1. else retrieve from url.
+                $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
+                $currentPage = max($currentPage, 1);
+    
+                $totalPages = ceil(count($allSlots) / $slotsPerPage); 
+                $startIndex = ($currentPage - 1) * $slotsPerPage;
+                $slotTime = array_slice($allSlots, $startIndex, $slotsPerPage, true);
+                // show($slotTime);
+            }
+        ?>
+
         <div class="appointments">
+            <h2 style="text-align: center;">Appointments for <?=(new DateTime($data[0]))->format('F d, Y')?></h2>
             <?php
             if(empty($data[1])){   ?>
                 <h3 style="text-align: center;">No appointments found for this date</h3>
             <?php }else{  ?>
-            <div class="date"> &nbsp&nbsp<?=$data[0]?></div>
-            <div style="border: 3.5px solid #ada8a8; border-radius: 6px; padding: 25px  15px; display: flex; flex-direction: column; align-items: center;">
+            <!-- <div class="date"> &nbsp&nbsp<?=$data[0]?></div> -->
+            <!-- <div style="border: 3.5px solid #ada8a8; border-radius: 6px; padding: 25px  15px; display: flex; flex-direction: column; align-items: center;"> -->
             <?php
-            foreach(array_keys($data[1]) as $apptSlot){
+            if(!empty($appointments)){
+            // foreach(array_keys($data[1][$slotTime[0]]) as $apptSlot){
                 $slot = new Availabletime;
                 $hospital = new Hospital;
-                $slot = $slot->getByScheduleId($apptSlot);
+                $slot = $slot->getByScheduleId($slotTime[$currentPage-1]);
                 $hospital = $hospital->getHospitalById($slot->hospital_id);
                 ?>
                 <div style="width:100%; display: flex; flex-direction: row; justify-content:space-between">
@@ -206,8 +248,7 @@
                     <div class="date"> &nbsp&nbsp<?=$hospital->name?></div>
                 </div>
                 <?php
-        
-                foreach($data[1][$apptSlot] as $appt){
+                foreach($data[1][$slotTime[$currentPage-1]] as $appt){
                     ?>
                     <div class="apptInfo">
                         <div style="align-self: center;">
@@ -230,27 +271,48 @@
                             <button class="view" type="submit">View</button>
                         </form>
                     </div>
-                    <?php
+                    <?php   }
                 }}
-            }   
+            // }   
             ?>
-            </div> <!-- Close the appointments container here -->
+            <!-- </div> Close the appointments container here -->
             <div class="navs">
                 <?php 
                     $prevDate = ((new DateTime($data[0]))->modify('-1 day')->format('Y-m-d'));
                     $nextDate = ((new DateTime($data[0]))->modify('+1 day')->format('Y-m-d'));
                 ?>
                 <?php 
-                if($data[0] > date('Y-m-d')){  ?>
-                    <form method="post" action="<?=ROOT?>/Doctor/doctorPendingAppt/filter/<?=$prevDate?>">
-                        <button type="submit" class="navButton">Prev</button>
+                $actionUrl = ($data[0] > date('Y-m-d')) ? ROOT . "/Doctor/doctorPendingAppt/filter/$prevDate" : "";
+                $disableButton = ($data[0] <= date('Y-m-d')) ? 'disabled' : ''; ?>
+                    <form method="post" action="<?= $actionUrl ?>">
+                        <button type="submit" class="navButton" <?= $disableButton ?>>Prev Date</button>
                     </form>
+                
+                <?php
+                if(!empty($appointments)){  ?>
+                <!-- pages -->
+                <div class="pageNav">
+                    <?php if ($currentPage > 1): ?>
+                        <a href="?page=<?= $currentPage - 1 ?>"><button class="navButton">Prev Page</button></a>
+                    <?php endif; ?>
+
+                    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                        <a href="?page=<?= $i ?>"><button class="navButton <?= $i == $currentPage ? 'active' : '' ?>"><?= $i ?></button></a>
+
+                    <?php endfor; ?>
+
+                    <?php if ($currentPage < $totalPages): ?>
+                        <a href="?page=<?= $currentPage + 1 ?>"><button class="navButton">Next Page</button></a>
+                    <?php endif; ?>
+                </div>
                 <?php   }
-            ?>
+                ?>
+
                 <form method="post" action="<?=ROOT?>/Doctor/doctorPendingAppt/filter/<?=$nextDate?>">
-                    <button type="submit" class="navButton">Next</button>
+                    <button type="submit" class="navButton">Next Date</button>
                 </form> 
             </div>
+            
         </div>
     </div>
 </body>

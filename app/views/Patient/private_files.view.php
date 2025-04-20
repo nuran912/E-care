@@ -59,7 +59,7 @@
                                         <button class="private-edit-button" data-index="<?= $popupIndex ?>">Edit</button>
                                         <div class="popup" id="popup-<?= $popupIndex ?>" style="display: none;">
                                             <div class="popup-content">
-                                                <form method="POST" action="<?= ROOT; ?>/patient/private_files">
+                                                <form method="POST" action="<?= ROOT; ?>/Patient/private_files">
                                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                                     <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
                                                     <label for="document_name">Update Document Name:</label><br>

@@ -164,16 +164,16 @@
                     <select id="documentCategory" name="document_category" required>
                         <option value="" disabled selected>Select a document category</option>
                         <option value="Prescription">Prescription</option>
-                        <option value="Diagnosis card">Diagnosis Card</option>
-                        <option value="Medical bill">Medical Bill/Invoice</option>
-                        <option value="Discharge summary">Discharge Summary</option>
-                        <option value="Admission note">Admission Note</option>
-                        <option value="Treatment plan">Treatment Plan</option>
-                        <option value="Operative report">Operative Report</option>
-                        <option value="Progress notes">Progress Notes</option>
-                        <option value="Referral letter">Referral Letter</option>
-                        <option value="Immunization record">Immunization Record</option>
-                        <option value="Allergy record">Allergy Record</option>
+                        <option value="Diagnosis Card">Diagnosis Card</option>
+                        <option value="Medical Bill">Medical Bill</option>
+                        <option value="Discharge Summary">Discharge Summary</option>
+                        <option value="Admission Note">Admission Note</option>
+                        <option value="Treatment Plan">Treatment Plan</option>
+                        <option value="Operative Report">Operative Report</option>
+                        <option value="Progress Notes">Progress Notes</option>
+                        <option value="Referral Letter">Referral Letter</option>
+                        <option value="Immunization Record">Immunization Record</option>
+                        <option value="Allergy Record">Allergy Record</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>

@@ -1,0 +1,21 @@
+{
+    "name": "hp/e-care",
+    "description": "Digital health management system for hospitals, patients, and insurance integration.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hp\\ECare\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Okadini",
+            "email": "okadini2002@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

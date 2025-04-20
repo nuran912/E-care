@@ -13,7 +13,7 @@
          <li><a href="<?= ROOT ?>/Laboratories">Services</a></li>
          <li><a href="<?= ROOT?>/appointmentsearchpage">Appointment</a></li>
          <li><a href="<?= ROOT ?>/Hospitals">About</a></li>
-         <li><a href="#footer">Contact Us</a></li>
+         <li><a href="<?= ROOT ?>/Articles">Articles</a></li>
       </ul>
 
       <div class="buttons-div">
@@ -32,7 +32,7 @@
                   <p><a href="<?php echo ROOT ?>/Admin/clerk">Clerk</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/hospitals">Hospitals</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/labs">Laboratories</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p>
+                  <!--  <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p> -->
                   <p><a href="<?php echo ROOT ?>/Admin/articles">Articles</a></p>
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

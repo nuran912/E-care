@@ -27,4 +27,12 @@ class Article {
       $result = $this->query($sql);
       return $result ? $result[0]->total : 0;
    }
+
+   //get article by ID
+   public function getArticleById($article_id) {
+      $sql = "SELECT * FROM $this->table WHERE article_id = :article_id";
+      $params = [':article_id' => $article_id];
+      $result = $this->query($sql, $params);
+      return json_decode(json_encode($result), true);
+   }
 }

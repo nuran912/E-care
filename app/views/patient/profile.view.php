@@ -210,9 +210,16 @@
     <div class="container">
         <!-- Profile Card Section -->
         <div class="profileCard">
+
+            <form method="POST" enctype="multipart/form-data" action="<?= ROOT; ?>/Patient/profile">
+                <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id) ?>">
+                <input type="file" name="profile-pic" id="user-image" accept="image/*" hidden>
+            </form>
+            
             <div class="profilePic">
-                <img src="" alt="Profile Picture">
+                <img src="<?= ROOT; ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= $data['profilePic'] ?>" alt="Profile Picture" id="image-preview" onclick="document.getElementById('user-image').click();">
             </div>
+
             <div class="profileDesc">
                 <h3><?=$data[0]->name?></h3>
                 <h4><?=$data[0]->email?></h4>
@@ -245,7 +252,7 @@
                 </div>
             <?php endif; ?> 
 
-            <form method="POST" action="<?= ROOT?>/Patient/insuranceclaims/submit">
+            <form method="POST" action="<?= ROOT?>/Patient/profile">
                 <div class="info">
                     <label for="name">Name :</label>
                     <input type="text" name="name" id="name" value="<?=$data[0]->name?>">
@@ -274,13 +281,28 @@
                 <p class="pw-desc">(Enter current password to change the password)</p>
                 <div class="info">
                     <div class="buttons">
-                        <button type="submit">Save Changes</button>
+                        <button type="submit" name="update">Save Changes</button>
                         <button type="reset">Reset</button>
                     </div>
-                </div>
-                
+                </div>  
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('user-image').addEventListener('change',function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+
+                this.form.submit();
+            }
+        });
+    </script>
 </body>
 </html>
+

@@ -352,7 +352,7 @@
                                     <button class="view-button" data-index="<?= $index ?>">View</button>
                                         <div class="popup" id="popup-<?= $index ?>" style="display: none;">
                                             <div class="popup-content">
-                                                <form method="POST" action="<?= ROOT; ?>/clerk/receptionClerkViewPendingAppointments">
+                                                <form method="POST" action="<?= ROOT; ?>/Clerk/receptionClerkViewPendingAppointments">
 
                                                     <h4>Appointment Details</h4>
 
@@ -376,6 +376,7 @@
                                                     <input type="text" name="total_fee" class="total_fee" value="<?php echo htmlspecialchars($appointment['total_fee']) ?>">
 
                                                     <?php if ($appointment["payment_status"] == "pending"): ?>
+                                                        <!-- <a href="<?= ROOT; ?>/appointment/processpayment" style="text-decoration: none; color: white;">Proceed to Payment</a> -->
                                                         <button class="pay-button">Proceed to Payment</button>
                                                     <?php else: ?>
                                                         <button class="print-button" onclick="handlePrint()">Print</button>

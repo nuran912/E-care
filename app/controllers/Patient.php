@@ -33,7 +33,15 @@ class Patient extends Controller
         $data['status'] = [];
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
+        $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
 
+        if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
+            $data['profilePic'] = $profilePic[0]['profile_pic'];
+        }
+        else {
+            $data['profilePic'] = ROOT . "/assets/img/user.svg";
+        }
+        
         if ($a == 'update') {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -80,7 +88,48 @@ class Patient extends Controller
             }
         }
 
-        $this->view('patient/profile', $data);
+        //upload a profile picture
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-pic'])) {
+
+            $user_id = $_POST['user_id'];
+
+            //target directory
+            $targetDir = "assets/profile_pictures/$user_id/";
+
+            //check if the file(profile picture) was uploaded
+            if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] == 0) {
+                $filename = basename($_FILES['profile-pic']['name']);
+                $targetPath = $targetDir . $filename;
+
+                //check if the target directory exists, if not, create a one
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                //before uploading, delete the old profile picture
+                //fetch the current profile picture from the database
+                $currentProfilePic = $user->getProfilePic($user_id);
+                if(!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
+                    $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
+
+                    //check if the old pic exists and deletes it
+                    if(file_exists($oldPicPath)) {
+                        unlink($oldPicPath);
+                    }
+                }
+
+                //moving the file to the target path
+                if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
+
+                    //moved successfully
+                    $user->update($user_id,['profile_pic' => $filename],'user_id');
+
+                    redirect('Patient/profile');
+                }
+            }
+        }
+
+        $this->view('Patient/profile', $data);
         $this->view('footer');
     }
 

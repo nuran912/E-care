@@ -1,8 +1,8 @@
 <?php
 
-if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') && ($_SESSION['USER']->role != 'reception_clerk')) {
-    redirect('Home');
-}
+// if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') && ($_SESSION['USER']->role != 'reception_clerk')) {
+//     redirect('Home');
+// }
 
 require_once dirname(__DIR__) . '/core/EmailHelper.php';
 
@@ -25,6 +25,14 @@ class Clerk extends Controller {
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
         // $_SESSION['updateData'] = [];
+        $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
+
+        if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
+            $data['profilePic'] = $profilePic[0]['profile_pic'];
+        }
+        else {
+            $data['profilePic'] = ROOT . "/assets/img/user.svg";
+        }
         
         $this->view('header');
 
@@ -76,12 +84,51 @@ class Clerk extends Controller {
                         $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
                     }
                 }
-                // show($data);
-                // redirect('clerk/profile');
             }
         }
 
-        $this->view('Clerk/clerkProfile', $data);
+        //upload a profile picture
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-pic'])) {
+
+            $user_id = $_POST['user_id'];
+
+            //target directory
+            $targetDir = "assets/profile_pictures/$user_id/";
+
+            //check if the file(profile picture) was uploaded
+            if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] == 0) {
+                $filename = basename($_FILES['profile-pic']['name']);
+                $targetPath = $targetDir . $filename;
+
+                //check if the target directory exists, if not, create a one
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                //before uploading, delete the old profile picture
+                //fetch the current profile picture from the database
+                $currentProfilePic = $user->getProfilePic($user_id);
+                if(!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
+                    $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
+
+                    //check if the old pic exists and deletes it
+                    if(file_exists($oldPicPath)) {
+                        unlink($oldPicPath);
+                    }
+                }
+
+                //moving the file to the target path
+                if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
+
+                    //moved successfully
+                    $user->update($user_id,['profile_pic' => $filename],'user_id');
+
+                    // redirect('Clerk/profile');
+                }
+            }
+        }
+
+        $this->view('Clerk/profile', $data);
         $this->view('footer');
     }
 
@@ -135,18 +182,19 @@ class Clerk extends Controller {
                     $document->insert($data);
                     
                     //uploaded date and time
+                    date_default_timezone_set('Asia/Colombo');
                     $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
 
                     //send the email
-                    $subject = "New " . ucfirst(str_replace('_', ' ', $document_type)) . " - {$document_category} Uploaded to Your E-care Account";
+                    $subject = "New {$document_category} Uploaded to Your E-care Account";
                     $body = "
                     <html>
                     <body>
                         <p>Dear {$user_name_extracted},</p>
-                        <p>This is to inform you that a new medical document has been successfully uploaded tou your e-care profile.
+                        <p>This is to inform you that a new medical document has been successfully uploaded to your E-care profile.
                         You may now log in to the system to view or download it at your convenience.</p>
                         <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
-                        <strong>Catgeory:</strong> {$document_category}<br>
+                        <strong>Category:</strong> {$document_category}<br>
                         <strong>Reference No:</strong> {$ref_no}<br>
                         <strong>Uploaded On:</strong> {$uploadDateTime}</p>
                         <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
@@ -299,18 +347,19 @@ class Clerk extends Controller {
                     $document->insert($data);
 
                     //uploaded date and time
+                    date_default_timezone_set('Asia/Colombo');
                     $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
 
                     //send the email
-                    $subject = "New " . ucfirst(str_replace('_', ' ', $document_type)) . " - {$document_category} Uploaded to Your E-care Account";
+                    $subject = "New {$document_category} Uploaded to Your E-care Account";
                     $body = "
                     <html>
                     <body>
                         <p>Dear {$user_name_extracted},</p>
-                        <p>This is to inform you that a new medical document has been successfully uploaded tou your e-care profile.
+                        <p>This is to inform you that a new medical document has been successfully uploaded to your E-care profile.
                         You may now log in to the system to view or download it at your convenience.</p>
                         <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
-                        <strong>Catgeory:</strong> {$document_category}<br>
+                        <strong>Category:</strong> {$document_category}<br>
                         <strong>Reference No:</strong> {$ref_no}<br>
                         <strong>Uploaded On:</strong> {$uploadDateTime}</p>
                         <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>

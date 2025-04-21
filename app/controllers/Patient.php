@@ -26,6 +26,8 @@ class Patient extends Controller
         //     if (empty($data['errors']))
         //         $data['success'] = 'Profile updated successfully';
         // }
+
+        // show($_SESSION['USER']->profile_pic);
         $user = new User;
         $data = array($user->getById($_SESSION['USER']->user_id));
         $data['error'] = [];
@@ -34,6 +36,15 @@ class Patient extends Controller
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
 
+        $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
+
+        if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
+            $data['profilePic'] = ROOT . "/assets/profile_pictures/" . htmlspecialchars($_SESSION['USER']->user_id) . "/" . $profilePic[0]['profile_pic'];
+        }
+        else {
+            $data['profilePic'] = ROOT . "/assets/img/user.svg";
+        }
+        
         if ($a == 'update') {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -80,7 +91,53 @@ class Patient extends Controller
             }
         }
 
-        $this->view('patient/profile', $data);
+        //upload a profile picture
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-pic'])) {
+
+            $user_id = $_POST['user_id'];
+
+            //target directory
+            $targetDir = "assets/profile_pictures/$user_id/";
+
+            //check if the file(profile picture) was uploaded
+            if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] == 0) {
+                $filename = basename($_FILES['profile-pic']['name']);
+                $targetPath = $targetDir . $filename;
+
+                //check if the target directory exists, if not, create a one
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                //before uploading, delete the old profile picture
+                //fetch the current profile picture from the database
+                $currentProfilePic = $user->getProfilePic($user_id);
+                if(!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
+                    $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
+
+                    //check if the old pic exists and deletes it
+                    if(file_exists($oldPicPath)) {
+                        unlink($oldPicPath);
+                    }
+                }
+
+                //moving the file to the target path
+                if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
+
+                    //moved successfully
+                    $user->update($user_id,['profile_pic' => $filename],'user_id');
+
+                    //unset the session variable to remove the old profile picture
+                    unset($_SESSION['USER']->profile_pic);
+                    //adding the new profile picture to the session variable
+                    $_SESSION['USER']->profile_pic = $filename;
+                    
+                    redirect('Patient/profile');
+                }
+            }
+        }
+
+        $this->view('Patient/profile', $data);
         $this->view('footer');
     }
 
@@ -277,12 +334,82 @@ class Patient extends Controller
 
 
 
-
-    public function documents($a = '')
-    {
-
+    public function medical_records($a = '') {
         $this->view('header');
 
+        $document = new Document;
+
+        //retrieve the documents from the database
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
+        
+        //filter and sort medical records by uploaded_at descending
+        $medicalRecords = is_array($documents) ? array_filter($documents, function($doc) {
+            return $doc['document_type'] === 'medical_record';
+        }) : [];
+
+        usort($medicalRecords, function($a,$b) {
+            return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+        });
+        
+        //pagination
+        $documentsPerPage = 6;
+        $totalDocuments = count($medicalRecords);
+        $totalPages = ceil($totalDocuments / $documentsPerPage);
+        $currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+
+        $startIndex = ($currentPage - 1) * $documentsPerPage;
+        $pagedDocuments = array_slice($medicalRecords,$startIndex,$documentsPerPage);
+
+        $data = [
+            'documents' => $pagedDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
+        ];
+
+        $this->view('Patient/medical_records', $data);
+
+        $this->view('footer');
+    }
+
+    public function lab_reports($a = '') {
+        $this->view('header');
+
+        $document = new Document;
+
+        //retrieve the documents from the database
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
+
+        //filter and sort lab reports by uploaded_at descending
+        $labReports = is_array($documents) ? array_filter($documents, function($doc) {
+            return $doc['document_type'] === 'lab_report';
+        }) : [];
+
+        usort($labReports, function($a,$b) {
+            return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+        });
+
+        //pagination
+        $documentsPerPage = 6;
+        $totalDocuments = count($labReports);
+        $totalPages = ceil($totalDocuments / $documentsPerPage);
+        $currentPage = isset($_GET['page']) ? max(1, min((int)$_GET['page'], $totalPages)) : 1;
+
+        $startIndex = ($currentPage - 1) * $documentsPerPage;
+        $pagedDocuments = array_slice($labReports,$startIndex,$documentsPerPage);
+
+        $data = [
+            'documents' => $pagedDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
+        ];
+
+        $this->view('Patient/lab_reports', $data);
+
+        $this->view('footer');
+    }
+
+    public function private_files($a = '')
+    {
         $document = new Document;
 
         //insert a private file
@@ -292,7 +419,7 @@ class Patient extends Controller
             $document_type = $_POST['document_type'];
 
             //target directory
-            $targetDir = "assets/documents/";
+            $targetDir = "assets/documents/$user_id/private_files/";
 
             //check if the file was uploaded
             if (isset($_FILES['real-file']) && $_FILES['real-file']['error'] == 0) {
@@ -314,48 +441,52 @@ class Patient extends Controller
                     ];
 
                     $document->insert($data);
-                    redirect('patient/documents');
+                    redirect('Patient/private_files?page=1');
                 }
             }
         }
 
         //update the name of a private file
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
 
+            $user_id = $_POST['user_id'];
             $document_id = htmlspecialchars($_POST['document_id']);
             $new_document_name = htmlspecialchars($_POST['document_name']);
+            $extension = htmlspecialchars($_POST['extension']);
+
+            $new_file_name = $new_document_name . '.' . $extension;
 
             //fetch the current document details
-            $query = "SELECT * FROM documents WHERE document_id = $document_id LIMIT 1";
-            $current_document = $document->get_row($query);
+            $current_document = $document->getDocumentById($document_id);
 
             $current_document_name = $current_document->document_name;
 
-            $targetDir = "assets/documents/";
+            $targetDir = "assets/documents/$user_id/private_files/";
 
             $old_path = $targetDir . $current_document_name;
-            $new_path = $targetDir . $new_document_name;
+            $new_path = $targetDir . $new_file_name;
 
             //rename the file in the directory
             if (file_exists($old_path)) {
                 if (rename($old_path, $new_path)) {
                     $data = [
-                        'document_name' => $new_document_name
+                        'document_name' => $new_file_name
                     ];
                     $document->update($document_id, $data, 'document_id');
                 }
             }
 
-            redirect('Patient/documents');
+            redirect('Patient/private_files?page=1');
         }
 
         //delete a private file
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])) {
 
+            $user_id = $_POST['user_id'];
             $document_id = htmlspecialchars($_POST['document_id']);
             $document_name = htmlspecialchars($_POST['document_name']);
 
-            $document_path = "assets/documents/" . $document_name;
+            $document_path = "assets/documents/$user_id/private_files/" . $document_name;
 
             if (file_exists($document_path)) {
                 if (unlink($document_path)) {
@@ -364,19 +495,40 @@ class Patient extends Controller
                 }
             }
 
-            redirect('patient/documents');
+            redirect('Patient/private_files?page=1');
         }
 
+        $this->view('header');
+
         //retrieve the documents from the database
-        $document->setLimit(50);
-        $document->setOrder('desc');
-        $documents = $document->findAll();
+        $documents = $document->getDocuments($_SESSION['USER']->user_id);
+
+        //filtering the private files
+        $privateFiles = is_array($documents) ? array_filter($documents, function($doc) {
+            return $doc['document_type'] === 'private';
+        }) : [];
+
+        //sort by uploaded_at descending
+        usort($privateFiles, function($a,$b) {
+            return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
+        });
+        
+        //pagination
+        $documentsPerPage = 6;
+        $totalDocuments = count($privateFiles);
+        $totalPages = ceil($totalDocuments / $documentsPerPage);
+        $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'], $totalPages)) : 1;
+
+        $startIndex = ($currentPage - 1) * $documentsPerPage;
+        $pagedDocuments = array_slice($privateFiles, $startIndex, $documentsPerPage);
 
         $data = [
-            'documents' => $documents
+            'documents' => $pagedDocuments,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages
         ];
 
-        $this->view('Patient/documents', $data);
+        $this->view('Patient/private_files', $data);
 
         $this->view('footer');
     }

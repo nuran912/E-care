@@ -3,7 +3,7 @@
 class Home extends Controller {
     public function index($a = '', $b = '', $c = '') {
         $this->view('header');
-        
+
         $insurance_company = new InsuranceCompany;
         $insurance_company->setLimit(4);
         $insurance_companies = $insurance_company->findAll();

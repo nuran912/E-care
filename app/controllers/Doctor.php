@@ -412,8 +412,11 @@ class Doctor extends Controller{
             $slotFilter = $_SESSION['filter'];            
         }
 
-        // $navdate initially has the current date. but when a navigation option is used it is updated accordingly
-        $navDate = date('Y-m-d');   //used for prev/next navigation
+        // $navDate initially has the current date. but when a navigation option is used it is updated accordingly
+        // $_POST['selectedDate'] is set when the filter is date and then the date input is used.       
+        //navDate is used for prev/next navigation 
+        (isset($_POST['selectedDate'])) ? $navDate = $_POST['selectedDate'] : $navDate = date('Y-m-d');  
+        // $navDate = date('Y-m-d');   
         if($a == "navs"){
             $navDate = $b;  //navigation start date
             //when navigation is used, current filter is also maintained. eg: click next while filter is month => go to next month(28 days)

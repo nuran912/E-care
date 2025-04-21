@@ -326,4 +326,51 @@ class User
 
       return json_decode(json_encode($result), true);
    }
+
+   public function getLastInsertedDoctorId()
+   {
+       $query = "SELECT user_id FROM $this->table WHERE role = :role ORDER BY created_at DESC LIMIT 1";
+       $result = $this->query($query, ['role' => 'doctor']);
+       return $result ? $result[0]->user_id : null;
+   }
+
+   public function getAllPatients()
+   {
+       $query = "SELECT * FROM $this->table WHERE role = :role";
+       $result = $this->query($query, ['role' => 'patient']);
+       return json_decode(json_encode($result), true);
+   }
+   
+   public function getLastInsertedClerkId()
+   {
+       $query = "SELECT user_id FROM $this->table WHERE role LIKE '%clerk%' ORDER BY created_at DESC LIMIT 1";
+       $result = $this->query($query);
+       return $result ? $result[0]->user_id : null;
+   }
+
+   public function countAllUsers()
+   {
+       $query = "SELECT COUNT(*) as total FROM $this->table";
+       $result = $this->query($query);
+       return $result ? $result[0]->total : 0;
+   }
+   public function countAllDoctors()
+   {
+       $query = "SELECT COUNT(*) as total FROM $this->table WHERE role = :role";
+       $result = $this->query($query, ['role' => 'doctor']);
+       return $result ? $result[0]->total : 0;
+   }
+   public function countAllClerks()
+   {
+       $query = "SELECT COUNT(*) as total FROM $this->table WHERE role LIKE '%clerk%'";
+       $result = $this->query($query);
+       return $result ? $result[0]->total : 0;
+   }
+   public function getRecent4Patients()
+   {
+       $query = "SELECT * FROM $this->table WHERE role = :role ORDER BY created_at DESC LIMIT 4";
+       $result = $this->query($query, ['role' => 'patient']);
+       return json_decode(json_encode($result), true);
+   }
+   
 }

@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Email <?php echo isset($_SESSION['USER']->role) ? '<small class="optional-message">(optional)</small>' : ''; ?></label>
+                    <label>Email <?php echo isset($_SESSION['USER']->role) ? '<small class="optional-message"></small>' : ''; ?></label>
                     <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" <?php echo isset($_SESSION['USER']->role) ? '' : 'required'; ?>>
                     <span id="emailError" class="error-message"></span>
                 </div>
@@ -80,27 +80,83 @@
                     <span id="addressError" class="error-message"></span>
                 </div>
                 <!-- <div class="form-row"> -->
-                    <?php if (isset($_SESSION['USER']->role) && !empty($selectedDocuments)): ?>
-                        <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">
-                        <div class="form-group">
-                            <button type="button" id="selectDocumentsBtn">Select Documents</button>
-                            <div id="documentsPopup" class="popup" style="display: none;">
-                                <div class="popup-content">
-                                    <span class="close-btn" id="closePopup">&times;</span>
-                                    <?php
-                                    $previouslySelected = isset($appointment['selected_files']) ? explode(',', $appointment['selected_files']) : [];
-                                    foreach ($selectedDocuments as $doc):
-                                        $isChecked = in_array($doc->document_id, $previouslySelected) ? 'checked' : '';
-                                    ?>
-                                        <div class="files">
-                                            <input type="checkbox" name="document[]" value="<?= $doc->document_id; ?>" <?= $isChecked; ?>>
-                                            <label><?= htmlspecialchars($doc->document_name); ?></label>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+                <?php if (isset($_SESSION['USER']->role) && !empty($selectedDocuments)): ?>
+    <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">
+    <div class="form-group">
+        <button type="button" id="selectDocumentsBtn">Select Documents</button>
+        <div id="documentsPopup" class="popup" style="display: none;">
+            <div class="popup-content">
+
+                <span class="close-btn" id="closePopup">&times;</span>
+
+                <?php
+                // Grouping documents by their 'document_type'
+                $medicalRecords = [];
+                $labReports = [];
+                $privateFiles = [];
+
+                foreach ($selectedDocuments as $doc) {
+                    switch ($doc->document_type) {
+                        case 'medical_record':
+                            $medicalRecords[] = $doc;
+                            break;
+                        case 'lab_report':
+                            $labReports[] = $doc;
+                            break;
+                        case 'private':
+                        default:
+                            $privateFiles[] = $doc;
+                            break;
+                    }
+                }
+
+                $previouslySelected = isset($appointment['selected_files']) ? explode(',', $appointment['selected_files']) : [];
+                ?>
+
+                <div class="documents-grid">
+                    <!-- Medical Records -->
+                    <div class="document-column">
+                        <h4>Medical Records</h4>
+                        <?php foreach ($medicalRecords as $doc): ?>
+                            <?php $isChecked = in_array($doc->document_id, $previouslySelected) ? 'checked' : ''; ?>
+                            <div class="files">
+                                <input type="checkbox" name="document[]" value="<?= $doc->document_id; ?>" <?= $isChecked; ?>>
+                                <label><?= htmlspecialchars($doc->document_name); ?></label>
                             </div>
-                        </div>
-                    <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Lab Reports -->
+                    <div class="document-column">
+                        <h4>Lab Reports</h4>
+                        <?php foreach ($labReports as $doc): ?>
+                            <?php $isChecked = in_array($doc->document_id, $previouslySelected) ? 'checked' : ''; ?>
+                            <div class="files">
+                                <input type="checkbox" name="document[]" value="<?= $doc->document_id; ?>" <?= $isChecked; ?>>
+                                <label><?= htmlspecialchars($doc->document_name); ?></label>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <!-- Private Files -->
+                    <div class="document-column">
+                        <h4>Private Files</h4>
+                        <?php foreach ($privateFiles as $doc): ?>
+                            <?php $isChecked = in_array($doc->document_id, $previouslySelected) ? 'checked' : ''; ?>
+                            <div class="files">
+                                <input type="checkbox" name="document[]" value="<?= $doc->document_id; ?>" <?= $isChecked; ?>>
+                                <label><?= htmlspecialchars($doc->document_name); ?></label>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
+
+
 
                 
 

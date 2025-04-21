@@ -129,7 +129,7 @@
                         <div class="article-img"><img src="<?php echo htmlspecialchars($article['image_url']); ?>" ></div>
                         <p><?php echo htmlspecialchars($article['publish_date']) ?></p>
                         <h3><?php echo htmlspecialchars($article['title']); ?></h3>
-                        <a href="#">Read more</a>
+                        <a href="<?= ROOT?>/Articles">See more</a>
                     </div>
                 <?php endforeach; ?>
             </div>

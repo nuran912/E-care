@@ -43,6 +43,10 @@ class DoctorAvailableTimes extends Controller
         date_default_timezone_set(timezoneId: 'Asia/Colombo');
              $CurrentDate = date('Y-m-d');
              $CurrentTime = date('H:i:s');
+
+             usort($getAppointmentdetails, function($a, $b) {
+                return strtotime($a->appointment_date) - strtotime($b->appointment_date);
+            });
             /**
              * There is a problem when two or more appointment dates are equal to the current date.
              * If the end time of these appointments is higher than the current time, 
@@ -50,16 +54,16 @@ class DoctorAvailableTimes extends Controller
              */
              
            // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)
-if (is_array($getAppointmentdetails)) {
-    // Filter appointments based on the current date and time
-    $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
+                    if (is_array($getAppointmentdetails)) {
+     // Filter appointments based on the current date and time
+         $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
         // Check if the appointment date is after the current date
         if ($appointment->appointment_date > $CurrentDate) {
             return true;
         }
 
         // Calculate the end time of the appointment
-        $endTime = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
+        $endTime              = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
         
         // If the appointment is today and the end time is greater than the current time
         if ($appointment->appointment_date == $CurrentDate && $endTime > $CurrentTime) {
@@ -71,18 +75,27 @@ if (is_array($getAppointmentdetails)) {
     });
 } else {
     // Handle the case where $getAppointmentdetails is not an array or is empty
-    $getAppointmentdetails = [];
+    $getAppointmentdetails    = [];
 }
 
 if (empty($getAppointmentdetails)) {
-    $noAppointmentsMessage = "No appointments available for this doctor at the moment.";
+    $noAppointmentsMessage    = "No appointments available for this doctor at the moment.";
 } else {
-    $noAppointmentsMessage = ''; // Clear the message if there are appointments
+    $noAppointmentsMessage    = ''; // Clear the message if there are appointments
 }
+
+$page=isset($_GET['page'])?(int)$_GET['page']:1;
+$limit=6;
+$offset=($page-1)*$limit;
+$totalAppointmentSlots=count($getAppointmentdetails);
+$totalPages=ceil($totalAppointmentSlots/$limit);
+$getAppointmentdetails=array_slice($getAppointmentdetails,$offset,$limit);
 
 // Prepare the data for the view
 $data = [
     'appointments' => $getAppointmentdetails,
+    'totalPages' => $totalPages,
+    'currentPage' => $page,
     'doctor_name' => $doctor_name,
     'doctor_specialization' => $doctor_specialization,
     'doctorId' => $doctorId,

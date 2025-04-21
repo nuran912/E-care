@@ -188,6 +188,21 @@
             align-items: center;
         }
 
+        input[type=date]{
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background-color: #f9fafb;
+            transition: border-color 0.3s ease;
+            font-size: 14px;
+            color: #111827;
+        }
+        input[type="date"]:focus{
+            outline: none;
+            border-color: #111827;
+            background-color: #ffffff;
+        }
+
         .tabs{
             display: flex;
             flex-direction: row;
@@ -295,6 +310,9 @@
                 <?php if($data[0][0][0] != "Date"){ ?><option value="Date">Date</option><?php } ?>
                 <?php if($data[0][0][0] != "Month"){ ?><option value="Month">Month</option><?php } ?>
             </select>
+            <?php if($currentFilter == "Date"){ ?>
+                <input id="selectedDate" type="date" name="selectedDate" value="<?= (!empty($data[0][0][1])) ? $data[0][0][1] : date("Y-m-d"); ?>">
+            <?php } ?>
             <button class="filterButton" type="submit">Search</button>
         </form>
             

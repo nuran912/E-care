@@ -10,10 +10,50 @@
       </div>
       <ul class="navbar-headings">
          <li><a href="<?= ROOT ?>/Home">Home</a></li>
-         <li><a href="<?= ROOT ?>/Laboratories">Services</a></li>
+         <li>
+            <a href="<?= ROOT ?>/Laboratories">Services</a>
+            <div class="dropdown">
+               <div class="dropdown-columns">
+                  <div class="dropdown-column">
+                     <h4>Lab Services</h4>
+                     <ul>
+                        <li>Blood Testing</li>
+                        <li>Urine Analysis</li>
+                        <li>Pathology Services</li>
+                        <li>Microbiology Testing</li>
+                        <li>Genetic Testing</li>
+                        <li>Drug Screening</li>
+                        <li>Hormone Testing</li>
+                        <li>Cancer Screening</li>
+                        <li>Allergy Testing</li>
+                        <li>Pregnancy Testing</li>
+                        <li>STD Testing</li>
+                        <li>DNA Testing</li>
+                     </ul>
+                  </div>
+                  <div class="dropdown-column">
+                     <h4>Hospital Services</h4>
+                     <ul>
+                        <li>Family Physician</li>
+                        <li>Diabetes Centre</li>
+                        <li>Psychiatric Care</li>
+                        <li>Radiology</li>
+                        <li>Heart Centre</li>
+                        <li>General Surgery</li>
+                        <li>Orthopedics</li>
+                        <li>Cancer Care</li>
+                        <li>Neonatal Care</li>
+                        <li>Intensive Care</li>
+                        <li>Cosmetic Centre</li>
+                        <li>Urology</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </li>
          <li><a href="<?= ROOT?>/appointmentsearchpage">Appointment</a></li>
          <li><a href="<?= ROOT ?>/Hospitals">About</a></li>
-         <li><a href="#footer">Contact Us</a></li>
+         <li><a href="<?= ROOT ?>/Articles">Articles</a></li>
       </ul>
 
       <div class="buttons-div">
@@ -36,7 +76,9 @@
                   <p><a href="<?php echo ROOT ?>/Admin/user">User</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/doctor">Doctor</a></p>
                   <p><a href="<?php echo ROOT ?>/Admin/clerk">Clerk</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p>
+                  <p><a href="<?php echo ROOT ?>/Admin/hospitals">Hospitals</a></p>
+                  <p><a href="<?php echo ROOT ?>/Admin/labs">Laboratories</a></p>
+                  <!--  <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p> -->
                   <p><a href="<?php echo ROOT ?>/Admin/articles">Articles</a></p>
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

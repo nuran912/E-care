@@ -154,6 +154,9 @@ class Patient extends Controller
             header('location: ' . ROOT . '/Home');
             exit;
         }
+        if (!isset($_GET['section'])) {
+            header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=1');}
+            
     
         // Fetch all appointments for the logged-in patient
         $data = $doctorModel->getUserDoctorAppointments($_SESSION['USER']->user_id);
@@ -177,7 +180,7 @@ class Patient extends Controller
                     }
                 }
     
-                // Attach document names to the appointment object
+                
                 $appointment->documentNames = implode(', ', $documentNames);
             }
         } else {
@@ -195,15 +198,17 @@ class Patient extends Controller
                 $session_date = $appoitment->session_date;
                 $document_ids_csv = $appoitment->selected_files;
             }
-    
+     
+            $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;
+
             date_default_timezone_set('Asia/Colombo');
             $current_date = date("Y-m-d");
     
             if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
                 $appointmentsModel->update_is_deleted($appointment_id);
                 $appointmentsModel->updateStatus($appointment_id, 'canceled');
-    
-                $_SESSION['success'] = 'Appointment canceled successfully.';
+                
+                
     
                 foreach ($appoitmentDetails as $appoitment) {
                     $patientname = $appoitment->patient_name;
@@ -217,7 +222,7 @@ class Patient extends Controller
     
                 $doctorDetails = $doctorModel->getDoctorDetails($doctor_id);
                 $doctorname = $doctorDetails[0]->name;
-    
+
                 $subject = "Appointment Cancellation Confirmation $hospitalname";
                 $body = "
                     <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>
@@ -242,14 +247,69 @@ class Patient extends Controller
                 ";
     
                 EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
-    
+                $_SESSION['success'] = 'Appointment canceled successfully.';
+                header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=' . $currentPagePending);  
+                exit;
+
+
             } else {
                 $_SESSION['error'] = "You can't cancel the appointment because there are less than 48 hours remaining until your appointment.";
             }
     
-            header('location: ' . ROOT . '/Patient/appointments');
+            header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=' . $currentPagePending);
             exit;
         }
+        $pendingAppointments =[];
+        $pastAppointments =[];
+        $currentDate = date("Y-m-d");
+        $currentTime = date("g:i A");
+        foreach ($data as $appointment) {
+            $appointmentDate = $appointment->session_date;
+            $appointmentTime = date("g:i A", strtotime($appointment->session_time));
+        
+            if ($appointment->is_deleted == 0) {
+                if (
+                    ($appointmentDate > $currentDate) ||
+                    ($appointmentDate == $currentDate && strtotime($appointmentTime) > strtotime($currentTime))
+                ) {
+                    $pendingAppointments[] = $appointment;
+                } else {
+                    $pastAppointments[] = $appointment;
+                }
+            }
+        }
+        usort($pendingAppointments, function ($a, $b) {
+            return strtotime($a->session_date) - strtotime($b->session_date);
+        });
+        usort($pastAppointments, function ($a, $b) {
+            return strtotime($b->session_date) - strtotime($a->session_date);
+        });
+
+         // Handle search by date
+    if (isset($_GET['search_date'])) {
+        $searchDate = $_GET['search_date'];
+        $pendingAppointments = array_filter($pendingAppointments, function ($appointment) use ($searchDate) {
+            return $appointment->session_date === $searchDate;
+        });
+        $pastAppointments = array_filter($pastAppointments, function ($appointment) use ($searchDate) {
+            return $appointment->session_date === $searchDate;
+        });
+    }
+         // Pagination Logic for Pending Appointments
+    $limit = 4;
+    $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;
+    $offsetPending = ($currentPagePending - 1) * $limit;
+    $pendingAppointmentsPaginated = array_slice($pendingAppointments, $offsetPending, $limit);
+    $totalPagesPending = ceil(count($pendingAppointments) / $limit);
+
+       // Pagination Logic for Past Appointments
+       $currentPagePast = isset($_GET['page_past']) ? (int)$_GET['page_past'] : 1;
+       $offsetPast = ($currentPagePast - 1) * $limit;
+       $pastAppointmentsPaginated = array_slice($pastAppointments, $offsetPast, $limit);
+       $totalPagesPast = ceil(count($pastAppointments) / $limit);
+
+           
+    
     
         // Error handling if POST with no appointment_id
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['appointment_id'])) {
@@ -257,48 +317,22 @@ class Patient extends Controller
         }
     
         $this->view('header');
-        $this->view('patient/appointments', $data);
+        $this->view('patient/appointments', [
+        'pendingAppointments' => $pendingAppointmentsPaginated,
+        'pastAppointments' => $pastAppointmentsPaginated,
+        'currentPagePending' => $currentPagePending,
+        'totalPagesPending' => $totalPagesPending,
+        'currentPagePast' => $currentPagePast,
+        'totalPagesPast' => $totalPagesPast,
+        'data' => $data,
+        
+        
+        ]);
         $this->view('footer');
     }
     
 
 
-
-
-
-
-
-
-
-    // public function cancelAppointment()
-    // {
-    //     $appointmentsModel = new Appointments;
-
-
-    //     // Ensure only patients can delete their own appointments
-    //     if ($_SESSION['USER']->role !== 'patient') {
-    //         header('location: ' . ROOT . '/Home');
-    //         exit;
-    //     }
-
-    //     if (isset($_POST['appointment_id'])) {
-    //         $appointment_id = $_POST['appointment_id'];
-    //         $getDetails=$appointmentsModel->getByAppointmentId($appointment_id);
-
-    //         // Call the delete method from the model
-    //         $appointmentsModel->delete($appointment_id, 'appointment_id');
-
-    //         // Redirect back to the appointments page with success message
-    //         $_SESSION['success'] = 'Appointment canceled successfully.';
-    //         header('location: ' . ROOT . '/Patient/appointments');
-    //         exit;
-    //     } else {
-    //         // Handle the case where appointment_id is not set
-    //         $_SESSION['error'] = 'Failed to cancel the appointment.';
-    //         header('location: ' . ROOT . '/Patient/appointments');
-    //         exit;
-    //     }
-    // }
 
     public function medical_records($a = '') {
         $this->view('header');

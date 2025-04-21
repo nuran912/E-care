@@ -420,8 +420,7 @@ class Patient extends Controller
             $new_document_name = htmlspecialchars($_POST['document_name']);
 
             //fetch the current document details
-            $query = "SELECT * FROM documents WHERE document_id = $document_id LIMIT 1";
-            $current_document = $document->get_row($query);
+            $current_document = $document->getDocumentById($document_id);
 
             $current_document_name = $current_document->document_name;
 

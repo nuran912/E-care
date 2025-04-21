@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Pending Appointments</title>
+    <title>Upload Documents</title>
     <style>
         body {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -11,18 +11,28 @@
             margin: 0;
             padding: 0;
         }
+
         .container{
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             align-items: center;
-            margin: 7.5%;
+            margin: 5% auto;
             padding: 5%;
             background-color: #ffffff;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             gap: 5%;
+            max-width: 800px;
+            width: 100%;
         }
+
+        form.documentInfo {
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
         .tabs{
             display: flex;
             flex-direction: row;
@@ -31,40 +41,62 @@
             margin-bottom: 30px;
             width: 100%;
         }
+
         .tab{
             padding: 10px 20px;
             display: flex;
             justify-content: center;
             flex-grow: 1;
+            position: relative;
         }
+
         .tab.active{
-            color: #003366;
-            border-bottom: 3px solid #0E2F56;
+            color: #1c3a47;
             font-weight: bold;
         }
-        .tab a{
-            text-decoration: none;
-            color: #003366;
+
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            border-radius: 10px;
+            background-color: #1c3a47;
+            transition: all 0.3s ease-in-out;
         }
+
+        .tab, .tab a{
+            color: #919191;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
         form {
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
+
         .section {
             display: flex;
             gap: 20px;
         }
+
         .item {
             flex: 1;
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
+
         label {
             font-size: 14px;
             font-weight: 500;
         }
+
         input[type="text"], select, input[type="file"] {
             padding: 10px;
             font-size: 14px;
@@ -73,23 +105,27 @@
             outline: none;
             transition: border-color 0.2s ease-in-out;
         }
+
         input[type="text"]:focus, select:focus, input[type="file"]:focus {
             border-color: #007BFF;
         }
+
         button {
-            padding: 12px 20px;
+            padding: 10px 20px;
             background-color: #0E2F56;
             color: #fff;
             border: none;
             border-radius: 6px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .buttons{
             display: flex;
             flex-direction: row;
@@ -98,47 +134,61 @@
     </style>
 </head>
 <body>
+
     <div class="container">
+
         <div class="tabs">
             <div class="tab active">Upload Document</div>
-            <div class="tab"><a href="./clerkWorkLog">Work Log</a></div>
+            <div class="tab"><a href="./recordClerkWorkLog">Work Log</a></div>
         </div>
-        <form class="documentInfo">
+
+        <form class="documentInfo" method="POST" enctype="multipart/form-data">
+
             <div class="section">
                 <div class="item">
-                    <label for="docName">Document Name</label>
-                    <input type="text" id="docName" name="docName" placeholder="Enter document name" required />
+                    <label for="patientEmail">Patient Email</label>
+                    <input type="text" id="patientEmail" name="patient_email" placeholder="Enter patient email address" required />
                 </div>
-                <div class="item">
-                    <label for="patientID">Patient ID</label>
-                    <input type="text" id="patientID" name="patientID" placeholder="Enter patient ID" required />
-                </div>
-            </div>
-            <div class="section">
+
                 <div class="item">
                     <label for="refNumber">Reference Number</label>
-                    <input type="text" id="refNumber" name="refNumber" placeholder="Enter reference number" required />
+                    <input type="text" id="refNumber" name="ref_no" placeholder="Enter reference number" required />
                 </div>
+            </div>
+
+            <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
+
+            <div class="section">
                 <div class="item">
-                    <label for="docCategory">Document Category</label>
-                    <select id="docCategory" name="docCategory" required>
-                        <option value="" disabled selected>Select category</option>
-                        <option value="diagnosisCard">Diagnosis Card</option>
-                        <option value="bill">Bill</option>
-                        <option value="blood">Blood Report</option>
-                        <option value="urine">Urine Test</option>
-                        <option value="prescription">Prescription</option>
+                    <label for="document_category">Document Category</label>
+                    <select id="documentCategory" name="document_category" required>
+                        <option value="" disabled selected>Select a document category</option>
+                        <option value="Prescription">Prescription</option>
+                        <option value="Diagnosis Card">Diagnosis Card</option>
+                        <option value="Medical Bill">Medical Bill</option>
+                        <option value="Discharge Summary">Discharge Summary</option>
+                        <option value="Admission Note">Admission Note</option>
+                        <option value="Treatment Plan">Treatment Plan</option>
+                        <option value="Operative Report">Operative Report</option>
+                        <option value="Progress Notes">Progress Notes</option>
+                        <option value="Referral Letter">Referral Letter</option>
+                        <option value="Immunization Record">Immunization Record</option>
+                        <option value="Allergy Record">Allergy Record</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
+
+                <div class="item">
+                    <label for="file">Choose File</label>
+                    <input type="file" id="file" name="file" accept=".pdf,.png,.jpeg,.jpg" required />
+                </div>
             </div>
-            <div class="item">
-                <label for="file">Choose File</label>
-                <input type="file" id="file" name="file" required />
-            </div>
+
             <div class="buttons">
-                <button type="submit">Submit</button>
+                <button type="submit" name="upload">Submit</button>
                 <button type="reset">Cancel</button>
             </div>
+
         </form>
     </div>
 </body>

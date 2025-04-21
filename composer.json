@@ -1,11 +1,20 @@
 {
-    "name": "user/e-care",
+    "name": "hp/e-care",
+    "description": "Digital health management system for hospitals, patients, and insurance integration.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hp\\ECare\\": "src/"
+        }
+    },
     "authors": [
         {
             "name": "manusha0652",
             "email": "2022cs161@stu.ucsc.cmb.ac.lk"
         }
     ],
+    "minimum-stability": "stable",
     "require": {
         "phpmailer/phpmailer": "^6.9"
     }

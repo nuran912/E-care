@@ -17,7 +17,8 @@ class User
       'role',
       'is_active',
       'created_at',
-      'updated_at'
+      'updated_at',
+      'profile_pic'
    ];
 
    public $order_column = 'user_id';
@@ -289,6 +290,42 @@ class User
                 return $dataToUpdate;
             }
     }
+
+   public function getUserIDByEmail($email) {
+      if(empty($email)) {
+         return null;
+      }
+
+      $query = "SELECT user_id from $this->table WHERE email = :email";
+
+      $result = $this->query($query,['email' => $email]);
+
+      return json_decode(json_encode($result), true);
+   }
+
+   public function getUserNameByEmail($email) {
+      if(empty($email)) {
+         return null;
+      }
+
+      $query = "SELECT name from $this->table WHERE email = :email";
+
+      $result = $this->query($query,['email' => $email]);
+
+      return json_decode(json_encode($result), true);
+   }
+
+   public function getProfilePic($user_id) {
+      if(empty($user_id)) {
+         return null;
+      }
+
+      $query = "SELECT profile_pic from $this->table WHERE user_id = :user_id";
+
+      $result = $this->query($query,['user_id' => $user_id]);
+
+      return json_decode(json_encode($result), true);
+   }
 
    public function getLastInsertedDoctorId()
    {

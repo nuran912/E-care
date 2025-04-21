@@ -120,7 +120,6 @@ trait Model
       $this->order_type = $order;
    }
 
-
    public function getHospitals()
    {
       $query = "SELECT id, name FROM hospitals";
@@ -139,6 +138,4 @@ trait Model
       $result = $this->query($query, ['user_id' => $id]);
       return $result ? $result[0] : null;
    }
-   
 }
-

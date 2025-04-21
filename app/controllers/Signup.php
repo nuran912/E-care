@@ -45,6 +45,6 @@ class Signup extends Controller
 
         $this->view('signup', $data);
 
-        // $this->view('footer');
+        $this->view('footer');
     }
 }

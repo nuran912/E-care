@@ -27,8 +27,8 @@ if (!isset($errors)) {
 
       <div class="container">
          <center>
-            <h3>Sign In</h3>
-            <p class="signIntext">Please enter your email and password to login</p>
+            <h3>Reset Password</h3>
+            <p class="signIntext">Please enter your email to reset your password</p>
          </center>
          <br>
 
@@ -41,21 +41,9 @@ if (!isset($errors)) {
 
             </div>
 
-            <div class="form-group">
-               <label for="">Password <span style="color: red;">*</span></label>
-               <input type="password" name="password" class="password" value="" placeholder="Enter Your Password">
-
-            </div>
-
-            <input type="checkbox" class="signedIncheckbox">
-            <label for="" class="signedInstatement">Keep me signed in</label>
-
-            <input type="submit" value="Sign In" class="signInBtn">
+            <input type="submit" value="Reset" class="signInBtn">
 
          </form>
-
-         <p class="noAccount">Don't have an account? <a href="<?php echo ROOT ?>/Signup">Sign Up</a></p>
-         <p class="noAccount"><a href="<?php echo ROOT ?>/ForgotPassword">Forgot password?</a></p>
 
       </div>
 

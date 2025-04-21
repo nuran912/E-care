@@ -31,6 +31,6 @@ class Signin extends Controller
 
         $this->view('signin', $data);
 
-        // $this->view('footer');
+        $this->view('footer');
     }
 }

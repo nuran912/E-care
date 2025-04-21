@@ -123,7 +123,7 @@ class Patient extends Controller
                     }
                 }
     
-                // Attach document names to the appointment object
+                
                 $appointment->documentNames = implode(', ', $documentNames);
             }
         } else {
@@ -165,7 +165,7 @@ class Patient extends Controller
     
                 $doctorDetails = $doctorModel->getDoctorDetails($doctor_id);
                 $doctorname = $doctorDetails[0]->name;
-    
+
                 $subject = "Appointment Cancellation Confirmation $hospitalname";
                 $body = "
                     <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>

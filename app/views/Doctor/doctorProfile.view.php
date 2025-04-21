@@ -50,6 +50,7 @@
             object-fit: cover;
             margin-bottom: 20px;
             border: 4px solid #fff;
+            background-color: #93DEFF;
         }
 
         .profileDesc h3, .profileDesc h4 {
@@ -210,11 +211,18 @@
     <div class="container">
         <!-- Profile Card Section -->
         <div class="profileCard">
+
+            <form method="POST" enctype="multipart/form-data" action="<?= ROOT; ?>/Doctor/doctorProfile">
+                <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id) ?>">
+                <input type="file" name="profile-pic" id="user-image" accept="image/*" hidden>
+            </form>
+            
             <div class="profilePic">
-                <img src="" alt="Profile Picture">
+                <img src="<?= $data['profilePic'] ?>" alt="Profile Picture" id="image-preview" onclick="document.getElementById('user-image').click();">
             </div>
+
             <div class="profileDesc">
-                <h3>Dr. <?= $data[1]->name ?></h3>
+                <h3><?= $data[1]->name ?></h3>
                 <h3><?= $data[0]->specialization ?></h3>
                 <h4>Specialist</h4>
             </div>
@@ -296,5 +304,20 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('user-image').addEventListener('change',function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+
+                this.form.submit();
+            }
+        });
+    </script>
 </body>
 </html>

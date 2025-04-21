@@ -10,7 +10,47 @@
       </div>
       <ul class="navbar-headings">
          <li><a href="<?= ROOT ?>/Home">Home</a></li>
-         <li><a href="<?= ROOT ?>/Laboratories">Services</a></li>
+         <li>
+            <a href="<?= ROOT ?>/Laboratories">Services</a>
+            <div class="dropdown">
+               <div class="dropdown-columns">
+                  <div class="dropdown-column">
+                     <h4>Lab Services</h4>
+                     <ul>
+                        <li>Blood Testing</li>
+                        <li>Urine Analysis</li>
+                        <li>Pathology Services</li>
+                        <li>Microbiology Testing</li>
+                        <li>Genetic Testing</li>
+                        <li>Drug Screening</li>
+                        <li>Hormone Testing</li>
+                        <li>Cancer Screening</li>
+                        <li>Allergy Testing</li>
+                        <li>Pregnancy Testing</li>
+                        <li>STD Testing</li>
+                        <li>DNA Testing</li>
+                     </ul>
+                  </div>
+                  <div class="dropdown-column">
+                     <h4>Hospital Services</h4>
+                     <ul>
+                        <li>Family Physician</li>
+                        <li>Diabetes Centre</li>
+                        <li>Psychiatric Care</li>
+                        <li>Radiology</li>
+                        <li>Heart Centre</li>
+                        <li>General Surgery</li>
+                        <li>Orthopedics</li>
+                        <li>Cancer Care</li>
+                        <li>Neonatal Care</li>
+                        <li>Intensive Care</li>
+                        <li>Cosmetic Centre</li>
+                        <li>Urology</li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+         </li>
          <li><a href="<?= ROOT?>/appointmentsearchpage">Appointment</a></li>
          <li><a href="<?= ROOT ?>/Hospitals">About</a></li>
          <li><a href="<?= ROOT ?>/Articles">Articles</a></li>
@@ -19,7 +59,13 @@
       <div class="buttons-div">
          <?php if (isset($_SESSION['USER'])): ?>
             <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
-            <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User"></a>
+
+            <?php if(!empty($_SESSION['USER']->profile_pic)): ?>
+               <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= htmlspecialchars($_SESSION['USER']->profile_pic) ?>" alt="User"></a>
+            <?php else: ?>
+               <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/img/user.svg" alt="User"></a>
+            <?php endif; ?>
+            
             <img class="menu" src="<?php echo ROOT ?>/assets/img/menu.svg" alt="Menu">
             <?php if ($_SESSION['USER']->role == 'admin'): ?>
 
@@ -54,18 +100,18 @@
                   <h4>Patient Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Patient/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Patient/appointments">Manage Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Patient/documents">Medical Documents</a></p>
+                  <p><a href="<?php echo ROOT ?>/Patient/medical_records">Medical Documents</a></p>
                   <p><a href="<?php echo ROOT ?>/Patient/insuranceclaims">Insurance Claims</a></p>
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
             <?php endif; ?>
-            <?php if (($_SESSION['USER']->role == 'lab_clerk') || ($_SESSION['USER']->role == 'record_clerk')): ?>
+            <?php if (($_SESSION['USER']->role == 'lab_clerk')): ?>
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
                <card>
                   <h4>Lab Clerk Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Clerk/clerkWorkLog">Work Station</a></p>
-                  <p><a href="<?php echo ROOT ?>/Clerk/clerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/labClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/labClerkWorkLog">Work Log</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -74,9 +120,9 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Receptionclerk">Reception Clerk</a></button> -->
                <card>
                   <h4>Reception Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Receptionclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Create Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Pending Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/appointmentsearchpage">Create Appointments</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/receptionClerkViewPendingAppointments">Pending Appointments</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>
@@ -85,9 +131,9 @@
                <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Recordclerk">Record Clerk</a></button> -->
                <card>
                   <h4>Record Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Recordclerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkUploadDoc">Upload Document</a></p>
-                  <p><a href="<?php echo ROOT ?>/ClerkWorkLog">Work Station</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/recordClerkUploadDoc">Upload Document</a></p>
+                  <p><a href="<?php echo ROOT ?>/Clerk/recordClerkWorkLog">Work Log</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

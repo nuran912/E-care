@@ -25,5 +25,10 @@
             $result = $this->query($query, ['document_id'=> $document_id]);
             return $result ? $result[0] : null;
         }
+        public function getDocumentNamebyId($id){
+            $query="SELECT document_name FROM $this->table WHERE document_id=:document_id";
+            $result=$this->query($query,['document_id'=>$id]);
+            return $result ? $result[0] :null;
+        }
     }
 

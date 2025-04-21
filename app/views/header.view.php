@@ -43,7 +43,7 @@
                   <h4>Doctor Menu</h4>
                   <p><a href="<?php echo ROOT ?>/Doctor/profile">Profile</a></p>
                   <p><a href="<?php echo ROOT ?>/Doctor/doctorPendingAppt">Manage Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Doctor/doctorManageSchedule">Manage Schedules</a></p>
+                  <p><a href="<?php echo ROOT ?>/Doctor/doctorCreateApptSlot">Manage Schedules</a></p>
                   
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

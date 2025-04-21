@@ -20,7 +20,7 @@
             width: 100%;
             max-width: 60vw;
             margin: 7.5% auto;
-            padding: 5%;
+            padding: 2.5% 5%;
         }
 
         h2 {
@@ -101,7 +101,7 @@
         }
 
         button:hover {
-            background-color: #2563eb;
+            background-color: #0a2340;
         }
         a{
             text-decoration: none;
@@ -216,29 +216,75 @@
             /* z-index: 1000; */
         }
         
+        .filters {
+            display: flex;
+            align-items: center;  /* Ensure vertical centering */
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .filters label {
+            font-size: 16px;
+            white-space: nowrap;
+        }
+
+        .filters input, .filters select,
+        .filters button {
+            height: 40px;
+            padding: 8px 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tabs{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            margin-bottom: 40px;
+            width: 100%;
+        }
+        .tab{
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 4px solid #d1c9c9;
+            flex-grow: 1;
+            font-size: x-large;
+        }
+        .tab.active{
+            color: #003366;
+            border-bottom: 4px solid #003366;
+            font-weight: bold;
+        }
+        .tab a{
+            text-decoration: none;
+            color: #003366;
+        }
+
     </style>
 </head>
 <body>
-
     <div class='container'>
-        <h2>Create New Appointment Slot</h2>
-
-        <?php if($data[1]['createError'] != ""){ ?>
+        <div class="tabs">
+            <div class="tab active">Create New Slot</div>
+            <div class="tab"><a href="<?=ROOT?>/Doctor/doctorApptSlots">Appointment Slots</a></div>
+        </div>
+        <?php if($data['createError'] != ""){ ?>
             <div class="error">
-                <p> <?= $data[1]['createError']; ?> </p>
+                <p> <?= $data['createError']; ?> </p>
             </div>
         <?php } ?>
-        <?php if($data[1]['createSuccess'] != ""){ ?>
+        <?php if($data['createSuccess'] != ""){ ?>
             <div class="success">
-                <p> <?= $data[1]['createSuccess']; ?> </p>
+                <p> <?= $data['createSuccess']; ?> </p>
             </div>
         <?php } ?>
-
-        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorManageSchedule/create" >
+        <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorCreateApptSlot/create">
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
-                    <input type="date" id="date" name="date">
+                    <input type="date" id="date" name="date" min="<?=date("Y-m-d");?>">
                 </div>
                 <div class="item">
                     <label for="count">&nbsp&nbspNo. of patients</label>
@@ -262,17 +308,14 @@
                         <?php
                             $hospitals = new Hospital;
                             $hospitals = $hospitals->getAll();
-                            foreach($hospitals as $hospital){
-                                ?>
-                                    <option value="<?=$hospital->id?>"><?=$hospital->name?></option>
-                                <?php
-                            }
-                        ?>
+                            foreach($hospitals as $hospital){ ?>
+                                <option value="<?=$hospital->id?>"><?=$hospital->name?></option>
+                        <?php } ?>
                     </select>
                 </div>
                 <div class="item">
-                    <label for="time">&nbsp&nbspRepeat</label>
-                    <select id=repeat name=repeat>
+                    <label for="repeat">&nbsp&nbspRepeat</label>
+                    <select id="repeat" name="repeat">
                         <option value="0">Never</option>
                         <option value="1">Weekly (For 4 Weeks)</option>
                         <option value="2">Monthly (For 4 Months)</option>
@@ -284,80 +327,5 @@
             </div>
         </form>
     </div>
-    <div class="container">
-        <h2>Upcoming Appointment Slots</h2> 
-
-        <?php if($data[1]['cancelError'] != ""){ ?>
-            <div class="error">
-                <p> <?= $data[1]['cancelError']; ?> </p>
-            </div>
-        <?php } ?>
-        <?php if($data[1]['cancelSuccess'] != ""){ ?>
-            <div class="success">
-                <p> <?= $data[1]['cancelSuccess']; ?> </p>
-            </div>
-        <?php } ?>
-
-        <?php
-
-            usort($data[0], function($a, $b) {
-                return strtotime($a->date) <=> strtotime($b->date); // Compare dates as timestamps
-            });
-            foreach($data[0] as $appt) :
-                $hospital = new Hospital;
-                $hospital = $hospital->getHospitalById($appt->hospital_id);
-                // show($hospital);
-                // show($hospital[0]->name);
-                // $hospitalName = $hospital->name;
-                // show(gettype($appt->date));
-                // show(((new DateTime($appt->date))->format('Y-m-d')));
-                // show(gettype($appt));
-                // show((new DateTime())->format('Y-m-d'));
-                if(((new DateTime($appt->date))->format('Y-m-d')) >= (new DateTime())->format('Y-m-d')){  ?>
-                <!-- show((new DateTime($appt['current_date']))->format('Y-m-d')); -->
-            <div class="appointments">
-            <div class="date"> &nbsp<?php echo $appt->date ?></div>
-            <div class="apptInfo">
-                <div class="item1">
-                    <label>hospital</label>
-                    <div class="item2"><?php echo $hospital->name ?></div>
-                </div>
-                <div class="item1">
-                    <label>start time</label>
-                    <div class="item2"><?php echo $appt->start_time ?></div>
-                </div>
-                <div class="item1">
-                    <label>end time</label>
-                    <div class="item2"><?php echo (new DateTime($appt->start_time))->modify('+'.$appt->duration.' hours')->format('H:i:s'); ?></div>
-                </div>
-                <div class="item1">
-                    <label>total patients</label>
-                    <div class="item2"><?php echo $appt->total_slots ?></div>
-                </div>
-                <div class="item1">
-                    <label>status</label>
-                    <div class="item2"><?php echo $appt->status ?></div>
-                </div>
-                <?php 
-                    if($appt->status != "cancelled"){   ?>
-                        <form class="buttons" method="GET" action="<?= ROOT?>/Doctor/doctorManageSchedule/cancelAppointment/<?= $appt->id ?>"  onsubmit="return confirmCancel()">
-                            <button class="cancel" >Cancel</button>
-                        </form>
-                <?php        
-                        }
-                ?>
-            </div>
-        </div>
-            <br/>
-        <?php
-            }
-        endforeach;  
-        ?>
-    </div>
-    <script>
-        function confirmCancel(){
-            return confirm("Are you sure you want to cancel this appointment?");
-        }
-    </script>
 </body>
 </html>

@@ -126,17 +126,18 @@
             width: 200px;
             padding: 10px;
             margin: 20px auto;
-            background-color: #28a745;
+            background-color: #0E2F56;
             border: none;
             border-radius: 5px;
             color: white;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
             transition: background-color 0.3s;
         }
 
         .insurance-claim-form input[type="submit"]:hover {
-            background-color: #218838;
+            background-color: #0a2340;
         }
 
         .box {
@@ -242,7 +243,7 @@
         <h2>Insurance Claim Form</h2>
 
         <div class="insurance-claim-form">
-            <form id="claim-form" action="">
+            <form id="claim-form" action="<?= ROOT?>/Patient/insuranceclaims/submit">
 
                 <div class="first-column">
 

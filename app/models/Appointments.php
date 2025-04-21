@@ -24,7 +24,11 @@ class Appointments
         'service_charge', 
         'selected_files' , 
         'payment_status',
-        'doctor_notes',    
+        'doctor_notes',  
+        'email_sent',
+        'is_deleted'
+
+
     ];
 
     public $order_column = 'id';
@@ -187,4 +191,11 @@ public function updateStatus($appointment_id, $status) {
         return $result ? $result[0]->total : 0;
     }
         
+    public function updateEmailSent($appointment_id) {
+        $query= "UPDATE appointments SET email_sent = 1 WHERE appointment_id = :appointment_id";
+        $result = $this->query($query, ['appointment_id'=> $appointment_id]);
+        return $result ? $result : null;
+        
+    }
+    
 }

@@ -127,9 +127,9 @@ class Clerk extends Controller {
                     $user->update($user_id,['profile_pic' => $filename],'user_id');
 
                     //unset the session variable to remove the old profile picture
-                    unset($_SESSION['profile_pic']);
+                    unset($_SESSION['USER']->profile_pic);
                     //adding the new profile picture to the session variable
-                    $_SESSION['profile_pic'] = $filename;
+                    $_SESSION['USER']->profile_pic = $filename;
 
                     redirect('Clerk/clerkProfile');
                 }

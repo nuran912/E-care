@@ -25,10 +25,11 @@ class Clerk extends Controller {
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
         // $_SESSION['updateData'] = [];
+
         $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
 
         if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
-            $data['profilePic'] = $profilePic[0]['profile_pic'];
+            $data['profilePic'] = ROOT . "/assets/profile_pictures/" . htmlspecialchars($_SESSION['USER']->user_id) . "/" . $profilePic[0]['profile_pic'];
         }
         else {
             $data['profilePic'] = ROOT . "/assets/img/user.svg";
@@ -124,6 +125,12 @@ class Clerk extends Controller {
 
                     //moved successfully
                     $user->update($user_id,['profile_pic' => $filename],'user_id');
+
+                    //unset the session variable to remove the old profile picture
+                    unset($_SESSION['profile_pic']);
+                    //adding the new profile picture to the session variable
+                    $_SESSION['profile_pic'] = $filename;
+
                     redirect('Clerk/clerkProfile');
                 }
             }   

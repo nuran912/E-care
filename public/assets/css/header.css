@@ -263,6 +263,7 @@ card .signout-btn a {
    gap: 20px;
    padding: 10px;
    flex-wrap: wrap; /* Allow wrapping for equal distribution */
+   z-index: 1000;
 }
 
 .dropdown-column {

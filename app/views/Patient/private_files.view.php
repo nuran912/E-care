@@ -54,8 +54,15 @@
 
                                     <div class="button-group">
                                         
-                                        <button class="private-view-button"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($_SESSION['USER']->user_id)?>/private_files/<?= htmlspecialchars($document['document_name']) ?>" target="_blank">View</a></button>
-                                            
+                                        <button class="private-view-button">
+                                            <a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($_SESSION['USER']->user_id)?>/private_files/<?= htmlspecialchars($document['document_name']) ?>" target="_blank">View</a>
+                                        </button>
+                                        
+                                        <?php 
+                                            $document_name = pathinfo($document['document_name'],PATHINFO_FILENAME);
+                                            $extension = pathinfo($document['document_name'],PATHINFO_EXTENSION);
+                                        ?>
+
                                         <button class="private-edit-button" data-index="<?= $popupIndex ?>">Edit</button>
                                         <div class="popup" id="popup-<?= $popupIndex ?>" style="display: none;">
                                             <div class="popup-content">
@@ -63,7 +70,8 @@
                                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                                     <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
                                                     <label for="document_name">Update Document Name:</label><br>
-                                                    <input type="text" name="document_name" class="document-name" value="<?= htmlspecialchars($document['document_name']) ?>">
+                                                    <input type="text" name="document_name" class="document-name" value="<?= $document_name ?>">
+                                                    <input type="hidden" name="extension" value="<?= $extension ?>">
                                                     <button type="submit" name="update" class="update">Update</button>
                                                 </form>
                                             </div>

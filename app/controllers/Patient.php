@@ -418,6 +418,9 @@ class Patient extends Controller
             $user_id = $_POST['user_id'];
             $document_id = htmlspecialchars($_POST['document_id']);
             $new_document_name = htmlspecialchars($_POST['document_name']);
+            $extension = htmlspecialchars($_POST['extension']);
+
+            $new_file_name = $new_document_name . '.' . $extension;
 
             //fetch the current document details
             $current_document = $document->getDocumentById($document_id);
@@ -427,13 +430,13 @@ class Patient extends Controller
             $targetDir = "assets/documents/$user_id/private_files/";
 
             $old_path = $targetDir . $current_document_name;
-            $new_path = $targetDir . $new_document_name;
+            $new_path = $targetDir . $new_file_name;
 
             //rename the file in the directory
             if (file_exists($old_path)) {
                 if (rename($old_path, $new_path)) {
                     $data = [
-                        'document_name' => $new_document_name
+                        'document_name' => $new_file_name
                     ];
                     $document->update($document_id, $data, 'document_id');
                 }

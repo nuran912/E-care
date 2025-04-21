@@ -1,0 +1,310 @@
+body {
+   font-family: 'Lucida Sans';
+   margin: 0;
+   padding: 0;
+   background-color: #f9f9f9; /* Softer background color */
+}
+
+header {
+   background-color: #0E2F56;
+   color: white;
+   padding: 1em;
+   text-align: center;
+   font-size: 1.5em;
+   font-weight: bold;
+}
+
+.hero {
+   background: #5FBDB0;
+   color: white;
+   text-align: center;
+   padding: 4em 2em;
+   margin-bottom: 2em;
+}
+
+.hero h1 {
+   font-size: 3em;
+   margin-bottom: 0.5em;
+}
+
+.hero p {
+   font-size: 1.2em;
+   margin-bottom: 1em;
+}
+
+.hero .btn-cta {
+   background-color: #ffffff;
+   color: #0E2F56;
+   text-decoration: none;
+   padding: 1em 2em;
+   border-radius: 20px;
+   font-size: 1em;
+   font-weight: bold;
+   display: inline-block;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.hero .btn-cta:hover {
+   background-color: #0d62cb;
+   color: white;
+}
+
+.search {
+   margin: 2em auto;
+   text-align: center;
+}
+
+.search-bar {
+   width: 60%;
+   padding: 0.8em;
+   border: 1px solid #ddd;
+   border-radius: 20px;
+   font-size: 1em;
+   margin-right: 0.5em;
+}
+
+.btn-search {
+   padding: 0.8em 2em;
+   background-color: #0E2F56;
+   color: white;
+   border: none;
+   border-radius: 20px;
+   font-size: 1em;
+   cursor: pointer;
+   transition: background-color 0.3s;
+}
+
+.btn-search:hover {
+   background-color: #5FBDB0;
+}
+
+section {
+   padding: 2em;
+   text-align: center;
+   background-color: #f9f9f9;
+}
+
+/* Articles section */
+.articles {
+   background-color: #f9f9f9;
+   padding: 2em;
+   text-align: center;
+}
+
+.articles h1 {
+   color: #0E2F56;
+   margin-bottom: 1em;
+}
+
+.articles .cards {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: start;
+   gap: 2em;
+   margin-left: 6%; /* Center the cards */
+}
+
+.articles .card {
+   background-color: #5FBDB0;
+   border: 1px solid #ddd;
+   border-radius: 8px;
+   padding: 0; /* Remove padding to merge image and card border */
+   width: 300px; /* Reduced width */
+   height: 450px; /* Reduced height */
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+   text-align: left;
+   overflow: hidden; /* Ensure content doesn't overflow */
+   transition: transform 0.3s, box-shadow 0.3s;
+   display: flex;
+   flex-direction: column; /* Arrange content vertically */
+   justify-content: space-between; /* Ensure spacing between elements */
+}
+
+.articles .card:hover {
+   transform: translateY(-10px);
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.articles .card span {
+   font-size: 0.9em;
+}
+
+.articles .card .card-meta {
+   display: flex;
+   justify-content: space-between; /* Align items to the left and right */
+   padding: 0 1em; /* Add padding for spacing */
+   margin-top: 1em; /* Add spacing above the meta section */
+}
+
+.articles .card .article-img {
+   height: 200px; /* Adjusted height for the image */
+   width: 100%;
+   margin-bottom: 0; /* Remove margin to merge image and card border */
+}
+
+.articles .card .article-img img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 0; /* Remove border radius to merge image and card border */
+}
+
+.articles .card h3 {
+   color: #0E2F56;
+   margin: 10px;
+   padding: 20px;
+   text-align: center; /* Center the title */
+   font-size: 15px;
+   flex-grow: 1; /* Allow the title to take up available space */
+   display: -webkit-box; /* Use flexbox for text wrapping */
+   /* -webkit-line-clamp: 3;  */
+   -webkit-box-orient: vertical; /* Set the box orientation */
+   overflow: hidden; /* Hide overflow text */
+   text-overflow: ellipsis; /* Add ellipsis for overflow text */
+   white-space: normal; /* Allow text wrapping */
+}
+
+.articles .card a {
+   color: white; 
+   text-decoration: none;
+   background-color: #0d62cb; 
+   display: block; /* Ensure the button takes full width */
+   text-align: center; 
+   margin: 1em auto; /* Center the button horizontally */
+   padding: 1em 2em; 
+   border-radius: 20px; 
+   cursor: pointer; 
+   font-size: 1em; 
+   width: 100px;
+   margin-bottom: 10px;
+   font-weight: bold;
+   transition: background-color 0.3s;
+}
+
+.articles .card a:hover {
+   background-color: #0E2F56;
+   color: #ffffff;
+}
+
+.pagination {
+   display: flex;
+   justify-content: center;
+   margin-top: 2em;
+   gap: 0.5em;
+}
+
+.pagination button {
+   padding: 0.5em 1em;
+   border: none;
+   background-color: #0E2F56;
+   color: white;
+   border-radius: 5px;
+   cursor: pointer;
+   font-size: 1em;
+   transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+   background-color: #5FBDB0;
+}
+
+.pagination button.active {
+   background-color: #5FBDB0;
+   font-weight: bold;
+}
+
+/* Cover Image Section */
+.article-cover {
+   position: relative;
+   width: 100%;
+   height: 400px;
+   overflow: hidden;
+   z-index: -1;
+}
+
+.article-cover img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+
+.cover-overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background: rgba(0, 0, 0, 0.5);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: white;
+   text-align: center;
+}
+
+.cover-overlay h1 {
+   font-size: 3em;
+   font-weight: bold;
+   margin: 0;
+}
+
+/* Article Details Section */
+.article-details {
+   padding: 2em;
+   background-color: #ffffff;
+   margin: 2em auto;
+   max-width: 800px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   border-radius: 10px;
+}
+
+.article-description {
+   font-size: 1.2em;
+   color: #555;
+   margin-bottom: 1em;
+   font-style: italic;
+}
+
+.article-content {
+   font-size: 1em;
+   color: #333;
+   line-height: 1.6;
+   margin-bottom: 1.5em;
+}
+
+.publish-date {
+   font-size: 0.9em;
+   color: #888;
+   display: block;
+   text-align: right;
+}
+
+/* No Article Found */
+.no-article {
+   text-align: center;
+   font-size: 1.5em;
+   color: #888;
+   margin-top: 2em;
+}
+
+/* Back Button */
+.back-button {
+   text-align: center;
+   margin-top: 2em;
+   margin-bottom: 2em;
+}
+
+.back-button a {
+   text-decoration: none;
+   color: white;
+   background-color: #0E2F56;
+   padding: 0.8em 2em;
+   border-radius: 20px;
+   font-size: 1em;
+   font-weight: bold;
+   transition: background-color 0.3s;
+}
+
+.back-button a:hover {
+   background-color: #5FBDB0;
+}

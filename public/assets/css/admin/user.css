@@ -447,6 +447,43 @@ table .user-img{
    display: block;
 }
 
+.form-checkbox {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: -5rem;
+}
+
+.form-checkbox .form-row {
+   align-items: start;
+   justify-content: start;
+}
+
+.form-checkbox input[type="checkbox"] {
+   width: 20px;
+   height: 20px;
+   cursor: pointer;
+   margin-right: 2px;
+   margin-left: 19px;
+   accent-color: #007bff; 
+   border: 2px solid #CED4DA; 
+   border-radius: 5px; 
+
+}
+.form-checkbox input[type="checkbox"]:checked {
+   background-color: #007bff; 
+   border: 2px solid #007bff; 
+}
+
+.form-checkbox span {
+   display: flex;
+   margin-left: 5px;
+   margin-top: 5px;
+   font-size: 14px;
+   width: 160px;
+   color: #666;
+}
+
+
 .error {
    position:relative;
    background-color: darkred;

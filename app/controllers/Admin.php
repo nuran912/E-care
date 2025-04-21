@@ -13,7 +13,52 @@ class Admin extends Controller
    public function dashboard($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/dashboard');
+
+      $userModel = new User;
+      $userCount = $userModel->countAllUsers();
+      $doctorCount = $userModel->countAllDoctors();
+      $clerkCount = $userModel->countAllClerks();
+
+      $insuranceModel = new InsuranceCompany;
+      $insuranceCount = $insuranceModel->countAllInsuranceCompanies();
+
+      $appointmentModel = new Appointments;
+      $appointmentCount = $appointmentModel->countAllAppointmentsLastMonth();
+
+      $articleModel = new Article;
+      $articleCount = $articleModel->countAllArticlesLastMonth();
+
+      $hospitalModel = new Hospital;
+      $hospitalCount = $hospitalModel->countAllHospitals();
+      $labModel = new Laboratory;
+      $labCount = $labModel->countAllLabs();
+
+      $doctorModel = new DoctorModel;
+      $doctors = $doctorModel->getRecent4Doctors();
+
+      $clerkModel = new ClerkModel;
+      $clerks = $clerkModel->getRecent4Clerks();
+
+      $users = $userModel->getRecent4Patients();
+      $hospitals = $hospitalModel->getRecent4Hospitals();
+
+      $data = [
+         'userCount' => $userCount,
+         'doctorCount' => $doctorCount,
+         'clerkCount' => $clerkCount,
+         'insuranceCount' => $insuranceCount,
+         'articleCount' => $articleCount,
+         'hospitalCount' => $hospitalCount,
+         'labCount' => $labCount,
+         'appointmentCount' => $appointmentCount,
+         'users' => $users,
+         'doctors' => $doctors,
+         'clerks' => $clerks,
+         'hospitals' => $hospitals,
+
+      ];
+
+      $this->view('admin/dashboard', $data);
       $this->view('footer');
    }
 
@@ -74,7 +119,41 @@ class Admin extends Controller
    public function user($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/user');
+
+      $userModel = new User;
+      // $userModel->setLimit(100);
+      $users = $userModel->getAllPatients();
+      // show($users);
+      $data = [
+         'users' => $users,
+      ];
+
+      if($a == 'toggleStatus'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $userModel = new User;
+            $user = $userModel->first(['user_id' => $userId]);
+   
+            if ($user) {
+               $newStatus = $user->is_active ? 0 : 1;
+               $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+            }
+         }
+         redirect('Admin/user');
+      }
+
+      if($a == 'resetPassword'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $nic = $_POST['nic'];
+            $userModel = new User;
+            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
+         }
+         redirect('Admin/user');
+      }
+
+      $this->view('admin/user', $data);
       $this->view('footer');
    }
 
@@ -115,6 +194,67 @@ class Admin extends Controller
          redirect('Admin/doctor');
       }
 
+      if($a == 'edit'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $doctorModel = new DoctorModel;
+            $doctorData = [
+               'name' => $_POST['name'],
+               'specialization' => $_POST['specialization'],
+               // 'hospital' => $_POST['hospital'],
+               // 'registration_number' => $_POST['registration_number'],
+               'other_qualifications' => $_POST['other_qualifications'],
+               'Doctor_fee' => $_POST['doctor_fee'],
+               'special_note' => $_POST['special_note'],
+               'id' => $_POST['doctor_id']
+           ];
+           $userData = [
+            'email' => $_POST['email'],
+            'phone_number' => $_POST['phone_number'],
+            'NIC' => $_POST['nic'],
+            // 'is_active' => $_POST['is_active'],
+            'user_id' => $_POST['user_id']
+        ];
+            $doctorModel->updateDoctorsWithUserDetails($doctorData, $userData);
+            $_SESSION['edit_success'] = 'Doctor details updated successfully.';
+            redirect('Admin/doctor');
+         }
+      }
+
+      if ($a == 'create') {
+         $doctorModel = new DoctorModel;
+         $userModel = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $doctorData = [
+               'name' => $_POST['name'],
+               'specialization' => $_POST['specialization'],
+               'hospital' => rand(1, 3),
+               'registration_number' => $_POST['registration_number'],
+               'other_qualifications' => $_POST['other_qualifications'],
+               'Doctor_fee' => $_POST['doctor_fee'],
+               'special_note' => $_POST['special_note'],
+               'gender' => $_POST['gender']
+            ];
+            $userData = [
+               'email' => $_POST['email'],
+               'role' => 'doctor',
+               'title' => 'Dr.',
+               'name' => $_POST['name'],
+               'password' => $_POST['nic'],
+               'phone_number' => $_POST['phone_number'],
+               'NIC' => $_POST['nic'],
+               'is_active' => 1,
+               'created_at' => date('Y-m-d H:i:s'),
+               'updated_at' => date('Y-m-d H:i:s')
+            ];
+            $userModel->insert($userData);
+            $userId = $userModel->getLastInsertedDoctorId();
+            $doctorData['user_id'] = $userId;
+            $doctorModel->insert($doctorData);
+            $_SESSION['create_success'] = 'Doctor created successfully.';
+            redirect('Admin/doctor');
+         }
+      }
+
       $this->view('admin/doctor', $data);
       $this->view('footer');
    }
@@ -122,7 +262,111 @@ class Admin extends Controller
    public function clerk($a = '', $b = '', $c = '')
    {
       $this->view('header');
-      $this->view('admin/clerk');
+
+      $clerkModel = new ClerkModel;
+      // $clerkModel->setLimit(100);
+      $clerks = $clerkModel->getAllClerksWithUserDetails();
+      // show($clerks);
+      $hospitalModel = new Hospital;
+      $hospitals = $hospitalModel->getAllHospitals();
+
+      $labModel = new Laboratory;
+      $labs = $labModel->getAllLabs();
+      // show($labs);
+     
+      $data = [
+         'clerks' => $clerks,
+         'hospitals' => $hospitals,
+         'labs' => $labs
+      ];
+
+      if($a == 'toggleStatus'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $userModel = new User;
+            $user = $userModel->first(['user_id' => $userId]);
+   
+            if ($user) {
+               $newStatus = $user->is_active ? 0 : 1;
+               $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+            }
+         }
+         redirect('Admin/clerk');
+      }
+
+      if($a == 'resetPassword'){
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $userId = $_POST['user_id'];
+            $nic = $_POST['nic'];
+            $userModel = new User;
+            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
+         }
+         redirect('Admin/clerk');
+      }
+
+      if($a == 'create'){
+         $clerkModel = new ClerkModel;;
+         $userModel = new User;
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $clerkData = [
+               'name' => $_POST['name'],
+               'type' => $_POST['type'],
+               'hospital' => $_POST['hospital'],
+               'lab' => $_POST['lab'],
+               'emp_id' => $_POST['emp_id']
+               // 'gender' => $_POST['gender']
+            ];
+            $userData = [
+               'email' => $_POST['email'],
+               'role' => $_POST['type'].'_clerk',
+               // 'title' => 'Dr.',
+               'name' => $_POST['name'],
+               'password' => $_POST['nic'],
+               'phone_number' => $_POST['phone_number'],
+               'NIC' => $_POST['nic'],
+               'is_active' => 1,
+               'created_at' => date('Y-m-d H:i:s'),
+               'updated_at' => date('Y-m-d H:i:s')
+            ];
+            $userModel->insert($userData);
+            $userId = $userModel->getLastInsertedClerkId();
+            $clerkData['user_id'] = $userId;
+            $clerkModel->insert($clerkData);
+            $_SESSION['create_success'] = 'Clerk created successfully.';
+            redirect('Admin/clerk');
+      }}
+
+      if ($a == 'edit') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $clerkModel = new ClerkModel;
+
+            // Set empty 'lab' or 'hospital' values to NULL
+            $lab = empty($_POST['lab']) ? null : $_POST['lab'];
+            $hospital = empty($_POST['hospital']) ? null : $_POST['hospital'];
+
+            $clerkData = [
+               'name' => $_POST['name'],
+               'type' => $_POST['type'],
+               'hospital' => $hospital,
+               'lab' => $lab,
+               'emp_id' => $_POST['emp_id']
+           ];
+           $userData = [
+            'email' => $_POST['email'],
+            'name' => $_POST['name'],
+            'phone_number' => $_POST['phone_number'],
+            'NIC' => $_POST['nic'],
+            'role' => $_POST['type'].'_clerk',
+            'user_id' => $_POST['user_id']
+        ];
+            $clerkModel->updateClerksWithUserDetails($clerkData, $userData);
+            $_SESSION['edit_success'] = 'Clerk details updated successfully.';
+            redirect('Admin/clerk');
+         }
+      }
+
+      $this->view('admin/clerk', $data);
       $this->view('footer');
    }
 
@@ -243,6 +487,165 @@ class Admin extends Controller
       }
 
       $this->view('admin/articles', $data);
+      $this->view('footer');
+   }
+
+   public function hospitals($a = '', $b = '', $c = '')
+   {
+      $this->view('header');
+      $hospitalModel = new Hospital;
+      $hospitals = $hospitalModel->getAllHospitals();
+      // show($hospitals);
+      $data = [
+         'hospitals' => $hospitals
+      ];
+
+      
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
+      if ($a == 'create') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $hospitalData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'hospital_fee' => $_POST['hospital_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $hospitalModel->insert($hospitalData);
+            $_SESSION['create_success'] = 'Hospital created successfully.';
+            redirect('Admin/hospitals');
+         }
+      }
+
+      if ($a == 'edit') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $hospitalData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'hospital_fee' => $_POST['hospital_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $hospitalModel->update($_POST['id'], $hospitalData, 'id');
+            $_SESSION['edit_success'] = 'Hospital updated successfully.';
+            redirect('Admin/hospitals');
+         }
+      }
+
+      $this->view('admin/hospitals', $data);
+      $this->view('footer');
+   }
+   
+   public function labs($a = '', $b = '', $c = '')
+   {
+      $this->view('header');
+      $labModel = new Laboratory;
+      $labs = $labModel->getAllLabs();
+      // show($labs);
+      $data = [
+         'labs' => $labs
+      ];
+
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
+      if ($a == 'create') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $labData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'lab_fee' => $_POST['lab_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $labModel->insert($labData);
+            $_SESSION['create_success'] = 'Laboratory created successfully.';
+            redirect('Admin/labs');
+         }
+      }
+
+      if ($a == 'edit') {
+         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $services = '';
+            if (isset($_POST['services']) && is_array($_POST['services'])) {
+               foreach ($_POST['services'] as $service) {
+                  $services .= '<li>' . htmlspecialchars($service) . '</li>';
+               }
+            }
+
+            $labData = [
+               'name' => $_POST['name'],
+               'address' => $_POST['address'],
+               'contact' => $_POST['contact'],
+               'location' => $_POST['location'],
+               'lab_fee' => $_POST['lab_fee'],
+               'working_hours' => $_POST['working_hours'],
+               'description' => $_POST['description'],
+               'services' => $services
+            ];
+            $labModel->update($_POST['id'], $labData, 'id');
+            $_SESSION['edit_success'] = 'Laboratory updated successfully.';
+            redirect('Admin/labs');
+         }
+      }
+
+      $this->view('admin/labs', $data);
       $this->view('footer');
    }
 

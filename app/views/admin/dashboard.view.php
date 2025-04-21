@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/admin/dashboard.css">
+    <script src="<?php echo ROOT ?>/assets/js/dash.js"></script>
 </head>
 <body>
     <div class="dashboard-container">
         <header>
             <p>Dashboard</p>
             <div class="user-info">
-                <span>Admin Jane</span>
+                <span><?php echo (ucwords($_SESSION['USER']->name)); ?></span>
                 <span class="role-badge">ADMIN</span>
             </div>
         </header>
@@ -21,42 +22,42 @@
                 <img src="<?php echo ROOT ?>/assets/img/admin/user.svg" alt="User Image">
                 <div>
                     <p>Total Users</p>
-                    <h2>1267</h2>
+                    <h2><?php echo $userCount; ?></h2>
                 </div>
             </div>
             <div class="stat-card">
             <img src="<?php echo ROOT ?>/assets/img/admin/doctor.svg" alt="User Image">
                 <div>
                     <p>Total Doctors</p>
-                    <h2>56</h2>
+                    <h2><?php echo $doctorCount; ?></h2>
                 </div>
             </div>
             <div class="stat-card">
             <img src="<?php echo ROOT ?>/assets/img/admin/clerk.svg" alt="User Image">
                 <div>
                     <p>Total Clerks</p>
-                    <h2>12</h2>
+                    <h2><?php echo $clerkCount; ?></h2>
                 </div>
             </div>
             <div class="stat-card">
             <img src="<?php echo ROOT ?>/assets/img/admin/insurance.svg" alt="User Image">
                 <div>
-                    <p>Insurance Partners</p>
-                    <h2>5</h2>
+                    <p>Hospital & Labs</p>
+                    <h2><?php echo $hospitalCount + $labCount; ?></h2>
                 </div>
             </div>
             <div class="stat-card">
             <img src="<?php echo ROOT ?>/assets/img/admin/appointment.svg" alt="User Image">
                 <div>
                     <p>Last Month Appointments</p>
-                    <h2>225</h2>
+                    <h2><?php echo $appointmentCount; ?></h2>
                 </div>
             </div>
             <div class="stat-card">
             <img src="<?php echo ROOT ?>/assets/img/admin/article.svg" alt="User Image">
                 <div>
                     <p>Last Month Articles</p>
-                    <h2>24</h2>
+                    <h2><?php echo $articleCount; ?></h2>
                 </div>
             </div>
         </section>
@@ -71,22 +72,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($users as $user): ?>
                         <tr>
                             <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
-                            <td>Mohamed Athhar</td>
+                            <td><?php echo $user['name']; ?></td> 
                         </tr>
-                        <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
-                            <td>Nuran Alwis</td>
-                        </tr>
-                        <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
-                            <td>Manusha Ranaweera</td>
-                        </tr>
-                        <tr>
-                            <td><img src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
-                            <td>Okadini KDI</td>
-                        </tr>
+                        <?php endforeach; ?>
+                        
                       
                     </tbody>
                 </table>
@@ -96,28 +88,18 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Employee Number</th>
+                            <th>Registration Number</th>
                             <th>Full Name</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($doctors as $doctor): ?>
                         <tr>
-                            <td>D001</td>
-                            <td>Doctor Strange</td>
+                            <td><?php echo $doctor['registration_number']; ?></td>
+                            <td><?php echo $doctor['name']; ?></td>
                         </tr>
-                        <tr>
-                            <td>D002</td>
-                            <td>Peter Parker</td>
-                        </tr>
-                        <tr>
-                            <td>D003</td>
-                            <td>Octo Octavia</td>
-                        </tr>
-                        <tr>
-                            <td>D004</td>
-                            <td>Green Goblin</td>
-                        </tr>
-                        <!-- Repeat rows as needed -->
+                        <?php endforeach; ?>
+                        
                     </tbody>
                 </table>
             </div>
@@ -127,62 +109,38 @@
                     <thead>
                         <tr>
                             <th>Employee Number</th>
-                            <th>Role</th>
+                            <th>Type</th>
                             <th>Full Name</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($clerks as $clerk): ?>
                         <tr>
-                            <td>L001</td>
-                            <td>Lab</td>
-                            <td>Doctor Strange</td>
+                            <td><?php echo $clerk['emp_id']; ?></td>
+                            <td><?php echo $clerk['type']; ?></td>
+                            <td><?php echo $clerk['name']; ?></td>
                         </tr>
-                        <tr>
-                            <td>R002</td>
-                            <td>Record</td>
-                            <td>Peter Parker</td>
-                        </tr>
-                        <tr>
-                            <td>A003</td>
-                            <td>Appointment</td>
-                            <td>Octo Octevia</td>
-                        </tr>
-                        <tr>
-                            <td>L004</td>
-                            <td>Report</td>
-                            <td>Green Goblin</td>
-                        </tr>
-                        <!-- Repeat rows as needed -->
+                        <?php endforeach; ?>
+                       
                     </tbody>
                 </table>
             </div>
             <div class="table-card">
-                <h3>Insurance Partners <a href="<?php echo ROOT ?>/Admin/insurance" class="see-all">See All</a></h3>
+                <h3>Recent Hospital <a href="<?php echo ROOT ?>/Admin/hospital" class="see-all">See All</a></h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Company</th>
-                            <th>Email</th>
+                            <th>Name</th>
+                            <th>Contact</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($hospitals as $hospital): ?>
                         <tr>
-                            <td>Allianz Lanka</td>
-                            <td>allianz@email.com</td>
+                            <td><?php echo $hospital['name']; ?></td>
+                            <td><?php echo $hospital['contact']; ?></td>
                         </tr>
-                        <tr>
-                            <td>Softlogic Life</td>
-                            <td>softlogic@email.com</td>
-                        </tr>
-                        <tr>
-                            <td>Ceylinco Life</td>
-                            <td>ceylinco@email.com</td>
-                        </tr>
-                        <tr>
-                            <td>AIA Sri Lanka</td>
-                            <td>aia@email.com</td>
-                        </tr>
-                        <!-- Repeat rows as needed -->
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

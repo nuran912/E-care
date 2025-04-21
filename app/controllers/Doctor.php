@@ -13,76 +13,125 @@ class Doctor extends Controller{
 
     public function profile($a = '', $b = '', $c = ''){
     //   show($_SESSION['USER']);
-      $doctor = new DoctorModel;
-      $user = new User;
-      $data1 = array($doctor->getDoctorByUserId($_SESSION['USER']->user_id));
-      $data2 = array($user->getById($_SESSION['USER']->user_id));
-      $data = array_merge($data1, $data2);
-      $data['error'] = [];
-      $data['success'] = "";
-      $data['status'] = [];
-      $data['passUpdateSuccess'] = "";
-      $data['passUpdateError'] = "";
-      $_SESSION['updateData'] = [];
+        $doctor = new DoctorModel;
+        $user = new User;
+        $data1 = array($doctor->getDoctorByUserId($_SESSION['USER']->user_id));
+        $data2 = array($user->getById($_SESSION['USER']->user_id));
+        $data = array_merge($data1, $data2);
+        $data['error'] = [];
+        $data['success'] = "";
+        $data['status'] = [];
+        $data['passUpdateSuccess'] = "";
+        $data['passUpdateError'] = "";
+        $_SESSION['updateData'] = [];
+        
+        $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
+
+        if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
+            $data['profilePic'] = $profilePic[0]['profile_pic'];
+        }
+        else {
+            $data['profilePic'] = ROOT . "/assets/img/user.svg";
+        }
       
 
-      $this->view('header');
+        $this->view('header');
       
-      if( $a == 'update'){
-          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // $doctor = new DoctorModel;
-            // $user = new User;
-            $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-            $userData = $user->getById($_SESSION['USER']->user_id);
+        if( $a == 'update'){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                // $doctor = new DoctorModel;
+                // $user = new User;
+                $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+                $userData = $user->getById($_SESSION['USER']->user_id);
 
-            $originalProfileInfo = [
-                'name' => $userData->name,
-                'registration_number' => $doctorData->registration_number,
-                'specialization' => $doctorData->specialization,
-                'other_qualifications' => $doctorData->other_qualifications,
-                'NIC' => $userData->NIC,
-                'phone_number' => $userData->phone_number,
-                'email' => $userData->email,
-            ];
+                $originalProfileInfo = [
+                    'name' => $userData->name,
+                    'registration_number' => $doctorData->registration_number,
+                    'specialization' => $doctorData->specialization,
+                    'other_qualifications' => $doctorData->other_qualifications,
+                    'NIC' => $userData->NIC,
+                    'phone_number' => $userData->phone_number,
+                    'email' => $userData->email,
+                ];
 
-            $dataToUpdate = $_POST;
-            $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
-            
-            $data['status'] = $doctor->profileValidation($dataToUpdate, $originalProfileInfo);
-            
-            if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
-                if($data['status'] === true){
-                    $doctor->update($doctorData->id, $dataToUpdate, 'id');
-                    $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
-                    $data['success'] = "Profile information updated successfully";
+                $dataToUpdate = $_POST;
+                $passswordToUpdate = array("password"=>$dataToUpdate['password'] , "newpassword"=>$dataToUpdate['newpassword']);
+                
+                $data['status'] = $doctor->profileValidation($dataToUpdate, $originalProfileInfo);
+                
+                if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                    if($data['status'] === true){
+                        $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                        $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                        $data['success'] = "Profile information updated successfully";
+                    }else{
+                        $data['error'] = $data['status'];
+                    }
                 }else{
-                    $data['error'] = $data['status'];
+                    $passswordToUpdate = $doctor->passwordValidation($passswordToUpdate, $userData->password);
+                    unset($dataToUpdate['password']);
+                    unset($dataToUpdate['newpassword']);
+                    if($data['status'] === true){
+                        $doctor->update($doctorData->id, $dataToUpdate, 'id');
+                        $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
+                        $data['success'] = "Profile information updated successfully";
+                    }else{
+                        $data['error'] = $data['status'];
+                    }
+                    if($passswordToUpdate['passUpdateStatus'] === true){
+                        $user->updateDoctorDetails($userData->user_id, $passswordToUpdate, 'user_id');
+                        $_SESSION['USER']->password = $passswordToUpdate['password'];
+                        $data['passUpdateSuccess'] = "Password updated successfully";
+                    }else{
+                        $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
+                    }
                 }
-            }else{
-                $passswordToUpdate = $doctor->passwordValidation($passswordToUpdate, $userData->password);
-                unset($dataToUpdate['password']);
-                unset($dataToUpdate['newpassword']);
-                if($data['status'] === true){
-                    $doctor->update($doctorData->id, $dataToUpdate, 'id');
-                    $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
-                    $data['success'] = "Profile information updated successfully";
-                }else{
-                    $data['error'] = $data['status'];
-                }
-                if($passswordToUpdate['passUpdateStatus'] === true){
-                    $user->updateDoctorDetails($userData->user_id, $passswordToUpdate, 'user_id');
-                    $_SESSION['USER']->password = $passswordToUpdate['password'];
-                    $data['passUpdateSuccess'] = "Password updated successfully";
-                }else{
-                    $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
-                }
-            }
-            // redirect('Doctor/profile');
-            
+                redirect('Doctor/doctorProfile');    
             }
         }
-    $this->view('Doctor/doctorProfile', $data);
-    $this->view('footer');
+
+        //upload a profile picture
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-pic'])) {
+
+            $user_id = $_POST['user_id'];
+
+            //target directory
+            $targetDir = "assets/profile_pictures/$user_id/";
+
+            //check if the file(profile picture) was uploaded
+            if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] == 0) {
+                $filename = basename($_FILES['profile-pic']['name']);
+                $targetPath = $targetDir . $filename;
+
+                //check if the target directory exists, if not, create a one
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0777, true);
+                }
+
+                //before uploading, delete the old profile picture
+                //fetch the current profile picture from the database
+                $currentProfilePic = $user->getProfilePic($user_id);
+                if(!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
+                    $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
+
+                    //check if the old pic exists and deletes it
+                    if(file_exists($oldPicPath)) {
+                        unlink($oldPicPath);
+                    }
+                }
+
+                //moving the file to the target path
+                if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
+
+                    //moved successfully
+                    $user->update($user_id,['profile_pic' => $filename],'user_id');
+                    redirect('Doctor/doctorProfile');
+                }
+            }   
+        }
+
+        $this->view('Doctor/doctorProfile', $data);
+        $this->view('footer');
     }
 
     public function doctorPastAppt($a = '', $b = '', $c = ''){

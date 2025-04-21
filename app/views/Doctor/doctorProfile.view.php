@@ -50,6 +50,7 @@
             object-fit: cover;
             margin-bottom: 20px;
             border: 4px solid #fff;
+            background-color: #93DEFF;
         }
 
         .profileDesc h3, .profileDesc h4 {
@@ -217,11 +218,11 @@
             </form>
             
             <div class="profilePic">
-                <img src="<?= ROOT; ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= $data['profilePic'] ?>" alt="Profile Picture" id="image-preview" onclick="document.getElementById('user-image').click();">
+                <img src="<?= $data['profilePic'] ?>" alt="Profile Picture" id="image-preview" onclick="document.getElementById('user-image').click();">
             </div>
 
             <div class="profileDesc">
-                <h3>Dr. <?= $data[1]->name ?></h3>
+                <h3><?= $data[1]->name ?></h3>
                 <h3><?= $data[0]->specialization ?></h3>
                 <h4>Specialist</h4>
             </div>

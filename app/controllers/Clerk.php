@@ -1,8 +1,8 @@
 <?php
 
-// if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') && ($_SESSION['USER']->role != 'reception_clerk')) {
-//     redirect('Home');
-// }
+if (($_SESSION['USER']->role != 'lab_clerk') && ($_SESSION['USER']->role != 'record_clerk') && ($_SESSION['USER']->role != 'reception_clerk')) {
+    redirect('Home');
+}
 
 require_once dirname(__DIR__) . '/core/EmailHelper.php';
 
@@ -13,7 +13,7 @@ class Clerk extends Controller {
     }
 
     public function profile($a = '', $b = '', $c = ''){
-        
+        // show($_SESSION);        
         $user = new User;
         $userData = array($user->getById($_SESSION['USER']->user_id));
         $clerk = new ClerkModel;
@@ -40,6 +40,7 @@ class Clerk extends Controller {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               
                 $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
+                show($clerkData);
                 $userData = $user->getById($_SESSION['USER']->user_id);
   
                 $originalProfileInfo = [
@@ -57,7 +58,7 @@ class Clerk extends Controller {
               
                 if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
                     if($data['status'] === true){
-                        $clerk->update($clerkData->id, $dataToUpdate, 'emp_id');
+                        $clerk->update($clerkData->emp_id, $dataToUpdate, 'emp_id');
                         $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
                         $data['success'] = "Profile information updated successfully";
                     }else{
@@ -70,7 +71,7 @@ class Clerk extends Controller {
                     unset($dataToUpdate['password']);
                     unset($dataToUpdate['newpassword']);
                     if($data['status'] === true){
-                        $clerk->update($clerkData->id, $dataToUpdate, 'emp_id');
+                        $clerk->update($clerkData->emp_id, $dataToUpdate, 'emp_id');
                         $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
                         $data['success'] = "Profile information updated successfully";
                     }else{
@@ -85,6 +86,7 @@ class Clerk extends Controller {
                     }
                 }
             }
+            redirect('Clerk/clerkProfile');
         }
 
         //upload a profile picture
@@ -122,13 +124,12 @@ class Clerk extends Controller {
 
                     //moved successfully
                     $user->update($user_id,['profile_pic' => $filename],'user_id');
-
-                    // redirect('Clerk/profile');
+                    redirect('Clerk/clerkProfile');
                 }
-            }
+            }   
         }
 
-        $this->view('Clerk/profile', $data);
+        $this->view('Clerk/clerkProfile', $data);
         $this->view('footer');
     }
 

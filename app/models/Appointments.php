@@ -99,7 +99,7 @@ public function updateStatus($appointment_id, $status) {
         throw new InvalidArgumentException("Invalid payment status: $status");
     }
 
-    // Prepare and execute the query
+    
     $query = 'UPDATE appointments SET status = :status WHERE appointment_id = :appointment_id';
     $params = [
         'status' => $status,

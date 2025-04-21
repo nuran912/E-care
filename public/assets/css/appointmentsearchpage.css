@@ -32,7 +32,82 @@ font-size: 20px;
     animation-fill-mode: forwards;
     animation-delay: calc(var(--i) * 1s);
   }
+  .pagination {
+    display: flex;
+    justify-content: space-between; /* Aligns prev and next buttons to the edges */
+    gap: 10px;
+    margin-top: 20px;
+    align-items: center;
+    padding: 10px;
+}
+
+.pagination .prev-btn, .pagination .next-btn {
+    padding: 8px 14px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #264161;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.pagination .prev-btn:hover, .pagination .next-btn:hover {
+    background-color: #264161;
+    color: white;
+}
+
+.pagination .disabled {
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination .page-numbers {
+    display: flex;
+    gap: 8px; /* Adds space between the page numbers */
+    justify-content: center; /* Centers the page numbers */
+}
+
+.pagination a {
+    padding: 8px 14px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #264161;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+    color: #264161;
+}
+
+.pagination .active-page {
+    background-color: #264161;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.pagination .prev-btn{
+  margin-left: 20%;
+    cursor: pointer;
+}
+ .pagination .next-btn {
+  margin-right: 20%;
+  ;
+    cursor: pointer;
   
+}
+
+.pagination .disabled {
+    color: #aaa;
+    border-color: #ddd;
+    pointer-events: none;
+}
+
+
+
   @keyframes wordSlideIn {
     0% {
       opacity: 0;

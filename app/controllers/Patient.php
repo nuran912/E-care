@@ -26,6 +26,8 @@ class Patient extends Controller
         //     if (empty($data['errors']))
         //         $data['success'] = 'Profile updated successfully';
         // }
+
+        // show($_SESSION['USER']->profile_pic);
         $user = new User;
         $data = array($user->getById($_SESSION['USER']->user_id));
         $data['error'] = [];
@@ -33,10 +35,11 @@ class Patient extends Controller
         $data['status'] = [];
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
+
         $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
 
         if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
-            $data['profilePic'] = $profilePic[0]['profile_pic'];
+            $data['profilePic'] = ROOT . "/assets/profile_pictures/" . htmlspecialchars($_SESSION['USER']->user_id) . "/" . $profilePic[0]['profile_pic'];
         }
         else {
             $data['profilePic'] = ROOT . "/assets/img/user.svg";
@@ -124,6 +127,11 @@ class Patient extends Controller
                     //moved successfully
                     $user->update($user_id,['profile_pic' => $filename],'user_id');
 
+                    //unset the session variable to remove the old profile picture
+                    unset($_SESSION['profile_pic']);
+                    //adding the new profile picture to the session variable
+                    $_SESSION['profile_pic'] = $filename;
+                    
                     redirect('Patient/profile');
                 }
             }

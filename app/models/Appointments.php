@@ -183,6 +183,14 @@ public function updateStatus($appointment_id, $status) {
         $result = $this->query($query, ['appointment_id'=> $appointment_id]);
         return $result ? $result[0] : null;
     }
+
+    public function countAllAppointmentsLastMonth(){
+        // $sql = "SELECT COUNT(*) as total FROM $this->table WHERE MONTH(session_date) = MONTH(CURRENT_DATE - INTERVAL 1 MONTH) AND YEAR(session_date) = YEAR(CURRENT_DATE)";
+        $sql = "SELECT COUNT(*) as total FROM $this->table";
+        $result = $this->query($sql);
+        return $result ? $result[0]->total : 0;
+    }
+        
     public function updateEmailSent($appointment_id) {
         $query= "UPDATE appointments SET email_sent = 1 WHERE appointment_id = :appointment_id";
         $result = $this->query($query, ['appointment_id'=> $appointment_id]);

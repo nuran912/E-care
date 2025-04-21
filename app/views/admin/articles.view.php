@@ -13,7 +13,7 @@
       <header>
          <p>Articles</p>
          <div class="user-info">
-            <span>Admin Jane</span>
+            <span><?php echo (ucwords($_SESSION['USER']->name)); ?></span>
             <span class="role-badge">ADMIN</span>
          </div>
 
@@ -113,8 +113,8 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <input type="file" id="doctor-image" name="article-image" accept="image/*" hidden>
-                  <img src="" class="article-img-preview" name="article-image" id="image-preview" onclick="document.getElementById('doctor-image').click();">
+                  <input type="file" id="create-doctor-image" name="article-image" accept="image/*" hidden>
+                  <img src="" class="article-img-preview" name="article-image" id="image-preview" onclick="document.getElementById('create-doctor-image').click();">
 
                </div>
                <div class="form-group">

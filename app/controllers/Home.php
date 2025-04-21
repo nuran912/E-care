@@ -10,6 +10,7 @@ class Home extends Controller {
 
         $article = new Article;
         $article->setLimit(3);
+        $article->order_type = 'desc';
         $articles = $article->findAll();
         
         $username = empty($_SESSION['USER']) ? 'Guest' : $_SESSION['USER']->name;

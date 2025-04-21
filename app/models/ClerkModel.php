@@ -6,21 +6,25 @@ class ClerkModel
     protected $table = 'clerks';
 
     protected $allowedColumns = [
-        'id',
+        'emp_id',
+        'title',
         'name',
+        'user_id',
+        'NIC',
+        'role',
+        'type',
+         'email',
+         'lab',
         'specialization',
         'hospital',
         'gender',
-        'registration_number',
-        'other_qualifications',
-        'special_note',
-        'practicing_government_hospitals',
-        'Doctor_fee',
-        'created_at',
-        'updated_at'
+         'phone_number',
+         'is_active',
+         'created_at',
+         'updated_at'
     ];
 
-    public $order_column = 'name';
+    public $order_column = 'emp_id';
 
     public function getClerkById($emp_id)
     {
@@ -106,8 +110,59 @@ class ClerkModel
                 return $dataToUpdate;
             }
     }
+
+    public function getAllClerksWithUserDetails($user_id = null)
+    {
+        $query = "SELECT clerks.*, users.*, hospitals.name AS hospital, laboratories.name AS lab 
+                  FROM $this->table 
+                  INNER JOIN users ON clerks.user_id = users.user_id
+                  LEFT JOIN hospitals ON clerks.hospital = hospitals.id
+                  LEFT JOIN laboratories ON clerks.lab = laboratories.id";
+        if ($user_id) {
+            $query .= " WHERE clerks.user_id = :user_id";
+            $result = $this->query($query, ['user_id' => $user_id]);
+        } else {
+            $result = $this->query($query);
+        }
+        return json_decode(json_encode($result), true);
+    }
+
+    public function updateClerksWithUserDetails($clerkData, $userData) {
+        $clerkData = array_intersect_key($clerkData, array_flip($this->allowedColumns));
+        $userData = array_intersect_key($userData, array_flip($this->allowedColumns));
+
+        $clerkData['lab'] = $clerkData['lab'] ?? null;
+        $clerkData['hospital'] = $clerkData['hospital'] ?? null;
+
+        $keys = array_keys($clerkData);
+        $query1 = "UPDATE clerks SET ";
+        foreach ($keys as $key) {
+            $query1 .= "$key = :$key, ";
+        }
+        $query1 = rtrim($query1, ", ");
+        $query1 .= " WHERE emp_id = :emp_id";
+        $this->query($query1, $clerkData);
+
+        $keys = array_keys($userData);
+        $query2 = "UPDATE users SET ";
+        foreach ($keys as $key) {
+            $query2 .= "$key = :$key, ";
+        }
+        $query2 = rtrim($query2, ", ");
+        $query2 .= " WHERE user_id = :user_id";
+        $this->query($query2, $userData);
+
+        return false;
+    }
+
+    public function getRecent4Clerks()
+   {
+       $query = "SELECT * FROM $this->table ORDER BY user_id DESC LIMIT 4";
+       $result = $this->query($query);
+       return json_decode(json_encode($result), true);
+   }
    
 }
 
 
-  
+

@@ -17,7 +17,12 @@ class DoctorModel
         'practicing_government_hospitals',
         'Doctor_fee',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'user_id',
+        'email',
+        'phone_number',
+        'NIC',
+        'is_active'
     ];
 
     public $order_column = 'name';
@@ -268,12 +273,45 @@ class DoctorModel
             ON 
                 d.user_id = u.user_id
         ";
-        return $this->query($query);
+        $result = $this->query($query);
+        return json_decode(json_encode($result), true);
     }
-    
+
+    public function updateDoctorsWithUserDetails($doctorData, $userData){
+        $doctorData = array_intersect_key($doctorData, array_flip($this->allowedColumns));
+        $userData = array_intersect_key($userData, array_flip($this->allowedColumns));
+
+        $keys = array_keys($doctorData);
+        $query1 = "UPDATE doctors SET ";
+        foreach ($keys as $key) {
+            $query1 .= "$key = :$key, ";
+        }
+        $query1 = rtrim($query1, ", ");
+        $query1 .= " WHERE id = :id";
+        $this->query($query1, $doctorData);
+
+        $keys = array_keys($userData);
+        $query2 = "UPDATE users SET ";
+        foreach ($keys as $key) {
+            $query2 .= "$key = :$key, ";
+        }
+        $query2 = rtrim($query2, ", ");
+        $query2 .= " WHERE user_id = :user_id";
+        $this->query($query2, $userData);
+
+        return false;
+    }
+
+    public function getRecent4Doctors()
+   {
+       $query = "SELECT * FROM $this->table ORDER BY created_at DESC LIMIT 4";
+       $result = $this->query($query);
+       return json_decode(json_encode($result), true);
+   }
+
 }
 
 
 
 
-  
+

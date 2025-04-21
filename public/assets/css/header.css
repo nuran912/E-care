@@ -33,6 +33,44 @@
    margin: 0;
 }
 
+.navbar-headings li {
+   position: relative; /* Enable positioning for dropdown */
+}
+
+.navbar-headings li .dropdown {
+   display: none; /* Initially hide dropdown */
+   position: absolute;
+   top: 100%; /* Position below the parent */
+   left: 0;
+   background-color: #0E2F56;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+   padding: 10px 0;
+   z-index: 1000;
+   width: 400px; /* Increased width */
+   top: 25px;
+   
+}
+
+.navbar-headings li:hover .dropdown {
+   display: block; /* Show dropdown on hover */
+}
+
+.dropdown a {
+   display: block;
+   padding: 10px 15px;
+   color: #0E2F56;
+   text-decoration: none;
+   font-size: 14px;
+   transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown a:hover {
+   background-color: #93DEFF;
+   color: #0E2F56;
+}
+
 .navbar-headings li a:hover {
    transition: 0.3s;
    background-color: #0d62cb;
@@ -43,10 +81,10 @@
 
 .navbar-headings li a {
    color: black;
-   font-size: 16px;
+   font-size: 14px;
    font-weight: bold;
    text-decoration: none;
-   border: #0d62cb 1px solid;
+   /* border: #0d62cb 1px solid; */
    padding: 10px 15px;
    border-radius: 10px;
    transition: background-color 0.3s, color 0.3s;
@@ -57,7 +95,7 @@
    display: inline-flex;
    justify-content: center;
    padding: 10px 20px;
-   font-size: 15px;
+   font-size: 14px;
    font-weight: bold;
    transition: background-color 0.3s, color 0.3s;
 }
@@ -68,8 +106,8 @@
 }
 
 .reg-btn {
-   background-color: #5FBDB0;
-   border: #0E2F56 2px solid;
+   background-color: #93DEFF;
+   /* border: #0056f5 2px solid; */
 }
 
 .signin-btn a {
@@ -82,6 +120,10 @@
    text-decoration: none;
 }
 
+.reg-btn a:hover {
+   color: white;
+}
+
 .signin-btn:hover, .reg-btn:hover {
    background-color: #0d62cb;
    color: white;
@@ -91,6 +133,11 @@
 .logo-div {
    display: flex;
    justify-content: flex-start;
+}
+
+.logo-div img {
+   width: 120px; /* Adjusted size */
+   height: auto; /* Maintain aspect ratio */
 }
 
 .buttons-div {
@@ -106,8 +153,8 @@
  
 }
 .buttons-div .user-img {
-   width: 50px;
-   height: 50px;
+   width: 30px;
+   height: 30px;
    border: #0d62cb 3px solid;
    border-radius: 50px;
    margin: auto;
@@ -209,4 +256,47 @@ card .signout-btn:hover {
 card .signout-btn a {
     color: white;
     text-decoration: none;
+}
+
+.dropdown-columns {
+   display: flex;
+   gap: 20px;
+   padding: 10px;
+   flex-wrap: wrap; /* Allow wrapping for equal distribution */
+}
+
+.dropdown-column {
+   flex: 1;
+   display: flex;
+   flex-direction: column;
+   gap: 10px; /* Space between items */
+}
+
+.dropdown-column h4 {
+   font-size: 16px;
+   font-weight: bold;
+   color: #ffffff;
+   margin-bottom: 10px;
+   border-bottom: 1px solid #0056f5;
+   padding-bottom: 5px;
+}
+
+.dropdown-column ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+   display: grid;
+   grid-template-columns: repeat(2, 1fr); /* Divide items equally horizontally */
+   gap: 10px; /* Space between items */
+}
+
+.dropdown-column ul li {
+   font-size: 14px;
+   color: #93DEFF;
+   text-align: left;
+}
+
+.dropdown-column ul li:hover {
+   color: #0d62cb;
+   cursor: pointer;
 }

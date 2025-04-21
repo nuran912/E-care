@@ -19,7 +19,13 @@
       <div class="buttons-div">
          <?php if (isset($_SESSION['USER'])): ?>
             <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
-            <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User"></a>
+
+            <?php if(!empty($_SESSION['USER']->profile_pic)): ?>
+               <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?php echo ROOT ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= htmlspecialchars($_SESSION['profile_pic']) ?>" alt="User"></a>
+            <?php else: ?>
+               <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User"></a>
+            <?php endif; ?>
+            
             <img class="menu" src="<?php echo ROOT ?>/assets/img/menu.svg" alt="Menu">
             <?php if ($_SESSION['USER']->role == 'admin'): ?>
 

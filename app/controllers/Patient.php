@@ -251,7 +251,7 @@ class Patient extends Controller
        $pastAppointmentsPaginated = array_slice($pastAppointments, $offsetPast, $limit);
        $totalPagesPast = ceil(count($pastAppointments) / $limit);
 
-           // Default section to 'pending' if not specified
+           
     
     
         // Error handling if POST with no appointment_id
@@ -276,42 +276,6 @@ class Patient extends Controller
     
 
 
-
-
-
-
-
-
-
-    // public function cancelAppointment()
-    // {
-    //     $appointmentsModel = new Appointments;
-
-
-    //     // Ensure only patients can delete their own appointments
-    //     if ($_SESSION['USER']->role !== 'patient') {
-    //         header('location: ' . ROOT . '/Home');
-    //         exit;
-    //     }
-
-    //     if (isset($_POST['appointment_id'])) {
-    //         $appointment_id = $_POST['appointment_id'];
-    //         $getDetails=$appointmentsModel->getByAppointmentId($appointment_id);
-
-    //         // Call the delete method from the model
-    //         $appointmentsModel->delete($appointment_id, 'appointment_id');
-
-    //         // Redirect back to the appointments page with success message
-    //         $_SESSION['success'] = 'Appointment canceled successfully.';
-    //         header('location: ' . ROOT . '/Patient/appointments');
-    //         exit;
-    //     } else {
-    //         // Handle the case where appointment_id is not set
-    //         $_SESSION['error'] = 'Failed to cancel the appointment.';
-    //         header('location: ' . ROOT . '/Patient/appointments');
-    //         exit;
-    //     }
-    // }
 
 
     public function documents($a = '')

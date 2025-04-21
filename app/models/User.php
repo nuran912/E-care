@@ -335,5 +335,14 @@ class User
        $result = $this->query($query, ['role' => 'patient']);
        return json_decode(json_encode($result), true);
    }
-   
+   public function emailExists($email){
+      $query = "SELECT * FROM $this->table WHERE email = :email";
+      $result = $this->query($query, ['email' => $email]);
+      return $result ? true : false;
+   }
+   public function setTokenAndExpiry($email, $token, $expiry){
+      $query = "UPDATE $this->table SET token = :token , token_expiry = :token_expiry WHERE email = :email";
+      $result = $this->query($query, ['email' => $email, 'token' => $token, 'token_expiry' => $expiry]);
+      return $result;
+   }
 }

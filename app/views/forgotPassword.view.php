@@ -32,13 +32,11 @@ if (!isset($errors)) {
          </center>
          <br>
 
-         <form method="POST">
+         <form method="POST" action="<?=ROOT?>/ForgotPassword">
 
             <div class="form-group">
                <label for="">Email <span style="color: red;">*</span></label>
                <input type="email" class="email" name="email" value="" placeholder="Enter your email">
-
-
             </div>
 
             <input type="submit" value="Reset" class="signInBtn">

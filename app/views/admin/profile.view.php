@@ -22,7 +22,14 @@
         <?php endif; ?>
         
         <div class="profile-header">
-            <img src="<?php echo ROOT ?>/assets/img/user.svg" alt="Profile Image">
+            <form method="POST" enctype="multipart/form-data" action="<?= ROOT; ?>/Admin/profile">
+                <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id) ?>">
+                <input type="file" name="profile-pic" id="user-image" class="user-image" accept="image/*" hidden>
+            </form>
+            <div class="profilePic">
+                <img src="<?= $data['profilePic'] ?>" alt="Profile Picture" id="image-preview" onclick="document.getElementById('user-image').click();">
+            </div>
+            <!-- <img src="<?php echo ROOT ?>/assets/img/user.svg" alt="Profile Image"> -->
             <div>
                 <h2><?php echo $user->name ?></h2>
                 <h5>ADMIN</h5>
@@ -94,6 +101,19 @@
                 location.reload();
             }, 3000);
         }
+        // Preview the image before uploading
+        document.getElementById('user-image').addEventListener('change',function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+
+                this.form.submit();
+            }
+        });
     </script>
 </body>
 

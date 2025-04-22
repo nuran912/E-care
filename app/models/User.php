@@ -89,32 +89,25 @@ class User
    }
 
    //⬇️used to be updateProfile
-   public function updateUser($id, $data, $id_column = 'id')
+   public function updateUser($id, $data, $id_column = 'user_id')
    {
-      $password = $data['password'];
-      $newPassword = $data['newPassword'];
-      // $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id]);
-      $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id])[0]->password;
+      // $password = $data['password'];
+      // $newPassword = $data['newPassword'];
+      // // $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id]);
+      // $currentPassword = $this->query("SELECT password FROM users WHERE user_id = :user_id", ['user_id' => $id])[0]->password;
       
+      // // implement hash password verify from the DB and store the new hashed password in the DB
       // if (!empty($newPassword)) {
-      //    if (!password_verify($password, $currentPassword)) {
-      //       $this->errors['password'] = "Current password is incorrect";
-      //       return;
+      //    if (password_verify($password, $currentPassword)) {
+      //       $data['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+      //    } else {
+      //       $_SESSION['edit_error'] = "Current password is incorrect";
+      //       return $_SESSION['edit_error'];
       //    }
-      //    $data['password'] = ($newPassword);
       // } else {
-      //    $data['password'] = $currentPassword;
+      //    unset($data['password']);
       // }
 
-      if (!empty($newPassword)) {
-         if ($password !== $currentPassword) {
-            $this->errors['password'] = "Current password is incorrect";
-            return;
-         }
-         $data['password'] = $newPassword;
-      } else {
-         $data['password'] = $currentPassword;
-      }
       $data = array_intersect_key($data, array_flip($this->allowedColumns));
 
       $keys = array_keys($data);
@@ -222,52 +215,25 @@ class User
 
    // ⬇️Nuran
    public function profileValidation($data, $originalData)
-    {
-        unset($originalData['password']);
-        unset($originalData['newpassword']);
-        unset($data['password']);
-        unset($data['newpassword']);
+   {
+      $this->errors = [];
 
-        if($data === $originalData){
-            return ["No changes made"];
-        }
+      if ($data['email'] !== $originalData['email'] && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+         $this->errors['email'] = 'Email must be a valid email address.';
+      }
 
-       $this->errors = [];
- 
-       //check email (validity)
-       if (empty($data['email'])) {
-          $this->errors['email'] = "Email is required";
-       } else {
-          $email = $data['email'];
-          if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-             $this->errors['email'] = 'Email must be a valid email address';
-          }
-       }
- 
-       if (empty($data['phone_number'])) {
-          $this->errors['phone_number'] = "Phone number is required";
-       } else {
-          $phone_number = $data['phone_number'];
-          if (!preg_match('/^\d{10}$/', $phone_number)) {
-             $this->errors['phone_number'] = "Phone number must be 10 digits long";
-          }
-       }
- 
-       if (empty($data['NIC'])) {
-          $this->errors['NIC'] = "NIC number is required";
-       } else {
-          $NIC = $data['NIC'];
-          if (!preg_match('/^\d{9}[vVxX]$|^\d{12}$/', $NIC)) {
-             $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits";
-          }
-       }
-       if (empty($this->errors)) {
-          return true;
-       }
-       return $this->errors;
-    }
-    //⬇️Nuran
-    public function passwordValidation($dataToUpdate, $existingPass){
+      if (!empty($data['phone_number']) && !preg_match('/^\d{10}$/', $data['phone_number'])) {
+         $this->errors['phone_number'] = 'Phone number must be 10 digits long.';
+      }
+
+      if (!empty($data['NIC']) && !preg_match('/^\d{9}[vVxX]$|^\d{12}$/', $data['NIC'])) {
+         $this->errors['NIC'] = "NIC must be in the format of 9 digits followed by 'V' or 'X', or 12 digits.";
+      }
+
+      return empty($this->errors) ? true : $this->errors;
+   }
+
+   public function passwordValidation($dataToUpdate, $existingPass){
 
         $dataToUpdate['passUpdateSuccess'] = "";
         
@@ -290,6 +256,27 @@ class User
                 return $dataToUpdate;
             }
     }
+
+   public function updatePassword($userId, $data)
+   {
+      $currentPassword = $this->query("SELECT password FROM $this->table WHERE user_id = :user_id", ['user_id' => $userId])[0]->password;
+
+      if (!password_verify($data['password'], $currentPassword)) {
+         return "Current password is incorrect.";
+      }
+
+      if (empty($data['newPassword']) || strlen($data['newPassword']) < 8) {
+         return "New password must be at least 8 characters long.";
+      }
+
+      $newPasswordHash = password_hash($data['newPassword'], PASSWORD_DEFAULT);
+      $this->query("UPDATE $this->table SET password = :password WHERE user_id = :user_id", [
+         'password' => $newPasswordHash,
+         'user_id' => $userId
+      ]);
+
+      return true;
+   }
 
    public function getUserIDByEmail($email) {
       if(empty($email)) {

@@ -12,10 +12,15 @@ function esc($string)
     return htmlspecialchars($string);
 }
 
-function redirect($path)
+function redirect($url)
 {
-    header("Location: " . ROOT . "/$path");
-    die;
+    if (!headers_sent()) {
+        header("Location: " . ROOT . "/" . $url);
+        exit; // Ensure no further code is executed
+    } else {
+        echo "<script>window.location.href='" . ROOT . "/" . $url . "';</script>";
+        exit; // Ensure no further code is executed
+    }
 }
 
 // this function redirects to the specified page after a delay of 3s

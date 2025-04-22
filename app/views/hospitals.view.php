@@ -88,6 +88,11 @@
 
     </head>
     <body>
+        <?php
+    function slugify($text) {
+    return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
+}
+    ?>
     
         <div>
             <div class="description">
@@ -97,7 +102,7 @@
             <div class="background">
                 
                 <?php foreach($data as $hospital) : { ?> 
-                    <div class="hospital-container">
+                    <div class="hospital-container" id="<?= slugify($hospital['name']) ?>" >
                     <div class="hospital-top">
                         <div class="hospital-desc">
                             <h1 style="margin-bottom: 30px;"><?=$hospital['name']?></h1>

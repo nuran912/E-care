@@ -488,7 +488,6 @@ class Clerk extends Controller {
             $this->view('footer');
     }
         
-        
 
     public function receptionClerkViewPendingAppointments() {
 
@@ -520,6 +519,21 @@ class Clerk extends Controller {
 
         $this->view('Clerk/receptionClerkViewPendingAppointments',$data);
         $this->view('footer');
+    }
+
+    public function receptionClerkPendingAppointmentPayNow() {
+        
+        $appointment_id = $_GET['appointment_id'] ;
+
+        $appointments = new Appointments();
+
+        if(isset($_SESSION['USER']->role) == 'reception_clerk') {
+            $status = 'completed';
+            $appointments->updatePaymentStatus($appointment_id, $status);
+            $appointments->update_is_deletedToZero($appointment_id);  
+        }
+
+        $this->view('Clerk/receptionClerkPendingAppointmentPayNow');
     }
 }
 

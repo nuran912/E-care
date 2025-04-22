@@ -336,11 +336,11 @@
 
                 <div class="content">
 
+                
                     <?php if (isset($appointments) && is_array($appointments)): ?>
 
                         <?php $index = 0; ?>
                         <?php foreach ($appointments as $appointment): ?>
-
                             <?php if ($appointment['status'] == 'scheduled'): ?>
 
                                 <div class="appointment-main-info">
@@ -368,7 +368,7 @@
 
                                                     <h4>Appointment Details</h4>
 
-                                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment[0]['appointment_id']) ?>">
+                                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']) ?>">
                                                     
                                                     <label for="patient_name">Date: </label>
                                                     <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment['session_date']) ?>">
@@ -389,7 +389,7 @@
 
                                                     <?php if ($appointment["payment_status"] == "pending"): ?>
                                                         <button class="pay-button">
-                                                            <a href="<?= ROOT; ?>/paymentsuccessfulpage">Pay Now</a>
+                                                            <a href="<?= ROOT; ?>/Clerk/receptionClerkPendingAppointmentPayNow?appointment_id=<?php echo htmlspecialchars($appointment['appointment_id']) ?>">Pay Now</a>
                                                         </button>
                                                     <?php else: ?>
                                                         <button class="print-button" onclick="handlePrint()">Print</button>

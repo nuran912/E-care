@@ -13,7 +13,7 @@ class Clerk extends Controller {
     }
 
     public function profile($a = '', $b = '', $c = ''){
-        // show($_SESSION);        
+              
         $user = new User;
         $userData = array($user->getById($_SESSION['USER']->user_id));
         $clerk = new ClerkModel;
@@ -24,7 +24,6 @@ class Clerk extends Controller {
         $data['status'] = [];
         $data['passUpdateSuccess'] = "";
         $data['passUpdateError'] = "";
-        // $_SESSION['updateData'] = [];
 
         $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
 

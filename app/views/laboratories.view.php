@@ -18,7 +18,7 @@
                 width: 100%;
                 box-sizing: border-box;
                 padding: 7.5% 15%;
-                overflow-y: auto;
+                /* overflow-y: auto; */
             }
             .description{
                 text-align: center;
@@ -87,6 +87,12 @@
 
     </head>
     <body>
+    <?php
+   function slugify($text) {
+    return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
+}
+?>
+
         
         <div>
             <div class="description">
@@ -94,34 +100,35 @@
                 <h2 style="font-size: 2.5em;">Your Health, Our Science</h2>
             </div>
             <div class="background">
-                <?php foreach($data as $lab) : { ?>
-                    <div class="laboratory-container">
-                    <div class="laboratory-top">
-                        <div class="laboratory-desc">
-                            <h1 style="margin-bottom: 30px;"><?=$lab['name']?></h1></h1>
-                            <p><?=$lab['description']?></p>
-                        </div>                            
-                        <div class="laboratory-services">
-                            <h2>Services</h2>
-                            <ul class="services">
-                                <?=$lab['services']?>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="laboratory-bottom">
-                        <div class="laboratory-info">
-                            <ul>
-                                <li>Contact number: 0<?=$lab['contact']?></li>
-                                <li>Address: <?=$lab['address']?></li>
-                                <li>Working hours: <?=$lab['working_hours']?>h</li>
-                            </ul>
-                        </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Lab-map.png"></div>
-                    </div>
-                </div> 
-                <?php } endforeach; ?>  
-                
+    <?php foreach($data as $lab): ?>
+        <div class="laboratory-container" id="<?= slugify($lab['name']) ?>">
+            
+            <div class="laboratory-top">
+                <div class="laboratory-desc">
+                    <h1 style="margin-bottom: 30px;"><?= $lab['name'] ?></h1>
+                    <p><?= $lab['description'] ?></p>
+                </div>
+                <div class="laboratory-services">
+                    <h2>Services</h2>
+                    <ul class="services">
+                        <?= $lab['services'] ?>
+                    </ul>
+                </div>
             </div>
+            <div class="laboratory-bottom">
+                <div class="laboratory-info">
+                    <ul>
+                        <li>Contact number: 0<?= $lab['contact'] ?></li>
+                        <li>Address: <?= $lab['address'] ?></li>
+                        <li>Working hours: <?= $lab['working_hours'] ?>h</li>
+                    </ul>
+                </div>
+                <div><img src="<?= ROOT ?>/assets/img/Lab-map.png"></div>
+            </div>
+        </div>
+    <?php endforeach; ?>
+</div>
+
         </div>
 
     </body>

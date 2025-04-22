@@ -43,11 +43,14 @@
                     </div>
                 </div>
 
+                <?php if (!isset($_SESSION['USER']->role) || $_SESSION['USER']->role != 'reception_clerk'): ?>
                 <div class="form-group">
-                    <label>Email <?php echo isset($_SESSION['USER']->role) ? '<small class="optional-message"></small>' : ''; ?></label>
-                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" <?php echo isset($_SESSION['USER']->role) ? '' : 'required'; ?>>
+                    <label>Email <small class="optional-message"></small></label>
+                    <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" required>
                     <span id="emailError" class="error-message"></span>
                 </div>
+                 <?php endif; ?>
+
                 <div class="form-group">
                     <label>Phone number</label>
                     <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>

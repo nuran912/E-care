@@ -67,7 +67,7 @@ class ProcessPayment extends Controller
         
                 
               
-                header('Location: ' . ROOT . '/Appointment_successful_page');
+                header('Location: ' . ROOT . '/Appointment_successful_page?appointment_id=' . $appointment_id);
                 
                    
             }

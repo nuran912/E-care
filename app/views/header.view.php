@@ -68,7 +68,7 @@
             <?php if (isset($_SESSION['USER'])): ?>
                <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
 
-               <?php if (($_SESSION['USER']->role == 'doctor') || ($_SESSION['USER']->role == 'patient')): ?>
+               <?php if (($_SESSION['USER']->role == 'doctor') || ($_SESSION['USER']->role == 'patient') || ($_SESSION['USER']->role == 'admin')): ?>
                   <?php if(!empty($_SESSION['USER']->profile_pic)): ?>
                      <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= htmlspecialchars($_SESSION['USER']->profile_pic) ?>" alt="User"></a>
                   <?php else: ?>

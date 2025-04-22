@@ -7,29 +7,37 @@ class Paymentsuccessfulpage extends Controller
     public function index()
     {
         $appointment_id = $_GET['order_id'] ?? null;
-
+        
+        
+        $appointments = new Appointments();
         if ($appointment_id && (!isset($_SESSION['USER']) || !isset($_SESSION['USER']->role) || $_SESSION['USER']->role != 'reception_clerk')) {
-            $appointments = new Appointments();
+           
             $status = 'completed';
             $appointments->updatePaymentStatus($appointment_id, $status);
-            $appointments->update_is_deletedToZero($appointment_id);
+            $appointments->update_is_deletedToZero($appointment_id);  
         }
+        if (isset($_SESSION['USER']) && isset($_SESSION['USER']->role) && $_SESSION['USER']->role == 'reception_clerk') {
+            $appointment_id = $_GET['appointment_id'] ?? null; 
+            $appointments->update_is_deletedToZero($appointment_id);  
+        }
+
 
         $appointments = new Appointments();
         $appointment = $appointments->getAppointmentById($appointment_id);
 
-        $patientname = $appointment->patient_name;
-        $patientemail = $appointment->patient_Email;
-        $doctor_id = $appointment->doctor_id;
-        $hospitalname = $appointment->hospital_name;
-        $appointmentdate = $appointment->session_date;
-        $appointmenttime = $appointment->session_time;
-        $appointmentnumber = $appointment->appointment_number;
-        $totalfee = $appointment->total_fee;
-        $servicecharge = $appointment->service_charge;
-        $patient_address = $appointment->patient_address;
-        $NIC = $appointment->nic_passport;
-        $contactnumber = $appointment->phone_number;
+        $patientname       = $appointment ? $appointment->patient_name       : '';
+        $patientemail      = $appointment ? $appointment->patient_Email      : '';
+        $doctor_id         = $appointment ? $appointment->doctor_id          : '';
+        $hospitalname      = $appointment ? $appointment->hospital_name      : '';
+        $appointmentdate   = $appointment ? $appointment->session_date       : '';
+        $appointmenttime   = $appointment ? $appointment->session_time       : '';
+        $appointmentnumber = $appointment ? $appointment->appointment_number : '';
+        $totalfee          = $appointment ? $appointment->total_fee          : '';
+        $servicecharge     = $appointment ? $appointment->service_charge     : '';
+        $patient_address   = $appointment ? $appointment->patient_address    : '';
+        $NIC               = $appointment ? $appointment->nic_passport       : '';
+        $contactnumber     = $appointment ? $appointment->phone_number       : '';
+        $email_sent        = $appointment ? $appointment->email_sent         : 0;
 
         
         $Doctor = new DoctorModel();
@@ -38,7 +46,7 @@ class Paymentsuccessfulpage extends Controller
         $doctorspecialization = is_array($doctor) ? ($doctor[0]->specialization ?? '') : '';
 
         
-        if ($appointment->email_sent == 0) {
+        if ( isset($appointment->email_sent)&& $appointment->email_sent == 0 && isset($patientemail)&& $_SESSION['USER']->role !== 'reception_clerk' ) {
         
             $subject = "Your Appointment Confirmation";
             $body = "
@@ -82,8 +90,11 @@ class Paymentsuccessfulpage extends Controller
         } else {
             $emailSent = false;
         }
-
+          $data=[
+            'emailSent' => $emailSent,
+            'patientEmail'=>$patientemail
+          ];
             
-        $this->view('appointment/paymentsuccessfulpage', ['emailSent' => $emailSent]);
+        $this->view('appointment/paymentsuccessfulpage', $data);
     }
 }

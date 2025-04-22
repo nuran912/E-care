@@ -42,12 +42,17 @@
         </div>
         <div class="buttons">
         <button input onclick="window.location.href='<?php echo ROOT; ?>/ClerkWorkLog'">Work Log</button>
-        <form action="<?php echo ROOT; ?>/Appointment_successful_page" method="post">
+        <?php $appointmentId = $_GET['appointment_id'] ?? ''; ?>
+             <?php if ($_SESSION['appointment_data']['payment_status'] == 'completed'): ?>
+                
+                <button id="completeAppointmentBtn" style="background-color: red;" onclick="window.location.href='<?php echo ROOT; ?>/Paymentsuccessfulpage?appointment_id=<?php echo $appointmentId; ?>'">
+                    Complete Appointment
+                </button>
+            <?php else: ?>
+
+                    <form action="<?php echo ROOT; ?>/Appointment_successful_page?appointment_id=<?php echo $appointmentId; ?>" method="post">
             <button type="submit" name="submit" value="">Pay Now</button>
             </form>
-           
-            <?php if ($_SESSION['appointment_data']['payment_status'] == 'completed'): ?>
-                <button id="completeAppointmentBtn" style="background-color: red;" input onclick="window.location.href='<?php echo ROOT; ?>/Paymentsuccessfulpage'" >Complete Appointment</button>
             <?php endif; ?>
             
         </div>

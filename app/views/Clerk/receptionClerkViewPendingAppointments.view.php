@@ -108,7 +108,7 @@
 
         .appointment .patient,
         .appointment .doctor,
-        .appointment .hospital,
+        /* .appointment .hospital, */
         .appointment .specialization {
             align-self: center;
             text-align: center;
@@ -124,7 +124,7 @@
             display: inline-block;
         }
 
-        .appointment .hospital {
+        /* .appointment .hospital {
             grid-column: 1;
             grid-row: 2;
             align-self: center;
@@ -137,11 +137,11 @@
             color: black;
             background-color: #ebe0e0;
             font-weight: bold;
-        }
+        } */
 
         .appointment .specialization {
-            grid-column: 2;
-            grid-row: 2;
+            grid-column: 3;
+            grid-row: 1;
             align-self: center;
             text-align: center;
             padding: 6px;
@@ -155,8 +155,6 @@
         }
 
         .appointment .ref-no, .appointment .time {
-            grid-column: 3;
-            grid-row: 1;
             align-self: center;
             text-align: center;
             padding: 6px;
@@ -171,18 +169,26 @@
             display: inline-block;
         }
 
+        .appointment .time {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
         .appointment .ref-no {
+            grid-column: 1;
             grid-row: 2;
         }
 
         .view-button {
+            grid-column: 3;
+            grid-row: 2;
             color: black;
             padding: 8px;
             text-align: center;
             border-radius: 4px;
             cursor: pointer;
-            grid-column: 4;
-            grid-row: 1 / span 2;
+            /* grid-column: 4;
+            grid-row: 1 / span 2; */
             align-self: center;
             justify-self: center;
             border: none;
@@ -346,8 +352,9 @@
 
                                     <span class="patient"><?php echo ($appointment['patient_name']); ?></span>
                                     <span class="doctor"><?php echo ($appointment['doctor_name']); ?></span>
+                                    <span class="specialization"><?php echo ($appointment['specialization']); ?></span>
                                     <span class="ref-no">Appointment No: <?php echo ($appointment['appointment_number']); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment['session_time'])); ?></span>
+                                    <span class="time">Session Time: <?php echo date("g:i A", strtotime($appointment['session_time'])); ?></span>
 
                                     <button class="view-button" data-index="<?= $index ?>">View</button>
                                         <div class="popup" id="popup-<?= $index ?>" style="display: none;">
@@ -370,10 +377,10 @@
                                                     <input type="text" name="doctor_specialization" class="doctor-specialization" value="<?php echo htmlspecialchars($appointment['specialization']) ?>">
                                                     <label for="appointment_no">Appointment No.: </label>
                                                     <input type="text" name="appointment_no" class="appointment_no" value="<?php echo htmlspecialchars($appointment['appointment_number']) ?>">
-                                                    <label for="session_time">Time: </label>
+                                                    <label for="session_time">Session Time: </label>
                                                     <input type="text" name="session_time" class="session_time" value="<?php echo htmlspecialchars($appointment['session_time']) ?>">
                                                     <label for="total_fee">Amount: </label>
-                                                    <input type="text" name="total_fee" class="total_fee" value="<?php echo htmlspecialchars($appointment['total_fee']) ?>">
+                                                    <input type="text" name="total_fee" class="total_fee" value="Rs. <?php echo htmlspecialchars($appointment['total_fee']) ?>.00">
 
                                                     <?php if ($appointment["payment_status"] == "pending"): ?>
                                                         <!-- <a href="<?= ROOT; ?>/appointment/processpayment" style="text-decoration: none; color: white;">Proceed to Payment</a> -->
@@ -385,10 +392,6 @@
                                                 </form>
                                             </div>
                                         </div>
-
-                                    <span class="hospital"><?php echo ($appointment['hospital_name']); ?></span>
-                                    <span class="specialization"><?php echo ($appointment['specialization']); ?></span>
-
                                 </div>
 
                             <?php endif; ?>

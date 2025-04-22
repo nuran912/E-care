@@ -144,9 +144,12 @@ class Clerk extends Controller {
 
         $this->view('header');
 
+        $data = [];
+
         $document = new Document;
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
+
 
             $patient_email = $_POST['patient_email'];
             $uploaded_by = $_POST['uploaded_by'];
@@ -178,7 +181,7 @@ class Clerk extends Controller {
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
 
                     //moved successfully
-                    $data = [
+                    $document_data = [
                         'user_id' => $user_id_extracted,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
@@ -187,7 +190,7 @@ class Clerk extends Controller {
                         'ref_no' => $ref_no
                     ];
 
-                    $document->insert($data);
+                    $document->insert($document_data);
                     
                     //uploaded date and time
                     date_default_timezone_set('Asia/Colombo');
@@ -215,14 +218,20 @@ class Clerk extends Controller {
                     </html>
                     ";
 
-                    EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
+                    $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
 
-                    redirect('Clerk/recordClerkWorkLog');
+                    if($emailSent) {
+                        $document->update($ref_no,['email_sent' => 1],'ref_no');
+                        $data['success'] = "Email sent successfully."; 
+                    }
+                    else {
+                        $data['error'] = "Failed to send email.";
+                    }
                 }
             }
         }
 
-        $this->view('Clerk/recordClerkUploadDoc');
+        $this->view('Clerk/recordClerkUploadDoc',$data);
         $this->view('footer');
     }
 
@@ -310,6 +319,8 @@ class Clerk extends Controller {
 
         $this->view('header');
 
+        $data = [];
+
         $document = new Document;
 
         if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
@@ -343,7 +354,7 @@ class Clerk extends Controller {
                 //moving the file to the target path
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
                     //moved successfully
-                    $data = [
+                    $document_data = [
                         'user_id' => $user_id_extracted,
                         'uploaded_by' => $uploaded_by,
                         'document_type' => $document_type,
@@ -352,7 +363,7 @@ class Clerk extends Controller {
                         'ref_no' => $ref_no
                     ];
 
-                    $document->insert($data);
+                    $document->insert($document_data);
 
                     //uploaded date and time
                     date_default_timezone_set('Asia/Colombo');
@@ -380,14 +391,20 @@ class Clerk extends Controller {
                     </html>
                     ";
 
-                    EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
+                    $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
 
-                    redirect('Clerk/labClerkWorkLog');
+                    if($emailSent) {
+                        $document->update($ref_no,['email_sent' => 1],'ref_no');
+                        $data['success'] = "Email sent successfully."; 
+                    }
+                    else {
+                        $data['error'] = "Failed to send email.";
+                    }
                 }
             }
         }
 
-        $this->view('Clerk/labClerkUploadDoc');
+        $this->view('Clerk/labClerkUploadDoc',$data);
         $this->view('footer');
     }
 

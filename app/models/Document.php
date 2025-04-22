@@ -15,7 +15,8 @@
             'document_category',
             'document_name',
             'ref_no',
-            'uploaded_at'
+            'uploaded_at',
+            'email_sent'
         ]; 
 
         public function getDocumentsByUserId($id){

@@ -14,27 +14,13 @@ class Patient extends Controller
     {
         $this->view('header');
 
-        // $data['errors'] = [];
-        // $data['success'] = [];
-        // $user = new User;
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //     if ($user->validateUpdate($_POST)) {
-        //         $user->update($_SESSION['USER']->user_id, $_POST, 'user_id');
-        //         $_SESSION['USER'] = $user->first(['user_id' => $_SESSION['USER']->user_id]);
-        //     }
-        //     $data['errors'] = $user->errors;
-        //     if (empty($data['errors']))
-        //         $data['success'] = 'Profile updated successfully';
-        // }
-
-        // show($_SESSION['USER']->profile_pic);
         $user = new User;
         $data = array($user->getById($_SESSION['USER']->user_id));
-        $data['error'] = [];
-        $data['success'] = "";
-        $data['status'] = [];
-        $data['passUpdateSuccess'] = "";
-        $data['passUpdateError'] = "";
+        // $data['error'] = [];
+        // $data['success'] = "";
+        // $data['status'] = [];
+        // $data['passUpdateSuccess'] = "";
+        // $data['passUpdateError'] = "";
 
         $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
 
@@ -58,15 +44,20 @@ class Patient extends Controller
                 ];
 
                 $dataToUpdate = $_POST;
+                // show($dataToUpdate);
+                // show(gettype($dataToUpdate['password']));
 
                 $passswordToUpdate = array("password" => $dataToUpdate['password'], "newpassword" => $dataToUpdate['newpassword']);
 
                 $data['status'] = $user->profileValidation($dataToUpdate, $originalProfileInfo);
 
                 if (empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])) {
+                    unset($dataToUpdate['password']);
+                    unset($dataToUpdate['newpassword']);
                     if ($data['status'] === true) {
                         $user->update($userData->user_id, $dataToUpdate, 'user_id');
                         $data['success'] = "Profile information updated successfully";
+                        
                     } else {
                         $data['error'] = $data['status'];
                     }
@@ -89,6 +80,23 @@ class Patient extends Controller
                     }
                 }
             }
+            if(isset($data['error']) || isset($data['passUpdateError'])){
+                unset($data['success']);
+            }
+            if(isset($data['error'])){
+                $_SESSION['error'] = $data['error'];
+            }
+            if(isset($data['passUpdateSuccess'])){
+                $_SESSION['passUpdateSuccess'] = $data['passUpdateSuccess'];
+            }
+            if(isset($data['passUpdateError'])){
+                $_SESSION['passUpdateError'] = $data['passUpdateError'];
+            }
+            if(isset($data['success'])){
+                $_SESSION['success'] = $data['success'];
+                redirect('Patient/profile');
+            }
+            
         }
 
         //upload a profile picture

@@ -12,10 +12,19 @@
             <h1>Welcome to <?= $doctor->name ?>'s Profile</h1>
         </div>
 
+        
+       
+
         <div class="container">
             <div class="profile-card">
                 <div class="profile-image">
-                    <img src="<?= ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="doctor profile">
+               
+                    <?php if (!empty($data['profilepicture'])) : ?>
+                      
+                        <img src="<?= ROOT; ?>/assets/profile_pictures/<?=$data['user_id']?>/<?= $data['profilepicture']?>" alt="doctor profile"  >
+                    <?php else : ?>     
+                    <img src="<?= ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="default doctor profile">
+                    <?php endif; ?>
                 </div>
                 <div class="profile-info">
                     <h6><?= $gender ?></h6>

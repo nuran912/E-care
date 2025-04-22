@@ -66,52 +66,57 @@ class Admin extends Controller
    {
       $this->view('header');
 
-      $user = new User;
-      $user = $user->first(['user_id' => $_SESSION['USER']->user_id]);
-      // show($user);
+      $userModel = new User;
+      $user = $userModel->first(['user_id' => $_SESSION['USER']->user_id]);
 
-      $data = [
-         'user' => $user
-      ];
+      $data = ['user' => $user];
+      // show($_POST);
+
+      if ($a == 'edit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+         $userData = $_POST;
+         $validationErrors = $userModel->profileValidation($userData, (array)$user);
+
+         if ($validationErrors === true) {
+            $updateResult = $userModel->updateUser($user->user_id, $userData, 'user_id');
+            
+               $_SESSION['edit_success'] = 'Profile updated successfully.';
+               
+               // Unset and reset session with updated user data
+               unset($_SESSION['USER']);
+               $_SESSION['USER'] = $userModel->first(['user_id' => $user->user_id]);
+            
+         } else {
+            $data['validation_errors'] = $validationErrors;
+         }
+         show($data);
+         redirect('Admin/profile');
+      }
+
+      if ($a == 'change-password' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+         $passwordData = $_POST;
+         $updateResult = $userModel->updatePassword($user->user_id, $passwordData);
+
+         if ($updateResult === true) {
+            $_SESSION['edit_success'] = 'Password updated successfully.';
+            
+            // Unset and reset session with updated user data
+            unset($_SESSION['USER']);
+            $_SESSION['USER'] = $userModel->first(['user_id' => $user->user_id]);
+         } else {
+            $_SESSION['edit_error'] = $updateResult; // Error message from the model
+         }
+         redirect('Admin/profile');
+      }
 
       if (isset($_SESSION['edit_success'])) {
          $data['edit_success'] = $_SESSION['edit_success'];
          unset($_SESSION['edit_success']);
       }
-
-      if ($a == 'edit') {
-         $user = new User;
-         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user_data = $_POST;
-            $user_data['user_id'] = $_SESSION['USER']->user_id;
-            $user->updateProfile($user_data['user_id'], $user_data, 'user_id');
-            if ($user->errors) {
-               $data['errors'] = $user->errors;
-               // redirect('Admin/profile');
-            } else {
-
-               $_SESSION['edit_success'] = 'Profile updated successfully.';
-               redirect('Admin/profile');
-            }
-         }
+      if (isset($_SESSION['edit_error'])) {
+         $data['edit_error'] = $_SESSION['edit_error'];
+         unset($_SESSION['edit_error']);
       }
-
-      if ($a == 'change-password') {
-         $user = new User;
-         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $user_data = $_POST;
-            $user_data['user_id'] = $_SESSION['USER']->user_id;
-            $user->updateProfile($user_data['user_id'], $user_data, 'user_id');
-            if ($user->errors) {
-               $data['errors'] = $user->errors;
-               
-            } else {
-               $_SESSION['edit_success'] = 'Password updated successfully.';
-               redirect('Admin/profile');
-               // redirect('Admin/profile');
-            }
-         }
-      }
+      
       $this->view('admin/profile', $data);
       $this->view('footer');
    }

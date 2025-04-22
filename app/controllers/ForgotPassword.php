@@ -18,7 +18,7 @@ class ForgotPassword extends Controller
         $this->view('header');
 
         $user = new User;
-        $data['errors'] = [];
+        $data = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -45,8 +45,9 @@ class ForgotPassword extends Controller
 
                 EmailHelper::sendEmail($email, "", $subject, $body);
                 // show($email);
+                $data['success'] = "Password reset link has been sent to your email";
             }else{
-                $data['errors'][] = "Email does not exist";
+                $data['error'] = "Email does not exist";
                 // show($data['error']);
             }
 
@@ -61,47 +62,41 @@ class ForgotPassword extends Controller
     public function validateToken($a = '', $b = '', $c = ''){
         $this->view('header');
 
-        $token = $_GET['token'] ?? "";
-        // if the token is unavailable, it throws an error
-        if (!$token) {
-            die('Invalid token.');
-        }
+        $data = [];
 
-        $user = new User;
-        $emailToBeRecovered = $_SESSION['emailToBeRecovered'];
-        // show($emailToBeRecovered);
-        //token verification is checked against the token and the token_expiry stored in the db upon token creation
-        $result = $user->verifyToken($emailToBeRecovered);  
-        // show($result);
-        $dbToken = $result->token;
-        $dbTokenExpiry = $result->token_expiry;
+        if($a == "recover"){
+            if($_POST['newPassword'] == $_POST['confirmPassword']){
+                $newPassword = $_POST['newPassword'];
+                $user = new User;
+                $emailToBeRecovered = $_SESSION['emailToBeRecovered'];
+                $user->updatePass($emailToBeRecovered, $newPassword);
+                $data['success'] = "Password has been reset successfully";
+            }else{
+                $data['error'] = "New password and confirm password don't match";
+            }
+        }else{
+            $token = $_GET['token'] ?? "";
+            // if the token is unavailable, it throws an error
+            if (!$token) {
+                redirect('404');
+            }
 
-        $data['tokenValid'] = false;
-        if($token == $dbToken && $dbTokenExpiry > date('Y-m-d H:i:s')){
-            $data['tokenValid'] = true;
+            $user = new User;
+            $emailToBeRecovered = $_SESSION['emailToBeRecovered'];
+            // show($emailToBeRecovered);
+            //token verification is checked against the token and the token_expiry stored in the db upon token creation
+            $result = $user->verifyToken($emailToBeRecovered);  
+            // show($result);
+            $dbToken = $result->token;
+            $dbTokenExpiry = $result->token_expiry;
+
+            $_SESSION['tokenValid'] = false;
+            if($token == $dbToken && $dbTokenExpiry > date('Y-m-d H:i:s')){
+                $_SESSION['tokenValid'] = true;
+            }
         }
         
         $this->view('recoverPassword', $data);
-        $this->view('footer');
-    }
-    public function recover($a = '', $b = '', $c = ''){
-        $this->view('header');
-
-        $data = [];
-
-        if($_POST['newPassword'] == $_POST['confirmPassword']){
-
-            $newPassword = $_POST['newPassword'];
-            
-            $user = new User;
-            $emailToBeRecovered = $_SESSION['emailToBeRecovered'];
-            $user->updatePass($emailToBeRecovered, $newPassword);
-            $data['success'] = "Password has been reset successfully";
-
-            redirect('signin');
-        }
-
-        $this->view('passwordResetSuccess', $data);
         $this->view('footer');
     }
 }

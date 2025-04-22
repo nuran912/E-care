@@ -275,6 +275,11 @@
             margin-top: 20px;
         }
 
+        .pay-button a {
+            text-decoration: none;
+            color: white;
+        }
+
         .popup-content form button.print-button .a {
             text-decoration: none;
         }
@@ -383,8 +388,9 @@
                                                     <input type="text" name="total_fee" class="total_fee" value="Rs. <?php echo htmlspecialchars($appointment['total_fee']) ?>.00">
 
                                                     <?php if ($appointment["payment_status"] == "pending"): ?>
-                                                        <!-- <a href="<?= ROOT; ?>/appointment/processpayment" style="text-decoration: none; color: white;">Proceed to Payment</a> -->
-                                                        <button class="pay-button">Proceed to Payment</button>
+                                                        <button class="pay-button">
+                                                            <a href="<?= ROOT; ?>/paymentsuccessfulpage">Pay Now</a>
+                                                        </button>
                                                     <?php else: ?>
                                                         <button class="print-button" onclick="handlePrint()">Print</button>
                                                     <?php endif; ?>

@@ -54,58 +54,71 @@
          <?php if (isset($_SESSION['USER'])): ?>
             <p>Hi, <?php echo $_SESSION['USER']->name; ?></p>
 
-            <?php if(!empty($_SESSION['USER']->profile_pic)): ?>
-               <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= htmlspecialchars($_SESSION['USER']->profile_pic) ?>" alt="User"></a>
-            <?php else: ?>
-               <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/img/user.svg" alt="User"></a>
-            <?php endif; ?>
-            
-            <img class="menu" src="<?php echo ROOT ?>/assets/img/menu.svg" alt="Menu">
-            <?php if ($_SESSION['USER']->role == 'admin'): ?>
+               <?php if (($_SESSION['USER']->role == 'doctor') || ($_SESSION['USER']->role == 'patient') || ($_SESSION['USER']->role == 'admin')): ?>
+                  <?php if(!empty($_SESSION['USER']->profile_pic)): ?>
+                     <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= htmlspecialchars($_SESSION['USER']->profile_pic) ?>" alt="User"></a>
+                  <?php else: ?>
+                     <a href="<?php echo ROOT ?>/<?php echo ucfirst($_SESSION['USER']->role) ?>/profile"><img class="user-img" src="<?= ROOT ?>/assets/img/user.svg" alt="User"></a>
+                  <?php endif; ?>
+               <?php endif; ?>
 
-               <card>
-                  <h4>Admin Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Admin/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/dashboard">Dashboard</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/user">User</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/doctor">Doctor</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/clerk">Clerk</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/hospitals">Hospitals</a></p>
-                  <p><a href="<?php echo ROOT ?>/Admin/labs">Laboratories</a></p>
-                  <!--  <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p> -->
-                  <p><a href="<?php echo ROOT ?>/Admin/articles">Articles</a></p>
-                  <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
-               </card>
-            <?php endif; ?>
-            <?php if ($_SESSION['USER']->role == 'doctor'): ?>
-               <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Doctor">Doctor</a></button> -->
-               <card>
-                  <h4>Doctor Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Doctor/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Doctor/doctorPendingAppt">Manage Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Doctor/doctorCreateApptSlot">Manage Schedules</a></p>
-                  
-                  <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
-               </card>
-            <?php endif; ?>
-            <?php if ($_SESSION['USER']->role == 'patient'): ?>
-               <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Patient">Patient</a></button> -->
-               <card>
-                  <h4>Patient Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Patient/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Patient/appointments">Manage Appointments</a></p>
-                  <p><a href="<?php echo ROOT ?>/Patient/medical_records">Medical Documents</a></p>
-                  <p><a href="<?php echo ROOT ?>/Patient/insuranceclaims">Insurance Claims</a></p>
-                  <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
-               </card>
-            <?php endif; ?>
-            <?php if (($_SESSION['USER']->role == 'lab_clerk')): ?>
-               <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
-               <card>
-                  <h4>Lab Clerk Menu</h4>
-                  <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
-                  <p><a href="<?php echo ROOT ?>/Clerk/labClerkUploadDoc">Upload Document</a></p>
-                  <p><a href="<?php echo ROOT ?>/Clerk/labClerkWorkLog">Work Log</a></p>
+               <?php if (($_SESSION['USER']->role == 'lab_clerk') || ($_SESSION['USER']->role == 'record_clerk') || ($_SESSION['USER']->role == 'reception_clerk')): ?>
+                  <?php if(!empty($_SESSION['USER']->profile_pic)): ?>
+                     <a href="<?php echo ROOT ?>/Clerk/profile"><img class="user-img" src="<?= ROOT ?>/assets/profile_pictures/<?= htmlspecialchars($_SESSION['USER']->user_id) ?>/<?= htmlspecialchars($_SESSION['USER']->profile_pic) ?>" alt="User"></a>
+                  <?php else: ?>
+                     <a href="<?php echo ROOT ?>/Clerk/profile"><img class="user-img" src="<?= ROOT ?>/assets/img/user.svg" alt="User"></a>
+                  <?php endif; ?>
+               <?php endif; ?>
+                
+               <img class="menu" src="<?php echo ROOT ?>/assets/img/menu.svg" alt="Menu">
+
+                  <?php if ($_SESSION['USER']->role == 'admin'): ?>
+                     <card>
+                        <h4>Admin Menu</h4>
+                        <p><a href="<?php echo ROOT ?>/Admin/profile">Profile</a></p>
+                        <p><a href="<?php echo ROOT ?>/Admin/dashboard">Dashboard</a></p>
+                        <p><a href="<?php echo ROOT ?>/Admin/user">User</a></p>
+                        <p><a href="<?php echo ROOT ?>/Admin/doctor">Doctor</a></p>
+                        <p><a href="<?php echo ROOT ?>/Admin/clerk">Clerk</a></p>
+                        <p><a href="<?php echo ROOT ?>/Admin/hospitals">Hospitals</a></p>
+                        <p><a href="<?php echo ROOT ?>/Admin/labs">Laboratories</a></p>
+                        <!--  <p><a href="<?php echo ROOT ?>/Admin/insurance">Insurance Company</a></p> -->
+                        <p><a href="<?php echo ROOT ?>/Admin/articles">Articles</a></p>
+                        <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
+                     </card>
+                  <?php endif; ?>
+
+                  <?php if ($_SESSION['USER']->role == 'doctor'): ?>
+                     <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Doctor">Doctor</a></button> -->
+                     <card>
+                        <h4>Doctor Menu</h4>
+                        <p><a href="<?php echo ROOT ?>/Doctor/profile">Profile</a></p>
+                        <p><a href="<?php echo ROOT ?>/Doctor/doctorPendingAppt">Manage Appointments</a></p>
+                        <p><a href="<?php echo ROOT ?>/Doctor/doctorCreateApptSlot">Manage Schedules</a></p>
+                      
+                        <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
+                     </card>
+                  <?php endif; ?>
+
+                  <?php if ($_SESSION['USER']->role == 'patient'): ?>
+                     <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Patient">Patient</a></button> -->
+                     <card>
+                        <h4>Patient Menu</h4>
+                        <p><a href="<?php echo ROOT ?>/Patient/profile">Profile</a></p>
+                        <p><a href="<?php echo ROOT ?>/Patient/appointments">Manage Appointments</a></p>
+                        <p><a href="<?php echo ROOT ?>/Patient/medical_records">Medical Documents</a></p>
+                        <p><a href="<?php echo ROOT ?>/Patient/insuranceclaims">Insurance Claims</a></p>
+                        <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
+                     </card>
+                  <?php endif; ?>
+
+                  <?php if (($_SESSION['USER']->role == 'lab_clerk')): ?>
+                     <!-- <button class="admin-btn"><a href="<?php echo ROOT ?>/Labclerk">Lab Clerk</a></button> -->
+                     <card>
+                        <h4>Lab Clerk Menu</h4>
+                        <p><a href="<?php echo ROOT ?>/Clerk/profile">Profile</a></p>
+                        <p><a href="<?php echo ROOT ?>/Clerk/labClerkUploadDoc">Upload Document</a></p>
+                        <p><a href="<?php echo ROOT ?>/Clerk/labClerkWorkLog">Work Log</a></p>
 
                   <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                </card>

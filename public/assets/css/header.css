@@ -260,10 +260,12 @@ card .signout-btn a {
 
 .dropdown-columns {
    display: flex;
+   flex-direction: column; /* 👈 Stack sections vertically */
    gap: 20px;
    padding: 10px;
-   flex-wrap: wrap; /* Allow wrapping for equal distribution */
+   z-index: 1000;
 }
+
 
 .dropdown-column {
    flex: 1;
@@ -286,17 +288,18 @@ card .signout-btn a {
    padding: 0;
    margin: 0;
    display: grid;
-   grid-template-columns: repeat(2, 1fr); /* Divide items equally horizontally */
-   gap: 10px; /* Space between items */
+   grid-template-columns: 1fr; /* Now it's just 1 item per row */
+   gap: 10px;
 }
 
-.dropdown-column ul li {
+
+.dropdown-column ul li a {
    font-size: 14px;
    color: #93DEFF;
    text-align: left;
 }
-
-.dropdown-column ul li:hover {
+ 
+ /* .dropdown-column ul li a:hover {
    color: #0d62cb;
    cursor: pointer;
-}
+}  */

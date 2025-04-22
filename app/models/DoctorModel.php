@@ -171,9 +171,9 @@ class DoctorModel
                 d.name AS doctor_name,
                 d.specialization
             FROM 
-              appointments a 
+                appointments a 
             JOIN 
-                  doctors d 
+                doctors d 
             ON 
                 d.id = a.doctor_id
             WHERE

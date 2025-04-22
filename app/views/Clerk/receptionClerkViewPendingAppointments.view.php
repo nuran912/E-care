@@ -108,7 +108,7 @@
 
         .appointment .patient,
         .appointment .doctor,
-        .appointment .hospital,
+        /* .appointment .hospital, */
         .appointment .specialization {
             align-self: center;
             text-align: center;
@@ -124,7 +124,7 @@
             display: inline-block;
         }
 
-        .appointment .hospital {
+        /* .appointment .hospital {
             grid-column: 1;
             grid-row: 2;
             align-self: center;
@@ -137,11 +137,11 @@
             color: black;
             background-color: #ebe0e0;
             font-weight: bold;
-        }
+        } */
 
         .appointment .specialization {
-            grid-column: 2;
-            grid-row: 2;
+            grid-column: 3;
+            grid-row: 1;
             align-self: center;
             text-align: center;
             padding: 6px;
@@ -155,8 +155,6 @@
         }
 
         .appointment .ref-no, .appointment .time {
-            grid-column: 3;
-            grid-row: 1;
             align-self: center;
             text-align: center;
             padding: 6px;
@@ -171,18 +169,26 @@
             display: inline-block;
         }
 
+        .appointment .time {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
         .appointment .ref-no {
+            grid-column: 1;
             grid-row: 2;
         }
 
         .view-button {
+            grid-column: 3;
+            grid-row: 2;
             color: black;
             padding: 8px;
             text-align: center;
             border-radius: 4px;
             cursor: pointer;
-            grid-column: 4;
-            grid-row: 1 / span 2;
+            /* grid-column: 4;
+            grid-row: 1 / span 2; */
             align-self: center;
             justify-self: center;
             border: none;
@@ -269,6 +275,11 @@
             margin-top: 20px;
         }
 
+        .pay-button a {
+            text-decoration: none;
+            color: white;
+        }
+
         .popup-content form button.print-button .a {
             text-decoration: none;
         }
@@ -325,11 +336,11 @@
 
                 <div class="content">
 
+                
                     <?php if (isset($appointments) && is_array($appointments)): ?>
 
                         <?php $index = 0; ?>
                         <?php foreach ($appointments as $appointment): ?>
-
                             <?php if ($appointment['status'] == 'scheduled'): ?>
 
                                 <div class="appointment-main-info">
@@ -346,8 +357,9 @@
 
                                     <span class="patient"><?php echo ($appointment['patient_name']); ?></span>
                                     <span class="doctor"><?php echo ($appointment['doctor_name']); ?></span>
+                                    <span class="specialization"><?php echo ($appointment['specialization']); ?></span>
                                     <span class="ref-no">Appointment No: <?php echo ($appointment['appointment_number']); ?></span>
-                                    <span class="time"><?php echo date("g:i A", strtotime($appointment['session_time'])); ?></span>
+                                    <span class="time">Session Time: <?php echo date("g:i A", strtotime($appointment['session_time'])); ?></span>
 
                                     <button class="view-button" data-index="<?= $index ?>">View</button>
                                         <div class="popup" id="popup-<?= $index ?>" style="display: none;">
@@ -356,7 +368,7 @@
 
                                                     <h4>Appointment Details</h4>
 
-                                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment[0]['appointment_id']) ?>">
+                                                    <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']) ?>">
                                                     
                                                     <label for="patient_name">Date: </label>
                                                     <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment['session_date']) ?>">
@@ -370,14 +382,15 @@
                                                     <input type="text" name="doctor_specialization" class="doctor-specialization" value="<?php echo htmlspecialchars($appointment['specialization']) ?>">
                                                     <label for="appointment_no">Appointment No.: </label>
                                                     <input type="text" name="appointment_no" class="appointment_no" value="<?php echo htmlspecialchars($appointment['appointment_number']) ?>">
-                                                    <label for="session_time">Time: </label>
+                                                    <label for="session_time">Session Time: </label>
                                                     <input type="text" name="session_time" class="session_time" value="<?php echo htmlspecialchars($appointment['session_time']) ?>">
                                                     <label for="total_fee">Amount: </label>
-                                                    <input type="text" name="total_fee" class="total_fee" value="<?php echo htmlspecialchars($appointment['total_fee']) ?>">
+                                                    <input type="text" name="total_fee" class="total_fee" value="Rs. <?php echo htmlspecialchars($appointment['total_fee']) ?>.00">
 
                                                     <?php if ($appointment["payment_status"] == "pending"): ?>
-                                                        <!-- <a href="<?= ROOT; ?>/appointment/processpayment" style="text-decoration: none; color: white;">Proceed to Payment</a> -->
-                                                        <button class="pay-button">Proceed to Payment</button>
+                                                        <button class="pay-button">
+                                                            <a href="<?= ROOT; ?>/Clerk/receptionClerkPendingAppointmentPayNow?appointment_id=<?php echo htmlspecialchars($appointment['appointment_id']) ?>">Pay Now</a>
+                                                        </button>
                                                     <?php else: ?>
                                                         <button class="print-button" onclick="handlePrint()">Print</button>
                                                     <?php endif; ?>
@@ -385,10 +398,6 @@
                                                 </form>
                                             </div>
                                         </div>
-
-                                    <span class="hospital"><?php echo ($appointment['hospital_name']); ?></span>
-                                    <span class="specialization"><?php echo ($appointment['specialization']); ?></span>
-
                                 </div>
 
                             <?php endif; ?>

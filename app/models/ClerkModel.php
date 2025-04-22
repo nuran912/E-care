@@ -51,14 +51,14 @@ class ClerkModel
 
    public function profileValidation($data, $originalData)
    {
-      unset($originalData['password']);
-      unset($originalData['newpassword']);
-      unset($data['password']);
-      unset($data['newpassword']);
+      // unset($originalData['password']);
+      // unset($originalData['newpassword']);
+      // unset($data['password']);
+      // unset($data['newpassword']);
 
-      if($data === $originalData){
-         return ["No changes made"];
-      }
+      // if($data === $originalData){
+      //    return ["No changes made"];
+      // }
 
       $this->errors = [];
  

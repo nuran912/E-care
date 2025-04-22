@@ -19,11 +19,12 @@ class Clerk extends Controller {
         $clerk = new ClerkModel;
         $clerkData = array($clerk->getClerkByUserId($_SESSION['USER']->user_id));
         $data = array_merge($userData, $clerkData);
-        $data['error'] = [];
-        $data['success'] = "";
-        $data['status'] = [];
-        $data['passUpdateSuccess'] = "";
-        $data['passUpdateError'] = "";
+        // $data['error'] = [];
+        // $data['success'] = "";
+        // $data['status'] = [];
+        // $data['passUpdateSuccess'] = "";
+        // $data['passUpdateError'] = "";
+        // $_SESSION['updateData'] = [];
 
         $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
 
@@ -40,7 +41,7 @@ class Clerk extends Controller {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               
                 $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
-                show($clerkData);
+                // show($clerkData);
                 $userData = $user->getById($_SESSION['USER']->user_id);
   
                 $originalProfileInfo = [
@@ -57,6 +58,8 @@ class Clerk extends Controller {
                 $data['status'] = $clerk->profileValidation($dataToUpdate, $originalProfileInfo);
               
                 if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                    unset($dataToUpdate['password']);
+                    unset($dataToUpdate['newpassword']);
                     if($data['status'] === true){
                         $clerk->update($clerkData->emp_id, $dataToUpdate, 'emp_id');
                         $user->updateclerkDetails($userData->user_id, $dataToUpdate, 'user_id');
@@ -86,7 +89,23 @@ class Clerk extends Controller {
                     }
                 }
             }
-            redirect('Clerk/clerkProfile');
+            
+            if(isset($data['error']) || isset($data['passUpdateError'])){
+                unset($data['success']);
+            }
+            if(isset($data['error'])){
+                $_SESSION['error'] = $data['error'];
+            }
+            if(isset($data['passUpdateSuccess'])){
+                $_SESSION['passUpdateSuccess'] = $data['passUpdateSuccess'];
+            }
+            if(isset($data['passUpdateError'])){
+                $_SESSION['passUpdateError'] = $data['passUpdateError'];
+            }
+            if(isset($data['success'])){
+                $_SESSION['success'] = $data['success'];
+                redirect('Clerk/profile');
+            }
         }
 
         //upload a profile picture

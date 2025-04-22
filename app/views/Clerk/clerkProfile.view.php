@@ -148,7 +148,7 @@
             gap: 50px;
         }
 
-        .alert {
+        /* .alert {
             padding: 16px;
             margin-bottom: 16px;
             border-radius: 4px;
@@ -163,7 +163,38 @@
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
-        }
+        } */
+
+        .alert {
+         padding: 15px;
+         margin: 15px 0;
+         border-radius: 5px;
+         font-size: 16px;
+         font-weight: bold;
+         text-align: center; 
+         font-family: 'Lucida Sans';
+         justify-content: center;
+         align-items: center;
+         
+         }
+
+         .alert-success {
+         background-color: #d4edda;
+         color: #155724;
+         border: 1px solid #c3e6cb;
+         margin-left: 30%;
+         
+         width: 40%;
+         }
+
+         .alert-danger {
+         background-color: #f8d7da;
+         color: #721c24;
+         border: 1px solid #f5c6cb;
+         width: 40%;
+         margin-left: 30%;
+         
+         }
         .error {
             position:relative;
             /* background-color: darkred; */
@@ -208,6 +239,41 @@
     </style>
 </head>
 <body>
+
+    <!-- Success Message -->
+    <?php if (isset($_SESSION['success'])): ?>
+         <div id="successMessage" class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['success']); ?>
+         </div>
+         <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['error'])): ?>
+         <div id="errorMessage" class="alert alert-danger">
+         <?php foreach ($_SESSION['error'] as $error): ?>
+            <?= htmlspecialchars($error); ?>
+        <?php endforeach; ?>
+         </div>
+         <?php unset($_SESSION['error']); ?>
+      <?php endif; ?> 
+
+    <!--Password update Success Message -->
+    <?php if (isset($_SESSION['passUpdateSuccess'])): ?>
+         <div id="passSuccessMessage" class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['passUpdateSuccess']); ?>
+         </div>
+         <?php unset($_SESSION['passUpdateSuccess']); ?>
+    <?php endif; ?>
+
+    <!--Password update Error Message -->
+    <?php if (isset($_SESSION['passUpdateError'])): ?>
+         <div id="passErrorMessage" class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['passUpdateError']); ?>
+         </div>
+         <?php unset($_SESSION['passUpdateError']); ?>
+    <?php endif; ?>
+
     <div class="container">
         <!-- Profile Card Section -->
         <div class="profileCard">
@@ -229,29 +295,6 @@
 
         <!-- Profile Info Section -->
         <div class="profileInfo">
-            
-            <?php if (!empty($data['error'])): ?>
-                <div class="error">
-                    <?php foreach ($data['error'] as $error): ?>
-                        <p><?=$error?></p>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-            <?php if ($data['success'] != "" ): ?>
-                <div class="success">
-                        <p><?=$data['success']?></p>
-                </div>
-            <?php endif; ?>
-            <?php if ($data['passUpdateError'] != "" ): ?>
-                <div class="error">
-                        <p><?=$data['passUpdateError']?></p>
-                </div>
-            <?php endif; ?>
-            <?php if ($data['passUpdateSuccess'] != "" ): ?>
-                <div class="success">
-                        <p><?=$data['passUpdateSuccess']?></p>
-                </div>
-            <?php endif; ?> 
             <form method="POST" action="<?= ROOT?>/Clerk/profile/update">
                 <div class="info">
                     <label for="name">Name :</label>
@@ -307,6 +350,35 @@
                 this.form.submit();
             }
         });
+
+         // Auto-hide success/error messages after 5 seconds
+         document.addEventListener("DOMContentLoaded", function() {
+            const successMessage = document.getElementById("successMessage");
+            const errorMessage = document.getElementById("errorMessage");
+            const passSuccessMessage = document.getElementById("passSuccessMessage");
+            const passErrorMessage = document.getElementById("passErrorMessage");
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = "none";
+                    // window.location.href = "<?php echo ROOT ?>/Patient/profile";
+                  }, 5000);
+               }
+               if (errorMessage) {
+                  setTimeout(() => {
+                     errorMessage.style.display = "none";
+                  }, 5000);
+               }
+               if (passSuccessMessage) {
+                  setTimeout(() => {
+                    passSuccessMessage.style.display = "none";
+                  }, 5000);
+               }
+               if (passErrorMessage) {
+                  setTimeout(() => {
+                    passErrorMessage.style.display = "none";
+                  }, 5000);
+               }
+            });
     </script>
     
 </body>

@@ -17,6 +17,17 @@ if (!isset($errors)) {
 
 <body>
 
+   
+
+    <?php
+        //if the token is invalid, redirect to error page
+        if(!$data['tokenValid']){
+           redirect('404'); 
+        }     
+        if(isset($data['success'])){
+            show($data['success']);
+        }
+    ?>
 
    <div class="main-context">
 
@@ -32,8 +43,7 @@ if (!isset($errors)) {
          </center>
          <br>
 
-         <form method="POST">
-
+         <form method="POST" action="<?=ROOT?>/ForgotPassword/recover">
             <div class="form-group">
                <label for="">New Password <span style="color: red;">*</span></label>
                <input type="password" name="newPassword" class="password" value="" placeholder="New Password">
@@ -44,7 +54,6 @@ if (!isset($errors)) {
             </div>
 
             <input type="submit" value="Reset" class="signInBtn">
-
          </form>
 
       </div>

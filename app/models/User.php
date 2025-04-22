@@ -382,4 +382,13 @@ class User
       $result = $this->query($query, ['email' => $email, 'token' => $token, 'token_expiry' => $expiry]);
       return $result;
    }
+   public function verifyToken($email){
+      $query = "SELECT token , token_expiry FROM $this->table WHERE email = :email";
+      $result = $this->query($query, ['email' => $email]);
+      return $result[0];
+   }
+   public function updatePass($email, $pass){
+      $query = "Update $this->table SET password = :password WHERE email = :email";
+      $result = $this->query($query, ['email' => $email, 'password' => $pass]);
+   }
 }

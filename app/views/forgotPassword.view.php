@@ -17,6 +17,11 @@ if (!isset($errors)) {
 
 <body>
 
+    <?php 
+        if(isset($data['error'])){
+            show($data['error']);
+        }
+    ?>
 
    <div class="main-context">
 
@@ -32,7 +37,7 @@ if (!isset($errors)) {
          </center>
          <br>
 
-         <form method="POST" action="<?=ROOT?>/ForgotPassword">
+         <form method="POST" action="<?=ROOT?>/ForgotPassword" onsubmit="return confirmReset()">
 
             <div class="form-group">
                <label for="">Email <span style="color: red;">*</span></label>
@@ -46,6 +51,11 @@ if (!isset($errors)) {
       </div>
 
    </div>
+   <script>
+        function confirmReset(){
+            return confirm("An email has been sent to your email address with a link to reset your password");
+        }
+    </script>
 
 </body>
 

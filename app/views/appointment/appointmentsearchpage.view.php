@@ -99,8 +99,16 @@
 
                 <?php if (isset($doctorResults) && is_array($doctorResults)): ?>
                     <?php foreach ($doctorResults as $doc) : ?>
+                        <?php $user_id=$doc->user_id;
+                        
+                        $user=new User();
+                        $profilepic=$user->getProfilePic($user_id);
+                        
+                        
+                        
+                        ?>
                         <div class="card">
-                            <img class="profimg " src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+                            <img class="profimg " src="<?php echo ROOT; ?>/assets/profile_pictures/<?php echo $user_id ?>/<?php echo $profilepic[0]['profile_pic']?>" alt="Doctor's Profile Picture">
                             <h3><?php echo $doc->name ?></h3>
                             <p><?php echo is_array($doc->specialization) ? implode(", ", $doc->specialization) : $doc->specialization; ?></p>
                             <?php

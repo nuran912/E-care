@@ -262,27 +262,64 @@
             gap: 3px;
         }
 
+        .alert {
+         padding: 15px;
+         margin: 15px 0;
+         border-radius: 5px;
+         font-size: 16px;
+         font-weight: bold;
+         text-align: center; 
+         font-family: 'Lucida Sans';
+         justify-content: center;
+         align-items: center;
+         
+         }
+
+         .alert-success {
+         background-color: #d4edda;
+         color: #155724;
+         border: 1px solid #c3e6cb;
+         margin-left: 30%;
+         
+         width: 40%;
+         }
+
+         .alert-danger {
+         background-color: #f8d7da;
+         color: #721c24;
+         border: 1px solid #f5c6cb;
+         width: 40%;
+         margin-left: 30%;
+         
+         }
+
     </style>
 </head>
 <body>
 
-    <!-- <?php show($data); ?> -->
+    <!-- <?php show($_SESSION); ?> -->
+
+     <!-- Success Message -->
+    <?php if (isset($_SESSION['cancelSuccess'])): ?>
+         <div id="successMessage" class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['cancelSuccess']); ?>
+         </div>
+         <?php unset($_SESSION['cancelSuccess']); ?>
+    <?php endif; ?>
+
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['cancelError'])): ?>
+         <div id="errorMessage" class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['cancelError']); ?>
+         </div>
+         <?php unset($_SESSION['cancelError']); ?>
+      <?php endif; ?>
 
     <div class="container">
         <div class="tabs">
             <div class="tab"><a href="<?=ROOT?>/Doctor/doctorCreateApptSlot">Create New Slot</a></div>
             <div class="tab active">Appointment Slots</div>
         </div>
-        <?php if($data[1]['cancelError'] != ""){ ?>
-            <div class="error">
-                <p> <?= $data[1]['cancelError']; ?> </p>
-            </div>
-        <?php } ?>
-        <?php if($data[1]['cancelSuccess'] != ""){ ?>
-            <div class="success">
-                <p> <?= $data[1]['cancelSuccess']; ?> </p>
-            </div>
-        <?php } ?>
 
         <?php 
             $currentFilter = $data[0][0][0];
@@ -371,8 +408,8 @@
                         <div class="item2"> <?php echo (new DateTime($appt->start_time))->modify('+'.$appt->duration.' hours')->format('H:i:s'); ?> </div>
                     </div>
                     <div class="item1">
-                        <label>total patients</label>
-                        <div class="item2"> <?php echo $appt->total_slots ?> </div>
+                        <label>patient slots</label>
+                        <div class="item2"> <?php echo $appt->filled_slots ." of ".$appt->total_slots." filled " ?> </div>
                     </div>
                     <div class="item1">
                         <label>status</label>
@@ -424,6 +461,26 @@
         function confirmCancel(){
             return confirm("Are you sure you want to cancel this appointment?");
         }
+        // Auto-hide success/error messages after 5 seconds
+        document.addEventListener("DOMContentLoaded", function() {
+            const successMessage = document.getElementById("successMessage");
+            const errorMessage = document.getElementById("errorMessage");
+            const passSuccessMessage = document.getElementById("passSuccessMessage");
+            const passErrorMessage = document.getElementById("passErrorMessage");
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = "none";
+                    unset($_SESSION['cancelSuccess']);
+                    // window.location.href = "<?php echo ROOT ?>/Patient/profile";
+                  }, 5000);
+               }
+               if (errorMessage) {
+                  setTimeout(() => {
+                     errorMessage.style.display = "none";
+                     unset($_SESSION['cancelError']);
+                  }, 5000);
+               }
+            });
     </script>
 </body>
 </html>

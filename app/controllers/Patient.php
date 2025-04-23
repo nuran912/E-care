@@ -273,10 +273,14 @@ class Patient extends Controller
         $pendingAppointments =[];
         $pastAppointments =[];
         $currentDate = date("Y-m-d");
+
+        date_default_timezone_set('Asia/Colombo');
         $currentTime = date("g:i A");
         foreach ($data as $appointment) {
             $appointmentDate = $appointment->session_date;
             $appointmentTime = date("g:i A", strtotime($appointment->session_time));
+
+            
         
             if ($appointment->is_deleted == 0) {
                 if (

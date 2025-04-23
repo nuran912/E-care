@@ -208,7 +208,7 @@ class DoctorModel
                 d.id = a.doctor_id
             WHERE 
                 a.phone_number = :phone_number AND a.hospital_name = :hospital"
-        ,['phone_number' => $phone_number,'hospital' => $hospital]);
+            ,['phone_number' => $phone_number,'hospital' => $hospital]);
 
         return json_decode(json_encode($result), true);
     }

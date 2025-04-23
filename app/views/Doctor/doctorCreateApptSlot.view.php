@@ -262,24 +262,63 @@
             color: #003366;
         }
 
+        .alert {
+         padding: 15px;
+         margin: 15px 0;
+         border-radius: 5px;
+         font-size: 16px;
+         font-weight: bold;
+         text-align: center; 
+         font-family: 'Lucida Sans';
+         justify-content: center;
+         align-items: center;
+         
+         }
+
+         .alert-success {
+         background-color: #d4edda;
+         color: #155724;
+         border: 1px solid #c3e6cb;
+         margin-left: 30%;
+         
+         width: 40%;
+         }
+
+         .alert-danger {
+         background-color: #f8d7da;
+         color: #721c24;
+         border: 1px solid #f5c6cb;
+         width: 40%;
+         margin-left: 30%;
+         
+         }
+
     </style>
 </head>
 <body>
+    <!-- <?php show($_SESSION); ?> -->
+
+    <!-- Success Message -->
+    <?php if (isset($_SESSION['createSuccess'])): ?>
+         <div id="successMessage" class="alert alert-success">
+            <?= htmlspecialchars($_SESSION['createSuccess']); ?>
+         </div>
+         <?php unset($_SESSION['createSuccess']); ?>
+    <?php endif; ?>
+
+    <!-- Error Message -->
+    <?php if (isset($_SESSION['createError'])): ?>
+         <div id="errorMessage" class="alert alert-danger">
+            <?= htmlspecialchars($_SESSION['createError']); ?>
+         </div>
+         <?php unset($_SESSION['createError']); ?>
+      <?php endif; ?>
+
     <div class='container'>
         <div class="tabs">
             <div class="tab active">Create New Slot</div>
             <div class="tab"><a href="<?=ROOT?>/Doctor/doctorApptSlots">Appointment Slots</a></div>
         </div>
-        <?php if($data['createError'] != ""){ ?>
-            <div class="error">
-                <p> <?= $data['createError']; ?> </p>
-            </div>
-        <?php } ?>
-        <?php if($data['createSuccess'] != ""){ ?>
-            <div class="success">
-                <p> <?= $data['createSuccess']; ?> </p>
-            </div>
-        <?php } ?>
         <form class="createAppt" method="POST" action="<?=ROOT?>/Doctor/doctorCreateApptSlot/create">
             <div class="form-group">
                 <div class="item">
@@ -327,5 +366,26 @@
             </div>
         </form>
     </div>
+
+    <script>
+         // Auto-hide success/error messages after 5 seconds
+         document.addEventListener("DOMContentLoaded", function() {
+            const successMessage = document.getElementById("successMessage");
+            const errorMessage = document.getElementById("errorMessage");
+            const passSuccessMessage = document.getElementById("passSuccessMessage");
+            const passErrorMessage = document.getElementById("passErrorMessage");
+            if (successMessage) {
+                setTimeout(() => {
+                    successMessage.style.display = "none";
+                    // window.location.href = "<?php echo ROOT ?>/Patient/profile";
+                  }, 5000);
+               }
+               if (errorMessage) {
+                  setTimeout(() => {
+                     errorMessage.style.display = "none";
+                  }, 5000);
+               }
+            });
+    </script>
 </body>
 </html>

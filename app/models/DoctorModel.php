@@ -19,10 +19,10 @@ class DoctorModel
         'created_at',
         'updated_at',
         'user_id',
-        'email',
-        'phone_number',
-        'NIC',
-        'is_active'
+        // 'email',
+        // 'phone_number',
+        // 'NIC',
+        // 'is_active'
     ];
 
     public $order_column = 'name';
@@ -216,13 +216,13 @@ class DoctorModel
     public function profileValidation($data, $originalData)
     {
         
-        unset($originalData['password']);
-        unset($originalData['newpassword']);
-        unset($data['password']);
-        unset($data['newpassword']);
-        if($data === $originalData){
-            return ["No changes made"];
-        }
+        // unset($originalData['password']);
+        // unset($originalData['newpassword']);
+        // unset($data['password']);
+        // unset($data['newpassword']);
+        // if($data === $originalData){
+        //     return ["No changes made"];
+        // }
 
        $this->errors = [];
  

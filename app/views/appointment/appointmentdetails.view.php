@@ -88,11 +88,11 @@
                 <?php endif ?>
                 <!-- <div class="form-row"> -->
                 <?php if (isset($_SESSION['USER']->role) && !empty($selectedDocuments)): ?>
-    <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">
-    <div class="form-group">
-        <button type="button" id="selectDocumentsBtn">Select Documents</button>
-        <div id="documentsPopup" class="popup" style="display: none;">
-            <div class="popup-content">
+                <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">
+                <div class="form-group">
+                <button type="button" id="selectDocumentsBtn">Select Documents</button>
+                <div id="documentsPopup" class="popup" style="display: none;">
+                <div class="popup-content">
 
                 <span class="close-btn" id="closePopup">&times;</span>
 

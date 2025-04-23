@@ -15,7 +15,7 @@
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
             <div class="isloggedperson">
-                <?php if (isset($_SESSION['USER']->role)): ?>
+                <?php if (isset($_SESSION['USER']->role)&&$_SESSION['USER']->role!='reception_clerk'): ?>
                     <input name="isloggedperson" type="checkbox" id="isloggedperson"
                         data-title="<?php echo htmlspecialchars($_SESSION['USER']->title ?? ''); ?>"
                         data-username="<?php echo htmlspecialchars($_SESSION['USER']->name ?? ''); ?>"

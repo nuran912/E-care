@@ -56,8 +56,10 @@
                     <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>
                     <span id="phoneError" class="error-message"></span>
                 </div>
+                <?php if ($_SESSION['USER']->role!='reception_clerk'): ?>
                 <div class="form-group id-section">
                     <label>ID Type</label>
+                   
                     <div class="radio-group">
                         <div class="radio-item">
                             <input type="radio" id="nic" name="idType" required value="nic" checked>
@@ -69,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
@@ -82,6 +85,7 @@
                     <input type="text" id="patientAddress" name="patientAddress" placeholder="Enter your address">
                     <span id="addressError" class="error-message"></span>
                 </div>
+                <?php endif ?>
                 <!-- <div class="form-row"> -->
                 <?php if (isset($_SESSION['USER']->role) && !empty($selectedDocuments)): ?>
     <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">

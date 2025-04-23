@@ -67,7 +67,7 @@
                 <div class="content <?= isset($_GET['section']) && $_GET['section'] === 'pending' ? 'active' : ''; ?>">
                     <?php if (isset($pendingAppointments) && is_array($pendingAppointments) && !empty($pendingAppointments)): ?>
                     <?php foreach ($pendingAppointments as $appointment):
-                        show($appointment)
+                        
                         ?>
                     <div class="frame">
                         <div class="appointment-header">

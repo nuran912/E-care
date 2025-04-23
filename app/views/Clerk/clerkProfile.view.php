@@ -91,10 +91,6 @@
             color: #0E2F56;
             margin-top: 0;
         }
-        p {
-            color: #0E2F56;
-            /* margin-top: 0; */
-        }
 
         input {
             flex: 1;
@@ -361,6 +357,7 @@
                 setTimeout(() => {
                     successMessage.style.display = "none";
                     // window.location.href = "<?php echo ROOT ?>/Patient/profile";
+                    location.reload();
                   }, 5000);
                }
                if (errorMessage) {

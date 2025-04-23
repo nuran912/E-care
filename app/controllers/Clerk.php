@@ -37,12 +37,14 @@ class Clerk extends Controller {
         
         $this->view('header');
 
+        $userData = $user->getById($_SESSION['USER']->user_id);
+        $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
         if( $a == 'update'){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               
-                $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
+                // $clerkData = $clerk->getclerkByUserId($_SESSION['USER']->user_id);
                 // show($clerkData);
-                $userData = $user->getById($_SESSION['USER']->user_id);
+                // $userData = $user->getById($_SESSION['USER']->user_id);
   
                 $originalProfileInfo = [
                     'name' => $userData->name,
@@ -104,6 +106,8 @@ class Clerk extends Controller {
             }
             if(isset($data['success'])){
                 $_SESSION['success'] = $data['success'];
+                unset($_SESSION['USER']);
+                $_SESSION['USER'] = $user->getById($userData->user_id);;
                 redirect('Clerk/profile');
             }
         }

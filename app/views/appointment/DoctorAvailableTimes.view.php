@@ -68,7 +68,7 @@ $doctorId = $data['doctorId'];
                 <?php endforeach ?>
                 <!-- Pagination -->
                 <?php if ($totalPages > 1): ?>
-    <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
+      <div class="pagination" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
 
         <!-- Previous Button -->
         <?php if ($currentPage > 1): ?>

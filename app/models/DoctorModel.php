@@ -180,7 +180,7 @@ class DoctorModel
             WHERE
                 a.hospital_name = :hospital
             ORDER BY
-                a.session_date DESC"
+                a.session_date DESC,a.session_time DESC"
         , ['hospital' => $hospital]);
 
         return json_decode(json_encode($result), true);

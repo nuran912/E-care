@@ -200,60 +200,64 @@
 
         <div class="uploadedDocuments">
 
-            <?php if(isset($documents) && is_array($documents)): ?>
-
-                <?php foreach($documents as $date => $docsForDate): ?>
-                    <div class="date">
-                        <p><?php echo date('Y, F j, l',strtotime($date)) ?></p>
-                    </div>
+            <?php if(empty($documents)): ?>
                 
-
-                    <?php foreach($docsForDate as $document): ?>
-
-                        <div class="uploadedInfo">
-
-                            <div class="set">
-                                <label>Patient ID</label>
-                                <div class="item"><?= htmlspecialchars($document['user_id']) ?></div>
-                            </div>
-
-                            <div class="set">
-                                <label>Reference Number</label>
-                                <div class="item"><?= htmlspecialchars($document['ref_no']) ?></div>
-                            </div>
-
-                            <div class="set">
-                                <label>Category</label>
-                                <div class="item"><?= htmlspecialchars($document['document_category']) ?></div>
-                            </div>
-
-                            <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($document['user_id']) ?>/medical_records/<?= htmlspecialchars($document['document_name']) ?>">View</a></button>
-
-                        </div>
-                    <?php endforeach; ?>
-                    
-                <?php endforeach; ?>
-
-                <!-- pagination setup -->
-                <?php if($search_date && $totalPages > 1): ?>
-                    <div class="pagination">
-
-                        <?php if($currentPage > 1): ?>
-                            <a href="?search_date=<?= urlencode($search_date) ?>&page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
-                        <?php endif; ?>
-
-                        <?php for($i = 1; $i <= $totalPages; $i++): ?>
-                            <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
-                        <?php endfor; ?>
-
-                        <?php if($currentPage < $totalPages): ?>
-                            <a href="?search_date=<?= urlencode($search_date)?>&page=<?= $currentPage + 1?>" class="next">Next</a>
-                        <?php endif; ?>
-                    </div>
-                <?php endif; ?>
-
+                <p style="margin-top: 30px; text-align: center;">No uploaded medical records.</p>
+            
             <?php else: ?>
-                <p>No uploaded medical records.</p>
+
+                <?php if(isset($documents) && is_array($documents)): ?>
+
+                    <?php foreach($documents as $date => $docsForDate): ?>
+                        <div class="date">
+                            <p><?php echo date('Y, F j, l',strtotime($date)) ?></p>
+                        </div>
+                    
+
+                        <?php foreach($docsForDate as $document): ?>
+
+                            <div class="uploadedInfo">
+
+                                <div class="set">
+                                    <label>Patient ID</label>
+                                    <div class="item"><?= htmlspecialchars($document['user_id']) ?></div>
+                                </div>
+
+                                <div class="set">
+                                    <label>Reference Number</label>
+                                    <div class="item"><?= htmlspecialchars($document['ref_no']) ?></div>
+                                </div>
+
+                                <div class="set">
+                                    <label>Category</label>
+                                    <div class="item"><?= htmlspecialchars($document['document_category']) ?></div>
+                                </div>
+
+                                <button class="view"><a href="<?= ROOT; ?>/assets/documents/<?= htmlspecialchars($document['user_id']) ?>/medical_records/<?= htmlspecialchars($document['document_name']) ?>">View</a></button>
+
+                            </div>
+                        <?php endforeach; ?>
+                        
+                    <?php endforeach; ?>
+
+                    <!-- pagination setup -->
+                    <?php if($search_date && $totalPages > 1): ?>
+                        <div class="pagination">
+
+                            <?php if($currentPage > 1): ?>
+                                <a href="?search_date=<?= urlencode($search_date) ?>&page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
+                            <?php endif; ?>
+
+                            <?php for($i = 1; $i <= $totalPages; $i++): ?>
+                                <span class="<?= $i == $currentPage ? 'current-page' : '' ?>"><?= $i ?></span>
+                            <?php endfor; ?>
+
+                            <?php if($currentPage < $totalPages): ?>
+                                <a href="?search_date=<?= urlencode($search_date)?>&page=<?= $currentPage + 1?>" class="next">Next</a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>

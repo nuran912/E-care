@@ -518,6 +518,8 @@ class Clerk extends Controller {
         $doctorModel = new DoctorModel;
         $clerkModel = new ClerkModel;
 
+        $phone_number = '';
+
         $user_id = $_SESSION['USER']->user_id;
 
         $hospital = $clerkModel->getReceptionClerkHospitalByUserId($user_id);
@@ -526,8 +528,8 @@ class Clerk extends Controller {
         $appointments = $doctorModel->getDoctorAppointments($hospital[0]['name']);
 
         //search an appointment made by a patient
-        if(isset($_POST['find'])) {
-            $phone_number = $_POST['find'];
+        if(isset($_POST['phone_number'])) {
+            $phone_number = $_POST['phone_number'];
             $appointments = $doctorModel->getDoctorAppointmentsSearch($phone_number,$hospital[0]['name']);
         }
         
@@ -536,7 +538,8 @@ class Clerk extends Controller {
         }
 
         $data = [
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'searched_phone_number' => $phone_number
         ];
 
         $this->view('Clerk/receptionClerkViewPendingAppointments',$data);

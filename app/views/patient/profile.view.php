@@ -91,10 +91,6 @@
             color: #0E2F56;
             margin-top: 0;
         }
-        p {
-            color: #0E2F56;
-            /* margin-top: 0; */
-        }
 
         input {
             flex: 1;

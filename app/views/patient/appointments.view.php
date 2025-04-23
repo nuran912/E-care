@@ -66,7 +66,9 @@
                 <!-- Pending Appointments Section -->
                 <div class="content <?= isset($_GET['section']) && $_GET['section'] === 'pending' ? 'active' : ''; ?>">
                     <?php if (isset($pendingAppointments) && is_array($pendingAppointments) && !empty($pendingAppointments)): ?>
-                    <?php foreach ($pendingAppointments as $appointment): ?>
+                    <?php foreach ($pendingAppointments as $appointment):
+                        show($appointment)
+                        ?>
                     <div class="frame">
                         <div class="appointment-header">
                             <span class="date"><?= date("Y, F j, l", strtotime($appointment->session_date)); ?></span>
@@ -330,6 +332,10 @@
                                         <p><strong>Payment Status:</strong> ${appointment.payment_status || "N/A"}</p>
                                         <!-- <p><strong>Selected files:</strong> ${appointment.selected_files || "No Documents to show"}</p> -->
                                        <p><strong>Uploaded documents:</strong> ${formatDocumentsList(appointment.documentNames)}</p>
+                                    <?php if (isset($_GET['section']) && $_GET['section'] === 'past'): ?>
+                                        <p><strong>Doctor Notes:</strong> ${appointment.doctor_notes || "No notes available"}</p>
+                                    <?php endif; ?>
+                                        
                                 `;
                     appointmentDetailsDiv.innerHTML = details;
                     modal.style.display = "block";

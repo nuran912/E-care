@@ -140,7 +140,8 @@ class DoctorModel
                 a.selected_files,
                 d.name AS doctor_name,
                 d.specialization,
-                a.selected_files
+                a.selected_files,
+                a.doctor_notes
             FROM 
                 appointments a 
             JOIN 

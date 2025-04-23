@@ -214,7 +214,7 @@ class Patient extends Controller
     
             if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
                 $appointmentsModel->update_is_deleted($appointment_id);
-                $appointmentsModel->updateStatus($appointment_id, 'canceled');
+                $appointmentsModel->updateStatus($appointment_id, 'cancelled');
                 
                 
     
@@ -235,7 +235,7 @@ class Patient extends Controller
                 $body = "
                     <div style='font-family: Arial, sans-serif; color: #333; line-height: 1.6;'>
                         <p>Dear <b>$patientname</b>,</p>
-                        <p>Your appointment at <b>$hospitalname</b> has been successfully canceled as per your request.</p>
+                        <p>Your appointment at <b>$hospitalname</b> has been successfully cancelled as per your request.</p>
                         <p><b>Appointment Details:</b></p>
                         <ul>
                             <li><b>Patient Name:</b> $patientname</li>
@@ -255,7 +255,7 @@ class Patient extends Controller
                 ";
     
                 EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
-                $_SESSION['success'] = 'Appointment canceled successfully.';
+                $_SESSION['success'] = 'Appointment cancelled successfully.';
                 header('location: ' . ROOT . '/Patient/appointments?section=pending&page_pending=' . $currentPagePending);  
                 exit;
 

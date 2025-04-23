@@ -508,7 +508,7 @@ class Doctor extends Controller{
         $patientData = $patient->getById($apptData->user_id);
 
         $document = new Document;
-        $docs = $apptData->shared_docs;
+        $docs = $apptData->selected_files;
         $sharedDocs = [];
         if($docs != ""){
             $sharedDocIds = explode(',', $docs);

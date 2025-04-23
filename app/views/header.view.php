@@ -10,7 +10,7 @@
 <nav class="navbar">
    <div class="navdiv">
       <div class="logo-div">
-         <a href="../views/home.view.php" class="logo">
+         <a href="<?=ROOT?>/home" class="logo">
             <img src="<?php echo ROOT ?>/assets/img/E_Care_logo.svg" alt="E-care logo">
          </a>
       </div>

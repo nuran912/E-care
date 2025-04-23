@@ -19,11 +19,16 @@ $doctorId = $data['doctorId'];
 </head>
 
 <body>
+    
     <div class="container">
         <!-- Doctor Card -->
         <div class="doctor-card">
-            <div class="profile-image">
-                <img class="profimg " src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+            <div class="profile_image">
+            <?php if (!empty($data['profilepicture'])) : ?>
+                <img class="profimg" src="<?= ROOT; ?>/assets/profile_pictures/<?= $data['user_id'] ?>/<?= $data['profilepicture'] ?>" alt="doctor profile">
+            <?php else : ?>
+                <img class="profimg" src="<?= ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="default doctor profile">
+            <?php endif; ?>
             </div>
             <div class="doctor-name"><?php echo $doctor_name; ?></div>
             <div class="specialization"><?php echo isset($doctor_specialization) ? $doctor_specialization : 'Specialization not available'; ?></div>

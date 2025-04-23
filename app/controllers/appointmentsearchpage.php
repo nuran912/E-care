@@ -46,10 +46,10 @@ class Appointmentsearchpage extends Controller
         $totalPages = 1;
 
         if (!$error && $doctorResults !== null) {
-            $totalResults = count($doctorResults);
+            $totalResults = is_countable($doctorResults) ? count($doctorResults) : 0;
             $totalPages = ceil($totalResults / $limit);
             $offset = ($currentPage - 1) * $limit;
-            $doctorResults = array_slice($doctorResults, $offset, $limit);
+            $doctorResults = is_array($doctorResults) ? array_slice($doctorResults, $offset, $limit) : [];
         }
         $data = [
             'doctorResults' => $doctorResults,

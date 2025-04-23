@@ -13,8 +13,9 @@ class DoctorAvailableTimes extends Controller
 
         $availableTimes = new Availabletime();
 
-        $doctorModel = new DoctorModel();
+        $doctorModel = new DoctorModel();      
         $hospitals = new Hospital();
+        $user=new User();
 
         $doctorId = $_GET['doctor_id'] ?? null;
         $dateQuery = $_GET['date'] ?? null;
@@ -26,6 +27,11 @@ class DoctorAvailableTimes extends Controller
        
         // Get the doctor's information using findObjectById
         $doctor = $doctorModel->getDoctorById($doctorId);
+        
+        $user_id=$doctor->user_id;
+        $profilepicture = $user->getProfilePic($user_id);
+        
+        $profilepic=isset($profilepicture[0]['profile_pic']) ? $profilepicture[0]['profile_pic'] : null;
 
         $doctor_name = $doctor ? $doctor->name : 'Doctor not found';
 
@@ -99,7 +105,10 @@ $data = [
     'doctor_name' => $doctor_name,
     'doctor_specialization' => $doctor_specialization,
     'doctorId' => $doctorId,
-    'noAppointmentsMessage' => $noAppointmentsMessage
+    'noAppointmentsMessage' => $noAppointmentsMessage,
+    'profilepicture' => $profilepic,
+    'user_id' => $user_id,
+
 ];
 
 // Load the views

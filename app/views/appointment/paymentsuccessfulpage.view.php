@@ -28,8 +28,11 @@
             
         
         
-
+      <?php if ( $_SESSION['USER']->role == 'reception_clerk') : ?>
+        <a href="<?php echo ROOT; ?>/Clerk/receptionClerkViewPendingAppointments" class="continue-button" style="color: blue;">Go to view pending appointments</a>
+        <?php else: ?>
         <a href="index.php" class="home-link">Go Back To The Home Page</a>
+        <?php endif; ?>
     </div>
 </body>
 

@@ -359,6 +359,10 @@ table .user-img{
     font-size: 15px;
 }
 
+.form-group input{
+   width: 90% ;
+}
+
 .form-group label  {
     position: absolute;
     top:0px;

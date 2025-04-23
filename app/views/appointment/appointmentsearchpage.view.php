@@ -97,10 +97,22 @@
             <h2><?php echo empty($doctorResults) ? "No" : $totalResults ?> Doctor(s) found!</h2>
             <div class="card-list">
 
-                <?php if (isset($doctorResults) && is_array($doctorResults)): ?>
+                <?php if (($doctorResults) && is_array($doctorResults)): ?>
                     <?php foreach ($doctorResults as $doc) : ?>
+                        <?php $user_id=$doc->user_id;
+                        
+                        $user=new User();
+                        $profilepic=$user->getProfilePic($user_id);
+                    
+                        ?>
                         <div class="card">
-                            <img class="profimg " src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Doctor's Profile Picture">
+                            <?php if(!empty($profilepic[0]['profile_pic'])): ?>
+                            <img class="profimg " src="<?php echo ROOT; ?>/assets/profile_pictures/<?php echo $user_id ?>/<?php echo $profilepic[0]['profile_pic']?>" alt="Doctor's Profile Picture">
+                            <?php else: ?>
+                            <img class="profimg" src="<?php echo ROOT; ?>/assets/img/profilepic-img/profilepic.svg" alt="Default Profile Picture">
+                            
+                            <?php endif; ?>
+                            
                             <h3><?php echo $doc->name ?></h3>
                             <p><?php echo is_array($doc->specialization) ? implode(", ", $doc->specialization) : $doc->specialization; ?></p>
                             <?php

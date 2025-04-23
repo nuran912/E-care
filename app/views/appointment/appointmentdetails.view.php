@@ -15,7 +15,7 @@
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
             <div class="isloggedperson">
-                <?php if (isset($_SESSION['USER']->role)): ?>
+                <?php if (isset($_SESSION['USER']->role)&&$_SESSION['USER']->role!='reception_clerk'): ?>
                     <input name="isloggedperson" type="checkbox" id="isloggedperson"
                         data-title="<?php echo htmlspecialchars($_SESSION['USER']->title ?? ''); ?>"
                         data-username="<?php echo htmlspecialchars($_SESSION['USER']->name ?? ''); ?>"
@@ -56,8 +56,10 @@
                     <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>
                     <span id="phoneError" class="error-message"></span>
                 </div>
+                <?php if ($_SESSION['USER']->role!='reception_clerk'): ?>
                 <div class="form-group id-section">
                     <label>ID Type</label>
+                   
                     <div class="radio-group">
                         <div class="radio-item">
                             <input type="radio" id="nic" name="idType" required value="nic" checked>
@@ -69,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
@@ -82,6 +85,7 @@
                     <input type="text" id="patientAddress" name="patientAddress" placeholder="Enter your address">
                     <span id="addressError" class="error-message"></span>
                 </div>
+                <?php endif ?>
                 <!-- <div class="form-row"> -->
                 <?php if (isset($_SESSION['USER']->role) && !empty($selectedDocuments)): ?>
     <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">

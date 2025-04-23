@@ -19,17 +19,20 @@
             <div class="payment-details">
                 <h3>Patient Information</h3>
                 <p><strong>Patient Name:</strong> <?php echo ucfirst($_SESSION['appointment']['title']) . '. ' . ucfirst($_SESSION['appointment']['patientName']); ?></p>
+                <p><strong>Telephone Number:</strong> <?php echo $_SESSION['appointment']['patientPhone']; ?></p>
+                <?php if (!isset($_SESSION['USER']) || $_SESSION['USER'] === null || $_SESSION['USER']->role !== 'reception_clerk'): ?>
                 <?php if (!empty($_SESSION['appointment']['patientEmail'])): ?>
                     <p><strong>Email Address:</strong> <?php echo $_SESSION['appointment']['patientEmail']; ?></p>
                 <?php else: ?>
                     <p><strong>Email Address:</strong> Not entered</p>
                 <?php endif; ?>
-                <p><strong>Telephone Number:</strong> <?php echo $_SESSION['appointment']['patientPhone']; ?></p>
+               
                 <p><strong>NIC/Passport Number:</strong> <?php echo $_SESSION['appointment']['NicOrPassport']; ?></p>
                 <?php if (!empty($_SESSION['appointment']['patientAddress'])): ?>
                     <p><strong>Address:</strong> <?php echo $_SESSION['appointment']['patientAddress']; ?></p>
                 <?php else: ?>
                     <p><strong>Address:</strong> Not enterd</p>
+                <?php endif; ?>
                 <?php endif; ?>
             </div>
 

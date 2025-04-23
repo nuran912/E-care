@@ -53,11 +53,7 @@ class DoctorAvailableTimes extends Controller
              usort($getAppointmentdetails, function($a, $b) {
                 return strtotime($a->appointment_date) - strtotime($b->appointment_date);
             });
-            /**
-             * There is a problem when two or more appointment dates are equal to the current date.
-             * If the end time of these appointments is higher than the current time, 
-             * the appointments are not displaying in the view page.
-             */
+            
              
            // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)
                     if (is_array($getAppointmentdetails)) {

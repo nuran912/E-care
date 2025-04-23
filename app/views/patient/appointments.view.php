@@ -6,7 +6,8 @@
     <link rel="stylesheet" href="<?= ROOT; ?>/assets/css/patient/appointments.css">
 </head>
 
-<body>
+<html>
+    
     <!-- Success Message -->
     <?php if (isset($_SESSION['success'])): ?>
     <div id="successMessage" class="alert alert-success">
@@ -26,6 +27,7 @@
     <?php endif; ?>
 
     <main>
+        
         
         <div class="container">
        

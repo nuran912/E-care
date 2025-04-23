@@ -31,10 +31,11 @@ class Patient extends Controller
             $data['profilePic'] = ROOT . "/assets/img/user.svg";
         }
         
+        $userData = $user->getById($_SESSION['USER']->user_id);
         if ($a == 'update') {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-                $userData = $user->getById($_SESSION['USER']->user_id);
+                // $userData = $user->getById($_SESSION['USER']->user_id);
 
                 $originalProfileInfo = [
                     'name' => $userData->name,
@@ -94,6 +95,8 @@ class Patient extends Controller
             }
             if(isset($data['success'])){
                 $_SESSION['success'] = $data['success'];
+                unset($_SESSION['USER']);
+                $_SESSION['USER'] = $user->getById($userData->user_id);
                 redirect('Patient/profile');
             }
             
@@ -541,15 +544,15 @@ class Patient extends Controller
         $this->view('footer');
     }
 
-    public function insuranceclaims($a = '', $b = '', $c = '')
-    {
-        $this->view('header');
+    // public function insuranceclaims($a = '', $b = '', $c = '')
+    // {
+    //     $this->view('header');
 
-        if($a == "submit"){
+    //     if($a == "submit"){
             
-        }
+    //     }
 
-        $this->view('Patient/insurance_claim');
-        $this->view('footer');
-    }
+    //     $this->view('Patient/insurance_claim');
+    //     $this->view('footer');
+    // }
 }

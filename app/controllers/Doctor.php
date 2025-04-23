@@ -36,12 +36,14 @@ class Doctor extends Controller{
       
         $this->view('header');
       
+        $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+        $userData = $user->getById($_SESSION['USER']->user_id);
         if( $a == 'update'){
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // $doctor = new DoctorModel;
                 // $user = new User;
-                $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
-                $userData = $user->getById($_SESSION['USER']->user_id);
+                // $doctorData = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
+                // $userData = $user->getById($_SESSION['USER']->user_id);
 
                 $originalProfileInfo = [
                     'name' => $userData->name,
@@ -102,6 +104,8 @@ class Doctor extends Controller{
             }
             if(isset($data['success'])){
                 $_SESSION['success'] = $data['success'];
+                unset($_SESSION['USER']);
+                $_SESSION['USER'] = $user->getById($userData->user_id);
                 redirect('Doctor/profile');
             }
         }

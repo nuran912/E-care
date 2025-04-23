@@ -358,6 +358,7 @@
                 setTimeout(() => {
                     successMessage.style.display = "none";
                     // window.location.href = "<?php echo ROOT ?>/Patient/profile";
+                    location.reload();
                   }, 5000);
                }
                if (errorMessage) {

@@ -19,9 +19,6 @@ class Admin extends Controller
       $doctorCount = $userModel->countAllDoctors();
       $clerkCount = $userModel->countAllClerks();
 
-      $insuranceModel = new InsuranceCompany;
-      $insuranceCount = $insuranceModel->countAllInsuranceCompanies();
-
       $appointmentModel = new Appointments;
       $appointmentCount = $appointmentModel->countAllAppointmentsLastMonth();
 
@@ -46,7 +43,6 @@ class Admin extends Controller
          'userCount' => $userCount,
          'doctorCount' => $doctorCount,
          'clerkCount' => $clerkCount,
-         'insuranceCount' => $insuranceCount,
          'articleCount' => $articleCount,
          'hospitalCount' => $hospitalCount,
          'labCount' => $labCount,
@@ -72,6 +68,15 @@ class Admin extends Controller
       $data = ['user' => $user];
       // show($_POST);
 
+      $profilePic = $userModel->getProfilePic($_SESSION['USER']->user_id);
+
+        if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
+            $data['profilePic'] = ROOT . "/assets/profile_pictures/" . htmlspecialchars($_SESSION['USER']->user_id) . "/" . $profilePic[0]['profile_pic'];
+        }
+        else {
+            $data['profilePic'] = ROOT . "/assets/img/user.svg";
+        }
+
       if ($a == 'edit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
          $userData = $_POST;
          $validationErrors = $userModel->profileValidation($userData, (array)$user);
@@ -88,7 +93,7 @@ class Admin extends Controller
          } else {
             $data['validation_errors'] = $validationErrors;
          }
-         show($data);
+         // show($data);
          redirect('Admin/profile');
       }
 
@@ -107,6 +112,53 @@ class Admin extends Controller
          }
          redirect('Admin/profile');
       }
+
+      //upload a profile picture
+      if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-pic'])) {
+
+         $user_id = $_POST['user_id'];
+
+         //target directory
+         $targetDir = "assets/profile_pictures/$user_id/";
+
+         //check if the file(profile picture) was uploaded
+         if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] == 0) {
+             $filename = basename($_FILES['profile-pic']['name']);
+             $targetPath = $targetDir . $filename;
+
+             //check if the target directory exists, if not, create a one
+             if (!is_dir($targetDir)) {
+                 mkdir($targetDir, 0777, true);
+             }
+
+             //before uploading, delete the old profile picture
+             //fetch the current profile picture from the database
+             $currentProfilePic = $userModel->getProfilePic($user_id);
+             if(!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
+                 $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
+
+                 //check if the old pic exists and deletes it
+                 if(file_exists($oldPicPath)) {
+                     unlink($oldPicPath);
+                 }
+             }
+
+             //moving the file to the target path
+             if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
+
+                 //moved successfully
+                 $userModel->update($user_id,['profile_pic' => $filename],'user_id');
+
+                 //unset the session variable to remove the old profile picture
+                 unset($_SESSION['USER']->profile_pic);
+                 //adding the new profile picture to the session variable
+                 $_SESSION['USER']->profile_pic = $filename;
+                 
+                 redirect('Admin/profile');
+             }
+         }
+     }
+      
 
       if (isset($_SESSION['edit_success'])) {
          $data['edit_success'] = $_SESSION['edit_success'];
@@ -372,13 +424,6 @@ class Admin extends Controller
       }
 
       $this->view('admin/clerk', $data);
-      $this->view('footer');
-   }
-
-   public function insurance($a = '', $b = '', $c = '')
-   {
-      $this->view('header');
-      $this->view('admin/insurance');
       $this->view('footer');
    }
 

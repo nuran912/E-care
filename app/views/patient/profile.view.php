@@ -223,17 +223,17 @@
          background-color: #d4edda;
          color: #155724;
          border: 1px solid #c3e6cb;
-         margin-left: 40%;
+         margin-left: 30%;
          
-         width: 300px;
+         width: 40%;
          }
 
          .alert-danger {
          background-color: #f8d7da;
          color: #721c24;
          border: 1px solid #f5c6cb;
-         width: 55%;
-         margin-left: 20%;
+         width: 40%;
+         margin-left: 30%;
          
          }
     </style>

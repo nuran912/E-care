@@ -18,11 +18,11 @@ class Doctor extends Controller{
         $data1 = array($doctor->getDoctorByUserId($_SESSION['USER']->user_id));
         $data2 = array($user->getById($_SESSION['USER']->user_id));
         $data = array_merge($data1, $data2);
-        $data['error'] = [];
-        $data['success'] = "";
-        $data['status'] = [];
-        $data['passUpdateSuccess'] = "";
-        $data['passUpdateError'] = "";
+        // $data['error'] = [];
+        // $data['success'] = "";
+        // $data['status'] = [];
+        // $data['passUpdateSuccess'] = "";
+        // $data['passUpdateError'] = "";
         $_SESSION['updateData'] = [];
 
         $profilePic = $user->getProfilePic($_SESSION['USER']->user_id);
@@ -59,6 +59,8 @@ class Doctor extends Controller{
                 $data['status'] = $doctor->profileValidation($dataToUpdate, $originalProfileInfo);
                 
                 if(empty($dataToUpdate['password']) && empty($dataToUpdate['newpassword'])){
+                    unset($dataToUpdate['password']);
+                    unset($dataToUpdate['newpassword']);
                     if($data['status'] === true){
                         $doctor->update($doctorData->id, $dataToUpdate, 'id');
                         $user->updateDoctorDetails($userData->user_id, $dataToUpdate, 'user_id');
@@ -85,7 +87,22 @@ class Doctor extends Controller{
                         $data['passUpdateError'] = $passswordToUpdate['passUpdateStatus'];
                     }
                 }
-                redirect('Doctor/doctorProfile');    
+            }
+            if(isset($data['error']) || isset($data['passUpdateError'])){
+                unset($data['success']);
+            }
+            if(isset($data['error'])){
+                $_SESSION['error'] = $data['error'];
+            }
+            if(isset($data['passUpdateSuccess'])){
+                $_SESSION['passUpdateSuccess'] = $data['passUpdateSuccess'];
+            }
+            if(isset($data['passUpdateError'])){
+                $_SESSION['passUpdateError'] = $data['passUpdateError'];
+            }
+            if(isset($data['success'])){
+                $_SESSION['success'] = $data['success'];
+                redirect('Doctor/profile');
             }
         }
 
@@ -237,10 +254,10 @@ class Doctor extends Controller{
         $slotData = $apptSlot->getByDoctorId($doctorData->id);
 
         $alerts = [
-            'cancelSuccess' => "",
-            'cancelError' => "",
-            'createSuccess' => "",
-            'createError' => "",
+            // 'cancelSuccess' => "",
+            // 'cancelError' => "",
+            // 'createSuccess' => "",
+            // 'createError' => "",
         ];
 
         if( $a == 'create'){
@@ -265,9 +282,8 @@ class Doctor extends Controller{
                 $alerts['createError'] = "Please fill all fields to create a new slot";
                 $allFieldsEntered = false;
             }
-            if($data['start_time']){
-
-            }
+            // if($data['start_time']){
+            // }
 
             if($allFieldsEntered){
                 switch($data['repeat']){
@@ -309,7 +325,16 @@ class Doctor extends Controller{
 
             // delayedRedirect('Doctor/doctorManageSchedule');
         }
-        
+        if(isset($alerts['createError'])){
+            unset($alerts['createSuccess']);
+        }
+        if(isset($alerts['createError'])){
+            $_SESSION['createError'] = $alerts['createError'];
+        }
+        if(isset($alerts['createSuccess'])){
+            $_SESSION['createSuccess'] = $alerts['createSuccess'];
+            redirect('Doctor/doctorCreateApptSlot');
+        }
 
         $this->view('Doctor/doctorCreateApptSlot', $alerts);
         $this->view('footer');
@@ -326,10 +351,10 @@ class Doctor extends Controller{
         $slotData = $apptSlot->getByDoctorId($doctorData->id);
 
         $alerts = [
-            'cancelSuccess' => "",
-            'cancelError' => "",
-            'createSuccess' => "",
-            'createError' => "",
+            // 'cancelSuccess' => "",
+            // 'cancelError' => "",
+            // 'createSuccess' => "",
+            // 'createError' => "",
         ];
 
         if( $a == 'cancelAppointment'){
@@ -395,7 +420,16 @@ class Doctor extends Controller{
                 }else{
                     $alerts['cancelError'] = "You can only cancel an appointment before 48h";
                 }
-            // redirect('Doctor/doctorManageSchedule');
+            if(isset($alerts['cancelError'])){
+                unset($alerts['cancelSuccess']);
+            }
+            if(isset($alerts['cancelError'])){
+                $_SESSION['cancelError'] = $alerts['cancelError'];
+            }
+            if(isset($alerts['cancelSuccess'])){
+                $_SESSION['cancelSuccess'] = $alerts['cancelSuccess'];
+                redirect('Doctor/doctorApptSlots');
+            }
         }
         
         $filteredSlotData = [];

@@ -19,9 +19,6 @@ class Admin extends Controller
       $doctorCount = $userModel->countAllDoctors();
       $clerkCount = $userModel->countAllClerks();
 
-      $insuranceModel = new InsuranceCompany;
-      $insuranceCount = $insuranceModel->countAllInsuranceCompanies();
-
       $appointmentModel = new Appointments;
       $appointmentCount = $appointmentModel->countAllAppointmentsLastMonth();
 
@@ -46,7 +43,6 @@ class Admin extends Controller
          'userCount' => $userCount,
          'doctorCount' => $doctorCount,
          'clerkCount' => $clerkCount,
-         'insuranceCount' => $insuranceCount,
          'articleCount' => $articleCount,
          'hospitalCount' => $hospitalCount,
          'labCount' => $labCount,
@@ -428,13 +424,6 @@ class Admin extends Controller
       }
 
       $this->view('admin/clerk', $data);
-      $this->view('footer');
-   }
-
-   public function insurance($a = '', $b = '', $c = '')
-   {
-      $this->view('header');
-      $this->view('admin/insurance');
       $this->view('footer');
    }
 

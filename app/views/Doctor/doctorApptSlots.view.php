@@ -114,8 +114,8 @@
         }
         .cancel{
             background: #dc3545;
-            padding: 10px;
-            margin-top: 8px;
+            padding: 5px 10px;
+            margin: 12.5px;
             border: none;
             border-radius: 4px;
             font-weight: bold;
@@ -189,7 +189,7 @@
         }
 
         input[type=date]{
-            padding: 12px;
+            padding: 0px 7px;
             border: 1px solid #d1d5db;
             border-radius: 8px;
             background-color: #f9fafb;

@@ -158,10 +158,7 @@
                 <label for="name">Patient Name:</label>
                 <p><?=$data[0]->patient_name?></p>
             </div>
-            <div class="item">
-                <label for="age">Age:</label>
-                <p><?=$data[1]->age?></p>
-            </div>
+            
             <div class="item">
                 <label for="age">Appointment number:</label>
                 <p><?=$data[0]->appointment_number?></p>

@@ -147,13 +147,7 @@
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="registration_number" 
-                     value="<?php 
-                        $lastRegNum = end($doctors)['registration_number'];
-                        $numericPart = intval(substr($lastRegNum, 3));
-                        echo ('REG' . str_pad($numericPart + 1, 3, '0', STR_PAD_LEFT)); 
-                     ?>" 
-                     id="create-doctor-registration-number" required >
+                  <input type="text" name="registration_number" id="create-doctor-registration-number" required>
                   <label>Registration Number</label>
 
                </div>

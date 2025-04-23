@@ -345,7 +345,8 @@
 
                             <?php $index = 0; ?>
                             <?php foreach ($appointments as $appointment): ?>
-                                <?php if ($appointment['status'] == 'scheduled'): ?>
+
+                                <?php if ($appointment['status'] == 'scheduled' && $appointment['session_date'] == date('Y-m-d')): ?>
 
                                     <div class="appointment-main-info">
                                         <span class="appointment-date"><?php echo date("Y, F j, l", strtotime($appointment['session_date'])); ?></span>

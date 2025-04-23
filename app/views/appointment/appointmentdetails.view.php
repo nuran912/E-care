@@ -56,7 +56,7 @@
                     <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>
                     <span id="phoneError" class="error-message"></span>
                 </div>
-                <?php if ($_SESSION['USER']->role!='reception_clerk'): ?>
+                <?php if (!isset($_SESSION['USER']->role) ||$_SESSION['USER']->role!='reception_clerk'): ?>
                 <div class="form-group id-section">
                     <label>ID Type</label>
                    

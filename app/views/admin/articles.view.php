@@ -36,7 +36,7 @@
       <section class="main-div">
          <div class="search">
             <h2>Find Article</h2>
-            <input type="search" class="search-bar" placeholder="Search article here...">
+            <input type="search" class="search-bar" id="search-articles" name="search-articles" placeholder="Search article here..." oninput="filterArticles()">
             <button type="submit" class="btn-search">Search</button>
          </div>
 
@@ -57,22 +57,20 @@
                      <th>Category</th>
                      <th>Description</th>
                      <th>Publish Date</th>
-                     <th>No. of views</th>
                      <th>Delete</th>
                      <th>Edit</th>
                   </tr>
                </thead>
-               <tbody>
+               <tbody id="article-table-body">
                   <?php if (isset($articles) && is_array($articles)): ?>
 
                      <?php foreach ($articles as $article): ?>
                         <tr>
                            <td><img class="insurance-img" src="<?php echo esc($article['image_url']); ?>"></td>
-                           <td><?php echo esc($article['title']); ?></td>
-                           <td><?php echo esc($article['category']); ?></td>
-                           <td style="font-size: 13px;"><?php echo esc($article['description']); ?></td>
-                           <td style="font-size: 13px;"><?php echo esc($article['publish_date']); ?></td>
-                           <td><?php echo esc($article['views']); ?></td>
+                           <td data-search="<?php echo esc($article['title']); ?>"><?php echo esc($article['title']); ?></td>
+                           <td data-search="<?php echo esc($article['category']); ?>"><?php echo esc($article['category']); ?></td>
+                           <td style="font-size: 13px;" data-search="<?php echo esc($article['description']); ?>"><?php echo esc($article['description']); ?></td>
+                           <td style="font-size: 13px;" data-search="<?php echo esc($article['publish_date']); ?>"><?php echo esc($article['publish_date']); ?></td>
                            <td>
                               <form action="<?= ROOT ?>/Admin/articles/delete/<?php echo esc($article['article_id']); ?>/" method="GET" onsubmit="return confirmDelete();">
                                  <button class="btn-delete" type="submit"><img src="<?= ROOT ?>/assets/img/admin/delete.svg"></button>

@@ -173,7 +173,7 @@
                             <p>
                                 &nbsp;&nbsp;
                                 <!-- the document path is appended according to pateint,doc id,doc type, doc name -->
-                                <a href="<?=ROOT?>/assets/documents/<?=$data[1]->user_id?>/<?=$doc[2]?>/<?=$doc[0]?>.pdf">
+                                <a href="<?=ROOT?>/assets/documents/<?=$data[1]->user_id?>/<?=$doc[2]?>s/<?=$doc[1]?>" target="_blank">
                                     <?=$doc[1]?>
                                 </a></br>
                             </p>

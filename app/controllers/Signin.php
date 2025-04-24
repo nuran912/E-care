@@ -16,11 +16,11 @@ class Signin extends Controller
             $row = $user->first($arr);
 
             if ($row) {
-                if($row->password === $_POST['password']){
+                if($row->password === $_POST['password'] && $row->is_active == 1) {
                     $_SESSION['USER'] = $row;
                     redirect('home');
                 }
-                // if (password_verify($_POST['password'], $row->password)) {
+                // if (password_verify($_POST['password'], $row->password) && $row->is_active == 1) {
                 //     $_SESSION['USER'] = $row;
                 //     redirect('home');
                 // }

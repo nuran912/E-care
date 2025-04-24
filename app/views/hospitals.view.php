@@ -123,7 +123,7 @@
                                 <li>Working hours: <?=$hospital['working_hours']?></li>
                             </ul>
                         </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Hospital-map.png"></div>
+                        <div><a href="<?=$hospital['location']?>"><img src="<?php echo ROOT ?>/assets/img/Hospital-map.png"></a></div>
                     </div>
                 </div>  
                 <?php } endforeach; ?>

@@ -51,6 +51,12 @@ class Appointmentsearchpage extends Controller
             $offset = ($currentPage - 1) * $limit;
             $doctorResults = is_array($doctorResults) ? array_slice($doctorResults, $offset, $limit) : [];
         }
+          $clerkModel = new ClerkModel();
+          if (isset($_SESSION['USER']) && $_SESSION['USER'] !== null && $_SESSION['USER']->role === 'reception_clerk'){
+        $clerkDetails=$clerkModel->getReceptionClerkHospitalByUserId($_SESSION['USER']->user_id);
+        
+    };
+        
         $data = [
             'doctorResults' => $doctorResults,
             'currentPage' => $currentPage,
@@ -63,7 +69,8 @@ class Appointmentsearchpage extends Controller
             'specializationQuery' => $specializationQuery,
             'dateQuery' => $dateQuery,
             'error' => $error,
-            'doctorNames' => $doctorNames
+            'doctorNames' => $doctorNames,
+            'clerkDetails' => isset($_SESSION['USER']) && $_SESSION['USER'] !== null && $_SESSION['USER']->role === 'reception_clerk' ? $clerkDetails : null
         ];
 
         //currently empty queries are  $hospitalQuery        

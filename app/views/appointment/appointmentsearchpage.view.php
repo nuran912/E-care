@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
 <div class="maincontent">  <h5>
     <span style="--i:1">Welcome</span> 
     <span style="--i:2">To</span> 
@@ -41,7 +42,7 @@
                 </select>
                 </select>
             </div> -->
-
+            <?php if (!isset($_SESSION['USER']) || $_SESSION['USER'] === null || $_SESSION['USER']->role !== 'reception_clerk'): ?>
             <div class="form-group">
                 <label for="hospital">Hospital:</label>
                 <select id="hospital" name="hospital" <?php echo (empty($dateQuery) ? "" :  "value=\"$hospitalQuery\"") ?>>
@@ -53,6 +54,17 @@
                     <?php endforeach; ?>
                 </select>
             </div>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['USER']) && $_SESSION['USER'] !== null && $_SESSION['USER']->role === 'reception_clerk'): ?>
+            
+            <div class="form-group">
+                <label for="hospital">Hospital:</label>
+                <select id="hospital" name="hospital">
+                    <option value="<?php echo $data['clerkDetails'][0]['hospital_id']; ?>" selected><?php echo $data['clerkDetails'][0]['name']; ?></option>
+                </select>
+            </div>
+            <?php endif; ?>
 
 
             <div class="form-group">
@@ -77,7 +89,7 @@
 
             <div class="form-group">
                 <label for="date">Date:</label>
-                <input type="date" id="date" <?php echo (empty($dateQuery) ? "" :  "value=\"$dateQuery\"") ?> name="date">
+                <input type="date" id="date" <?php echo (empty($dateQuery) ? "" :  "value=\"$dateQuery\"") ?> name="date" min="<?php echo date('Y-m-d')?>">
             </div>
 
             <div class="button-container">

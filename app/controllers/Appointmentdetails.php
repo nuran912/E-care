@@ -9,6 +9,7 @@ class Appointmentdetails extends Controller
         $this->view('header');
 
         $availableTimes = (new Availabletime())->getAll();
+        
         $doctors = (new DoctorModel())->getAll();
         $hospitals = (new Hospital())->getAll();
         $documents = new Document();
@@ -29,6 +30,7 @@ class Appointmentdetails extends Controller
 
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
                     $hospitalDetails = findObjectById($hospitals, 'id', $appointment['hospital_id']);
+                  
                              
                         
                     if ($doctorDetails && $hospitalDetails) {

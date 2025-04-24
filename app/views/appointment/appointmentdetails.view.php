@@ -87,7 +87,7 @@
                 </div>
                 <?php endif ?>
                 <!-- <div class="form-row"> -->
-                <?php if (isset($_SESSION['USER']->role) && !empty($selectedDocuments)): ?>
+                <?php if (isset($_SESSION['USER']->role) &&($_SESSION['USER']->role!='reception_clerk') && !empty($selectedDocuments)): ?>
                 <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">
                 <div class="form-group">
                 <button type="button" id="selectDocumentsBtn">Select Documents</button>
@@ -173,7 +173,8 @@
                     </div> -->
                 <!-- </div> -->
 
-
+                 </div>
+                 <?php if (!isset($_SESSION['USER']) || $_SESSION['USER'] === null || $_SESSION['USER']->role !== 'reception_clerk'): ?>
                 <div class="checkbox-section">
                     <div class="checkbox-group">
                         <input name="serviceCharge" type="checkbox" id="serviceCharge">
@@ -194,6 +195,7 @@
                         </label>
                     </div>
                 </div>
+            <?php endif; ?>
             </div>
         </div>
 

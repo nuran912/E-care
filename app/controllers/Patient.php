@@ -157,7 +157,7 @@ class Patient extends Controller
         require_once dirname(__DIR__) . '/core/EmailHelper.php';
     
         $appointmentsModel = new Appointments;
-        $updateFilledSlots = new Availabletime;
+        $availableslotts = new Availabletime;
         $doctorModel = new DoctorModel;
     
         // Ensure user role validation happens first
@@ -205,11 +205,12 @@ class Patient extends Controller
     
             foreach ($appoitmentDetails as $appoitment) {
                 $schedule_id = $appoitment->schedule_id;
+                
                 $session_time = $appoitment->session_time;
                 $session_date = $appoitment->session_date;
                 $document_ids_csv = $appoitment->selected_files;
             }
-     
+             
             $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;
 
             date_default_timezone_set('Asia/Colombo');
@@ -273,19 +274,35 @@ class Patient extends Controller
         $pendingAppointments =[];
         $pastAppointments =[];
         $currentDate = date("Y-m-d");
+        
 
         date_default_timezone_set('Asia/Colombo');
         $currentTime = date("g:i A");
         foreach ($data as $appointment) {
-            $appointmentDate = $appointment->session_date;
-            $appointmentTime = date("g:i A", strtotime($appointment->session_time));
+            $schedule_id=$appointment->schedule_id;
+            // show($schedule_id);
+            $availabletimedata=$availableslotts->getByScheduleId($schedule_id);
+            $durations=$availabletimedata->duration;
+            $start_time=$availabletimedata->start_time;
+            $end_time = date('g:i A', strtotime($start_time) + $durations * 60 * 60);
+            
+
+           
+        
+          
 
             
+
+            $appointmentDate = $appointment->session_date;
+            $appointmentTime = date("g:i A", strtotime($appointment->session_time));
+           
+            // show('current date: '.$currentDate . ', current time: '.$currentTime);
+            // show('appointment date: '.$appointmentDate . ', appointment time: '.$end_time);
         
             if ($appointment->is_deleted == 0) {
                 if (
                     ($appointmentDate > $currentDate) ||
-                    ($appointmentDate == $currentDate && strtotime($appointmentTime) > strtotime($currentTime))
+                    ($appointmentDate == $currentDate && strtotime($end_time) > strtotime($currentTime))
                 ) {
                     $pendingAppointments[] = $appointment;
                 } else {

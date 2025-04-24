@@ -34,7 +34,9 @@ class ClerkModel
    public function getReceptionClerkHospitalByUserId($user_id) {
       $result = $this->query(
          "SELECT
-            h.name
+            h.name,
+            c.hospital AS hospital_id
+            
          FROM 
             hospitals h
          JOIN

@@ -14,8 +14,20 @@
     
     <h2 class="pe-error__title">Payment Unsuccessful</h2>
     <h3 class="pe-error__message">There was an issue processing your payment.</h3>
-    <p class="pe-error__description">Please try again or contact support if the issue persists.</p>
+    <p class="pe-error__description">
+       
+        Please try again or contact support if the issue persists. Ecare Hotline <span style="margin-right: 5px;">📞</span>1499
+    </p>
+    
+   
 
-    <a href="<?php echo ROOT; ?>/Home" class="pe-error__link">Try Again The Payment</a>
+    <?php if (isset($_SESSION['appointment_id'])): ?>
+    <form method="POST" action="<?= ROOT ?>/Retrypayment">
+        <button type="submit" class="try">Try Again The Payment</button>
+    </form>
+<?php endif; ?>
+
+
+    
 </body>
 </html>

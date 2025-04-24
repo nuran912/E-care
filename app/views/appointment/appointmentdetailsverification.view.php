@@ -18,7 +18,7 @@
 
             <div class="payment-details">
                 <h3>Patient Information</h3>
-                <p><strong>Patient Name:</strong> <?php echo ucfirst($_SESSION['appointment']['title']) . '. ' . ucfirst($_SESSION['appointment']['patientName']); ?></p>
+                <p><strong>Patient Name:</strong> <?php echo ucfirst($_SESSION['appointment']['title']) . ' ' . ucfirst($_SESSION['appointment']['patientName']); ?></p>
                 <p><strong>Telephone Number:</strong> <?php echo $_SESSION['appointment']['patientPhone']; ?></p>
                 <?php if (!isset($_SESSION['USER']) || $_SESSION['USER'] === null || $_SESSION['USER']->role !== 'reception_clerk'): ?>
                 <?php if (!empty($_SESSION['appointment']['patientEmail'])): ?>

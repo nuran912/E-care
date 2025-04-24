@@ -24,13 +24,14 @@ class Appointmentdetails extends Controller
          
         if ($availableTimeId) {
 
-
+          
             foreach ($availableTimes as $appointment) {
+                // Check if the appointment ID matches the one provided in the URL
                 if ($appointment['id'] == $availableTimeId) {
 
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
                     $hospitalDetails = findObjectById($hospitals, 'id', $appointment['hospital_id']);
-                  
+                 
                              
                         
                     if ($doctorDetails && $hospitalDetails) {
@@ -66,6 +67,7 @@ class Appointmentdetails extends Controller
                         exit;
                     }
                     break;
+                   
                 }
             }
 
@@ -90,6 +92,7 @@ class Appointmentdetails extends Controller
 
         $totalWithoutServiceCharge = $doctor_fee + $hospital_fee;
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
+        
   
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,

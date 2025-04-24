@@ -19,15 +19,15 @@
       </header>
 
       <?php if (isset($_SESSION['reset_success'])): ?>
-         <div class="success"><?php echo $_SESSION['reset_success']; ?></div>
+         <div class="success" id="msgBox"><?php echo $_SESSION['reset_success']; ?></div>
          <?php unset($_SESSION['reset_success']); ?>
       <?php endif; ?>
       <?php if (isset($_SESSION['edit_success'])): ?>
-         <div class="success"><?php echo $_SESSION['edit_success']; ?></div>
+         <div class="success" id="msgBox"><?php echo $_SESSION['edit_success']; ?></div>
          <?php unset($_SESSION['edit_success']); ?>
       <?php endif; ?>
       <?php if (isset($_SESSION['create_success'])): ?>
-         <div class="success"><?php echo $_SESSION['create_success']; ?></div>
+         <div class="success" id="msgBox"><?php echo $_SESSION['create_success']; ?></div>
          <?php unset($_SESSION['create_success']); ?>
       <?php endif; ?>
 
@@ -289,6 +289,15 @@
          </form>
       </div>
       <script src="<?php echo ROOT ?>/assets/js/create.js"></script>
+      <script>
+         const messageBox = document.getElementById('msgBox');
+         if (messageBox) {
+            setTimeout(() => {
+               messageBox.style.display = 'none';
+               location.reload();
+            }, 3000);
+         }
+      </script>
 
    </div>
 </body>

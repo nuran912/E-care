@@ -107,7 +107,6 @@
                         <p><a href="<?php echo ROOT ?>/Patient/profile">Profile</a></p>
                         <p><a href="<?php echo ROOT ?>/Patient/appointments">Manage Appointments</a></p>
                         <p><a href="<?php echo ROOT ?>/Patient/medical_records">Medical Documents</a></p>
-                        <p><a href="<?php echo ROOT ?>/Patient/insuranceclaims">Insurance Claims</a></p>
                         <button class="signout-btn"><a href="<?php echo ROOT ?>/Signout">Sign Out</a></button>
                      </card>
                   <?php endif; ?>

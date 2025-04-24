@@ -19,15 +19,15 @@
       </header>
 
       <?php if (isset($_SESSION['reset_success'])): ?>
-         <div class="success"><?php echo $_SESSION['reset_success']; ?></div>
+         <div class="success" id="msgBox"><?php echo $_SESSION['reset_success']; ?></div>
          <?php unset($_SESSION['reset_success']); ?>
       <?php endif; ?>
       <?php if (isset($_SESSION['edit_success'])): ?>
-         <div class="success"><?php echo $_SESSION['edit_success']; ?></div>
+         <div class="success" id="msgBox"><?php echo $_SESSION['edit_success']; ?></div>
          <?php unset($_SESSION['edit_success']); ?>
       <?php endif; ?>
       <?php if (isset($_SESSION['create_success'])): ?>
-         <div class="success"><?php echo $_SESSION['create_success']; ?></div>
+         <div class="success" id="msgBox"><?php echo $_SESSION['create_success']; ?></div>
          <?php unset($_SESSION['create_success']); ?>
       <?php endif; ?>
 
@@ -122,7 +122,7 @@
                      </div>
                   </div>
                   <div class="form-row">
-                  <div class="form-group">
+                     <div class="form-group">
                         <!-- <input type="radio" value="Male" name="gender" placeholder=" " id="create-doctor-gender" required>Male -->
                         <select name="gender" id="create-doctor-gender">
                            <option value="Male" selected>Male</option>
@@ -151,7 +151,7 @@
                   <label>Registration Number</label>
 
                </div>
-               
+
                <div class="form-group">
                   <input type="text" name="doctor_fee" placeholder=" " id="create-doctor-fee" style="width: 150px;" required>
                   <label>Doctor Fee(Rs.)</label>
@@ -161,14 +161,14 @@
                   <label>Practicing Government_Hospitals</label>
                </div>
                <div class="form-group">
-                     <input type="checkbox" name="government_hospital" id="create-doctor-government" >
-                     <!-- <label>Practicing Government Hospitals</label> -->
+                  <input type="checkbox" name="government_hospital" id="create-doctor-government">
+                  <!-- <label>Practicing Government Hospitals</label> -->
                </div>
             </div>
             <div class="form-row">
                <div class="form-group">
                   <textarea name="other_qualifications" rows="2" placeholder=" " id="create-doctor-qualifications"></textarea>
-                  
+
                   <label>Qualifications</label>
                </div>
 
@@ -176,7 +176,7 @@
             <div class="form-row">
                <div class="form-group">
                   <textarea name="special_note" rows="2" placeholder=" " id="create-doctor-note"></textarea>
-                  
+
                   <label>Special Notes</label>
                </div>
 
@@ -232,7 +232,7 @@
                   <label>Registration Number</label>
 
                </div>
-               
+
                <div class="form-group">
                   <input type="text" name="doctor_fee" placeholder=" " id="edit-doctor-fee" style="width: 150px;" required>
                   <label>Doctor Fee(Rs.)</label>
@@ -242,8 +242,8 @@
                   <label>Practicing Government_Hospitals</label>
                </div>
                <div class="form-group">
-                     <input type="checkbox" name="government_hospital" id="edit-doctor-government" >
-                     <!-- <label>Practicing Government Hospitals</label> -->
+                  <input type="checkbox" name="government_hospital" id="edit-doctor-government">
+                  <!-- <label>Practicing Government Hospitals</label> -->
                </div>
             </div>
             <div class="form-row">
@@ -269,6 +269,15 @@
          </form>
       </div>
       <script src="<?php echo ROOT ?>/assets/js/create.js"></script>
+      <script>
+         const messageBox = document.getElementById('msgBox');
+         if (messageBox) {
+            setTimeout(() => {
+               messageBox.style.display = 'none';
+               location.reload();
+            }, 3000);
+         }
+      </script>
 
    </div>
 </body>

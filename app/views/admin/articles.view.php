@@ -24,13 +24,13 @@
          <div class="error"><?php echo $_FILES['article-image']['error']; ?></div>
       <?php endif; ?>
       <?php if (isset($create_success)): ?>
-         <div class="success"><?php echo $create_success; ?></div>
+         <div class="success" id="msgBox"><?php echo $create_success; ?></div>
       <?php endif; ?>
       <?php if (isset($delete_success)): ?>
-         <div class="success"><?php echo $delete_success; ?></div>
+         <div class="success" id="msgBox"><?php echo $delete_success; ?></div>
       <?php endif; ?>
       <?php if (isset($edit_success)): ?>
-         <div class="success"><?php echo $edit_success; ?></div>
+         <div class="success" id="msgBox"><?php echo $edit_success; ?></div>
       <?php endif; ?>
 
       <section class="main-div">
@@ -76,7 +76,7 @@
                                  <button class="btn-delete" type="submit"><img src="<?= ROOT ?>/assets/img/admin/delete.svg"></button>
                               </form>
                            </td>
-                           <td><button class="btn-edit"  onclick="openEditPopup(<?php echo htmlspecialchars(json_encode($article)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                           <td><button class="btn-edit" onclick="openEditPopup(<?php echo htmlspecialchars(json_encode($article)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                         </tr>
                      <?php endforeach; ?>
 
@@ -156,7 +156,7 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                   <input type="file" id="edit-article-image" name="article-image" accept="image/*" hidden>
+                  <input type="file" id="edit-article-image" name="article-image" accept="image/*" hidden>
                   <img src="" class="article-img-preview" name="article-image" id="edit-image-preview" onclick="document.getElementById('edit-article-image').click();">
                </div>
                <div class="form-group">
@@ -175,8 +175,15 @@
          </form>
       </div>
       <script>
-         function confirmDelete(){
+         function confirmDelete() {
             return confirm('Are you sure you want to delete this article?');
+         }
+         const messageBox = document.getElementById('msgBox');
+         if (messageBox) {
+            setTimeout(() => {
+               messageBox.style.display = 'none';
+               location.reload();
+            }, 3000);
          }
       </script>
       <script src="<?php echo ROOT ?>/assets/js/create.js"></script>

@@ -330,7 +330,7 @@
             <h2>Pending Appointments</h2>
 
                 <form action="" id="searchForm" method="POST">
-                    <input type="text" name="phone_number" class="search" placeholder="Search Appointments..." value="<?= htmlspecialchars($searched_phone_number) ?>">
+                    <input type="text" name="phone_number" class="search" pattern="\d{10}" maxlength="10" minlength="10" placeholder="Search Appointments..." value="<?= htmlspecialchars($searched_phone_number) ?>" required>
                     <button class="search-button" type="submit">Search</button>
                 </form>
 

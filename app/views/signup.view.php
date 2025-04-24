@@ -11,22 +11,22 @@ if (!isset($errors)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Care Sign Up</title>
     <link rel="stylesheet" href="<?php echo ROOT ?>/assets/css/sign-up.css">
+
 </head>
 
 <body>
 
-
     <div class="main-context">
 
         <h1>Welcome to E-Care by Union Hospital</h1>
-
+<!-- 
         <?php if (!empty($errors)): ?>
             <div class="error-message">
                 <?php foreach ($errors as $error): ?>
                     <p><?php echo htmlspecialchars($error); ?></p>
                 <?php endforeach; ?>
             </div>
-        <?php endif; ?>
+        <?php endif; ?> -->
         <div class="container">
             <center>
                 <h3>Register an Account</h3>
@@ -99,7 +99,6 @@ if (!isset($errors)) {
                 <br>
 
                 <div class="form-row">
-
                     <div class="form-group">
                         <label for="">Password <span style="color: red;">*</span></label>
                         <input type="password" name="password" value="">
@@ -119,13 +118,15 @@ if (!isset($errors)) {
                 </div>
 
                 <div class="form-row">
-                    <input type="checkbox" name="terms" class="terms">
-                    <label for="" class="termsagreement">I agree to the <a href="<?= ROOT ?>/termsAndConditions" class="termsConditions">terms and conditions</a></label>
-                    <?php if (!empty($errors['terms'])) : ?>
-                        <div class="error" style="margin-left: 20px;"><br><?php echo $errors['terms']; ?></div>
-                    <?php endif; ?>
+                        <input type="checkbox" name="terms" class="terms">
+                        <div style="display: flex; flex-direction:column; gap:0px;">
+                            <label for="" class="termsagreement">I agree to the <a href="<?= ROOT ?>/termsAndConditions" class="termsConditions">terms and conditions</a></label>
+                            <?php if (!empty($errors['terms'])) : ?>
+                                <div class="error" style="margin-left: 20px;"><br><?php echo $errors['terms']; ?></div>
+                                <?php endif; ?>
+                        </div>
                 </div>
-
+                            
                 <input type="submit" value="Sign Up" class="signUpBtn">
 
             </form>
@@ -135,8 +136,6 @@ if (!isset($errors)) {
             </div>
         </div>
     </div>
-
-
 </body>
 
 </html>

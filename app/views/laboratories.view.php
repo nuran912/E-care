@@ -123,7 +123,7 @@
                         <li>Working hours: <?= $lab['working_hours'] ?>h</li>
                     </ul>
                 </div>
-                <div><img src="<?= ROOT ?>/assets/img/Lab-map.png"></div>
+                <div><a href=<?=$lab['location']?>><img src="<?= ROOT ?>/assets/img/Lab-map.png"></a></div>
             </div>
         </div>
     <?php endforeach; ?>

@@ -26,7 +26,8 @@ class Appointments
         'payment_status',
         'doctor_notes',  
         'email_sent',
-        'is_deleted'
+        'is_deleted',
+        'age'
 
 
     ];

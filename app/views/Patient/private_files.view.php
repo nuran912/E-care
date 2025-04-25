@@ -6,9 +6,39 @@
     <head>
         <title>Private files</title>
         <link rel="stylesheet" href="<?= ROOT; ?>/assets/css/Patient/Documents.css">
+        <style>
+            .alert {
+                padding: 15px;
+                margin: 15px 0;
+                border-radius: 5px;
+                font-size: 16px;
+                font-weight: bold;
+                text-align: center; 
+                font-family: 'Lucida Sans';
+                justify-content: center;
+                align-items: center;  
+            }
+
+            .alert-danger {
+                background-color: #f8d7da;
+                color: #721c24;
+                border: 1px solid #f5c6cb;
+                width: 55%;
+                margin-left: 20%;
+            }
+        </style>
     </head>
 
     <body>
+
+        <!-- Error Message -->
+        <?php if (isset($data['same_name_error'])): ?>
+        <div id="errorMessage" class="alert alert-danger">
+            <?= htmlspecialchars($data['same_name_error']); ?>
+        </div>
+        <?php unset($data['error']); ?>
+        <?php endif; ?>
+
         <main>
 
             <div class="container">
@@ -112,6 +142,16 @@
             </div>
 
             <script>
+                // Auto-hide success/error messages after 5 seconds
+                document.addEventListener("DOMContentLoaded", function() {
+                    const errorMessage = document.getElementById("errorMessage");
+                    if (errorMessage) {
+                        setTimeout(() => {
+                            errorMessage.style.display = "none";
+                        }, 5000);
+                    }
+                });
+
                 //delete confirmation box
                 function confirmDelete() {
                     return confirm("Are you sure you want to delete this file?");

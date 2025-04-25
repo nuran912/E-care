@@ -25,6 +25,8 @@
     <form method="POST" action="<?= ROOT ?>/Retrypayment">
         <button type="submit" class="try">Try Again The Payment</button>
     </form>
+
+    <a href="index.php" class="home-link">Go Back To The Home Page</a>
 <?php endif; ?>
 
 

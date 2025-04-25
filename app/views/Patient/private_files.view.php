@@ -26,7 +26,7 @@
                                 <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                 <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                 <input type="hidden" name="document_type" value="private">
-                                <input type="file" id="real-file" name="real-file" hidden="hidden" accept=".pdf,.png,.jpg,.jpeg">
+                                <input type="file" id="real-file" name="real-file" hidden="hidden" accept=".pdf,.png,.jpg,.jpeg" required>
                                 <button type="button" id="custom-button">Upload a Document</button>
                                 <span id="custom-text">No file chosen.</span><br>
                                 <button type="submit" name="upload" id="private-submit-button">Submit</button>

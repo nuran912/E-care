@@ -199,57 +199,63 @@ class Clerk extends Controller {
                     mkdir($targetDir, 0777, true);
                 }
 
-                //moving the file to the target path
-                if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
-
-                    //moved successfully
-                    $document_data = [
-                        'user_id' => $user_id_extracted,
-                        'uploaded_by' => $uploaded_by,
-                        'document_type' => $document_type,
-                        'document_category' => $document_category,
-                        'document_name' => $filename,
-                        'ref_no' => $ref_no
-                    ];
-
-                    $document->insert($document_data);
-                    
-                    //uploaded date and time
-                    date_default_timezone_set('Asia/Colombo');
-                    $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
-
-                    //send the email
-                    $subject = "New {$document_category} Uploaded to Your E-care Account";
-                    $body = "
-                    <html>
-                    <body>
-                        <p>Dear {$user_name_extracted},</p>
-                        <p>This is to inform you that a new medical document has been successfully uploaded to your E-care profile.
-                        You may now log in to the system to view or download it at your convenience.</p>
-                        <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
-                        <strong>Category:</strong> {$document_category}<br>
-                        <strong>Reference No:</strong> {$ref_no}<br>
-                        <strong>Uploaded On:</strong> {$uploadDateTime}</p>
-                        <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
-                        <p>Thank you for using E-care Digital Health Management System.</p>
-                        <p>Best regards,<br>
-                        E-care Support Team<br>
-                        Hotline - 011 245 9989<br>
-                        Email - ecare2digital@gmail.com</p>
-                    </body>
-                    </html>
-                    ";
-
-                    $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
-
-                    if($emailSent) {
-                        $document->update($ref_no,['email_sent' => 1],'ref_no');
-                        $data['success'] = "Email sent successfully."; 
-                    }
-                    else {
-                        $data['error'] = "Failed to send email.";
-                    }
+                if(file_exists($targetPath)) {
+                    $data['same_name_error'] = "File with the same name already uploaded to this patient.";
                 }
+
+                else {
+                    //moving the file to the target path
+                    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+
+                        //moved successfully
+                        $document_data = [
+                            'user_id' => $user_id_extracted,
+                            'uploaded_by' => $uploaded_by,
+                            'document_type' => $document_type,
+                            'document_category' => $document_category,
+                            'document_name' => $filename,
+                            'ref_no' => $ref_no
+                        ];
+
+                        $document->insert($document_data);
+                        
+                        //uploaded date and time
+                        date_default_timezone_set('Asia/Colombo');
+                        $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
+
+                        //send the email
+                        $subject = "New {$document_category} Uploaded to Your E-care Account";
+                        $body = "
+                        <html>
+                        <body>
+                            <p>Dear {$user_name_extracted},</p>
+                            <p>This is to inform you that a new medical document has been successfully uploaded to your E-care profile.
+                            You may now log in to the system to view or download it at your convenience.</p>
+                            <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
+                            <strong>Category:</strong> {$document_category}<br>
+                            <strong>Reference No:</strong> {$ref_no}<br>
+                            <strong>Uploaded On:</strong> {$uploadDateTime}</p>
+                            <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
+                            <p>Thank you for using E-care Digital Health Management System.</p>
+                            <p>Best regards,<br>
+                            E-care Support Team<br>
+                            Hotline - 011 245 9989<br>
+                            Email - ecare2digital@gmail.com</p>
+                        </body>
+                        </html>
+                        ";
+
+                        $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
+
+                        if($emailSent) {
+                            $document->update($ref_no,['email_sent' => 1],'ref_no');
+                            $data['success'] = "Email sent successfully."; 
+                        }
+                        else {
+                            $data['error'] = "Failed to send email.";
+                        }
+                    }
+                }   
             }
         }
 
@@ -373,54 +379,67 @@ class Clerk extends Controller {
                     mkdir($targetDir, 0777, true);
                 }
 
-                //moving the file to the target path
-                if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
+                if(file_exists($targetPath)) {
+                    $data['same_name_error'] = "File with the same name already uploaded to this patient.";
+                }
+
+                else {
+                    //moving the file to the target path
+                    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetPath)) {
                     //moved successfully
-                    $document_data = [
-                        'user_id' => $user_id_extracted,
-                        'uploaded_by' => $uploaded_by,
-                        'document_type' => $document_type,
-                        'document_category' => $document_category,
-                        'document_name' => $filename,
-                        'ref_no' => $ref_no
-                    ];
+                        $document_data = [
+                            'user_id' => $user_id_extracted,
+                            'uploaded_by' => $uploaded_by,
+                            'document_type' => $document_type,
+                            'document_category' => $document_category,
+                            'document_name' => $filename,
+                            'ref_no' => $ref_no
+                        ];
 
-                    $document->insert($document_data);
+                        $document->insert($document_data);
 
-                    //uploaded date and time
-                    date_default_timezone_set('Asia/Colombo');
-                    $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
+                        //uploaded date and time
+                        date_default_timezone_set('Asia/Colombo');
+                        $uploadDateTime = date('Y-m-d H:i:s'); //YYYY-MM-DD HH:MM:SS
 
-                    //send the email
-                    $subject = "New {$document_category} Uploaded to Your E-care Account";
-                    $body = "
-                    <html>
-                    <body>
-                        <p>Dear {$user_name_extracted},</p>
-                        <p>This is to inform you that a new medical document has been successfully uploaded to your E-care profile.
-                        You may now log in to the system to view or download it at your convenience.</p>
-                        <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
-                        <strong>Category:</strong> {$document_category}<br>
-                        <strong>Reference No:</strong> {$ref_no}<br>
-                        <strong>Uploaded On:</strong> {$uploadDateTime}</p>
-                        <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
-                        <p>Thank you for using E-care Digital Health Management System.</p>
-                        <p>Best regards,<br>
-                        E-care Support Team<br>
-                        Hotline - 011 245 9989<br>
-                        Email - ecare2digital@gmail.com</p>
-                    </body>
-                    </html>
-                    ";
+                        //send the email
+                        $subject = "New {$document_category} Uploaded to Your E-care Account";
+                        $body = "
+                        <html>
+                        <body>
+                            <p>Dear {$user_name_extracted},</p>
+                            <p>This is to inform you that a new medical document has been successfully uploaded to your E-care profile.
+                            You may now log in to the system to view or download it at your convenience.</p>
+                            <p><strong>Document Type:</strong> " . ucfirst(str_replace('_', ' ', $document_type)) . "<br>
+                            <strong>Category:</strong> {$document_category}<br>
+                            <strong>Reference No:</strong> {$ref_no}<br>
+                            <strong>Uploaded On:</strong> {$uploadDateTime}</p>
+                            <p>If you have any questions or concerns regarding this document, please do not hesitate to contact our support team or your attending physician.</p>
+                            <p>Thank you for using E-care Digital Health Management System.</p>
+                            <p>Best regards,<br>
+                            E-care Support Team<br>
+                            Hotline - 011 245 9989<br>
+                            Email - ecare2digital@gmail.com</p>
+                        </body>
+                        </html>
+                        ";
 
-                    $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
+                        $emailSent = EmailHelper::sendEmail($patient_email, $user_name_extracted, $subject, $body);
 
-                    if($emailSent) {
-                        $document->update($ref_no,['email_sent' => 1],'ref_no');
-                        $data['success'] = "Email sent successfully."; 
-                    }
-                    else {
-                        $data['error'] = "Failed to send email.";
+                        if($emailSent) {
+                            $document->update($ref_no,['email_sent' => 1],'ref_no');
+                            $data['success'] = "Email sent successfully."; 
+                        }
+                        else {
+                            //if email not sent, delete the document from the database
+                            if(file_exists($targetPath)) {
+                                if(unlink($targetPath)) {
+                                    $document->delete($ref_no,'ref_no');
+                                }
+                            }
+
+                            $data['error'] = "Failed to send email.";
+                        }
                     }
                 }
             }

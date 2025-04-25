@@ -462,18 +462,25 @@ class Patient extends Controller
                     mkdir($targetDir, 0777, true);
                 }
 
-                //moving the file to the target path
-                if (move_uploaded_file($_FILES['real-file']['tmp_name'], $targetPath)) {
-                    //moved successfully
-                    $data = [
-                        'user_id' => $user_id,
-                        'uploaded_by' => $uploaded_by,
-                        'document_type' => $document_type,
-                        'document_name' => $filename
-                    ];
+                //check if the file already exists in the target directory
+                if(file_exists($targetPath)) {
+                    $error = "File already exists.";
+                }
 
-                    $document->insert($data);
-                    redirect('Patient/private_files?page=1');
+                else {
+                    //moving the file to the target path
+                    if (move_uploaded_file($_FILES['real-file']['tmp_name'], $targetPath)) {
+                    //moved successfully
+                        $data = [
+                            'user_id' => $user_id,
+                            'uploaded_by' => $uploaded_by,
+                            'document_type' => $document_type,
+                            'document_name' => $filename
+                        ];
+
+                        $document->insert($data);
+                        redirect('Patient/private_files?page=1');
+                    }
                 }
             }
         }
@@ -500,15 +507,21 @@ class Patient extends Controller
 
             //rename the file in the directory
             if (file_exists($old_path)) {
-                if (rename($old_path, $new_path)) {
-                    $data = [
-                        'document_name' => $new_file_name
-                    ];
-                    $document->update($document_id, $data, 'document_id');
+                //if a file with the new name already exists, show an error message
+                if(file_exists($new_path)) {
+                    $error = "File already exists.";
                 }
+                else {
+                    //rename the file in the directory
+                    if (rename($old_path, $new_path)) {
+                        $data = [
+                            'document_name' => $new_file_name
+                        ];
+                        $document->update($document_id, $data, 'document_id');
+                        redirect('Patient/private_files?page=1');
+                    }
+                } 
             }
-
-            redirect('Patient/private_files?page=1');
         }
 
         //delete a private file
@@ -560,20 +573,12 @@ class Patient extends Controller
             'totalPages' => $totalPages
         ];
 
+        if(isset($error)) {
+            $data['same_name_error'] = $error;
+        }
+
         $this->view('Patient/private_files', $data);
 
         $this->view('footer');
     }
-
-    // public function insuranceclaims($a = '', $b = '', $c = '')
-    // {
-    //     $this->view('header');
-
-    //     if($a == "submit"){
-            
-    //     }
-
-    //     $this->view('Patient/insurance_claim');
-    //     $this->view('footer');
-    // }
 }

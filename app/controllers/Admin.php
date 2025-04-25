@@ -329,6 +329,7 @@ class Admin extends Controller
                'password' => $_POST['nic'],
                'phone_number' => $_POST['phone_number'],
                'NIC' => $_POST['nic'],
+               'profile_pic' => $_POST['profile_pic'],
                'is_active' => 1,
                'created_at' => date('Y-m-d H:i:s'),
                'updated_at' => date('Y-m-d H:i:s')

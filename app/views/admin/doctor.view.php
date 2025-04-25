@@ -113,7 +113,7 @@
             <input type="hidden" name="doctor_id" id="create-doctor-id">
             <input type="hidden" name="user_id" id="create-user-id">
             <div class="form-row">
-               <input type="file" id="create-doctor-image" name="doctor-image" accept="image/*" hidden>
+               <input type="file" id="create-doctor-image" name="doctor-image" accept="image/*" hidden disabled>
                <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="image-preview" onclick="document.getElementById('create-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">
@@ -202,7 +202,7 @@
             <input type="hidden" name="doctor_id" id="edit-doctor-id">
             <input type="hidden" name="user_id" id="edit-user-id">
             <div class="form-row">
-               <input type="file" id="edit-doctor-image" name="doctor-image" accept="image/*" hidden>
+               <input type="file" id="edit-doctor-image" name="doctor-image" accept="image/*" hidden disabled>
                <img src="<?= ROOT ?>/assets/img/user.svg" alt="Image Preview" class="image-preview" id="edit-image-preview" onclick="document.getElementById('edit-doctor-image').click();">
                <div class="form-group">
                   <div class="form-row">

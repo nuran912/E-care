@@ -94,7 +94,7 @@ public function updatePaymentStatus($appointment_id, $status) {
 }
 public function updateStatus($appointment_id, $status) {
     
-    $allowedStatuses = ['completed', 'canceled', 'pending','scheduled'];
+    $allowedStatuses = ['completed', 'cancelled', 'pending','scheduled'];
     if (!in_array($status, $allowedStatuses)) {
         throw new InvalidArgumentException("Invalid payment status: $status");
     }

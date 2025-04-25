@@ -12,14 +12,17 @@ class Retrypayment extends Controller {
         $appointments = new Appointments();
         $appointment = $appointments->getAppointmentById($appointment_id);
         
+        
         if($appointment->payment_status != 'pending'){
             header('Location: /appointmentsearchpage');
             exit;
         }
 
 
-
      }
+     
+
+  
       // Generate PayHere form again
 $merchantId = '1228671';
 $merchant_secret = 'MjQwOTcyNzAzMjM0ODk4MTYwNDQ0Mzc1NjQ3OTQ5MTM5ODYx';
@@ -44,8 +47,8 @@ echo '<form id="paymentForm" method="POST" action="https://sandbox.payhere.lk/pa
     <input type="hidden" name="first_name" value="' . $appointment->patient_name . '">
     <input type="hidden" name="last_name" value="">
     <input type="hidden" name="email" value="' . $appointment->patient_Email . '">
-    <input type="hidden" name="phone" value="' . $appointment->patient_phone . '">
-    <input type="hidden" name="address" value="' . $appointment->patient_address . '">
+    <input type="hidden" name="phone" value="' . $appointment->phone_number . '">
+    <input type="hidden" name="address" value="' . (!empty($appointment->patient_address) ? $appointment->patient_address: 'Not entered') . '">
     <input type="hidden" name="city" value="Colombo"> 
     <input type="hidden" name="country" value="LK">
     <input type="hidden" name="order_id" value="' . $appointment_id . '">

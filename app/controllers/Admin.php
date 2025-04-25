@@ -185,6 +185,21 @@ class Admin extends Controller
          'users' => $users,
       ];
 
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
+
       if($a == 'toggleStatus'){
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
@@ -225,6 +240,21 @@ class Admin extends Controller
       $data = [
          'doctors' => $doctors
       ];
+
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
 
       if($a == 'toggleStatus'){
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -336,6 +366,21 @@ class Admin extends Controller
          'hospitals' => $hospitals,
          'labs' => $labs
       ];
+
+      if (isset($_SESSION['delete_success'])) {
+         $data['delete_success'] = $_SESSION['delete_success'];
+         unset($_SESSION['delete_success']);
+      }
+
+      if (isset($_SESSION['create_success'])) {
+         $data['create_success'] = $_SESSION['create_success'];
+         unset($_SESSION['create_success']);
+      }
+
+      if (isset($_SESSION['edit_success'])) {
+         $data['edit_success'] = $_SESSION['edit_success'];
+         unset($_SESSION['edit_success']);
+      }
 
       if($a == 'toggleStatus'){
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {

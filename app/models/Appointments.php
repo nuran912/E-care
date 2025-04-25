@@ -26,7 +26,8 @@ class Appointments
         'payment_status',
         'doctor_notes',  
         'email_sent',
-        'is_deleted'
+        'is_deleted',
+        'age'
 
 
     ];
@@ -94,7 +95,7 @@ public function updatePaymentStatus($appointment_id, $status) {
 }
 public function updateStatus($appointment_id, $status) {
     
-    $allowedStatuses = ['completed', 'canceled', 'pending','scheduled'];
+    $allowedStatuses = ['completed', 'cancelled', 'pending','scheduled'];
     if (!in_array($status, $allowedStatuses)) {
         throw new InvalidArgumentException("Invalid payment status: $status");
     }

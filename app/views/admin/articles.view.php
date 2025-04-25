@@ -24,13 +24,13 @@
          <div class="error"><?php echo $_FILES['article-image']['error']; ?></div>
       <?php endif; ?>
       <?php if (isset($create_success)): ?>
-         <div class="success"><?php echo $create_success; ?></div>
+         <div class="success" id="msgBox"><?php echo $create_success; ?></div>
       <?php endif; ?>
       <?php if (isset($delete_success)): ?>
-         <div class="success"><?php echo $delete_success; ?></div>
+         <div class="success" id="msgBox"><?php echo $delete_success; ?></div>
       <?php endif; ?>
       <?php if (isset($edit_success)): ?>
-         <div class="success"><?php echo $edit_success; ?></div>
+         <div class="success" id="msgBox"><?php echo $edit_success; ?></div>
       <?php endif; ?>
 
       <section class="main-div">
@@ -76,7 +76,7 @@
                                  <button class="btn-delete" type="submit"><img src="<?= ROOT ?>/assets/img/admin/delete.svg"></button>
                               </form>
                            </td>
-                           <td><button class="btn-edit"  onclick="openEditPopup(<?php echo htmlspecialchars(json_encode($article)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
+                           <td><button class="btn-edit" onclick="openEditPopup(<?php echo htmlspecialchars(json_encode($article)); ?>)"><img src="<?= ROOT ?>/assets/img/admin/edit.svg"></button></td>
                         </tr>
                      <?php endforeach; ?>
 
@@ -86,6 +86,11 @@
 
                </tbody>
             </table>
+            <div class="pagination">
+               <button id="prev-page" onclick="changePage(-1)">Prev</button>
+               <span id="page-numbers"></span>
+               <button id="next-page" onclick="changePage(1)">Next</button>
+            </div>
          </div>
 
       </section>
@@ -156,7 +161,7 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                   <input type="file" id="edit-article-image" name="article-image" accept="image/*" hidden>
+                  <input type="file" id="edit-article-image" name="article-image" accept="image/*" hidden>
                   <img src="" class="article-img-preview" name="article-image" id="edit-image-preview" onclick="document.getElementById('edit-article-image').click();">
                </div>
                <div class="form-group">
@@ -175,9 +180,96 @@
          </form>
       </div>
       <script>
-         function confirmDelete(){
+         function confirmDelete() {
             return confirm('Are you sure you want to delete this article?');
          }
+         const messageBox = document.getElementById('msgBox');
+         if (messageBox) {
+            setTimeout(() => {
+               messageBox.style.display = 'none';
+               location.reload();
+            }, 3000);
+         }
+
+         let currentPage = 1;
+         const rowsPerPage = 5;
+         let filteredRows = []; // Store filtered rows
+
+         function paginateTable() {
+            const tableBody = document.getElementById('article-table-body');
+            if (!tableBody) {
+               console.error('Element #user-table-body not found');
+               return;
+            }
+
+            const rows = filteredRows.length > 0 ? filteredRows : Array.from(tableBody.querySelectorAll('tr'));
+            const totalRows = rows.length;
+            const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+            rows.forEach((row, index) => {
+               row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
+            });
+
+            const pageNumbers = document.getElementById('page-numbers');
+            if (pageNumbers) {
+               pageNumbers.textContent = `Page ${currentPage} of ${totalPages}`;
+            }
+
+            const prevButton = document.getElementById('prev-page');
+            const nextButton = document.getElementById('next-page');
+            if (prevButton && nextButton) {
+               prevButton.disabled = currentPage === 1;
+               nextButton.disabled = currentPage === totalPages;
+            }
+         }
+
+         function changePage(direction) {
+            currentPage += direction;
+            paginateTable();
+         }
+
+         // Search and filter function
+         function filterArticles() {
+            const searchInput = document.getElementById('search-articles');
+            if (!searchInput) {
+               console.error('Element #search-users not found');
+               return;
+            }
+
+            const searchValue = searchInput.value.toLowerCase();
+            const tableBody = document.getElementById('article-table-body');
+            const tableRows = Array.from(tableBody.querySelectorAll('tr'));
+
+            // Update filteredRows based on the search input
+            filteredRows = tableRows.filter(row => {
+               const cells = row.querySelectorAll('td[data-search]');
+               return Array.from(cells).some(cell =>
+                  cell.getAttribute('data-search').toLowerCase().includes(searchValue)
+               );
+            });
+
+            // Hide all rows if no match is found
+            tableRows.forEach(row => {
+               row.style.display = 'none';
+            });
+
+            // Show only the filtered rows
+            filteredRows.forEach(row => {
+               row.style.display = '';
+            });
+
+            currentPage = 1; // Reset to the first page after filtering
+            paginateTable(); // Reapply pagination to filtered rows
+         }
+
+         document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-artilces');
+            if (searchInput) {
+               searchInput.addEventListener('input', filterArticles); // Ensure filterUsers is triggered
+            }
+
+            paginateTable(); // Initialize pagination
+         });
       </script>
       <script src="<?php echo ROOT ?>/assets/js/create.js"></script>
 

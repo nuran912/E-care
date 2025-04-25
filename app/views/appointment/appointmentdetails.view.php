@@ -42,6 +42,8 @@
                         <span id="nameError" class="error-message"></span>
                     </div>
                 </div>
+               
+
 
                 <?php if (!isset($_SESSION['USER']->role) || $_SESSION['USER']->role != 'reception_clerk'): ?>
                 <div class="form-group">

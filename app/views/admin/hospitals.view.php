@@ -80,6 +80,11 @@
 
                </tbody>
             </table>
+            <div class="pagination">
+               <button id="prev-page" onclick="changePage(-1)">Prev</button>
+               <span id="page-numbers"></span>
+               <button id="next-page" onclick="changePage(1)">Next</button>
+            </div>
          </div>
 
       </section>
@@ -289,6 +294,87 @@
             location.reload();
          }, 3000);
       }
+
+
+      let currentPage = 1;
+      const rowsPerPage = 5;
+      let filteredRows = []; // Store filtered rows
+
+      function paginateTable() {
+         const tableBody = document.getElementById('hospitals-table-body');
+         if (!tableBody) {
+            console.error('Element #user-table-body not found');
+            return;
+         }
+
+         const rows = filteredRows.length > 0 ? filteredRows : Array.from(tableBody.querySelectorAll('tr'));
+         const totalRows = rows.length;
+         const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+         rows.forEach((row, index) => {
+            row.style.display = (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) ? '' : 'none';
+         });
+
+         const pageNumbers = document.getElementById('page-numbers');
+         if (pageNumbers) {
+            pageNumbers.textContent = `Page ${currentPage} of ${totalPages}`;
+         }
+
+         const prevButton = document.getElementById('prev-page');
+         const nextButton = document.getElementById('next-page');
+         if (prevButton && nextButton) {
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages;
+         }
+      }
+
+      function changePage(direction) {
+         currentPage += direction;
+         paginateTable();
+      }
+
+      // Search and filter function
+      function filterHospitals() {
+         const searchInput = document.getElementById('search-hospitals');
+         if (!searchInput) {
+            console.error('Element #search-users not found');
+            return;
+         }
+
+         const searchValue = searchInput.value.toLowerCase();
+         const tableBody = document.getElementById('hospitals-table-body');
+         const tableRows = Array.from(tableBody.querySelectorAll('tr'));
+
+         // Update filteredRows based on the search input
+         filteredRows = tableRows.filter(row => {
+            const cells = row.querySelectorAll('td[data-search]');
+            return Array.from(cells).some(cell =>
+               cell.getAttribute('data-search').toLowerCase().includes(searchValue)
+            );
+         });
+
+         // Hide all rows if no match is found
+         tableRows.forEach(row => {
+            row.style.display = 'none';
+         });
+
+         // Show only the filtered rows
+         filteredRows.forEach(row => {
+            row.style.display = '';
+         });
+
+         currentPage = 1; // Reset to the first page after filtering
+         paginateTable(); // Reapply pagination to filtered rows
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+         const searchInput = document.getElementById('search-hospitals');
+         if (searchInput) {
+            searchInput.addEventListener('input', filterHospitals); // Ensure filterUsers is triggered
+         }
+
+         paginateTable(); // Initialize pagination
+      });
    </script>
 
 </body>

@@ -24,13 +24,14 @@ class Appointmentdetails extends Controller
          
         if ($availableTimeId) {
 
-
+          
             foreach ($availableTimes as $appointment) {
+                // Check if the appointment ID matches the one provided in the URL
                 if ($appointment['id'] == $availableTimeId) {
 
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
                     $hospitalDetails = findObjectById($hospitals, 'id', $appointment['hospital_id']);
-                  
+                 
                              
                         
                     if ($doctorDetails && $hospitalDetails) {
@@ -55,10 +56,20 @@ class Appointmentdetails extends Controller
                         if ($appointment['total_slots'] > 0) {
                             $appointmentDetails['appointment_number'] =  $appointment['filled_slots'] + 1;
                             $sessionStartTime = new DateTime($appointmentDetails['session_time']);
+                        
                             $patientAppointmentOffsetMinutes = ($appointmentDurationMinutes / $appointment['total_slots']) * ($appointmentDetails['appointment_number'] - 1);
-                            $sessionStartTime->add(new DateInterval("PT{$patientAppointmentOffsetMinutes}M"));
+                        
+                            //  Fix fractional minutes to minutes + seconds
+                            $minutes = floor($patientAppointmentOffsetMinutes);
+                            $seconds = round(($patientAppointmentOffsetMinutes - $minutes) * 60);
+                        
+                            //  Create interval safely
+                            $interval = new DateInterval("PT{$minutes}M{$seconds}S");
+                            $sessionStartTime->add($interval);
+                        
                             $appointmentDetails['patient_appointment_time'] = $sessionStartTime->format('h:i A');
-                        } else {
+                        }
+                         else {
                             $appointmentDetails['patient_appointment_time'] = '12:00 AM';
                         }
                     } else {
@@ -66,6 +77,7 @@ class Appointmentdetails extends Controller
                         exit;
                     }
                     break;
+                   
                 }
             }
 
@@ -90,6 +102,7 @@ class Appointmentdetails extends Controller
 
         $totalWithoutServiceCharge = $doctor_fee + $hospital_fee;
         $formatted_totalWithoutServiceCharge = number_format($totalWithoutServiceCharge, 2);
+        
   
         $this->view('appointment/appointmentdetails', [
             'appointmentDetails' => $appointmentDetails,

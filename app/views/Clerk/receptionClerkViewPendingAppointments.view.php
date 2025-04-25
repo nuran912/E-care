@@ -330,7 +330,7 @@
             <h2>Pending Appointments</h2>
 
                 <form action="" id="searchForm" method="POST">
-                    <input type="text" name="phone_number" class="search" placeholder="Search Appointments..." value="<?= htmlspecialchars($searched_phone_number) ?>">
+                    <input type="text" name="phone_number" class="search" maxlength="10" minlength="10" pattern="\d{10}" placeholder="Search Appointments..." value="<?= htmlspecialchars($searched_phone_number) ?>" required>
                     <button class="search-button" type="submit">Search</button>
                 </form>
 
@@ -375,22 +375,22 @@
 
                                                         <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']) ?>">
                                                         
-                                                        <label for="patient_name">Date: </label>
-                                                        <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment['session_date']) ?>">
+                                                        <label for="patient_name">Session Date: </label>
+                                                        <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment['session_date']) ?>" disabled>
                                                         <label for="patient_name">Patient Name: </label>
-                                                        <input type="text" name="patient_name" class="patient-name" value="<?php echo htmlspecialchars($appointment['patient_name']) ?>">
+                                                        <input type="text" name="patient_name" class="patient-name" value="<?php echo htmlspecialchars($appointment['patient_name']) ?>" disabled>
                                                         <label for="patient_phone">Contact Number: </label>
-                                                        <input type="text" name="patient_phone" class="patient-phone" value="<?php echo htmlspecialchars($appointment['phone_number']) ?>">
+                                                        <input type="text" name="patient_phone" class="patient-phone" value="<?php echo htmlspecialchars($appointment['phone_number']) ?>" disabled>
                                                         <label for="doctor_name">Doctor: </label>
-                                                        <input type="text" name="doctor_name" class="doctor-name" value="<?php echo htmlspecialchars($appointment['doctor_name']) ?>">
+                                                        <input type="text" name="doctor_name" class="doctor-name" value="<?php echo htmlspecialchars($appointment['doctor_name']) ?>" disabled>
                                                         <label for="doctor_specialization">Specialization: </label>
-                                                        <input type="text" name="doctor_specialization" class="doctor-specialization" value="<?php echo htmlspecialchars($appointment['specialization']) ?>">
+                                                        <input type="text" name="doctor_specialization" class="doctor-specialization" value="<?php echo htmlspecialchars($appointment['specialization']) ?>" disabled>
                                                         <label for="appointment_no">Appointment No.: </label>
-                                                        <input type="text" name="appointment_no" class="appointment_no" value="<?php echo htmlspecialchars($appointment['appointment_number']) ?>">
+                                                        <input type="text" name="appointment_no" class="appointment_no" value="<?php echo htmlspecialchars($appointment['appointment_number']) ?>" disabled>
                                                         <label for="session_time">Session Time: </label>
-                                                        <input type="text" name="session_time" class="session_time" value="<?php echo htmlspecialchars($appointment['session_time']) ?>">
+                                                        <input type="text" name="session_time" class="session_time" value="<?php echo htmlspecialchars($appointment['session_time']) ?>" disabled>
                                                         <label for="total_fee">Amount: </label>
-                                                        <input type="text" name="total_fee" class="total_fee" value="Rs. <?php echo htmlspecialchars($appointment['total_fee']) ?>.00">
+                                                        <input type="text" name="total_fee" class="total_fee" value="Rs. <?php echo htmlspecialchars($appointment['total_fee']) ?>.00" disabled>
 
                                                         <?php if ($appointment["payment_status"] == "pending"): ?>
                                                             <button class="pay-button">

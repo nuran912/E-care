@@ -50,22 +50,22 @@ class DoctorAvailableTimes extends Controller
              $CurrentDate = date('Y-m-d');
              $CurrentTime = date('H:i:s');
 
-             usort($getAppointmentdetails, function($a, $b) {
-                return strtotime($a->appointment_date) - strtotime($b->appointment_date);
-            });
+             if (is_array($getAppointmentdetails)) {
+                 usort($getAppointmentdetails, fn($a, $b) => strtotime($a->appointment_date) - strtotime($b->appointment_date));
+             }
             
              
            // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)
                     if (is_array($getAppointmentdetails)) {
-     // Filter appointments based on the current date and time
+     // Filter appointments based on the current date and time this displays only the valid  slots 
          $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
         // Check if the appointment date is after the current date
         if ($appointment->appointment_date > $CurrentDate) {
             return true;
         }
-
+        
         // Calculate the end time of the appointment
-        $endTime              = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
+        $endTime  = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
         
         // If the appointment is today and the end time is greater than the current time
         if ($appointment->appointment_date == $CurrentDate && $endTime > $CurrentTime) {
@@ -79,6 +79,7 @@ class DoctorAvailableTimes extends Controller
     // Handle the case where $getAppointmentdetails is not an array or is empty
     $getAppointmentdetails    = [];
 }
+
 
 if (empty($getAppointmentdetails)) {
     $noAppointmentsMessage    = "No appointments available for this doctor at the moment.";

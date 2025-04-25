@@ -14,7 +14,7 @@
         <!-- Patient Details Form - Top Container -->
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
-            <div class="isloggedperson">
+            <div class="isloggedperson">                
                 <?php if (isset($_SESSION['USER']->role)&&$_SESSION['USER']->role!='reception_clerk'): ?>
                     <input name="isloggedperson" type="checkbox" id="isloggedperson"
                         data-title="<?php echo htmlspecialchars($_SESSION['USER']->title ?? ''); ?>"
@@ -42,12 +42,14 @@
                         <span id="nameError" class="error-message"></span>
                     </div>
                 </div>
+               
+
 
                 <?php if (!isset($_SESSION['USER']->role) || $_SESSION['USER']->role != 'reception_clerk'): ?>
                 <div class="form-group">
                     <label>Email <small class="optional-message"></small></label>
                     <input type="email" id="patientEmail" name="patientEmail" placeholder="Enter your email" required>
-                    <span id="emailError" class="error-message"></span>
+                    <!-- <span id="emailError" class="error-message"></span> -->
                 </div>
                  <?php endif; ?>
 

@@ -50,9 +50,9 @@ class DoctorAvailableTimes extends Controller
              $CurrentDate = date('Y-m-d');
              $CurrentTime = date('H:i:s');
 
-             usort($getAppointmentdetails, function($a, $b) {
-                return strtotime($a->appointment_date) - strtotime($b->appointment_date);
-            });
+             if (is_array($getAppointmentdetails)) {
+                 usort($getAppointmentdetails, fn($a, $b) => strtotime($a->appointment_date) - strtotime($b->appointment_date));
+             }
             
              
            // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)

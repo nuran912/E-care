@@ -56,10 +56,20 @@ class Appointmentdetails extends Controller
                         if ($appointment['total_slots'] > 0) {
                             $appointmentDetails['appointment_number'] =  $appointment['filled_slots'] + 1;
                             $sessionStartTime = new DateTime($appointmentDetails['session_time']);
+                        
                             $patientAppointmentOffsetMinutes = ($appointmentDurationMinutes / $appointment['total_slots']) * ($appointmentDetails['appointment_number'] - 1);
-                            $sessionStartTime->add(new DateInterval("PT{$patientAppointmentOffsetMinutes}M"));
+                        
+                            //  Fix fractional minutes to minutes + seconds
+                            $minutes = floor($patientAppointmentOffsetMinutes);
+                            $seconds = round(($patientAppointmentOffsetMinutes - $minutes) * 60);
+                        
+                            //  Create interval safely
+                            $interval = new DateInterval("PT{$minutes}M{$seconds}S");
+                            $sessionStartTime->add($interval);
+                        
                             $appointmentDetails['patient_appointment_time'] = $sessionStartTime->format('h:i A');
-                        } else {
+                        }
+                         else {
                             $appointmentDetails['patient_appointment_time'] = '12:00 AM';
                         }
                     } else {

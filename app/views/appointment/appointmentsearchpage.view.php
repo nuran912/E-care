@@ -45,7 +45,7 @@
             <?php if (!isset($_SESSION['USER']) || $_SESSION['USER'] === null || $_SESSION['USER']->role !== 'reception_clerk'): ?>
             <div class="form-group">
                 <label for="hospital">Hospital:</label>
-                <select id="hospital" name="hospital" <?php echo (empty($dateQuery) ? "" :  "value=\"$hospitalQuery\"") ?>>
+                <select id="hospital" name="hospital" <?php echo (empty($hospitalQuery) ? "" :  "value=\"$hospitalQuery\"") ?>>
                     <option value="" disabled selected>--Select Hospital--</option>
                     <?php foreach ($hospitals as $hospital): ?>
                         <option value="<?php echo $hospital['id']; ?>" <?php echo $hospitalQuery == $hospital['id'] ? 'selected' : ''; ?>>

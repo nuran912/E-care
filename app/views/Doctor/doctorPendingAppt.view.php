@@ -193,7 +193,7 @@
 </head>
 <body>
     <?php
-        // show($data);
+        show($data);
     ?>
     <div class="container">
         <div class="tabs">

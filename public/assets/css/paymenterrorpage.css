@@ -58,3 +58,9 @@ body {
 .try:hover{
     background-color: #d37774;
 }
+.home-link{
+   margin-top:20px;
+   color:blue ;
+   font-weight: 600;
+   
+}

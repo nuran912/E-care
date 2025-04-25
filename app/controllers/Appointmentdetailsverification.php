@@ -60,7 +60,7 @@ class Appointmentdetailsverification extends Controller
 
             
             $_SESSION['appointment'] = $data;
-            show($_SESSION['appointment']);
+            
          
          
             $this->view('appointment/appointmentdetailsverification', $data);

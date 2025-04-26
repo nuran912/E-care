@@ -194,7 +194,7 @@
 
         <form method="get" style="margin-bottom: 20px; text-align: center;">
             <label for="search-date">Search by date:</label>
-            <input type="date" name="search_date" class="search_date" value="<?= isset($search_date) ? htmlspecialchars($search_date) : '' ?>" >
+            <input type="date" name="search_date" class="search_date" value="<?= isset($search_date) ? htmlspecialchars($search_date) : '' ?>" required>
             <button type="submit" class="search">Search</button>
         </form>
 

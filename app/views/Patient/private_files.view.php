@@ -100,7 +100,7 @@
                                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                                     <input type="hidden" name="document_id" value="<?= htmlspecialchars($document['document_id']) ?>">
                                                     <label for="document_name">Update Document Name:</label><br>
-                                                    <input type="text" name="document_name" class="document-name" value="<?= $document_name ?>">
+                                                    <input type="text" name="document_name" class="document-name" value="<?= $document_name ?>" required>
                                                     <input type="hidden" name="extension" value="<?= $extension ?>">
                                                     <button type="submit" name="update" class="update">Update</button>
                                                 </form>
@@ -148,6 +148,7 @@
                     if (errorMessage) {
                         setTimeout(() => {
                             errorMessage.style.display = "none";
+                            window.location.href = "<?= ROOT ?>/Patient/private_files";
                         }, 5000);
                     }
                 });

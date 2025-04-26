@@ -46,7 +46,7 @@
             <!-- <p><strong>Schedule ID:</strong> <?php echo $_SESSION['appointment_data']['schedule_id']; ?></p> -->
         </div>
         <div class="buttons">
-        <button input onclick="window.location.href='<?php echo ROOT; ?>/Clerk/receptionClerkViewPendingAppointments'">Work Log</button>
+       
         <?php $appointmentId = $_GET['appointment_id'] ?? ''; ?>
              <?php if ($_SESSION['appointment_data']['payment_status'] == 'completed'): ?>
                 
@@ -54,7 +54,7 @@
                     Complete Appointment
                 </button>
             <?php else: ?>
-
+                <button input onclick="window.location.href='<?php echo ROOT; ?>/Clerk/receptionClerkViewPendingAppointments'">Work Log</button>
                     <form action="<?php echo ROOT; ?>/Appointment_successful_page?appointment_id=<?php echo $appointmentId; ?>" method="post">
             <button type="submit" name="submit" value="">Pay Now</button>
             </form>

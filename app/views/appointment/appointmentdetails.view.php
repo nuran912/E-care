@@ -33,7 +33,12 @@
                 <div class="form-row">
                     <div class="form-group title-group">
                         <label for="title">Title</label>
-                        <input type="text" id="title" name="title" placeholder="Enter title" required>
+                        <select id="title" name="title" required>
+                            <option value="" disabled selected>Select title</option>
+                            <option value="Mr.">Mr.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Mrs.">Mrs.</option>
+                        </select>
                         <span id="idError" class="error-message"></span>
                     </div>
                     <div class="form-group name-group">
@@ -55,7 +60,7 @@
 
                 <div class="form-group">
                     <label>Phone number</label>
-                    <input type="tel" id="patientPhone" name="patientPhone" pattern="[0-9]{10}" placeholder="Enter phone number" required>
+                    <input type="tel" id="patientPhone" name="patientPhone" pattern="0[0-9]{9}" placeholder="Enter phone number" required title="Phone number must be exactly 10 digits and start with 0.">
                     <span id="phoneError" class="error-message"></span>
                 </div>
                 <?php if (!isset($_SESSION['USER']->role) ||$_SESSION['USER']->role!='reception_clerk'): ?>
@@ -64,7 +69,7 @@
                    
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="nic" name="idType" required value="nic" checked>
+                            <input type="radio" id="nic" name="idType" required value="nic" checked  >
                             <label for="nic">NIC</label>
                         </div>
                         <div class="radio-item">
@@ -77,7 +82,7 @@
 
                 <!-- Input Field for ID -->
                 <div class="form-group">
-                    <input type="text" id="idNumber" placeholder="Enter Nic number" name="NicOrPassport" required>
+                    <input type="text" id="idNumber" placeholder="Enter NIC number (NIC number must be 12 digits or 9 digits followed by 'v' or 'V')" name="NicOrPassport" required>
                     <span id="idError" class="error-message"></span>
                 </div>
 

@@ -64,7 +64,7 @@
                    
                     <div class="radio-group">
                         <div class="radio-item">
-                            <input type="radio" id="nic" name="idType" required value="nic" checked>
+                            <input type="radio" id="nic" name="idType" required value="nic" >
                             <label for="nic">NIC</label>
                         </div>
                         <div class="radio-item">

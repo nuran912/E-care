@@ -21,7 +21,7 @@ class Appointmentdetailsverification extends Controller
             $hospitalName = $_POST['hospital_name'] ?? '';
             $sessionDate = $_POST['session_date'] ?? '';
             $sessionTime = $_POST['session_time'] ?? '';
-            $patient_appointment_time = $_POST['patient_appointment_time'] ??'';
+            $patient_appointment_time = isset($_POST['patient_appointment_time']) ? date("H:i", strtotime($_POST['patient_appointment_time'])) : '';
             $appointmentNumber = $_POST['appointment_number'] ?? '';
             $doctorid = $_POST['doctor_id'] ?? '';
             $doctorFee = $_POST['doctor_fee'] ?? '';

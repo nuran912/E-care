@@ -12,6 +12,7 @@ class Signup extends Controller
         $data['errors'] = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_SESSION['registerData'] = $_POST;
             try {
                 if ($user->validate($_POST)) {
                     // password_hashing
@@ -31,14 +32,14 @@ class Signup extends Controller
                         The Ecare Team<br></p>
                     ";
                     EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
-                    
+                    unset($_SESSION['registerData']);
                     redirect('signin');
                 } else {
                     $data['errors'] = $user->errors;
                 }
             } catch (Exception $e) {
                 if ($e->getCode() == 23000) { // Duplicate entry error code
-                    $data['errors'][] = "User details already exist";
+                    $data['errors']['exist'] = "User details already exist";
                 } else {
                     $data['errors'][] = $e->getMessage();
                 }

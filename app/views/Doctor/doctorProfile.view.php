@@ -310,7 +310,7 @@
                     <input type="text" name="other_qualifications" id="qualifications" placeholder="Enter your qualifications" value="<?= $data[0]->other_qualifications ?>">
                 </div>
                 <div class="info">
-                    <label for="id">NIC/Passport :</label>
+                    <label for="id">NIC :</label>
                     <input type="text" name="NIC" id="id" placeholder="Enter your identification" value="<?= $data[1]->NIC ?>">
                 </div>
                 <div class="info">

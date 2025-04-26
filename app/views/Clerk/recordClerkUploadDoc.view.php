@@ -262,6 +262,7 @@
             if (errorMessage) {
                 setTimeout(() => {
                     errorMessage.style.display = "none";
+                    window.location.href = "<?= ROOT ?>/Clerk/recordClerkUploadDoc";
                 }, 5000);
             }
         });

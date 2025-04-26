@@ -215,6 +215,9 @@ class Patient extends Controller
 
             date_default_timezone_set('Asia/Colombo');
             $current_date = date("Y-m-d");
+
+            
+
     
             if ($current_date < $session_date && (strtotime($session_date) - strtotime($current_date)) > 2 * 24 * 60 * 60) {
                 $appointmentsModel->update_is_deleted($appointment_id);
@@ -295,6 +298,7 @@ class Patient extends Controller
 
             $appointmentDate = $appointment->session_date;
             $appointmentTime = date("g:i A", strtotime($appointment->session_time));
+            // show('appointment start time: '.$appointmentTime);
            
             // show('current date: '.$currentDate . ', current time: '.$currentTime);
             // show('appointment date: '.$appointmentDate . ', appointment time: '.$end_time);
@@ -327,6 +331,7 @@ class Patient extends Controller
             return $appointment->session_date === $searchDate;
         });
     }
+    // show($pendingAppointments);
          // Pagination Logic for Pending Appointments
     $limit = 4;
     $currentPagePending = isset($_GET['page_pending']) ? (int)$_GET['page_pending'] : 1;

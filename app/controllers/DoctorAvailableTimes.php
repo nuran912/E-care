@@ -63,6 +63,7 @@ class DoctorAvailableTimes extends Controller
         if ($appointment->appointment_date > $CurrentDate) {
             return true;
         }
+       
         
         // Calculate the end time of the appointment
         $endTime  = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);

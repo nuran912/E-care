@@ -52,10 +52,11 @@ class Appointmentdetails extends Controller
                         
 
                         $appointmentDurationMinutes = $appointment['duration'] * 60;
-
+                        date_default_timezone_set(timezoneId: 'Asia/Colombo');
                         if ($appointment['total_slots'] > 0) {
                             $appointmentDetails['appointment_number'] =  $appointment['filled_slots'] + 1;
                             $sessionStartTime = new DateTime($appointmentDetails['session_time']);
+                            
                         
                             $patientAppointmentOffsetMinutes = ($appointmentDurationMinutes / $appointment['total_slots']) * ($appointmentDetails['appointment_number'] - 1);
                         
@@ -89,7 +90,7 @@ class Appointmentdetails extends Controller
             echo "Appointment ID not provided.";
             exit;
         }
-
+        
         $service_charge = 285;
 
         $doctor_fee = (float) $appointmentDetails['doctor_fee'] ?? 0;

@@ -16,14 +16,14 @@ function redirect($url)
 {
     if (!headers_sent()) {
         header("Location: " . ROOT . "/" . $url);
-        exit; // Ensure no further code is executed
+        exit; 
     } else {
         echo "<script>window.location.href='" . ROOT . "/" . $url . "';</script>";
-        exit; // Ensure no further code is executed
+        exit; 
     }
 }
 
-// this function redirects to the specified page after a delay of 3s
+
 function delayedRedirect($path)
 {
     header("refresh:4; url= " . ROOT . "/$path");
@@ -42,6 +42,11 @@ function findObjectById($array, $key, $value)
     return null;
 }
 
-// function back() {
-//    header("Location: " . $_SERVER['HTTP_REFERER']);
-// }
+
+
+function filterAppointmentsBySearch($appointments, $searchQuery)
+{
+    return array_filter($appointments, function ($appointment) use ($searchQuery) {
+        return stripos($appointment->hospital_name, $searchQuery) !== false;
+    });
+}

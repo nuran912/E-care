@@ -198,5 +198,15 @@ public function updateStatus($appointment_id, $status) {
         return $result ? $result : null;
         
     }
-    
+      public function getoderByAppointments(){
+    $query = "SELECT * FROM $this->table ORDER BY session_date DESC";
+    $result = $this->query($query);
+    return $result ? $result : null;
+}
+
+public function getgroupedAppointments(){
+    $query = "SELECT * FROM $this->table GROUP BY session_date ";
+    $result = $this->query($query);
+    return $result ? $result : null;
+}
 }

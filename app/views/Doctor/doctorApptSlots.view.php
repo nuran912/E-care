@@ -297,7 +297,7 @@
 </head>
 <body>
 
-    <?php show($_SESSION); ?>
+    <!-- <?php show($_SESSION); ?> -->
 
      <!-- Success Message -->
     <?php if (isset($_SESSION['cancelSuccess'])): ?>

@@ -16,7 +16,7 @@ class Signup extends Controller
             try {
                 if ($user->validate($_POST)) {
                     // password_hashing
-                    $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    // $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
                     $user->insert($_POST);
                     
                     $patientemail = $_POST['email'];

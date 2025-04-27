@@ -212,7 +212,6 @@
                         <div class="date">
                             <p><?php echo date('Y, F j, l',strtotime($date)) ?></p>
                         </div>
-                    
 
                         <?php foreach($docsForDate as $document): ?>
 

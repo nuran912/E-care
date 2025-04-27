@@ -375,7 +375,7 @@
 
                                                         <input type="hidden" name="appointment_id" value="<?php echo htmlspecialchars($appointment['appointment_id']) ?>">
                                                         
-                                                        <label for="patient_name">Session Date: </label>
+                                                        <label for="session_date">Session Date: </label>
                                                         <input type="text" name="session_date" class="session_date" value="<?php echo htmlspecialchars($appointment['session_date']) ?>" disabled>
                                                         <label for="patient_name">Patient Name: </label>
                                                         <input type="text" name="patient_name" class="patient-name" value="<?php echo htmlspecialchars($appointment['patient_name']) ?>" disabled>

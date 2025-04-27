@@ -42,11 +42,14 @@
             return json_decode(json_encode($result), true); // Convert object to array
         }
 
-        public function getAllDocuments() {
+        public function getAllDocuments($uploaded_by) {
+            if(empty($uploaded_by)) {
+                return [];
+            }
       
-            $query = "SELECT * FROM $this->table";
+            $query = "SELECT * FROM $this->table WHERE uploaded_by = :uploaded_by";
       
-            $result = $this->query($query);
+            $result = $this->query($query,['uploaded_by' => $uploaded_by]);
             
             if($result) {
                 return json_decode(json_encode($result), true); // Convert object to array

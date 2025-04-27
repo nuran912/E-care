@@ -276,7 +276,7 @@ class Clerk extends Controller {
         $document = new Document;
 
         //retrieve the documents
-        $documents = $document->getAllDocuments();
+        $documents = $document->getAllDocuments($_SESSION['USER']->user_id);
 
         //searching process
         $searchDate = isset($_GET['search_date']) ? $_GET['search_date'] : null;
@@ -462,7 +462,7 @@ class Clerk extends Controller {
             $document = new Document;
     
             //retrieve the documents
-            $documents = $document->getAllDocuments();
+            $documents = $document->getAllDocuments($_SESSION['USER']->user_id);
     
             //searching process
             $searchDate = isset($_GET['search_date']) ? $_GET['search_date'] : null;

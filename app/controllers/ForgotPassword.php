@@ -17,6 +17,8 @@ class ForgotPassword extends Controller
     {
         $this->view('header');
 
+        
+
         $user = new User;
         $data = [];
 
@@ -46,6 +48,7 @@ class ForgotPassword extends Controller
                 EmailHelper::sendEmail($email, "", $subject, $body);
                 // show($email);
                 $data['success'] = "Password reset link has been sent to your email";
+                // unset($_SESSION['emailToBeRecovered']);
             }else{
                 $data['error'] = "Email does not exist";
                 // show($data['error']);

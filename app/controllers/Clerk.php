@@ -252,6 +252,12 @@ class Clerk extends Controller {
                             $data['success'] = "Email sent successfully."; 
                         }
                         else {
+                            //if email not sent, delete the document from the database
+                            if(file_exists($targetPath)) {
+                                if(unlink($targetPath)) {
+                                    $document->delete($ref_no,'ref_no');
+                                }
+                            }
                             $data['error'] = "Failed to send email.";
                         }
                     }

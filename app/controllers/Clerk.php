@@ -291,7 +291,7 @@ class Clerk extends Controller {
                 }
             }
 
-            //sort by time descending
+            //sort by uploaded_at descending
             usort($filteredDocuments, function($a,$b) {
                 return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
             });
@@ -311,8 +311,6 @@ class Clerk extends Controller {
                 $groupedByDate[$dateOnly][] = $doc;
             endforeach;
 
-            //sort by date descending
-            krsort($groupedByDate);
         }
         else {
             //default: if search date is not provided
@@ -477,7 +475,7 @@ class Clerk extends Controller {
                     }
                 }
 
-                //sort by time descending
+                //sort by uploaded_at descending
                 usort($filteredDocuments, function($a,$b) {
                     return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
                 });
@@ -496,9 +494,6 @@ class Clerk extends Controller {
                     $dateOnly = date('Y-m-d',strtotime($doc['uploaded_at']));
                     $groupedByDate[$dateOnly][] = $doc;
                 endforeach;
-    
-                //sort by date descending
-                krsort($groupedByDate);
             }
             else {
                 //default: if search date is not provided

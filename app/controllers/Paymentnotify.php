@@ -46,6 +46,26 @@ class Paymentnotify extends Controller
             'updated_at' => date('Y-m-d H:i:s')
         ];
 
+
+        // if(isset($_GET['search'])){
+        //     $searchQuery = $_GET['search'];
+        //     $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($searchQuery) {
+        //         return stripos($appointment->hospital_name, $searchQuery) !== false;
+        // });
+        // }
+
+        ?>
+                <div class="search">
+                    <p>Enter hospital</p>
+                    <form action="<?php echo ROOT; ?>/DoctorAvailableTimes" method="GET">
+                        <input type="text" name="search" placeholder="Search for hospital" required>
+                        <input type="hidden" name="doctor_id" value="<?= $_GET['doctor_id'] ?>">
+                        <button type="submit">Search</button>
+                </div>
+            </form>
+        <?php
+
+
         // Update or insert payment
         $paymentModel = new PaymentModel();
         $existingPayment = $paymentModel->getByOrderId($orderId);

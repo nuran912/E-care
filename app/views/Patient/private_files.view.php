@@ -36,7 +36,7 @@
         <div id="errorMessage" class="alert alert-danger">
             <?= htmlspecialchars($data['same_name_error']); ?>
         </div>
-        <?php unset($data['error']); ?>
+        <?php unset($data['same_name_error']); ?>
         <?php endif; ?>
 
         <main>

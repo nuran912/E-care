@@ -19,34 +19,40 @@
          <li>
             <a href="<?= ROOT ?>/Laboratories">Services</a>
             <div class="dropdown">
-   <div class="dropdown-columns">
-      
-      <!-- Lab Services section -->
-      <div class="dropdown-column">
-         <h4>Lab Services</h4>
-         <ul>
-            <li><a href="<?= ROOT ?>/Laboratories#union-laboratories-bambalapitiya">Union Laboratories - Bambalapitiya</a></li>
-            <li><a href="<?= ROOT ?>/Laboratories#union-laboratories-dehiwala">Union Laboratories - Dehiwala</a></li>
-            <li><a href="<?= ROOT ?>/Laboratories#union-laboratories-rajagiriya">Union Laboratories - Rajagiriya</a></li>
-         </ul>
-      </div>
-
-      <!-- Hospital Services section -->
-      <div class="dropdown-column">
-         <h4>Hospital Services</h4>
-         <ul>
-            <li><a href="<?= ROOT ?>/Hospitals#union-central-hospital">Union Central Hospital</a></li>
-            <li><a href="<?= ROOT ?>/Hospitals#union-medical-hospital">Union Medical Hospital</a></li>
-            <li><a href="<?= ROOT ?>/Hospitals#union-surgical-hospital">Union Surgical Hospital</a></li>
-         </ul>
-      </div>
-
-   </div>
-</div>
+               <div class="dropdown-columns">
+                  <!-- Lab Services section -->
+                  <div class="dropdown-column">
+                     <h4>Lab Services</h4>
+                     <ul>
+                        <li><a href="<?= ROOT ?>/Laboratories#union-laboratories-bambalapitiya">Union Laboratories - Bambalapitiya</a></li>
+                        <li><a href="<?= ROOT ?>/Laboratories#union-laboratories-dehiwala">Union Laboratories - Dehiwala</a></li>
+                        <li><a href="<?= ROOT ?>/Laboratories#union-laboratories-rajagiriya">Union Laboratories - Rajagiriya</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
 
          </li>
          <li><a href="<?= ROOT?>/appointmentsearchpage">Appointment</a></li>
-         <li><a href="<?= ROOT ?>/Hospitals">About</a></li>
+
+         <li>
+            <a href="<?= ROOT ?>/Hospitals">About</a>
+            <div class="dropdown">
+               <div class="dropdown-columns">
+                  <!-- Hospital Services section -->
+                  <div class="dropdown-column">
+                     <h4>Hospital Services</h4>
+                     <ul>
+                        <li><a href="<?= ROOT ?>/Hospitals#union-central-hospital">Union Central Hospital</a></li>
+                        <li><a href="<?= ROOT ?>/Hospitals#union-medical-hospital">Union Medical Hospital</a></li>
+                        <li><a href="<?= ROOT ?>/Hospitals#union-surgical-hospital">Union Surgical Hospital</a></li>
+                     </ul>
+                  </div>
+
+               </div>
+            </div>
+         </li>
+
          <li><a href="<?= ROOT ?>/Articles">Articles</a></li>
       </ul>
 

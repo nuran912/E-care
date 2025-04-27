@@ -323,27 +323,27 @@
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
-                    <input type="date" id="date" name="date" min="<?=date("Y-m-d");?>">
+                    <input type="date" id="date" name="date" min="<?=date("Y-m-d");?>" required>
                 </div>
                 <div class="item">
                     <label for="count">&nbsp&nbspNo. of patients</label>
-                    <input type="text" id="count" name="count" placeholder="Enter number of patients">
+                    <input type="text" id="count" name="count" placeholder="Enter number of patients" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="item">
                     <label for="duration">&nbsp&nbspDuration of slot(hours)</label>
-                    <input type="text" id="duration" name="duration">
+                    <input type="text" id="duration" name="duration" required>
                 </div>
                 <div class="item">
                     <label for="time">&nbsp&nbspTime</label>
-                    <input type="time" id="time" name="time">
+                    <input type="time" id="time" name="time" min="09:00" max="21:00" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="item">
                     <label for="hospital">&nbsp&nbspHospital</label>
-                    <select id="hospital" name="hospital">
+                    <select id="hospital" name="hospital" required>
                         <?php
                             $hospitals = new Hospital;
                             $hospitals = $hospitals->getAll();
@@ -354,7 +354,7 @@
                 </div>
                 <div class="item">
                     <label for="repeat">&nbsp&nbspRepeat</label>
-                    <select id="repeat" name="repeat">
+                    <select id="repeat" name="repeat" required>
                         <option value="0">Never</option>
                         <option value="1">Weekly (For 4 Weeks)</option>
                         <option value="2">Monthly (For 4 Months)</option>

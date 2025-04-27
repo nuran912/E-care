@@ -204,9 +204,15 @@
             <div class="item3">
                 <label for="status">Appointment status:</label>
                 <select id="status" name="status" style="width: 150px; border-radius: 5px; padding: 3px; font-size:large; text-align: center;">
-                    <option value="" disabled selected><?=$data[0]->status?></option>
+                <?php
+                    // if the appointment is a past appointment, the status is not editable⬇️
+                    if($sessionDate->format('Y-m-d') < $currentDate->format('Y-m-d')){ ?>
+                        <option value="<?=$data[0]->status?>" disabled selected><?=$data[0]->status?></option>
+                    <?php }else{ ?>
+                    <option value="<?=$data[0]->status?>" disabled selected><?=$data[0]->status?></option>
                     <option value="completed">completed</option>
                     <option value="no show">no show</option>
+                    <?php } ?>
                 </select>
             </div>
             <?php 

@@ -264,10 +264,11 @@ class Doctor extends Controller{
             // 'createError' => "",
         ];
 
+        $existingSlots = $apptSlot->getByDoctorId($doctorData->id);
+        // show($existingSlots);
+        $slotClashCount = 0;
+
         if( $a == 'create'){
-
-
-            $date = new DateTime($_POST['date']);
 
             $date = new DateTime($_POST['date']);
 
@@ -277,34 +278,50 @@ class Doctor extends Controller{
             $data['hospital_id'] = $_POST['hospital'];
             $data['total_slots'] = $_POST['count'];
             $data['repeat'] = $_POST['repeat'];
-
-            // $doctor = $doctor->getDoctorByUserId($_SESSION['USER']->user_id);
             $data['doctor_id'] = $doctorData->id;
 
+            // $allfieldsEntered is used as a flag to check if all fields are filled in the form or if the slot time clashes with an existing slot
             $allFieldsEntered = true;
-            if($data['date']=="" || $data['start_time']=="" || $data['duration']=="" || $data['total_slots']==""){
+            if ($data['date'] == "" || $data['start_time'] == "" || $data['duration'] == "" || $data['total_slots'] == "") {
                 $alerts['createError'] = "Please fill all fields to create a new slot";
                 $allFieldsEntered = false;
             }
-            // if($data['start_time']){
-            // }
 
-            if($allFieldsEntered){
-                switch($data['repeat']){
+            // Check if the new slot time clashes with a previously made slot
+            $newSlotStartTime = new DateTime($data['start_time']);
+            $newSlotEndTime = (new DateTime($data['start_time']))->modify("+{$data['duration']} hours");
+
+            foreach ($existingSlots as $slot) {
+                $slotStartTime = new DateTime($slot->start_time);
+                $slotEndTime = (new DateTime($slot->start_time))->modify("+{$slot->duration} hours");
+
+                if (
+                    ($newSlotStartTime >= $slotStartTime && $newSlotStartTime < $slotEndTime) || // New slot starts during an existing slot
+                    ($newSlotEndTime > $slotStartTime && $newSlotEndTime <= $slotEndTime) ||    // New slot ends during an existing slot
+                    ($newSlotStartTime <= $slotStartTime && $newSlotEndTime >= $slotEndTime)    // New slot completely overlaps an existing slot
+                ) {
+                    $slotClashCount++;
+                }
+            }
+
+            if ($slotClashCount > 0) {
+                $allFieldsEntered = false;
+                $alerts['createError'] = "Slot time clashes with another slot. Please select a different time.";
+            }
+
+            if ($allFieldsEntered == true) {
+                switch ($data['repeat']) {
                     case "0":
-                        //No repeat
-                        // show("no repeat");
+                        // No repeat
                         $data['date'] = $date->format('Y-m-d');
                         $apptSlot->insert($data);
                         $alerts['createSuccess'] = "New appointment slot added successfully";
                         break;
                     case "1":
-                        //Repeat for 4 weeks
-                        // show("weekly repeat");
+                        // Repeat for 4 weeks
                         $data['date'] = $date->format('Y-m-d');
                         $apptSlot->insert($data);
-                        for($i=0;$i<3;$i++){
-                            // $r = 7 * $i;
+                        for ($i = 0; $i < 3; $i++) {
                             $date->modify("+7 days");
                             $data['date'] = $date->format('Y-m-d');
                             $apptSlot->insert($data);
@@ -312,12 +329,10 @@ class Doctor extends Controller{
                         $alerts['createSuccess'] = "New appointment slots added successfully";
                         break;
                     case "2":
-                        //Repeat for 4 months
-                        // show("monthly repeat");
+                        // Repeat for 4 months
                         $data['date'] = $date->format('Y-m-d');
                         $apptSlot->insert($data);
-                        for($i=0;$i<3;$i++){
-                            // $r = 28 * $i;
+                        for ($i = 0; $i < 3; $i++) {
                             $date->modify("+28 days");
                             $data['date'] = $date->format('Y-m-d');
                             $apptSlot->insert($data);
@@ -533,7 +548,7 @@ class Doctor extends Controller{
             $doctorNotes = trim($_POST['noteBox']); //trim used to remove default leading whitespace
             $appt->updateDoctorNotes($apptId, $doctorNotes);
 
-            $updatedStatus = $_POST['status'];
+            $updatedStatus = (isset($_POST['status'])) ? $_POST['status'] : "scheduled";
             $appt->update_status($apptId, $updatedStatus);
 
             redirect('/Doctor/doctorPendingAppt');

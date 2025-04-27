@@ -32,9 +32,10 @@ class Signin extends Controller
                     //when user enters a valid email but password doesn't match
                     $data['errors'] = "Wrong Email or Password";
                 }
-            }else{
+            }
+            else{
                 //when user enters an invalid email
-                $data['errors'] = "Please enter email and password"; 
+                $data['errors'] = "Please enter valid email and password"; 
             }
             }
             if(isset($data['errors'])){

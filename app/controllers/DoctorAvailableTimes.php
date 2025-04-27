@@ -55,7 +55,7 @@ class DoctorAvailableTimes extends Controller
              }
             
              
-           // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)
+           // Ensure $getAppointmentdetails is an array and not a boolean 
                     if (is_array($getAppointmentdetails)) {
      // Filter appointments based on the current date and time this displays only the valid  slots 
          $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
@@ -73,7 +73,7 @@ class DoctorAvailableTimes extends Controller
             return true;
         }
 
-        // Otherwise, hide the slot
+        // Otherwise hide the slot
         return false;
     });
 } else {
@@ -85,7 +85,7 @@ class DoctorAvailableTimes extends Controller
 if (empty($getAppointmentdetails)) {
     $noAppointmentsMessage    = "No appointments available for this doctor at the moment.";
 } else {
-    $noAppointmentsMessage    = ''; // Clear the message if there are appointments
+    $noAppointmentsMessage    = ''; 
 }
 
 $page=isset($_GET['page'])?(int)$_GET['page']:1;
@@ -95,7 +95,7 @@ $totalAppointmentSlots=count($getAppointmentdetails);
 $totalPages=ceil($totalAppointmentSlots/$limit);
 $getAppointmentdetails=array_slice($getAppointmentdetails,$offset,$limit);
 
-// Prepare the data for the view
+
 $data = [
     'appointments' => $getAppointmentdetails,
     'totalPages' => $totalPages,
@@ -109,7 +109,7 @@ $data = [
 
 ];
 
-// Load the views
+
 $this->view('appointment/doctorAvailableTimes', $data);
 $this->view('footer');
     }

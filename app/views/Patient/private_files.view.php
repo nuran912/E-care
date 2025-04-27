@@ -148,7 +148,7 @@
                     if (errorMessage) {
                         setTimeout(() => {
                             errorMessage.style.display = "none";
-                            window.location.href = "<?= ROOT ?>/Patient/private_files";
+                            window.location.href = "<?= ROOT ?>/Patient/private_files?page=<?= $currentPage ?>"; // Redirect to the same page after hiding the message
                         }, 5000);
                     }
                 });

@@ -48,7 +48,13 @@
       
             $result = $this->query($query);
             
-            return json_decode(json_encode($result), true); // Convert object to array
+            if($result) {
+                return json_decode(json_encode($result), true); // Convert object to array
+            }
+            else {
+                return [];
+            }
+            
         }
 
         public function getDocumentNamebyId($id){

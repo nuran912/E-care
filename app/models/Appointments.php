@@ -27,7 +27,7 @@ class Appointments
         'doctor_notes',  
         'email_sent',
         'is_deleted',
-        'age'
+        
 
 
     ];

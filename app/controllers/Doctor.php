@@ -383,9 +383,10 @@ class Doctor extends Controller{
                 $slotSessionTime = (new DateTime($slot->start_time))->format("g:i A");
 
                 $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
+                show($apptData);
                 // appointments can only be cancelled 48h before the start time
                 if($currentDate < $timeToCancel){
-                    $alerts['cancelSuccess'] = "Appointment slot has been cancelled successfully";
+                    
                     // update appointment status in the availabletimes table
                     $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
                     // show($apptData);
@@ -421,6 +422,7 @@ class Doctor extends Controller{
                         );
                         }
                     }
+                    $alerts['cancelSuccess'] = "Appointment slot has been cancelled successfully";
                 }else{
                     $alerts['cancelError'] = "You can only cancel an appointment before 48h";
                 }
@@ -432,7 +434,7 @@ class Doctor extends Controller{
             }
             if(isset($alerts['cancelSuccess'])){
                 $_SESSION['cancelSuccess'] = $alerts['cancelSuccess'];
-                redirect('Doctor/doctorApptSlots');
+                // redirect('Doctor/doctorApptSlots');
             }
         }
         

@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Update placeholder based on selected ID type
         idNumberInput.placeholder =
           radio.value === "nic"
-            ? "Enter NIC number"
+            ? "Enter NIC number (NIC number must be 12 digits or 9 digits followed by 'v' or 'V')"
             : "Enter Passport number  (Passport number must start with N or P followed by 7 digits (e.g., N1234567))";
         // Optionally clear the input value
         idNumberInput.value = "";
@@ -55,13 +55,13 @@ document.addEventListener("DOMContentLoaded", function () {
   function updatePattern() {
     if (nicRadio.checked) {
       idNumberInput.setAttribute("pattern", nicPattern);
-      idNumberInput.setAttribute("placeholder", "Enter NIC number");
+      idNumberInput.setAttribute("placeholder", "Enter NIC number (NIC number must be 12 digits or 9 digits followed by 'v' or 'V')");
     } else if (passportRadio.checked) {
       idNumberInput.setAttribute("pattern", passportPattern);
       idNumberInput.setAttribute("placeholder", "Enter Passport number (Passport number must start with N or P followed by 7 digits (e.g., N1234567))");
     }
   }
-
+f
   nicRadio.addEventListener("change", updatePattern);
   passportRadio.addEventListener("change", updatePattern);
 
@@ -100,19 +100,48 @@ document.addEventListener("DOMContentLoaded", function () {
   loggedpersonCheckbox.addEventListener("change", updateFormFields);
 });
 
+document.getElementById('selectDocumentsBtn').addEventListener('click', function() {
+  document.getElementById('documentsPopup').style.display = 'block';
+});
 
+document.getElementById('closePopup').addEventListener('click', function() {
+  document.getElementById('documentsPopup').style.display = 'none';
+});
 
-                    document.getElementById('selectDocumentsBtn').addEventListener('click', function() {
-                        document.getElementById('documentsPopup').style.display = 'block';
-                    });
+window.addEventListener('click', function(event) {
+  if (event.target == document.getElementById('documentsPopup')) {
+    document.getElementById('documentsPopup').style.display = 'none';
+  }
+});
 
-                    document.getElementById('closePopup').addEventListener('click', function() {
-                        document.getElementById('documentsPopup').style.display = 'none';
-                    });
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.querySelector("form[name='patientForm']");
+  const inputs = form.querySelectorAll("input, select");
 
-                    window.addEventListener('click', function(event) {
-                        if (event.target == document.getElementById('documentsPopup')) {
-                            document.getElementById('documentsPopup').style.display = 'none';
-                        }
-                    });
-                
+  // inputs.forEach((input) => {
+  //   input.addEventListener("input", () => {
+  //     const errorMessage = input.nextElementSibling;
+  //     if (input.validity.valid) {
+  //       if (errorMessage && errorMessage.classList.contains("error-message")) {
+  //         errorMessage.textContent = "";
+  //       }
+  //     } else {
+  //       if (errorMessage && errorMessage.classList.contains("error-message")) {
+  //         if (input.validity.valueMissing) {
+  //           errorMessage.textContent = "This field is required.";
+  //         } else if (input.validity.patternMismatch) {
+  //           if (input.id === "patientPhone") {
+  //             errorMessage.textContent = "Phone number must be exactly 10 digits.";
+  //           } else if (input.id === "idNumber") {
+  //             errorMessage.textContent = "Invalid NIC or Passport format.";
+  //           }
+  //         } else if (input.validity.typeMismatch) {
+  //           if (input.id === "patientEmail") {
+  //             errorMessage.textContent = "Please enter a valid email address.";
+  //           }
+  //         }
+  //       }
+  //     }
+  //   });
+  // });
+});

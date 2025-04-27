@@ -27,6 +27,10 @@ class User
    {
       $this->errors = [];
 
+      if(empty($data['name'])){
+         $this->errors['name'] = "Full Name is required";
+      }
+
       //check email (validity)
       if (empty($data['email'])) {
          $this->errors['email'] = "Email is required";

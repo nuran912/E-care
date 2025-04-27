@@ -257,6 +257,7 @@
             if (errorMessage) {
                 setTimeout(() => {
                     errorMessage.style.display = "none";
+                    window.location.href = "<?= ROOT ?>/Clerk/labClerkUploadDoc";
                 }, 5000);
             }
         });

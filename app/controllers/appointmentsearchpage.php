@@ -73,7 +73,7 @@ class Appointmentsearchpage extends Controller
             'clerkDetails' => isset($_SESSION['USER']) && $_SESSION['USER'] !== null && $_SESSION['USER']->role === 'reception_clerk' ? $clerkDetails : null
         ];
 
-        //currently empty queries are  $hospitalQuery        
+               
         $this->view('appointment/appointmentsearchpage', $data);
 
 

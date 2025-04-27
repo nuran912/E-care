@@ -12,7 +12,7 @@ class ProcessPayment extends Controller
         
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Collect and sanitize form data
+          
             $patientName = htmlspecialchars($_POST['patientName'] ?? '');
             $patientEmail = htmlspecialchars($_POST['patientEmail'] ?? '');
             $patientPhone = htmlspecialchars($_POST['patientPhone'] ?? '');
@@ -32,7 +32,7 @@ class ProcessPayment extends Controller
            
             
 
-            // Prepare data for insertion
+            
             $appointmentData = [
                 'patient_name' => $patientName,
                 'patient_Email' => $patientEmail,
@@ -55,14 +55,14 @@ class ProcessPayment extends Controller
             $updateData = ['filled_slots' => $filledSlots + 1];
             $user_id = $_SESSION['USER']->user_id ?? null;
 
-            // Update the database records
+           
             $updateFilledSlots->update($availableTimeId, $updateData, 'id');
             $createAppointment->insert($appointmentData);
 
             $appointment_id = $createAppointment->getByNIC_LatestRow($nicOrPassport);
 
             $_SESSION['appointment_id'] = $appointment_id;
-            // $this->view('appointment/processpayment', ['appointmentData' => $appointmentData]);
+           
             if (isset($_SESSION['USER']) && $_SESSION['USER']->role == 'reception_clerk') {
                 $_SESSION['appointment_data'] = $appointmentData;
 
@@ -76,14 +76,14 @@ class ProcessPayment extends Controller
             
            else{    
 
-            // Redirect to PayHere
+            
             $merchantId = '1228671';
             $returnUrl = ROOT . '/Paymentsuccessfulpage';
             $cancelUrl = ROOT . '/PaymentErrorPage';
             $notifyUrl = ROOT . '/PaymentNotify';
             $merchant_secret='MjQwOTcyNzAzMjM0ODk4MTYwNDQ0Mzc1NjQ3OTQ5MTM5ODYx';
             $currency = "LKR";
-            // $order_id = random_int(10000,999999);
+            
             $order_id = $appointment_id;
 
             $hash = strtoupper(

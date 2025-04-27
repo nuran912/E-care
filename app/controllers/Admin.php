@@ -70,12 +70,11 @@ class Admin extends Controller
 
       $profilePic = $userModel->getProfilePic($_SESSION['USER']->user_id);
 
-        if(!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
-            $data['profilePic'] = ROOT . "/assets/profile_pictures/" . htmlspecialchars($_SESSION['USER']->user_id) . "/" . $profilePic[0]['profile_pic'];
-        }
-        else {
-            $data['profilePic'] = ROOT . "/assets/img/user.svg";
-        }
+      if (!empty($profilePic) && !empty($profilePic[0]['profile_pic'])) {
+         $data['profilePic'] = ROOT . "/assets/profile_pictures/" . htmlspecialchars($_SESSION['USER']->user_id) . "/" . $profilePic[0]['profile_pic'];
+      } else {
+         $data['profilePic'] = ROOT . "/assets/img/user.svg";
+      }
 
       if ($a == 'edit' && $_SERVER['REQUEST_METHOD'] === 'POST') {
          $userData = $_POST;
@@ -83,17 +82,15 @@ class Admin extends Controller
 
          if ($validationErrors === true) {
             $updateResult = $userModel->updateUser($user->user_id, $userData, 'user_id');
-            
-               $_SESSION['edit_success'] = 'Profile updated successfully.';
-               
-               // Unset and reset session with updated user data
-               unset($_SESSION['USER']);
-               $_SESSION['USER'] = $userModel->first(['user_id' => $user->user_id]);
-            
+
+            $_SESSION['edit_success'] = 'Profile updated successfully.';
+
+            // Unset and reset session with updated user data
+            unset($_SESSION['USER']);
+            $_SESSION['USER'] = $userModel->first(['user_id' => $user->user_id]);
          } else {
-            $data['validation_errors'] = $validationErrors;
+            $_SESSION['validation_errors'] = $validationErrors; // Pass errors to session
          }
-         // show($data);
          redirect('Admin/profile');
       }
 
@@ -103,7 +100,7 @@ class Admin extends Controller
 
          if ($updateResult === true) {
             $_SESSION['edit_success'] = 'Password updated successfully.';
-            
+
             // Unset and reset session with updated user data
             unset($_SESSION['USER']);
             $_SESSION['USER'] = $userModel->first(['user_id' => $user->user_id]);
@@ -123,42 +120,42 @@ class Admin extends Controller
 
          //check if the file(profile picture) was uploaded
          if (isset($_FILES['profile-pic']) && $_FILES['profile-pic']['error'] == 0) {
-             $filename = basename($_FILES['profile-pic']['name']);
-             $targetPath = $targetDir . $filename;
+            $filename = basename($_FILES['profile-pic']['name']);
+            $targetPath = $targetDir . $filename;
 
-             //check if the target directory exists, if not, create a one
-             if (!is_dir($targetDir)) {
-                 mkdir($targetDir, 0777, true);
-             }
+            //check if the target directory exists, if not, create a one
+            if (!is_dir($targetDir)) {
+               mkdir($targetDir, 0777, true);
+            }
 
-             //before uploading, delete the old profile picture
-             //fetch the current profile picture from the database
-             $currentProfilePic = $userModel->getProfilePic($user_id);
-             if(!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
-                 $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
+            //before uploading, delete the old profile picture
+            //fetch the current profile picture from the database
+            $currentProfilePic = $userModel->getProfilePic($user_id);
+            if (!empty($currentProfilePic) && !empty($currentProfilePic[0]['profile_pic'])) {
+               $oldPicPath = $targetDir . $currentProfilePic[0]['profile_pic'];
 
-                 //check if the old pic exists and deletes it
-                 if(file_exists($oldPicPath)) {
-                     unlink($oldPicPath);
-                 }
-             }
+               //check if the old pic exists and deletes it
+               if (file_exists($oldPicPath)) {
+                  unlink($oldPicPath);
+               }
+            }
 
-             //moving the file to the target path
-             if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
+            //moving the file to the target path
+            if (move_uploaded_file($_FILES['profile-pic']['tmp_name'], $targetPath)) {
 
-                 //moved successfully
-                 $userModel->update($user_id,['profile_pic' => $filename],'user_id');
+               //moved successfully
+               $userModel->update($user_id, ['profile_pic' => $filename], 'user_id');
 
-                 //unset the session variable to remove the old profile picture
-                 unset($_SESSION['USER']->profile_pic);
-                 //adding the new profile picture to the session variable
-                 $_SESSION['USER']->profile_pic = $filename;
-                 
-                 redirect('Admin/profile');
-             }
+               //unset the session variable to remove the old profile picture
+               unset($_SESSION['USER']->profile_pic);
+               //adding the new profile picture to the session variable
+               $_SESSION['USER']->profile_pic = $filename;
+
+               redirect('Admin/profile');
+            }
          }
-     }
-      
+      }
+
 
       if (isset($_SESSION['edit_success'])) {
          $data['edit_success'] = $_SESSION['edit_success'];
@@ -168,7 +165,12 @@ class Admin extends Controller
          $data['edit_error'] = $_SESSION['edit_error'];
          unset($_SESSION['edit_error']);
       }
-      
+
+      if (isset($_SESSION['validation_errors'])) {
+         $data['validation_errors'] = $_SESSION['validation_errors'];
+         unset($_SESSION['validation_errors']);
+      }
+
       $this->view('admin/profile', $data);
       $this->view('footer');
    }
@@ -185,41 +187,42 @@ class Admin extends Controller
          'users' => $users,
       ];
 
-      if (isset($_SESSION['delete_success'])) {
-         $data['delete_success'] = $_SESSION['delete_success'];
-         unset($_SESSION['delete_success']);
-      }
-
-      if (isset($_SESSION['create_success'])) {
-         $data['create_success'] = $_SESSION['create_success'];
-         unset($_SESSION['create_success']);
-      }
 
       if (isset($_SESSION['edit_success'])) {
          $data['edit_success'] = $_SESSION['edit_success'];
          unset($_SESSION['edit_success']);
       }
 
-      if($a == 'toggleStatus'){
+      if ($a == 'toggleStatus') {
+         if (isset($_SESSION['reset_success'])) {
+            $data['reset_success'] = $_SESSION['reset_success'];
+            unset($_SESSION['reset_success']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
             $userModel = new User;
             $user = $userModel->first(['user_id' => $userId]);
-   
+
             if ($user) {
                $newStatus = $user->is_active ? 0 : 1;
                $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+               $_SESSION['reset_success'] = 'User status has been updated successfully.';
             }
          }
          redirect('Admin/user');
       }
 
-      if($a == 'resetPassword'){
+      if ($a == 'resetPassword') {
+         if (isset($_SESSION['reset_success'])) {
+            $data['reset_success'] = $_SESSION['reset_success'];
+            unset($_SESSION['reset_success']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
             $nic = $_POST['nic'];
+            $hashedNic = password_hash($nic, PASSWORD_DEFAULT);
             $userModel = new User;
-            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $userModel->update($userId, ['password' => $hashedNic], 'user_id');
             $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
          }
          redirect('Admin/user');
@@ -241,47 +244,52 @@ class Admin extends Controller
          'doctors' => $doctors
       ];
 
-      if (isset($_SESSION['delete_success'])) {
-         $data['delete_success'] = $_SESSION['delete_success'];
-         unset($_SESSION['delete_success']);
-      }
 
-      if (isset($_SESSION['create_success'])) {
-         $data['create_success'] = $_SESSION['create_success'];
-         unset($_SESSION['create_success']);
-      }
-
-      if (isset($_SESSION['edit_success'])) {
-         $data['edit_success'] = $_SESSION['edit_success'];
-         unset($_SESSION['edit_success']);
-      }
-
-      if($a == 'toggleStatus'){
+      if ($a == 'toggleStatus') {
+         if (isset($_SESSION['reset_success'])) {
+            $data['reset_success'] = $_SESSION['reset_success'];
+            unset($_SESSION['reset_success']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
             $userModel = new User;
             $user = $userModel->first(['user_id' => $userId]);
-   
+
             if ($user) {
                $newStatus = $user->is_active ? 0 : 1;
                $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+               $_SESSION['reset_success'] = 'User status has been updated successfully.';
             }
          }
          redirect('Admin/doctor');
       }
 
-      if($a == 'resetPassword'){
+      if ($a == 'resetPassword') {
+         if (isset($_SESSION['reset_success'])) {
+            $data['reset_success'] = $_SESSION['reset_success'];
+            unset($_SESSION['reset_success']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
             $nic = $_POST['nic'];
+            $hashedNic = password_hash($nic, PASSWORD_DEFAULT);
             $userModel = new User;
-            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $userModel->update($userId, ['password' => $hashedNic], 'user_id');
             $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
          }
          redirect('Admin/doctor');
       }
 
-      if($a == 'edit'){
+      if ($a == 'edit') {
+
+         if (isset($_SESSION['edit_success'])) {
+            $data['edit_success'] = $_SESSION['edit_success'];
+            unset($_SESSION['edit_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $doctorModel = new DoctorModel;
             $doctorData = [
@@ -293,21 +301,39 @@ class Admin extends Controller
                'Doctor_fee' => $_POST['doctor_fee'],
                'special_note' => $_POST['special_note'],
                'id' => $_POST['doctor_id']
-           ];
-           $userData = [
-            'email' => $_POST['email'],
-            'phone_number' => $_POST['phone_number'],
-            'NIC' => $_POST['nic'],
-            // 'is_active' => $_POST['is_active'],
-            'user_id' => $_POST['user_id']
-        ];
-            $doctorModel->updateDoctorsWithUserDetails($doctorData, $userData);
-            $_SESSION['edit_success'] = 'Doctor details updated successfully.';
+            ];
+            $userData = [
+               'user_id' => $_POST['user_id'],
+               'name' => $_POST['name'],
+               'email' => $_POST['email'],
+               'phone_number' => $_POST['phone_number'],
+               'NIC' => $_POST['nic'],
+               // 'is_active' => $_POST['is_active'],
+
+            ];
+
+            $updatedDoc = $doctorModel->updateDoctorsWithUserDetails($doctorData, $userData);
+            if (!$updatedDoc) {
+               $_SESSION['edit_success'] = 'Doctor details updated successfully.';
+            } else {
+               $_SESSION['create_error'] = 'Failed to update doctor details. Please check updated Email.';
+            }
+
             redirect('Admin/doctor');
          }
       }
 
       if ($a == 'create') {
+
+         if (isset($_SESSION['create_success'])) {
+            $data['create_success'] = $_SESSION['create_success'];
+            unset($_SESSION['create_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
+
          $doctorModel = new DoctorModel;
          $userModel = new User;
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -324,7 +350,7 @@ class Admin extends Controller
             $userData = [
                'email' => $_POST['email'],
                'role' => 'doctor',
-               'title' => 'Dr.',
+               'title' => 'Mr.',
                'name' => $_POST['name'],
                'password' => $_POST['nic'],
                'phone_number' => $_POST['phone_number'],
@@ -333,12 +359,28 @@ class Admin extends Controller
                'created_at' => date('Y-m-d H:i:s'),
                'updated_at' => date('Y-m-d H:i:s')
             ];
-            $userModel->insert($userData);
-            $userId = $userModel->getLastInsertedDoctorId();
-            $doctorData['user_id'] = $userId;
-            $doctorModel->insert($doctorData);
-            $_SESSION['create_success'] = 'Doctor created successfully.';
-            redirect('Admin/doctor');
+            $userData['password'] = password_hash($_POST['nic'], PASSWORD_DEFAULT);
+
+            // Check if the email already exists
+            $existingUser = $userModel->first(['email' => $_POST['email']]);
+            if ($existingUser) {
+               $_SESSION['create_error'] = 'Email already exists. Please use a different email.';
+               redirect('Admin/doctor');
+            }
+
+
+            $insertUser = $userModel->insert($userData);
+            // handle the case where the user was not inserted successfully
+            if (!$insertUser) {
+               $userId = $userModel->getLastInsertedDoctorId();
+               $doctorData['user_id'] = $userId;
+               $doctorModel->insert($doctorData);
+               $_SESSION['create_success'] = 'Doctor created successfully.';
+               redirect('Admin/doctor');
+            } else {
+               $_SESSION['create_error'] = 'Failed to create user. Input Valid Information.';
+               redirect('Admin/doctor');
+            }
          }
       }
 
@@ -360,54 +402,61 @@ class Admin extends Controller
       $labModel = new Laboratory;
       $labs = $labModel->getAllLabs();
       // show($labs);
-     
+
       $data = [
          'clerks' => $clerks,
          'hospitals' => $hospitals,
          'labs' => $labs
       ];
 
-      if (isset($_SESSION['delete_success'])) {
-         $data['delete_success'] = $_SESSION['delete_success'];
-         unset($_SESSION['delete_success']);
-      }
 
-      if (isset($_SESSION['create_success'])) {
-         $data['create_success'] = $_SESSION['create_success'];
-         unset($_SESSION['create_success']);
-      }
 
-      if (isset($_SESSION['edit_success'])) {
-         $data['edit_success'] = $_SESSION['edit_success'];
-         unset($_SESSION['edit_success']);
-      }
-
-      if($a == 'toggleStatus'){
+      if ($a == 'toggleStatus') {
+         if (isset($_SESSION['reset_success'])) {
+            $data['reset_success'] = $_SESSION['reset_success'];
+            unset($_SESSION['reset_success']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
             $userModel = new User;
             $user = $userModel->first(['user_id' => $userId]);
-   
+
             if ($user) {
                $newStatus = $user->is_active ? 0 : 1;
                $userModel->update($userId, ['is_active' => $newStatus], 'user_id');
+               $_SESSION['reset_success'] = 'User status has been updated successfully.';
             }
          }
          redirect('Admin/clerk');
       }
 
-      if($a == 'resetPassword'){
+      if ($a == 'resetPassword') {
+         if (isset($_SESSION['reset_success'])) {
+            $data['reset_success'] = $_SESSION['reset_success'];
+            unset($_SESSION['reset_success']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $userId = $_POST['user_id'];
             $nic = $_POST['nic'];
+            $hashedNic = password_hash($nic, PASSWORD_DEFAULT);
             $userModel = new User;
-            $userModel->update($userId, ['password' => $nic], 'user_id');
+            $userModel->update($userId, ['password' => $hashedNic], 'user_id');
             $_SESSION['reset_success'] = 'Password has been reset to the NIC successfully.';
          }
          redirect('Admin/clerk');
       }
 
-      if($a == 'create'){
+      if ($a == 'create') {
+
+         if (isset($_SESSION['create_success'])) {
+            $data['create_success'] = $_SESSION['create_success'];
+            unset($_SESSION['create_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
+
          $clerkModel = new ClerkModel;;
          $userModel = new User;
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -421,7 +470,7 @@ class Admin extends Controller
             ];
             $userData = [
                'email' => $_POST['email'],
-               'role' => $_POST['type'].'_clerk',
+               'role' => $_POST['type'] . '_clerk',
                // 'title' => 'Dr.',
                'name' => $_POST['name'],
                'password' => $_POST['nic'],
@@ -431,15 +480,41 @@ class Admin extends Controller
                'created_at' => date('Y-m-d H:i:s'),
                'updated_at' => date('Y-m-d H:i:s')
             ];
-            $userModel->insert($userData);
-            $userId = $userModel->getLastInsertedClerkId();
-            $clerkData['user_id'] = $userId;
-            $clerkModel->insert($clerkData);
-            $_SESSION['create_success'] = 'Clerk created successfully.';
-            redirect('Admin/clerk');
-      }}
+
+            // Check if the email already exists
+            $existingUser = $userModel->first(['email' => $_POST['email']]);
+            if ($existingUser) {
+               $_SESSION['create_error'] = 'Email already exists. Please use a different email.';
+               redirect('Admin/doctor');
+            }
+
+            $insertUser = $userModel->insert($userData);
+            // handle the case where the user was not inserted successfully
+            if (!$insertUser) {
+               $userId = $userModel->getLastInsertedClerkId();
+               $clerkData['user_id'] = $userId;
+               $clerkModel->insert($clerkData);
+               $_SESSION['create_success'] = 'Clerk created successfully.';
+               redirect('Admin/clerk');
+            } else {
+
+               $_SESSION['create_error'] = 'Failed to create user. Input Valid Information.';
+               redirect('Admin/clerk');
+            }
+         }
+      }
 
       if ($a == 'edit') {
+
+         if (isset($_SESSION['edit_success'])) {
+            $data['edit_success'] = $_SESSION['edit_success'];
+            unset($_SESSION['edit_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
+
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $clerkModel = new ClerkModel;
 
@@ -453,18 +528,26 @@ class Admin extends Controller
                'hospital' => $hospital,
                'lab' => $lab,
                'emp_id' => $_POST['emp_id']
-           ];
-           $userData = [
-            'email' => $_POST['email'],
-            'name' => $_POST['name'],
-            'phone_number' => $_POST['phone_number'],
-            'NIC' => $_POST['nic'],
-            'role' => $_POST['type'].'_clerk',
-            'user_id' => $_POST['user_id']
-        ];
-            $clerkModel->updateClerksWithUserDetails($clerkData, $userData);
-            $_SESSION['edit_success'] = 'Clerk details updated successfully.';
-            redirect('Admin/clerk');
+            ];
+            $userData = [
+               'email' => $_POST['email'],
+               'name' => $_POST['name'],
+               'phone_number' => $_POST['phone_number'],
+               'NIC' => $_POST['nic'],
+               'role' => $_POST['type'] . '_clerk',
+               'user_id' => $_POST['user_id']
+            ];
+
+            $updateClerk = $clerkModel->updateClerksWithUserDetails($clerkData, $userData);
+            if (!$updateClerk) {
+               $_SESSION['edit_success'] = 'Clerk details updated successfully.';
+               redirect('Admin/clerk');
+            } else {
+               $_SESSION['create_error'] = 'Failed to update clerk details. Check for updated email.';
+               redirect('Admin/clerk');
+            }
+
+            
          }
       }
 
@@ -485,22 +568,19 @@ class Admin extends Controller
          'articles' => $articles
       ];
 
-      if (isset($_SESSION['delete_success'])) {
-         $data['delete_success'] = $_SESSION['delete_success'];
-         unset($_SESSION['delete_success']);
-      }
 
-      if (isset($_SESSION['create_success'])) {
-         $data['create_success'] = $_SESSION['create_success'];
-         unset($_SESSION['create_success']);
-      }
-
-      if (isset($_SESSION['edit_success'])) {
-         $data['edit_success'] = $_SESSION['edit_success'];
-         unset($_SESSION['edit_success']);
-      }
 
       if ($a == 'create') {
+         if (isset($_SESSION['create_success'])) {
+            $data['create_success'] = $_SESSION['create_success'];
+            unset($_SESSION['create_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
+         
+
          $article = new Article;
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_FILES['article-image']) && $_FILES['article-image']['error'] === UPLOAD_ERR_OK) {
@@ -527,18 +607,34 @@ class Admin extends Controller
                }
             } else {
                $_FILES['article-image']['error'] = 'Please select an image to upload.';
+               $_SESSION['create_error'] = 'Please select an image to upload.';
+               redirect('Admin/articles');
             }
+            
          }
+
       }
 
       if ($a == 'delete' && !empty($b)) {
+         if (isset($_SESSION['create_success'])) {
+            $data['create_success'] = $_SESSION['create_success'];
+            unset($_SESSION['create_success']);
+         }
          $article = new Article;
          $article->delete($b, 'article_id');
-         $_SESSION['delete_success'] = 'Article deleted successfully.';
+         $_SESSION['create_success'] = 'Article deleted successfully.';
          redirect('Admin/articles');
       }
 
       if ($a == 'edit') {
+         if (isset($_SESSION['edit_success'])) {
+            $data['edit_success'] = $_SESSION['edit_success'];
+            unset($_SESSION['edit_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
          $article = new Article;
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $article_data = $_POST;
@@ -567,6 +663,8 @@ class Admin extends Controller
                   }
                } else {
                   $_FILES['article-image']['error'] = 'Please select an image to upload.';
+                  // $_SESSION['create_error'] = 'Please select an image to upload.';
+                  // redirect('Admin/articles');
                }
             } else {
                $article_data['image_url'] = $_POST['image_url'];
@@ -595,23 +693,17 @@ class Admin extends Controller
          'hospitals' => $hospitals
       ];
 
-      
-      if (isset($_SESSION['delete_success'])) {
-         $data['delete_success'] = $_SESSION['delete_success'];
-         unset($_SESSION['delete_success']);
-      }
 
-      if (isset($_SESSION['create_success'])) {
-         $data['create_success'] = $_SESSION['create_success'];
-         unset($_SESSION['create_success']);
-      }
-
-      if (isset($_SESSION['edit_success'])) {
-         $data['edit_success'] = $_SESSION['edit_success'];
-         unset($_SESSION['edit_success']);
-      }
 
       if ($a == 'create') {
+         if (isset($_SESSION['create_success'])) {
+            $data['create_success'] = $_SESSION['create_success'];
+            unset($_SESSION['create_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $services = '';
             if (isset($_POST['services']) && is_array($_POST['services'])) {
@@ -630,13 +722,26 @@ class Admin extends Controller
                'description' => $_POST['description'],
                'services' => $services
             ];
-            $hospitalModel->insert($hospitalData);
-            $_SESSION['create_success'] = 'Hospital created successfully.';
-            redirect('Admin/hospitals');
+            $createHos = $hospitalModel->insert($hospitalData);
+            if (!$createHos) {
+               $_SESSION['create_success'] = 'Hospital created successfully.';
+               redirect('Admin/hospitals');
+            } else {
+               $_SESSION['create_error'] = 'Failed to create hospital. Input Valid Information.';
+               redirect('Admin/hospitals');
+            }
          }
       }
 
       if ($a == 'edit') {
+         if (isset($_SESSION['edit_success'])) {
+            $data['edit_success'] = $_SESSION['edit_success'];
+            unset($_SESSION['edit_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $services = '';
             if (isset($_POST['services']) && is_array($_POST['services'])) {
@@ -655,16 +760,21 @@ class Admin extends Controller
                'description' => $_POST['description'],
                'services' => $services
             ];
-            $hospitalModel->update($_POST['id'], $hospitalData, 'id');
-            $_SESSION['edit_success'] = 'Hospital updated successfully.';
-            redirect('Admin/hospitals');
+            $updateHos = $hospitalModel->update($_POST['id'], $hospitalData, 'id');
+            if (!$updateHos) {
+               $_SESSION['edit_success'] = 'Hospital updated successfully.';
+               redirect('Admin/hospitals');
+            } else {
+               $_SESSION['create_error'] = 'Failed to update hospital. Input Valid Information.';
+               redirect('Admin/hospitals');
+            }
          }
       }
 
       $this->view('admin/hospitals', $data);
       $this->view('footer');
    }
-   
+
    public function labs($a = '', $b = '', $c = '')
    {
       $this->view('header');
@@ -675,22 +785,16 @@ class Admin extends Controller
          'labs' => $labs
       ];
 
-      if (isset($_SESSION['delete_success'])) {
-         $data['delete_success'] = $_SESSION['delete_success'];
-         unset($_SESSION['delete_success']);
-      }
-
-      if (isset($_SESSION['create_success'])) {
-         $data['create_success'] = $_SESSION['create_success'];
-         unset($_SESSION['create_success']);
-      }
-
-      if (isset($_SESSION['edit_success'])) {
-         $data['edit_success'] = $_SESSION['edit_success'];
-         unset($_SESSION['edit_success']);
-      }
 
       if ($a == 'create') {
+         if (isset($_SESSION['create_success'])) {
+            $data['create_success'] = $_SESSION['create_success'];
+            unset($_SESSION['create_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $services = '';
             if (isset($_POST['services']) && is_array($_POST['services'])) {
@@ -709,13 +813,26 @@ class Admin extends Controller
                'description' => $_POST['description'],
                'services' => $services
             ];
-            $labModel->insert($labData);
-            $_SESSION['create_success'] = 'Laboratory created successfully.';
-            redirect('Admin/labs');
+            $createLab = $labModel->insert($labData);
+            if (!$createLab) {
+               $_SESSION['create_success'] = 'Laboratory created successfully.';
+               redirect('Admin/labs');
+            } else {
+               $_SESSION['create_error'] = 'Failed to create laboratory. Input Valid Information.';
+               redirect('Admin/labs');
+            }
          }
       }
 
       if ($a == 'edit') {
+         if (isset($_SESSION['edit_success'])) {
+            $data['edit_success'] = $_SESSION['edit_success'];
+            unset($_SESSION['edit_success']);
+         }
+         if (isset($_SESSION['create_error'])) {
+            $data['create_error'] = $_SESSION['create_error'];
+            unset($_SESSION['create_error']);
+         }
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $services = '';
             if (isset($_POST['services']) && is_array($_POST['services'])) {
@@ -734,14 +851,18 @@ class Admin extends Controller
                'description' => $_POST['description'],
                'services' => $services
             ];
-            $labModel->update($_POST['id'], $labData, 'id');
-            $_SESSION['edit_success'] = 'Laboratory updated successfully.';
-            redirect('Admin/labs');
+            $updateLab = $labModel->update($_POST['id'], $labData, 'id');
+            if (!$updateLab) {
+               $_SESSION['edit_success'] = 'Laboratory updated successfully.';
+               redirect('Admin/labs');
+            } else {
+               $_SESSION['create_error'] = 'Failed to update laboratory. Input Valid Information.';
+               redirect('Admin/labs');
+            }
          }
       }
 
       $this->view('admin/labs', $data);
       $this->view('footer');
    }
-
 }

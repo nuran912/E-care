@@ -269,6 +269,11 @@ class User
          return "Current password is incorrect.";
       }
 
+      // if($data['password'] !== $currentPassword){
+      //    return "Current password is incorrect.";
+      // }
+       
+
       if (empty($data['newPassword']) || strlen($data['newPassword']) < 8) {
          return "New password must be at least 8 characters long.";
       }

@@ -50,7 +50,8 @@
                         <?php if (isset($users) && is_array($users)): ?>
                             <?php foreach ($users as $user) : ?>
                                 <tr>
-                                    <td><img class="user-img" src="<?php echo ROOT ?>/assets/img/user.svg" alt="User Image"></td>
+                                    <td><img class="user-img" src="<?php echo ROOT; ?>/assets/profile_pictures/<?php echo $user['user_id']; ?>/<?php echo $user['profile_pic']; ?>" onerror="this.onerror=null; this.src='<?php echo ROOT; ?>/assets/img/user.svg';"
+                                    alt="User Image"></td>
                                     <td data-search="<?php echo $user['name']; ?>"><?php echo $user['name']; ?></td>
                                     <td data-search="<?php echo $user['email']; ?>"><?php echo $user['email']; ?></td>
                                     <td data-search="<?php echo $user['phone_number']; ?>"><?php echo $user['phone_number']; ?></td>

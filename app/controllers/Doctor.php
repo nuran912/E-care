@@ -383,7 +383,8 @@ class Doctor extends Controller{
                 $slotSessionTime = (new DateTime($slot->start_time))->format("g:i A");
 
                 $apptData = $appt->getAppointmentsByScheduleId($apptSlotId);
-                show($apptData);
+                // show($apptData);
+            
                 // appointments can only be cancelled 48h before the start time
                 if($currentDate < $timeToCancel){
                     

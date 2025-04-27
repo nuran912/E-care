@@ -30,6 +30,10 @@
          <div class="success" id="msgBox"><?php echo $_SESSION['create_success']; ?></div>
          <?php unset($_SESSION['create_success']); ?>
       <?php endif; ?>
+      <?php if (isset($_SESSION['create_error'])): ?>
+         <div class="error" id="msgBox"><?php echo $_SESSION['create_error']; ?></div>
+         <?php unset($_SESSION['create_error']); ?>
+      <?php endif; ?>
 
       <section class="main-div">
          <div class="search">
@@ -136,11 +140,11 @@
                         <label>Gender</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " id="create-doctor-nic" required>
+                        <input type="text" name="nic" placeholder=" " id="create-doctor-nic" pattern="^\d{9}[vVxX]$|^\d{12}$" required>
                         <label>NIC</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone_number" placeholder=" " id="create-doctor-phone" required>
+                        <input type="text" name="phone_number" placeholder=" " id="create-doctor-phone" pattern="^\d{10}$" required>
                         <label>Phone Number</label>
                      </div>
                   </div>
@@ -148,22 +152,22 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <input type="text" name="specialization" placeholder=" " id="create-doctor-specialization" required>
+                  <input style="width: 150px;" type="text" name="specialization" placeholder=" " id="create-doctor-specialization" required>
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="registration_number" id="create-doctor-registration-number" required>
+                  <input style="width:200px;" type="text" name="registration_number" id="create-doctor-registration-number" pattern="^SLMC\/\d{4}\/[A-Za-z0-9]{1,7}$" placeholder="" required>
                   <label>Registration Number</label>
 
                </div>
 
                <div class="form-group">
-                  <input type="text" name="doctor_fee" placeholder=" " id="create-doctor-fee" style="width: 150px;" required>
+                  <input style="width:150px;" type="text" name="doctor_fee" placeholder=" " id="create-doctor-fee" style="width: 150px;" required>
                   <label>Doctor Fee(Rs.)</label>
                </div>
                <div class="form-group">
                   <input type="hidden" name="">
-                  <label>Practicing Government_Hospitals</label>
+                  <label style="margin-left: 40px;">Practicing Government Hospitals</label>
                </div>
                <div class="form-group">
                   <input type="checkbox" name="government_hospital" id="create-doctor-government">
@@ -217,11 +221,11 @@
                   </div>
                   <div class="form-row">
                      <div class="form-group">
-                        <input type="text" name="nic" placeholder=" " id="edit-doctor-nic" required>
+                        <input type="text" name="nic" placeholder=" " id="edit-doctor-nic" pattern="^\d{9}[vVxX]$|^\d{12}$" required>
                         <label>NIC</label>
                      </div>
                      <div class="form-group">
-                        <input type="text" name="phone_number" placeholder=" " id="edit-doctor-phone" required>
+                        <input type="text" name="phone_number" placeholder=" " id="edit-doctor-phone" pattern="^\d{10}$" required>
                         <label>Phone Number</label>
                      </div>
                   </div>
@@ -229,22 +233,22 @@
             </div>
             <div class="form-row">
                <div class="form-group">
-                  <input type="text" name="specialization" placeholder=" " id="edit-doctor-specialization" required>
+                  <input style="width: 150px;" type="text" name="specialization" placeholder=" " id="edit-doctor-specialization" required>
                   <label>Specialization</label>
                </div>
                <div class="form-group">
-                  <input type="text" name="registration_number" placeholder=" " id="edit-doctor-registration-number" required disabled>
+                  <input style="width: 200px;" type="text" name="registration_number" placeholder=" " id="edit-doctor-registration-number" pattern="^SLMC\/\d{4}\/[A-Za-z0-9]{1,7}$" required disabled>
                   <label>Registration Number</label>
 
                </div>
 
                <div class="form-group">
-                  <input type="text" name="doctor_fee" placeholder=" " id="edit-doctor-fee" style="width: 150px;" required>
+                  <input style="width: 150px;" type="text" name="doctor_fee" placeholder=" " id="edit-doctor-fee" style="width: 150px;" required>
                   <label>Doctor Fee(Rs.)</label>
                </div>
                <div class="form-group">
                   <input type="hidden" name="">
-                  <label>Practicing Government_Hospitals</label>
+                  <label style="margin-left: 40px;">Practicing Government Hospitals</label>
                </div>
                <div class="form-group">
                   <input type="checkbox" name="government_hospital" id="edit-doctor-government">
@@ -280,7 +284,7 @@
             setTimeout(() => {
                messageBox.style.display = 'none';
                location.reload();
-            }, 3000);
+            }, 5000);
          }
 
              

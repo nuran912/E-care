@@ -20,17 +20,20 @@
       </header>
       <!-- show file error here -->
 
-      <?php if ((isset($_FILES['article-image']['error'])) && $_FILES['article-image']['error'] !== 0) : ?>
+      <!-- <?php if ((isset($_FILES['article-image']['error'])) && $_FILES['article-image']['error'] !== 0) : ?>
          <div class="error"><?php echo $_FILES['article-image']['error']; ?></div>
+      <?php endif; ?> -->
+      <?php if (isset($_SESSION['edit_success'])): ?>
+         <div class="success" id="msgBox"><?php echo $_SESSION['edit_success']; ?></div>
+         <?php unset($_SESSION['edit_success']); ?>
       <?php endif; ?>
-      <?php if (isset($create_success)): ?>
-         <div class="success" id="msgBox"><?php echo $create_success; ?></div>
+      <?php if (isset($_SESSION['create_success'])): ?>
+         <div class="success" id="msgBox"><?php echo $_SESSION['create_success']; ?></div>
+         <?php unset($_SESSION['create_success']); ?>
       <?php endif; ?>
-      <?php if (isset($delete_success)): ?>
-         <div class="success" id="msgBox"><?php echo $delete_success; ?></div>
-      <?php endif; ?>
-      <?php if (isset($edit_success)): ?>
-         <div class="success" id="msgBox"><?php echo $edit_success; ?></div>
+      <?php if (isset($_SESSION['create_error'])): ?>
+         <div class="error" id="msgBox"><?php echo $_SESSION['create_error']; ?></div>
+         <?php unset($_SESSION['create_error']); ?>
       <?php endif; ?>
 
       <section class="main-div">
@@ -188,7 +191,7 @@
             setTimeout(() => {
                messageBox.style.display = 'none';
                location.reload();
-            }, 3000);
+            }, 5000);
          }
 
          let currentPage = 1;

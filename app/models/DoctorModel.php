@@ -339,9 +339,13 @@ class DoctorModel
     }
 
     public function updateDoctorsWithUserDetails($doctorData, $userData){
+        // Only filter doctor data against the allowed columns for doctors table
         $doctorData = array_intersect_key($doctorData, array_flip($this->allowedColumns));
-        $userData = array_intersect_key($userData, array_flip($this->allowedColumns));
-
+        
+        // For user data, don't filter against doctor allowed columns
+        // since these fields go to the users table
+        
+        // Update doctors table
         $keys = array_keys($doctorData);
         $query1 = "UPDATE doctors SET ";
         foreach ($keys as $key) {
@@ -351,14 +355,22 @@ class DoctorModel
         $query1 .= " WHERE id = :id";
         $this->query($query1, $doctorData);
 
-        $keys = array_keys($userData);
-        $query2 = "UPDATE users SET ";
-        foreach ($keys as $key) {
-            $query2 .= "$key = :$key, ";
+        // Update users table (without filtering against doctor columns)
+        if(!empty($userData)) {
+            // check if the email already exists in the users table
+            $existingUser = $this->query("SELECT * FROM users WHERE email = :email AND user_id != :user_id", ['email' => $userData['email'], 'user_id' => $userData['user_id']]);
+            if ($existingUser) {
+                return true;
+            }
+            $keys = array_keys($userData);
+            $query2 = "UPDATE users SET ";
+            foreach ($keys as $key) {
+                $query2 .= "$key = :$key, ";
+            }
+            $query2 = rtrim($query2, ", ");
+            $query2 .= " WHERE user_id = :user_id";
+            $this->query($query2, $userData);
         }
-        $query2 = rtrim($query2, ", ");
-        $query2 .= " WHERE user_id = :user_id";
-        $this->query($query2, $userData);
 
         return false;
     }

@@ -42,11 +42,23 @@
                   <!-- Hospital Services section -->
                   <div class="dropdown-column">
                      <h4>Hospital Services</h4>
+                     <?php 
+                        $hospital = new Hospital;
+                        $data = $hospital->findAll();
+
+                     ?>
+                     <?php if (isset($data) && is_array($data)): ?>
+                        <?php foreach ($data as $hospital) : ?>
                      <ul>
-                        <li><a href="<?= ROOT ?>/Hospitals#union-central-hospital">Union Central Hospital</a></li>
-                        <li><a href="<?= ROOT ?>/Hospitals#union-medical-hospital">Union Medical Hospital</a></li>
-                        <li><a href="<?= ROOT ?>/Hospitals#union-surgical-hospital">Union Surgical Hospital</a></li>
+                        <li><a href="<?= ROOT ?>/Hospitals#union-central-hospital"><?php echo $hospital['name']; ?></a></li>
+                        <!-- <li><a href="<?= ROOT ?>/Hospitals#union-medical-hospital">Union Medical Hospital</a></li>
+                        <li><a href="<?= ROOT ?>/Hospitals#union-surgical-hospital">Union Surgical Hospital</a></li> -->
                      </ul>
+
+                     <?php endforeach; ?>
+                     <?php else: ?>
+                     <p>No Hospitals found.</p>
+                  <?php endif; ?>
                   </div>
 
                </div>

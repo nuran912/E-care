@@ -287,9 +287,13 @@ class Doctor extends Controller{
                 $allFieldsEntered = false;
             }
 
+            // date_default_timezone_set(timezoneId: 'Asia/Colombo');
+
             // Check if the new slot time clashes with a previously made slot
-            $newSlotStartTime = new DateTime($data['start_time']);
-            $newSlotEndTime = (new DateTime($data['start_time']))->modify("+{$data['duration']} hours");
+            $newSlotStartTime = new DateTime($data['date'].' '.$data['start_time']);
+            $newSlotEndTime = (new DateTime($data['date'].' '.$data['start_time']))->modify("+{$data['duration']} hours");
+            show($newSlotStartTime);
+            show($newSlotEndTime);
 
             foreach ($existingSlots as $slot) {
                 $slotStartTime = new DateTime($slot->start_time);

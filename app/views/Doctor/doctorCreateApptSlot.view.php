@@ -55,6 +55,7 @@
         }
 
         input[type="date"],
+        input[type="number"],
         input[type="time"],
         input[type="text"],
         select {
@@ -68,6 +69,7 @@
         }
 
         input[type="date"]:focus,
+        input[type="number"]:focus,
         input[type="time"]:focus,
         input[type="text"]:focus,
         select:focus {
@@ -323,17 +325,17 @@
             <div class="form-group">
                 <div class="item">
                     <label for="date">&nbsp&nbspDate</label>
-                    <input type="date" id="date" name="date" min="<?=date("Y-m-d");?>" required>
+                    <input type="date" id="date" name="date" min="<?=((new DateTime(date("Y-m-d")))->modify('+1 day'))->format("Y-m-d");?>" required>
                 </div>
                 <div class="item">
                     <label for="count">&nbsp&nbspNo. of patients</label>
-                    <input type="text" id="count" name="count" placeholder="Enter number of patients" required>
+                    <input type="number" id="count" name="count" placeholder="Enter number of patients" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="item">
                     <label for="duration">&nbsp&nbspDuration of slot(hours)</label>
-                    <input type="text" id="duration" name="duration" required>
+                    <input type="number" id="duration" name="duration" required>
                 </div>
                 <div class="item">
                     <label for="time">&nbsp&nbspTime</label>

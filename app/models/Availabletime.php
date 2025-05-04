@@ -17,11 +17,12 @@ class Availabletime
         'duration',
         'total_slots',
         'filled_slots',
+        'status',
         // 'doctor_fee'
     ];
 
     public $order_column = 'date';
-
+    
 
     public function getByDoctorId($doctorId, $date = null, $hospitalId = null)
     {
@@ -69,6 +70,37 @@ class Availabletime
         $params = ['doctor_id' => $doctorId, 'date' => $date, 'hospital_id' => $hospitalId];
         return $this->query($query, $params);
     }
+
+    public function getByScheduleId($id)
+   {
+      $query = "SELECT * FROM $this->table WHERE id = :id ";
+      $result = $this->query($query, ['id' => $id]);
+      return $result ? $result[0] : null;
+   }
+    public function getScheduleByDateA($date, $possibleNewTimeCheck){
+      $query = "SELECT * FROM $this->table WHERE date = :date AND start_time = :start_time < $possibleNewTimeCheck";
+      $result = $this->query($query, ['date' => $date]);
+      return $result ? $result[0] : null;
+   }
+
+    public function update_filled_slots($id){
+        $query = 'UPDATE availabletimes SET filled_slots =filled_slots - 1 WHERE id = :id';
+        $result = $this->query($query, ['id' => $id]);
+        return $result ? $result : null;
+    }
+
+    public function update_status($id, $newStatus){
+        
+        $query = 'UPDATE availabletimes SET status = :status WHERE id = :id';
+        $params = [
+            'status' => $newStatus,
+            'id' => $id
+        ];
+        $result = $this->query($query, $params);
+        return $result ? $result : null;
+    }
+
+    
 }
 ?>
 

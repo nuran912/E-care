@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html>
-    <head><
+    <head>
 
         <style>
             body{
@@ -88,101 +88,47 @@
 
     </head>
     <body>
-        
+        <?php
+    function slugify($text) {
+    return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
+}
+    ?>
+    
         <div>
             <div class="description">
                 <h1 style="font-size: 4em;">Healthcare Centres at Your Service</h1>
                 <h2 style="font-size: 2.5em;">Your Health, Our Network</h2>
             </div>
             <div class="background">
-                <div class="hospital-container">
+                
+                <?php foreach($data as $hospital) : { ?> 
+                    <div class="hospital-container" id="<?= slugify($hospital['name']) ?>" >
                     <div class="hospital-top">
                         <div class="hospital-desc">
-                            <h1 style="margin-bottom: 30px;">Union Medical Hospital</h1>
-                            <p>We are a Paediatrics centered hospital, complete with <br>Operating Theaters and 
-                                Intensive & Critical Care Wards. <br>Reputed for dengue and medical patient management.</p>
+                            <h1 style="margin-bottom: 30px;"><?=$hospital['name']?></h1>
+                            <p><?=$hospital['description']?></p>
                         </div>                            
                         <div class="hospital-services">
                             <h2>Services</h2>
                             <ul class="services">
-                                <li>Family Physician</li>
-                                <li>Diabetes Centre</li>
-                                <li>Psychiactric Care</li>
-                                <li>Radiology</li>
+                                <?=$hospital['services']?>  
                             </ul>
                         </div>
                     </div>
                     <div class="hospital-bottom">
                         <div class="hospital-info">
                             <ul>
-                                <li>Contact nuber: 011-297 2343</li>
-                                <li>Address: 181 Bernard Soysa Mawatha, Colombo 5</li>
-                                <li>Working hours: 24h</li>
+                                <li>Contact nuber: 0<?=$hospital['contact']?></li>
+                                <li>Address: <?=$hospital['address']?></li>
+                                <li>Working hours: <?=$hospital['working_hours']?></li>
                             </ul>
                         </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Hospital-map.png"></div>
+                        <div><a href="<?=$hospital['location']?>"><img src="<?php echo ROOT ?>/assets/img/Hospital-map.png"></a></div>
                     </div>
-                </div>   
-                <div class="hospital-container">
-                    <div class="hospital-top">
-                        <div class="hospital-desc">
-                            <h1 style="margin-bottom: 30px;">Union Central Hospital</h1>
-                            <p>We deliver international standard healthcare, in multi-specialty <br>
-                            general hospital,which is a one-stop facility for high end <br>
-                            diagnostic, therapeutic and intensive care services.</p>
-                        </div>                            
-                        <div class="hospital-services">
-                            <h2>Services</h2>
-                            <ul class="services">
-                                <li>Neonatal Care</li>
-                                <li>Intensive Care</li>
-                                <li>Cosmetic Centre</li>
-                                <li>Urology</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="hospital-bottom">
-                        <div class="hospital-info">
-                            <ul>
-                                <li>Contact nuber: 011-297 2344</li>
-                                <li>Address: 114 Norris Canal Rd, Colombo 10</li>
-                                <li>Working hours: 24h</li>
-                            </ul>
-                        </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Hospital-map.png"></div>
-                    </div>
-                </div>   
-                <div class="hospital-container">
-                    <div class="hospital-top">
-                        <div class="hospital-desc">
-                            <h1 style="margin-bottom: 30px;">Union Surgical Hospital</h1>
-                            <p>We deliver a comprehensive menu of world-class surgical care, <br>
-                                in a high-end facility with support from diagnosis through to<br>
-                                intensive care and rehabilitation services.</p>
-                        </div>                            
-                        <div class="hospital-services">
-                            <h2>Services</h2>
-                            <ul class="services">
-                                <li>Heart Centre</li>
-                                <li>Gneral Surgery</li>
-                                <li>Orthapedics</li>
-                                <li>Cancer Care</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="hospital-bottom">
-                        <div class="hospital-info">
-                            <ul>
-                                <li>Contact nuber: 011-297 2345</li>
-                                <li>Address: 21 Kirimandala Mawatha, Colombo 5</li>
-                                <li>Working hours: 24h</li>
-                            </ul>
-                        </div>
-                        <div><img src="<?php echo ROOT ?>/assets/img/Hospital-map.png"></div>
-                    </div>
-                </div>   
+                </div>  
+                <?php } endforeach; ?>
+                
             </div>
         </div>
-
     </body>
 </html>

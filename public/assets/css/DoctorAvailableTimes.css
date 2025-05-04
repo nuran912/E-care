@@ -138,6 +138,16 @@ body {
   font-weight: bold;
   transition: background-color 0.3s;
 }
+.schedule-btndis{
+  background-color: rgb(87, 85, 85);
+  color:rgb(249, 248, 248);
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
 
 .no-appointments-message {
   color: #ff0000; /* Red color to make it stand out */
@@ -150,6 +160,37 @@ body {
   background-color: #fff0f0;
   border-radius: 5px;
 }
+.pagination a, .pagination span {
+  padding: 8px 14px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 5px;
+}
+
+.pagination a:hover {
+  background-color: #f0f0f0;
+  color: #0e2f56;
+}
+
+.pagination .active-page {
+  background-color: #0e2f56;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination .disabled {
+  color: #aaa;
+  border-color: #ddd;
+  cursor: not-allowed;
+}
+a.prev-btn:hover,a.next-btn:hover{
+  background-color: #0e2f56;
+  color: white;
+  
+}
+
+
 
 /* Responsive Layout */
 @media (max-width: 768px) {
@@ -180,10 +221,16 @@ body {
   }
 
   .schedule-btn,
-  .schedule-btn2 {
+  .schedule-btn2,
+  .schedule-btndis {
     width: 100%;
   }
 }
-img{
+.profimg{
   margin-bottom: 15px;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
 }

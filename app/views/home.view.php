@@ -98,26 +98,6 @@
         <button><a href="<?= ROOT?>/appointmentsearchpage" style="text-decoration:none; color:aliceblue;">Channel Now</a></button>
     </div>
 
-    <div class="insurance">
-        <h1>Our Insurance Partners</h1>
-        <?php if (isset($insurance_companies) && is_array($insurance_companies)): ?>
-            <div class="cards">
-                <?php foreach ($insurance_companies as $company): ?>
-                    <!-- <a href="<?php echo htmlspecialchars($company['website_link']); ?>" target="_blank"> -->
-
-                        <div class="card">
-                            <div class="insurance-img" ><img src="<?php echo ($company['logo']); ?>"></div>
-                            <h3><?php echo htmlspecialchars($company['company_name']); ?></h3>
-                            
-                        </div>
-                    </a>
-
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <p>No insurance companies found.</p>
-        <?php endif; ?>
-    </div>
 
     <div class="articles">
         <h1>Recent Articles</h1>
@@ -129,7 +109,7 @@
                         <div class="article-img"><img src="<?php echo htmlspecialchars($article['image_url']); ?>" ></div>
                         <p><?php echo htmlspecialchars($article['publish_date']) ?></p>
                         <h3><?php echo htmlspecialchars($article['title']); ?></h3>
-                        <a href="#">Read more</a>
+                        <a href="<?= ROOT?>/Articles">See more</a>
                     </div>
                 <?php endforeach; ?>
             </div>

@@ -1,17 +1,140 @@
-* {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+body {
+  font-family: 'Lucida Sans-serif';
+  margin: 0px;
+  padding: 0px;
+ 
 }
+
+.maincontent{
+ justify-items: center;
+  margin: 10px;
+  color: #264161;
+  font-size: 20px;
+}
+.maincontent h6{
+margin: 5px;
+font-size: 20px;
+}
+.maincontent h5{
+
+  margin: 5px;
+  font-size: 30px;
+  }
+  .maincontent h5 {
+    display: inline-block;
+    overflow: hidden;
+  }
+  
+  .maincontent h5 span {
+    display: inline-block;
+    opacity: 0;
+    animation: wordSlideIn 10s ease-in-out infinite;
+    animation-fill-mode: forwards;
+    animation-delay: calc(var(--i) * 1s);
+  }
+  .pagination {
+    display: flex;
+    justify-content: space-between; /* Aligns prev and next buttons to the edges */
+    gap: 10px;
+    margin-top: 20px;
+    align-items: center;
+    padding: 10px;
+}
+
+.pagination .prev-btn, .pagination .next-btn {
+    padding: 8px 14px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #264161;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.pagination .prev-btn:hover, .pagination .next-btn:hover {
+    background-color: #264161;
+    color: white;
+}
+
+.pagination .disabled {
+    color: #aaa;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination .page-numbers {
+    display: flex;
+    gap: 8px; /* Adds space between the page numbers */
+    justify-content: center; /* Centers the page numbers */
+}
+
+.pagination a {
+    padding: 8px 14px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    color: #264161;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+    color: #264161;
+}
+
+.pagination .active-page {
+    background-color: #264161;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+.pagination .prev-btn{
+  margin-left: 20%;
+    cursor: pointer;
+}
+ .pagination .next-btn {
+  margin-right: 20%;
+  ;
+    cursor: pointer;
+  
+}
+
+.pagination .disabled {
+    color: #aaa;
+    border-color: #ddd;
+    pointer-events: none;
+}
+
+
+
+  @keyframes wordSlideIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  
 .searchform {
   max-width: 600px;
-  margin: 50px auto;
+  margin: 30px auto;
   background-color: #f8f8f8;
   padding: 20px;
   border: 2px solid #0e2f56;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ 
 }
 .searchform h2 {
   font-size: 24px;
@@ -40,7 +163,14 @@
   border-radius: 5px;
   font-size: 16px;
   margin-top: 5px;
+  
 }
+.searchform input[type="text"],
+.searchform input[type="date"] {
+  max-width: 580px;
+  margin: 0 auto;
+}
+     
 
 .searchform .button-container {
   text-align: center;
@@ -69,6 +199,7 @@ form {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 2rem;
+  
 }
 
 @media (max-width: 1279px) {
@@ -126,6 +257,7 @@ form {
   font-size: 14px;
   cursor: pointer;
   margin: 10px 5px; /* Add margin between buttons */
+  width: 50%;
 }
 
 .card button:hover {
@@ -136,11 +268,16 @@ form {
   color: red;
   margin-bottom: 1rem;
 }
-img{
-  margin-bottom: 15px;
+.profimg{
+  border-radius: 50%;
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+  border: 4px solid white;
 }
 select,#date{
   color: grey;
+  
 }
 button[value="reset"] {
   background-color: rgb(224, 108, 108);
@@ -148,3 +285,4 @@ button[value="reset"] {
 button[value="reset"]:hover {
   background-color: rgb(199, 55, 55);
 }
+

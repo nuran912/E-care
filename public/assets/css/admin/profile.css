@@ -18,12 +18,24 @@ body {
     margin-bottom: 30px;
 }
 
-.profile-header img {
+.profile-header .user-image {
     border-radius: 50%;
     width: 100px;
     height: 100px;
     margin-right: 20px;
     border: #0d62cb 3px solid;
+}
+
+.profilePic img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid #0000;
+    background-color: #93DEFF;
+    cursor: pointer;
+    margin-right: 20px;
 }
 
 .profile-header h2 {
@@ -71,7 +83,7 @@ body {
 }
 
 .profile-section .form-group input {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     border: 1px solid #CED4DA;
     border-radius: 5px;
@@ -111,3 +123,43 @@ body {
 .profile-section .form-actions .btn-reset:hover {
     background-color: #174ea6;
 }
+
+.success {
+    position:relative;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 20px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    /* z-index: 1000; */
+ }
+
+ .error {
+    position:relative;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 20px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    /* z-index: 1000; */
+ }

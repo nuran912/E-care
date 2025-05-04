@@ -12,7 +12,55 @@
             'user_id',
             'uploaded_by',
             'document_type',
+            'document_category',
             'document_name',
-            'uploaded_at'
+            'ref_no',
+            'uploaded_at',
+            'email_sent'
         ]; 
+
+        public function getDocumentsByUserId($id){
+            $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
+            $result = $this->query($query, ['user_id' => $id]);
+            return $result ? $result : null;
+        }
+        public function getDocumentById($document_id){
+            $query = 'SELECT * FROM documents WHERE document_id = :document_id';
+            $result = $this->query($query, ['document_id'=> $document_id]);
+            return $result ? $result[0] : null;
+        }
+
+        public function getDocuments($user_id) {
+            if(empty($user_id)) {
+               return [];
+            }
+      
+            $query = "SELECT * FROM $this->table WHERE user_id = :user_id";
+      
+            $result = $this->query($query,['user_id' => $user_id]);
+            
+            return json_decode(json_encode($result), true); // Convert object to array
+        }
+
+        public function getAllDocuments() {
+      
+            $query = "SELECT * FROM $this->table";
+      
+            $result = $this->query($query);
+            
+            if($result) {
+                return json_decode(json_encode($result), true); // Convert object to array
+            }
+            else {
+                return [];
+            }
+            
+        }
+
+        public function getDocumentNamebyId($id){
+            $query="SELECT document_name FROM $this->table WHERE document_id=:document_id";
+            $result=$this->query($query,['document_id'=>$id]);
+            return $result ? $result[0] :null;
+        }
     }
+

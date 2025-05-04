@@ -5,8 +5,8 @@ class Appointmentdetailsverification extends Controller
     {
 
         $this->view('header');
-
-
+  
+        
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -21,14 +21,21 @@ class Appointmentdetailsverification extends Controller
             $hospitalName = $_POST['hospital_name'] ?? '';
             $sessionDate = $_POST['session_date'] ?? '';
             $sessionTime = $_POST['session_time'] ?? '';
+            $patient_appointment_time = isset($_POST['patient_appointment_time']) ? date("H:i", strtotime($_POST['patient_appointment_time'])) : '';
             $appointmentNumber = $_POST['appointment_number'] ?? '';
             $doctorid = $_POST['doctor_id'] ?? '';
             $doctorFee = $_POST['doctor_fee'] ?? '';
             $hospitalFee = $_POST['hospital_fee'] ?? '';
             $serviceCharge = isset($_POST['serviceCharge']) && $_POST['serviceCharge'] === "on" ? 285 : 0;
+            $filledSlots = $_POST['filled_slots'] ?? '';
+            $availableatime_id = $_POST['availableatime_id'] ?? '';
+            $selectedfiles = isset($_POST['document']) ? implode(',', $_POST['document']) : '';
+
+            
 
             $totalFee = $hospitalFee + $doctorFee + $serviceCharge;
-
+          
+                
 
             $data = [
                 'title' => $title,
@@ -40,17 +47,25 @@ class Appointmentdetailsverification extends Controller
                 'patientAddress' => $patientAddress,
                 'hospital_name' => $hospitalName,
                 'session_date' => $sessionDate,
-                'session_time' => $sessionTime,
+                'session_time' => $patient_appointment_time,
                 'appointment_number' => $appointmentNumber,
                 'doctor_id' => $doctorid,
                 'total_fee' => $totalFee,
+                'filled_slots' => $filledSlots,
+                'availableatime_id' => $availableatime_id,
+                'service_charge' => $serviceCharge,
+                'documents'=>$selectedfiles,
+               
             ];
 
-
+            
             $_SESSION['appointment'] = $data;
-
-
-            $this->view('appointmentdetailsverification', $data);
+            
+         
+         
+            $this->view('appointment/appointmentdetailsverification', $data);
+    
+        
         } else {
             echo "Invalid request method.";
         }

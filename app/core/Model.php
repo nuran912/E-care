@@ -1,5 +1,4 @@
 <?php
-
 trait Model
 {
    use Database;
@@ -91,7 +90,7 @@ trait Model
 
       $keys = array_keys($data);
       $query = "UPDATE $this->table SET ";
-      foreach($keys as $key){
+      foreach ($keys as $key) {
          $query .= "$key = :$key, ";
       }
       $query = rtrim($query, ", ");
@@ -116,10 +115,10 @@ trait Model
       $this->limit = $limit;
    }
 
-   public function setOrder($order) {
+   public function setOrder($order)
+   {
       $this->order_type = $order;
    }
-
 
    public function getHospitals()
    {
@@ -134,9 +133,9 @@ trait Model
    }
 
    public function getById($id)
-    {
-        $query = "SELECT * FROM $this->table WHERE user_id = :user_id ";
-        $result = $this->query($query, ['user_id' => $id]);
-        return $result ? $result[0] : null;
-    }
+   {
+      $query = "SELECT * FROM users WHERE user_id = :user_id ";
+      $result = $this->query($query, ['user_id' => $id]);
+      return $result ? $result[0] : null;
+   }
 }

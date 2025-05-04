@@ -1,5 +1,7 @@
 <?php
 
+require_once dirname(__DIR__) . '/core/EmailHelper.php';
+
 class Signup extends Controller
 {
     public function index($a = '', $b = '', $c = '')
@@ -10,16 +12,34 @@ class Signup extends Controller
         $data['errors'] = [];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_SESSION['registerData'] = $_POST;
             try {
                 if ($user->validate($_POST)) {
+                    // password_hashing
+                    // $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
                     $user->insert($_POST);
+                    
+                    $patientemail = $_POST['email'];
+                    $patientname = $_POST['name'];
+                    $subject = 'Ecare Account Creation Success';
+                    $body = "
+                        <p>Dear {$patientname},</p>
+                        <p>Thank you for registering with Ecare. Your account has been created successfully.</p>
+                        <p>You can now log in and start managing your healthcare services with ease.</p>
+                        <p>If you have any questions or need assistance, feel free to contact our support team.</p>
+                        <br>
+                        <p>Best regards,<br>
+                        The Ecare Team<br></p>
+                    ";
+                    EmailHelper::sendEmail($patientemail, $patientname, $subject, $body);
+                    unset($_SESSION['registerData']);
                     redirect('signin');
                 } else {
                     $data['errors'] = $user->errors;
                 }
             } catch (Exception $e) {
                 if ($e->getCode() == 23000) { // Duplicate entry error code
-                    $data['errors'][] = "User details already exist";
+                    $data['errors']['exist'] = "User details already exist";
                 } else {
                     $data['errors'][] = $e->getMessage();
                 }
@@ -28,6 +48,6 @@ class Signup extends Controller
 
         $this->view('signup', $data);
 
-        // $this->view('footer');
+        $this->view('footer');
     }
 }

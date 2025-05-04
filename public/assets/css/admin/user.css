@@ -359,6 +359,10 @@ table .user-img{
     font-size: 15px;
 }
 
+.form-group input{
+   width: 90% ;
+}
+
 .form-group label  {
     position: absolute;
     top:0px;
@@ -447,16 +451,53 @@ table .user-img{
    display: block;
 }
 
+.form-checkbox {
+   display: flex;
+   flex-direction: column;
+   margin-bottom: -5rem;
+}
+
+.form-checkbox .form-row {
+   align-items: start;
+   justify-content: start;
+}
+
+.form-checkbox input[type="checkbox"] {
+   width: 20px;
+   height: 20px;
+   cursor: pointer;
+   margin-right: 2px;
+   margin-left: 19px;
+   accent-color: #007bff; 
+   border: 2px solid #CED4DA; 
+   border-radius: 5px; 
+
+}
+.form-checkbox input[type="checkbox"]:checked {
+   background-color: #007bff; 
+   border: 2px solid #007bff; 
+}
+
+.form-checkbox span {
+   display: flex;
+   margin-left: 5px;
+   margin-top: 5px;
+   font-size: 14px;
+   width: 160px;
+   color: #666;
+}
+
+
 .error {
    position:relative;
-   background-color: darkred;
-   color: white;
-   border: 3px red solid;
+   background-color: #f8d7da;
+   color: #721c24;
+   border: 1px solid #f5c6cb;
    padding: 20px 20px;
    border-radius: 10px;
-   font-size: 14px;
+   font-size: 16px;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   width: 200px;
+   width: 50%;
    justify-content: center;
    align-items: center;
    display: flex;
@@ -469,14 +510,14 @@ table .user-img{
 
 .success {
    position:relative;
-   background-color: green;
-   color: white;
-   border: 3px lightgreen solid;
+   background-color: #d4edda;
+   color: #155724;
+   border: 1px solid #c3e6cb;
    padding: 20px 20px;
    border-radius: 10px;
-   font-size: 14px;
+   font-size: 16px;
    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   width: 200px;
+   width: 50%;
    justify-content: center;
    align-items: center;
    display: flex;
@@ -486,6 +527,34 @@ table .user-img{
    text-align: center;
    /* z-index: 1000; */
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 16px;
+    color: #333;
+}
+
 @media (max-width: 768px) {
    .stats-grid {
        grid-template-columns: 1fr;

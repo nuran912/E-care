@@ -26,7 +26,7 @@ class Appointmentdetails extends Controller
 
           
             foreach ($availableTimes as $appointment) {
-                // Check if the appointment ID matches the one provided in the URL
+               
                 if ($appointment['id'] == $availableTimeId) {
 
                     $doctorDetails = findObjectById($doctors, 'id', $appointment['doctor_id']);
@@ -60,11 +60,11 @@ class Appointmentdetails extends Controller
                         
                             $patientAppointmentOffsetMinutes = ($appointmentDurationMinutes / $appointment['total_slots']) * ($appointmentDetails['appointment_number'] - 1);
                         
-                            //  Fix fractional minutes to minutes + seconds
+                            
                             $minutes = floor($patientAppointmentOffsetMinutes);
                             $seconds = round(($patientAppointmentOffsetMinutes - $minutes) * 60);
                         
-                            //  Create interval safely
+                           
                             $interval = new DateInterval("PT{$minutes}M{$seconds}S");
                             $sessionStartTime->add($interval);
                         

@@ -11,19 +11,19 @@ class Paymentnotify extends Controller
             return;
         }
 
-        // Retrieve POST data
+       
         $transactionId = $_POST['transaction_id'] ?? '';
-        $paymentStatus = $_POST['status'] ?? '';  // PayHere status (2 = Completed)
+        $paymentStatus = $_POST['status'] ?? '';  
         $orderId = $_POST['order_id'] ?? '';
         $amount = $_POST['amount'] ?? '';
         $paymentMethod = $_POST['payment_method'] ?? '';
-        $merchantSecret = 'MjQwOTcyNzAzMjM0ODk4MTYwNDQ0Mzc1NjQ3OTQ5MTM5ODYx';  // Replace with your actual merchant secret
+        $merchantSecret = 'MjQwOTcyNzAzMjM0ODk4MTYwNDQ0Mzc1NjQ3OTQ5MTM5ODYx';  
 
         $merchantId = $_POST['merchant_id'] ?? '';
         $currency = $_POST['currency'] ?? '';
         $receivedSignature = $_POST['signature'] ?? '';
 
-        // Correct Signature Generation Logic (SHA256)
+       
         $signatureString = "$merchantId$orderId$amount$currency$paymentStatus" . strtoupper(hash('sha256', $merchantSecret));
         $generatedSignature = strtoupper(hash('sha256', $signatureString));
 
@@ -33,7 +33,7 @@ class Paymentnotify extends Controller
             return;
         }
 
-        // Prepare payment data for the database
+       
         $paymentData = [
             'user_id' => $_SESSION['USER']->user_id ?? null,
             'appointment_id' => $orderId,
@@ -46,7 +46,27 @@ class Paymentnotify extends Controller
             'updated_at' => date('Y-m-d H:i:s')
         ];
 
-        // Update or insert payment
+
+        // if(isset($_GET['search'])){
+        //     $searchQuery = $_GET['search'];
+        //     $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($searchQuery) {
+        //         return stripos($appointment->hospital_name, $searchQuery) !== false;
+        // });
+        // }
+
+        ?>
+                <div class="search">
+                    <p>Enter hospital</p>
+                    <form action="<?php echo ROOT; ?>/DoctorAvailableTimes" method="GET">
+                        <input type="text" name="search" placeholder="Search for hospital" required>
+                        <input type="hidden" name="doctor_id" value="<?= $_GET['doctor_id'] ?>">
+                        <button type="submit">Search</button>
+                </div>
+            </form>
+        <?php
+
+
+      
         $paymentModel = new PaymentModel();
         $existingPayment = $paymentModel->getByOrderId($orderId);
 
@@ -56,12 +76,53 @@ class Paymentnotify extends Controller
             $paymentModel->insert($paymentData);
         }
 
-        // Update appointment status
+      
         $appointmentModel = new Appointments();
         $appointmentModel->updateStatus($orderId, $paymentData['payment_status']);
 
-        // Respond to PayHere
-        echo "SUCCESS";  // Stops further notification attempts
+        
+        echo "SUCCESS";  
     }
 }
+
+
+
+  //ascending order sortingby name
+if (is_array($doctorResults)) {
+    usort($doctorResults, function ($a, $b) {
+    return strcmp($a->name, $b->name);
+    });
+}
+
+
+$appointments = [
+    ['name' => 'John', 'country' => 'Sri Lanka'],
+    ['name' => 'Jane', 'country' => 'India'],
+];
+
+foreach ($appointments as $at) {
+    if ($at['country'] === 'Sri Lanka') {
+        echo $at['name'] . " is from Sri Lanka<br>";
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['patient_name'];
+    $date = $_POST['appointment_date'];
+    // Only allow weekdays
+    $dayOfWeek = date('N', strtotime($date)); // 6=Saturday, 7=Sunday
+    if ($dayOfWeek >= 6) {
+        echo "Appointments can only be booked on weekdays.";
+        exit;
+    }
+    $appointmentModel = new Appointments();
+    $appointmentData = [
+        'patient_name' => $name,
+        'appointment_date' => $date
+    ];
+    $appointmentModel->insert($appointmentData);
+    echo "Appointment added!";
+}
+
+
 ?>

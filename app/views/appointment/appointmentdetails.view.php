@@ -11,7 +11,7 @@
 
     <form action="<?php echo ROOT; ?>/Appointmentdetailsverification" name="patientForm" method="POST" class="main-container">
 
-        <!-- Patient Details Form - Top Container -->
+       
         <div class="form-container">
             <h2>Enter Patient's Details...</h2>
             <div class="isloggedperson">                
@@ -80,7 +80,7 @@
                 </div>
                 
 
-                <!-- Input Field for ID -->
+                
                 <div class="form-group">
                     <input type="text" id="idNumber" placeholder="Enter NIC number (NIC number must be 12 digits or 9 digits followed by 'v' or 'V')" name="NicOrPassport" required>
                     <span id="idError" class="error-message"></span>
@@ -93,7 +93,7 @@
                     <span id="addressError" class="error-message"></span>
                 </div>
                 <?php endif ?>
-                <!-- <div class="form-row"> -->
+                
                 <?php if (isset($_SESSION['USER']->role) &&($_SESSION['USER']->role!='reception_clerk') && !empty($selectedDocuments)): ?>
                 <input type="hidden" id="isLoggedPerson" name="isLoggedPerson" value="1">
                 <div class="form-group">
@@ -104,7 +104,7 @@
                 <span class="close-btn" id="closePopup">&times;</span>
 
                 <?php
-                // Grouping documents by their 'document_type'
+               
                 $medicalRecords = [];
                 $labReports = [];
                 $privateFiles = [];
@@ -128,7 +128,7 @@
                 ?>
 
                 <div class="documents-grid">
-                    <!-- Medical Records -->
+                   
                     <div class="document-column">
                         <h4>Medical Records</h4>
                         <?php foreach ($medicalRecords as $doc): ?>
@@ -140,7 +140,7 @@
                         <?php endforeach; ?>
                     </div>
 
-                    <!-- Lab Reports -->
+                   
                     <div class="document-column">
                         <h4>Lab Reports</h4>
                         <?php foreach ($labReports as $doc): ?>
@@ -152,7 +152,7 @@
                         <?php endforeach; ?>
                     </div>
 
-                    <!-- Private Files -->
+                   
                     <div class="document-column">
                         <h4>Private Files</h4>
                         <?php foreach ($privateFiles as $doc): ?>
@@ -174,11 +174,7 @@
 
                 
 
-                <!-- <div class="form-group"></div>
-                        <label for="uploadButton">Upload Documents</label> 
-                         <button type="button" id="uploadButton" name="uploadButton">Upload</button>
-                    </div> -->
-                <!-- </div> -->
+              
 
                  </div>
                  <?php if (!isset($_SESSION['USER']) || $_SESSION['USER'] === null || $_SESSION['USER']->role !== 'reception_clerk'): ?>
@@ -206,9 +202,9 @@
             </div>
         </div>
 
-        <!-- Bottom Containers Wrapper -->
+        
         <div class="bottom-containers">
-            <!-- Hospital Details -->
+          
             <div class="hospital-container">
                 <div class="hospital-image">
                     <img src="<?php echo ROOT; ?>/assets/img/PaymentPage-img/hospital_icon.svg" alt="Union Hospital Matara">
@@ -225,7 +221,7 @@
                 </div>
             </div>
 
-            <!-- Payment Details -->
+            
             <div class="payment-container">
                 <h3>Payment Details</h3>
                 <p>Comprehensive summary of charges for your transaction</p>
@@ -254,7 +250,7 @@
             </div>
         </div>
 
-        <!-- <input type="hidden" name="totalWithoutServiceCharge" value="<?= $formatted_totalWithoutServiceCharge ?>"> -->
+      
         <input type="hidden" name="hospital_name" value="<?= $appointmentDetails['hospital_name']; ?>">
         <input type="hidden" name="session_date" value="<?= $appointmentDetails['session_date'] ?>">
         <input type="hidden" name="session_time" value="<?= $appointmentDetails['session_time'] ?>">

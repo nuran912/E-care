@@ -25,7 +25,7 @@ class DoctorAvailableTimes extends Controller
             die("Please enter a doctor ID!!!!");
         }
        
-        // Get the doctor's information using findObjectById
+        
         $doctor = $doctorModel->getDoctorById($doctorId);
         
         $user_id=$doctor->user_id;
@@ -35,7 +35,7 @@ class DoctorAvailableTimes extends Controller
 
         $doctor_name = $doctor ? $doctor->name : 'Doctor not found';
 
-        // Get the doctor's specialization
+        
         $doctor_specialization = $doctor
             ? (is_array($doctor->specialization)
                 ? implode(", ", $doctor['specialization'])
@@ -55,29 +55,29 @@ class DoctorAvailableTimes extends Controller
              }
             
              
-           // Ensure $getAppointmentdetails is an array and not a boolean (e.g., false from a failed query)
+          
                     if (is_array($getAppointmentdetails)) {
-     // Filter appointments based on the current date and time this displays only the valid  slots 
+    
          $getAppointmentdetails = array_filter($getAppointmentdetails, function($appointment) use ($CurrentDate, $CurrentTime) {
-        // Check if the appointment date is after the current date
+       
         if ($appointment->appointment_date > $CurrentDate) {
             return true;
         }
        
         
-        // Calculate the end time of the appointment
+        
         $endTime  = date('H:i:s', strtotime($appointment->start_time) + $appointment->duration * 60 * 60);
         
-        // If the appointment is today and the end time is greater than the current time
+       
         if ($appointment->appointment_date == $CurrentDate && $endTime > $CurrentTime) {
             return true;
         }
 
-        // Otherwise, hide the slot
+       
         return false;
     });
 } else {
-    // Handle the case where $getAppointmentdetails is not an array or is empty
+    
     $getAppointmentdetails    = [];
 }
 
@@ -85,7 +85,7 @@ class DoctorAvailableTimes extends Controller
 if (empty($getAppointmentdetails)) {
     $noAppointmentsMessage    = "No appointments available for this doctor at the moment.";
 } else {
-    $noAppointmentsMessage    = ''; // Clear the message if there are appointments
+    $noAppointmentsMessage    = ''; 
 }
 
 $page=isset($_GET['page'])?(int)$_GET['page']:1;
@@ -95,7 +95,7 @@ $totalAppointmentSlots=count($getAppointmentdetails);
 $totalPages=ceil($totalAppointmentSlots/$limit);
 $getAppointmentdetails=array_slice($getAppointmentdetails,$offset,$limit);
 
-// Prepare the data for the view
+
 $data = [
     'appointments' => $getAppointmentdetails,
     'totalPages' => $totalPages,
@@ -109,7 +109,7 @@ $data = [
 
 ];
 
-// Load the views
+
 $this->view('appointment/doctorAvailableTimes', $data);
 $this->view('footer');
     }

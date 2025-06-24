@@ -13,6 +13,7 @@
             'uploaded_by',
             'document_type',
             'document_category',
+            'private_category',
             'document_name',
             'ref_no',
             'uploaded_at',

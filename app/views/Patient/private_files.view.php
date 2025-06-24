@@ -31,7 +31,7 @@
 
     <body>
 
-        <!-- Error Message -->
+    
         <?php if (isset($data['same_name_error'])): ?>
         <div id="errorMessage" class="alert alert-danger">
             <?= htmlspecialchars($data['same_name_error']); ?>
@@ -56,6 +56,13 @@
                                 <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                 <input type="hidden" name="uploaded_by" value="<?= htmlspecialchars($_SESSION['USER']->user_id)?>">
                                 <input type="hidden" name="document_type" value="private">
+                                <label for="private_category">Private File Category</label>
+                                <select name="private_category" id="">
+                                    <option value="select category" selected disabled>Select Category</option>
+                                    <option value="medical">Medical</option>
+                                    <option value="lab">Lab</option>
+                                    <option value="other">Other</option>
+                                </select><br><br>
                                 <input type="file" id="real-file" name="real-file" hidden="hidden" accept=".pdf,.png,.jpg,.jpeg" required>
                                 <button type="button" id="custom-button">Upload a Document</button>
                                 <span id="custom-text">No file chosen.</span><br>
@@ -64,23 +71,28 @@
                         </div>
                     </div>
 
-                    <?php if (empty($documents)): ?>
+                    <?php if (empty($categories)): ?>
                         <p style="margin-top: 30px; text-align: center;">No private files available.</p>
 
                     <?php else: ?>
-                        <?php if(isset($documents) && is_array($documents)): ?>
+                        <?php if(isset($categories) && is_array($categories)): ?>
 
                             <?php $popupIndex = 0; ?>
 
-                            <?php foreach($documents as $document): ?>
+                            <?php foreach(['medical'=> 'Medical', 'lab' => 'Lab', 'other' => 'Other'] as $key => $label): ?>
 
-                                <div class="record-date-time-category">
-                                    <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
-                                </div>
+                                <?php if(!empty($categories[$key])): ?>
+                                    <h2><?= htmlspecialchars($label)?></h2>
 
-                                <div class="private-record">
+                                    <?php foreach($categories[$key] as $document): ?>
+                                    <div class="record-date-time-category">
+                                        <p><?php echo date('Y, F j, l',strtotime($document['uploaded_at'])); ?></p>
+                                    </div>
+
+                                    <div class="private-record">
 
                                     <span class="label"><?php echo htmlspecialchars($document['document_name']) ?></span>
+                                    <span class="label"><?php echo htmlspecialchars($document['private_category']) ?></span>
 
                                     <div class="button-group">
                                         
@@ -116,12 +128,14 @@
                                             <button type="submit" name="delete" class="private-delete-button">Delete</button>
                                         </form>
                                     </div>
+                                    <?php endforeach; ?>
+                                    <?php endif; ?>
                                 </div>   
                                 
                             <?php endforeach; ?>
 
-                            <!-- Pagination Control -->
-                            <div class="pagination">
+                        
+                            <!-- <div class="pagination">
 
                                 <?php if($currentPage > 1): ?>
                                     <a href="?page=<?= $currentPage - 1 ?>" class="prev">Prev</a>
@@ -134,7 +148,7 @@
                                 <?php if($currentPage < $totalPages): ?>
                                     <a href="?page=<?= $currentPage + 1 ?>" class="next">Next</a>
                                 <?php endif; ?>
-                            </div>
+                            </div> -->
                         <?php endif; ?>
                     <?php endif; ?>
 
@@ -142,7 +156,7 @@
             </div>
 
             <script>
-                // Auto-hide success/error messages after 5 seconds
+                
                 document.addEventListener("DOMContentLoaded", function() {
                     const errorMessage = document.getElementById("errorMessage");
                     if (errorMessage) {
@@ -153,7 +167,7 @@
                     }
                 });
 
-                //delete confirmation box
+                
                 function confirmDelete() {
                     return confirm("Are you sure you want to delete this file?");
                 }

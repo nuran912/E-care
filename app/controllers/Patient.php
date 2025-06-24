@@ -449,16 +449,14 @@ class Patient extends Controller
     {
         $document = new Document;
 
-        //insert a private file
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['upload'])) {
             $user_id = $_POST['user_id'];
             $uploaded_by = $_POST['uploaded_by'];
             $document_type = $_POST['document_type'];
+            $private_category = $_POST['private_category'];
 
-            //target directory
             $targetDir = "assets/documents/$user_id/private_files/";
 
-            //check if the file was uploaded
             if (isset($_FILES['real-file']) && $_FILES['real-file']['error'] == 0) {
                 $filename = basename($_FILES['real-file']['name']);
                 $targetPath = $targetDir . $filename;
@@ -467,20 +465,20 @@ class Patient extends Controller
                     mkdir($targetDir, 0777, true);
                 }
 
-                //check if the file already exists in the target directory
                 if(file_exists($targetPath)) {
                     $error = "File already exists.";
                 }
 
                 else {
-                    //moving the file to the target path
+                    
                     if (move_uploaded_file($_FILES['real-file']['tmp_name'], $targetPath)) {
-                    //moved successfully
+                    
                         $data = [
                             'user_id' => $user_id,
                             'uploaded_by' => $uploaded_by,
                             'document_type' => $document_type,
-                            'document_name' => $filename
+                            'document_name' => $filename,
+                            'private_category' => $private_category
                         ];
 
                         $document->insert($data);
@@ -490,7 +488,7 @@ class Patient extends Controller
             }
         }
 
-        //update the name of a private file
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
 
             $user_id = $_POST['user_id'];
@@ -500,7 +498,7 @@ class Patient extends Controller
 
             $new_file_name = $new_document_name . '.' . $extension;
 
-            //fetch the current document details
+            
             $current_document = $document->getDocumentById($document_id);
 
             $current_document_name = $current_document->document_name;
@@ -510,14 +508,14 @@ class Patient extends Controller
             $old_path = $targetDir . $current_document_name;
             $new_path = $targetDir . $new_file_name;
 
-            //rename the file in the directory
+            
             if (file_exists($old_path)) {
-                //if a file with the new name already exists, show an error message
+                
                 if(file_exists($new_path)) {
                     $error = "File already exists.";
                 }
                 else {
-                    //rename the file in the directory
+                    
                     if (rename($old_path, $new_path)) {
                         $data = [
                             'document_name' => $new_file_name
@@ -529,7 +527,7 @@ class Patient extends Controller
             }
         }
 
-        //delete a private file
+        
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete'])) {
 
             $user_id = $_POST['user_id'];
@@ -550,32 +548,46 @@ class Patient extends Controller
 
         $this->view('header');
 
-        //retrieve the documents from the database
+        
         $documents = $document->getDocuments($_SESSION['USER']->user_id);
 
-        //filtering the private files
+        
         $privateFiles = is_array($documents) ? array_filter($documents, function($doc) {
             return $doc['document_type'] === 'private';
         }) : [];
 
-        //sort by uploaded_at descending
+        
         usort($privateFiles, function($a,$b) {
             return strtotime($b['uploaded_at']) <=> strtotime($a['uploaded_at']);
         });
         
-        //pagination
-        $documentsPerPage = 6;
-        $totalDocuments = count($privateFiles);
-        $totalPages = ceil($totalDocuments / $documentsPerPage);
-        $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'], $totalPages)) : 1;
+        
+        // $documentsPerPage = 6;
+        // $totalDocuments = count($privateFiles);
+        // $totalPages = ceil($totalDocuments / $documentsPerPage);
+        // $currentPage = isset($_GET['page']) ? max(1,min((int)$_GET['page'], $totalPages)) : 1;
 
-        $startIndex = ($currentPage - 1) * $documentsPerPage;
-        $pagedDocuments = array_slice($privateFiles, $startIndex, $documentsPerPage);
+        // $startIndex = ($currentPage - 1) * $documentsPerPage;
+        // $pagedDocuments = array_slice($privateFiles, $startIndex, $documentsPerPage);
+
+        $categories = [
+            'medical' => [],
+            'lab' => [],
+            'other' => []
+        ];
+
+        foreach($privateFiles as $doc) {
+            $category = $doc['private_category'];
+
+            if(isset($categories[$category])) {
+                $categories[$category][] = $doc;
+            }
+        }
 
         $data = [
-            'documents' => $pagedDocuments,
-            'currentPage' => $currentPage,
-            'totalPages' => $totalPages
+            'categories' => $categories
+            // 'currentPage' => $currentPage,
+            // 'totalPages' => $totalPages
         ];
 
         if(isset($error)) {
